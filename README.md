@@ -3,7 +3,7 @@ TITLE: Web Summarizer and shortner
 TEAM NAME:
 
 MEMBERS:
-Tanvir Hasan			        (6599328)		th18ai@brocku.ca
+Tanvir Hasan (6599328) th18ai@brocku.ca <br>
 Muhammed Bilal			      (6695738)		bb18hb@brocku.ca	
 Hamza Sidat			          (6599591)		hs18so@brocku.ca
 Marium Nur			          (7327182)   mn21xu@brocku.ca 
