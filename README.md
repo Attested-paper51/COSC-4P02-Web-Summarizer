@@ -1,6 +1,6 @@
-COSC 4P02 PROJECT:
-TITLE: Web Summarizer and shortner
-TEAM NAME:
+COSC 4P02 PROJECT:<br>
+TITLE: Web Summarizer and shortner<br>
+TEAM NAME: <br>
 
 MEMBERS:<br>
 Tanvir Hasan (6599328) th18ai@brocku.ca <br>
