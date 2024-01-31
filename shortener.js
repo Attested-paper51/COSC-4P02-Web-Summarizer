@@ -1,26 +1,24 @@
+const axios = require('axios');
 
-function shortenURL(longURL,login,apiKey,func) {
-    $.getJSON(
-        "http://api.bitly.com/v3/shorten?callback=?",
-        {
-            "format":"json",
-            "apiKey": api_key,
-            "login" : login,
-            "longURL": longURL
-        },
-        function(response)
-        {
-            func(response.data.url);
-        }
-    );
-}
+const apiKey = '45887b601d56d78743fd009748ed9259b8f3a1b3';
+const longURL = 'https://platform.openai.com/docs/guides/text-generation';
 
-var login = "jakematrix2013";
-var apiKey = "45887b601d56d78743fd009748ed9259b8f3a1b3";
-var longURL = "https://platform.openai.com/docs/guides/text-generation";
+const bitlyApiEndpoint = 'https://api-ssl.bitly.com/v4/shorten';
 
-shortenURL(longURL,login,apiKey,
-    function(short_url){
-        console.log(short_url);
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${apiKey}',
+    
+};
 
+const data = {
+    longurl : longURL,
+}; 
+
+axios.post(bitlyApiEndpoint, data, {headers}).then(response => {
+    const shortURL = response.data.id;
+    console.log('Shortened URL: ', shortURL);
+})
+.catch(error => {
+    console.error('Err when shortening: ',error.response ? error.response.data : error.message);
 });
