@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Web Summarizer</h1>
+
+
+<form action="/" method="post">
+    <label for="inputText">Enter Text to Summarize:</label>
+    <br>
+    <textarea cols="50" rows="20" id="inputText" name="inputText"></textarea>
+    <br>
+    <input type="submit" value="Summarize">
+</form>
+
+<h2>Summary:</h2>
+<textarea readonly> {{ summary }} </textarea>
+
+</body>
+</html>
