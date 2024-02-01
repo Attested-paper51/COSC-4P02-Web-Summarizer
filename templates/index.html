@@ -4,13 +4,17 @@
 
 <h1>Web Summarizer</h1>
 
-<p>Paste your text in the box below to have your content summarized.</p>
 
-<form action="/action_page.php">
-<textarea name="paragraph_text" cols="50" rows="20"></textarea>
+<form action="/" method="post">
+    <label for="inputText">Enter Text to Summarize:</label>
     <br>
-    <input type="submit" value="Submit">
+    <textarea cols="50" rows="20" id="inputText" name="inputText"></textarea>
+    <br>
+    <input type="submit" value="Summarize">
 </form>
+
+<h2>Summary:</h2>
+<textarea readonly> {{ summary }} </textarea>
 
 </body>
 </html>
