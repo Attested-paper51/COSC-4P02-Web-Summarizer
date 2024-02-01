@@ -1,35 +1,38 @@
-import { Component } from 'react';
-//import "./Header.css"; // Import your styles if you have any
+import React, { Component } from 'react';
 
 class Header extends Component {
   render() {
-    // Define an object with CSS properties
-    
-    const left = {
-      display: 'flex',
-      align: 'center',
-      margin: 'left',
+    // css properties
+    const navStyle = {
+      backgroundColor: '#333',
+      color: 'white',
+      padding: '1em',
+      textAlign: 'center',
     };
 
-    // left {
-    //   display: flex;
-    //   align-items: center;
-    //   margin-left: 0.75em;
-    // }
+    const ulStyle = {
+      listStyleType: 'none',
+      margin: 0,
+      padding: 0,
+      display: 'flex',
+      justifyContent: 'space-around',
+    };
+
+    const liStyle = {
+      display: 'inline-block',
+      marginRight: '1em',
+    };
 
     return (
-      <header>
+      <header style={navStyle}>
         <nav>
-          <div class={left}>
-          {/* <div title="Title" class="menubutton">
-            <ExpandButton bind:open={isMenuOpen} /> */}
-          </div>
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
+          <div>
+            <ul style={ulStyle}>
+              <li style={liStyle}><a href="#">Home</a></li>
+              <li style={liStyle}><a href="#">About</a></li>
+              <li style={liStyle}><a href="#">Contact</a></li>
             </ul>
-          
+          </div>
         </nav>
       </header>
     );
