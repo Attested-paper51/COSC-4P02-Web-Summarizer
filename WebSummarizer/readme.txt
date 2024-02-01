@@ -45,9 +45,10 @@ Additional Notes
     Collaboration: Coordinate with team members to ensure that API usage is distributed and that we stay within budget limits.
 
 
-To ensure your key is not uploaded to GitHub, create a .gitignore file, and include .env in it, (you can do this by simply typing that in), this file should be in the root of WebSummarizer.
+Git ignore
+	To ensure your key is not uploaded to GitHub, create a .gitignore file, and include .env in it, (you can do this by simply typing that in), this file should be in the root of WebSummarizer.
 I have noticed the .gitignore file should be pushed first (not at the same time as .env) to avoid it being uploaded, so either create the .gitignore file first and push, then create .env, or push only the .gitignore, by using git add .gitignore followed by git push, then you can push as normal.
 
 Using the summarizer
 
-To summarize your content, simply paste or type it in the text field, and press the summarize button, to summarize it.
+	To summarize your content, simply paste or type it in the text field, and press the summarize button, to summarize it.
