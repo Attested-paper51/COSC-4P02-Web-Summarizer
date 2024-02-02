@@ -24,3 +24,11 @@ axios.post(bitlyApiEndpoint, data, {headers}).then(response => {
 .catch(error => {
     console.error('Err when shortening: ',error.response ? error.response.data : error.message);
 });
+
+// var fetch = require('node-fetch');
+
+// fetch('https://api-ssl.bitly.com/v4/bitlinks/bit.ly/12a4b6c/clicks?unit=month&units=1&unit_reference=2006-01-02T15%3A04%3A05-0700', {
+//     headers: {
+//         'Authorization': 'Bearer {TOKEN}'
+//     }
+// })
