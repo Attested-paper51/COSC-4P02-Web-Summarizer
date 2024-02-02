@@ -7,17 +7,19 @@ const bitlyApiEndpoint = 'https://api-ssl.bitly.com/v4/shorten';
 
 const headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${apiKey}',
+    'Authorization': `Bearer ${apiKey}`,
     
 };
 
 const data = {
-    longurl : longURL,
+    long_url : longURL,
 }; 
 
 axios.post(bitlyApiEndpoint, data, {headers}).then(response => {
     const shortURL = response.data.id;
+    const clicks = response.data.clicks;
     console.log('Shortened URL: ', shortURL);
+    //console.log('Number of clicks on this link: ',clicks);
 })
 .catch(error => {
     console.error('Err when shortening: ',error.response ? error.response.data : error.message);
