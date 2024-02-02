@@ -1,0 +1,145 @@
+.index {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .index .div {
+    background-color: var(--white);
+    height: 84px;
+    position: relative;
+    width: 1440px;
+  }
+  
+  .index .logo {
+    align-items: center;
+    display: inline-flex;
+    gap: 2px;
+    justify-content: center;
+    left: 200px;
+    position: absolute;
+    top: 30px;
+  }
+  
+  .index .star {
+    height: 15.15px;
+    position: relative;
+    width: 15.48px;
+  }
+  
+  .index .text-wrapper {
+    color: var(--black);
+    font-family: "Inter", Helvetica;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .index .search-box {
+    align-items: center;
+    background-color: #f6f6f6;
+    display: flex;
+    gap: 12px;
+    left: 288px;
+    padding: 12px 56px 12px 40px;
+    position: absolute;
+    top: 20px;
+    width: 336px;
+  }
+  
+  .index .img {
+    height: 20px;
+    position: relative;
+    width: 20px;
+  }
+  
+  .index .search-for-anything {
+    color: var(--black);
+    font-family: "Inter", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+    position: relative;
+    width: fit-content;
+  }
+  
+  .index .span {
+    color: #000000;
+    font-family: "Inter", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  
+  .index .nav-links {
+    align-items: center;
+    display: inline-flex;
+    gap: 32px;
+    left: 728px;
+    position: absolute;
+    top: 35px;
+  }
+  
+  .index .text-wrapper-2 {
+    color: var(--black);
+    font-family: "Inter", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
+  .index .frame {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .index .akar-icons-chevron {
+    height: 12px;
+    position: relative;
+    width: 12px;
+  }
+  
+  .index .button {
+    all: unset;
+    align-items: center;
+    background-color: var(--blue);
+    box-sizing: border-box;
+    display: inline-flex;
+    gap: 10px;
+    justify-content: center;
+    left: 1108px;
+    padding: 14px 32px;
+    position: absolute;
+    top: 19px;
+  }
+  
+  .index .buy-now {
+    color: var(--white);
+    font-family: "Inter", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: -1px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+  }
+  
