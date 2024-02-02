@@ -1,19 +1,50 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Eczar:wght@520&display=swap');
+
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+}
+
+/* ----Customizable properties---- */
+
+:root{
+  --ff-primary: 'Eczar', sans-serif;
+  --clr-dark1: #374375;
+  --clr-light1: #FFFCF5;
+  --clr-accent1: #BABDE2;
+  --clr-dark2: #895159;
+  --clr-light2: #EADCBF;
+  --clr-accent2:#DFAEA1;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  background: var(--clr-accent1);
+  font-family: var(--ff-primary);
+  margin: 0;
+}
+
+
+/* .App {
   text-align: center;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
+} */
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+} */
 
-.App-header {
+/* .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,17 +53,18 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
+
