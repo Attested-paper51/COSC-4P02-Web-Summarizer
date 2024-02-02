@@ -14,8 +14,10 @@ def summarize():
         userText = request.form.get('inputText')
 
         try:
+            #openai's API
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
+                #promts to the model
                 messages=[{"role": "system", "content": "Summarize the following text:"},
                           {"role": "user", "content": userText}]
             )
@@ -24,6 +26,7 @@ def summarize():
         except Exception as e:
             summary = f"An error occurred: {str(e)}"
 
+        #Rendering the template with summary
         return render_template('index.html', summary=summary)
 
     return render_template("index.html")
