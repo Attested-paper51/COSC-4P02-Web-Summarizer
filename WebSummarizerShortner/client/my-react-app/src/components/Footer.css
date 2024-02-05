@@ -1,0 +1,44 @@
+footer {
+    background-color:#A3CEEC ;
+    padding: 10px 10px;
+    position: fixed;
+    bottom: 0;
+    height: 90px;
+    width: 100%;
+}
+
+.footer-text {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 65%;
+    right: 1%;
+    top: 25.18%;
+    bottom: 25.18%;
+
+}
+
+@media (max-width: 1024px) {
+    .footer-text{
+        left: 65%;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-text{
+        left: 60%;
+    }
+}
+
+@media (max-width: 635px) {
+    .footer-text{
+        left: 50%;
+    }
+}
+
+@media (max-width: 520px) {
+    .footer-text{
+        left: 40%;
+    }
+}
+
