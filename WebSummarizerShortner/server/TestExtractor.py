@@ -2,7 +2,7 @@ import requests
 
 endpoint = "https://extractorapi.com/api/v1/extractor"
 params = {
-  "apikey": "f1fe711b72df1cfa3ad4ff5c1ac8ccc8c8eba7b6",
+  "apikey": "YOUR_API_KEY",
   "url": "https://cosc.brocku.ca/~bockusd/3p94/seminartopic1.htm"
 }
 
