@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <body>
 
@@ -12,5 +12,22 @@
     <input type="submit" value="Submit">
 </form>
 
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <form method="post" action="{{ url_for('shorten') }}">
+        <label for="originalURL">Enter URL:</label>
+        <input type="url" id="originalURL" name="originalURL" required>
+        <button type="submit">Shorten</button>
+    </form>
 </body>
 </html>
