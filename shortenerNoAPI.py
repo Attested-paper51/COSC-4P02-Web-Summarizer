@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import shortuuid
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urldatabase.db'
@@ -55,8 +56,11 @@ def redirectToOriginal(shortURL):
 
     return redirect(entry.originalURL)
 
+
 with app.app_context():
-    db.create_all()
+    databaseFilePath = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
+    if not os.path.exists(databaseFilePath):
+        db.create_all()
 
 if __name__ == '__main__':
     
