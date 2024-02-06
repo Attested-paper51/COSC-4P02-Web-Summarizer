@@ -7,11 +7,11 @@
 <form action="/" method="post" enctype="multipart/form-data">
     <label for="inputText">Enter Text to Summarize:</label>
     <br>
-    <textarea cols="50" rows="10" id="inputText" name="inputText"></textarea>
+    <textarea cols="100" rows="10" id="inputText" name="inputText"></textarea>
     <br>
-    <label for="inputURL">Enter a Youtube video URL to summarize:</label>
+    <label for="inputURL">Enter a URL to summarize:</label>
     <br>
-    <textarea cols="50" rows="1" id="inputURL" name="inputURL"></textarea>
+    <textarea cols="100" rows="1" id="inputURL" name="inputURL"></textarea>
     <br>
     <label for="videoUpload">Or upload a video:</label>
     <br>
@@ -21,7 +21,8 @@
 </form>
 
 <h2>Summary:</h2>
-<textarea cols="50" rows="15" readonly> {{ summary }} </textarea>
+<textarea cols="100" rows="15" readonly> {{ summary }} </textarea>
 
 </body>
 </html>
+
