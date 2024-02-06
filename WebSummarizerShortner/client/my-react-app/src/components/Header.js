@@ -95,7 +95,6 @@
 
 
 import { Component } from "react";
-import { useState } from "react";
 import "./HeaderStyle.css";
 
 class Header extends Component {
@@ -114,7 +113,7 @@ class Header extends Component {
           
           <h1><a href="/#">shortify</a></h1>
           <h3 className="nav-text-sum"><a href="/#">Summarizer</a></h3>
-          <h3 className="nav-text-short"><a href="/#">URL Shortner</a></h3>
+          <h3 className="nav-text-short"><a href="/#">URL Shortener</a></h3>
           
           <a href="/#">
             <img 
