@@ -4,12 +4,19 @@
 
 <h1>Web Summarizer</h1>
 
-
-<form action="/" method="post">
+<form action="/" method="post" enctype="multipart/form-data">
     <label for="inputText">Enter Text to Summarize:</label>
     <br>
     <textarea cols="50" rows="10" id="inputText" name="inputText"></textarea>
     <br>
+    <label for="inputURL">Enter a Youtube video URL to summarize:</label>
+    <br>
+    <textarea cols="50" rows="1" id="inputURL" name="inputURL"></textarea>
+    <br>
+    <label for="videoUpload">Or upload a video:</label>
+    <br>
+    <input type="file" id="videoUpload" name="videoUpload">
+    <br><br>
     <input type="submit" value="Summarize">
 </form>
 
