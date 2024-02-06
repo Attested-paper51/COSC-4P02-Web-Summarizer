@@ -34,7 +34,7 @@ def shorten():
 
     redirect(shortURL)
 
-@app.route('/<short_url>')
+@app.route('/<shortURL>')
 def redirectToOriginal(shortURL):
     entry = ShortenedURL.query.filter_by(shortURL=shortURL).first_or_404()
 
@@ -43,7 +43,9 @@ def redirectToOriginal(shortURL):
 
     return redirect(entry.originalURL)
 
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
-    db.create_all()
+    
     app.run(debug=True)
