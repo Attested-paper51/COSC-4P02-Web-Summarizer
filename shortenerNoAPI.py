@@ -24,7 +24,10 @@ def shorten():
 
     existingEntry = ShortenedURL.query.filter_by(originalURL = originalURL).first()
     if existingEntry:
-        return redirect(existingEntry.shortURL)
+        return render_template('result.html',
+            originalURL=existingEntry.originalURL,
+            shortURL = request.url_root+existingEntry.shortURL,
+            clickCount = existingEntry.clickCount)
 
     shortURL = shortuuid.ShortUUID().random(length=6)
 
@@ -32,7 +35,10 @@ def shorten():
     db.session.add(newEntry)
     db.session.commit()
 
-    redirect(shortURL)
+    return render_template('result.html',
+            originalURL=newEntry.originalURL,
+            shortURL = request.url_root+newEntry.shortURL,
+            clickCount = newEntry.clickCount)
 
 @app.route('/<shortURL>')
 def redirectToOriginal(shortURL):
