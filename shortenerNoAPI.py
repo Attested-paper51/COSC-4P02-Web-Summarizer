@@ -40,6 +40,12 @@ def shorten():
             shortURL = request.url_root+newEntry.shortURL,
             clickCount = newEntry.clickCount)
 
+
+#Does not work yet, can generate a link but naturally, it doesn't go anywhere.
+def constructShortenedURL(shortURL):
+    customRoot = 'https://shortify/'
+    return f'{customRoot.rstrip("/")}/{shortURL}'
+
 @app.route('/<shortURL>')
 def redirectToOriginal(shortURL):
     entry = ShortenedURL.query.filter_by(shortURL=shortURL).first_or_404()
