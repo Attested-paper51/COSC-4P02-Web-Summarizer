@@ -10,6 +10,8 @@ class ShortenedURL(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     originalURL = db.Column(db.String(512),nullable=False)
     shortURL = db.Column(db.String(20),unique=True,nullable=False)
+    clickCount = db.Column(db.Integer,default=0)
+
 
 
 @app.route('/')
@@ -30,3 +32,18 @@ def shorten():
     db.session.add(newEntry)
     db.session.commit()
 
+    redirect(shortURL)
+
+@app.route('/<short_url>')
+def redirectToOriginal(shortURL):
+    entry = ShortenedURL.query.filter_by(shortURL=shortURL).first_or_404()
+
+    entry.clickCount+=1
+    db.session.commit()
+
+    return redirect(entry.originalURL)
+
+
+if __name__ == '__main__':
+    db.create_all()
+    app.run(debug=True)
