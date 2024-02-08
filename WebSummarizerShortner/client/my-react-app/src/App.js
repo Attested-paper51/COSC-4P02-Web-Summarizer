@@ -1,5 +1,6 @@
 import './App.css';
 import Header from './components/Header.js';
+import Summarizer from './components/Summarizer.js';
 import LandingPage from './components/LandingPage.js';
 import Footer from './components/Footer.js';
 
