@@ -23,7 +23,7 @@ html{
 }
 
 body{
-  background: var(--clr-accent1);
+  background: var(--clr-light1);
   font-family: var(--ff-primary);
   margin: 0;
 }
@@ -34,6 +34,12 @@ body{
   justify-content: center;
   min-height: 50vh;
 }
+
+a {
+  text-decoration: none;
+  color: #2B4162; 
+}
+
 
 
 /* .App {
