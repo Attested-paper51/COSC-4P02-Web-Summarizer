@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header.js';
+import Summarizer from './components/Summarizer.js';
 
 function App() {
   return (
@@ -19,7 +20,10 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Header />
+      {/* <Header /> */}
+      <div class="Summarizer">
+        <Summarizer/>
+      </div>
     </div>
   );
 }
