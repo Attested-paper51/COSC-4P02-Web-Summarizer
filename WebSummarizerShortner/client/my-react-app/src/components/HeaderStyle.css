@@ -4,6 +4,12 @@
     flex-direction: row;
     justify-content: center;
     width: 100%;
+    /* padding: 1em;
+    text-align: center; */
+
+    /* background-color: 33,
+    padding: '1em',
+//       textAlign: 'center', */
   }
   
   .index .div {
