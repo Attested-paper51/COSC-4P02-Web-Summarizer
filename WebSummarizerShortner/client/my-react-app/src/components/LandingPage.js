@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./LandingPage.css";
+import "./LandingPageStyle.css";
 
 class LandingPage extends Component {
 
@@ -18,7 +18,7 @@ class LandingPage extends Component {
           </body> 
         </a> 
         
-        <a href="#">
+        <a href="/#">
           <body className="shortener">
             <img 
               className="shortener-img"
