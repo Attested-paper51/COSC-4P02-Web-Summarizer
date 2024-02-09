@@ -1,12 +1,15 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import shortuuid
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urldatabase.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:password@localhost/postsql_urldb.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urldatabase.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/database4p02'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app,db)
 
 class ShortenedURL(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -36,6 +39,11 @@ def shorten():
     newEntry = ShortenedURL(originalURL=originalURL,shortURL=shortURL)
     db.session.add(newEntry)
     db.session.commit()
+
+    with app.app_context():
+        migrate.init_app(app, db)
+        #migrate.migrate()
+        migrate.upgrade()
 
     return render_template('result.html',
             originalURL=newEntry.originalURL,
