@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urldatabase.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:password@localhost/postsql_urldb.db'
 db = SQLAlchemy(app)
 
 class ShortenedURL(db.Model):
@@ -58,9 +59,9 @@ def redirectToOriginal(shortURL):
 
 
 with app.app_context():
-    databaseFilePath = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
-    if not os.path.exists(databaseFilePath):
-        db.create_all()
+    #databaseFilePath = app.config['SQLALCHEMY_DATABASE_URI'].replace('sqlite:///', '')
+    #if not os.path.exists(databaseFilePath):
+    db.create_all()
 
 if __name__ == '__main__':
     
