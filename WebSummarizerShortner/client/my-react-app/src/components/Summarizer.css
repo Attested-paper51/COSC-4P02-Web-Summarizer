@@ -9,7 +9,7 @@
 }
 
 .wrapper{
-    width: 1000px;
+    width: auto;
     /*background: rgb(150, 16, 16);*/
     border-radius: 5px;
     padding: 25px 25px 30px;

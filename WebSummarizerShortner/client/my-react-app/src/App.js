@@ -9,6 +9,9 @@ function App() {
     <div className="App">
       <Header />
       <LandingPage />
+      {/* <div className='Summarizer'>
+        <Summarizer />
+      </div> */}
       <Footer />
     </div>
   );

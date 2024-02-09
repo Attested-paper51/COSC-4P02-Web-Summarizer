@@ -111,7 +111,7 @@ class Header extends Component {
             />
           </a>
           
-          <h1><a href="/#">shortify</a></h1>
+          <h1><a href="/#">Shortify</a></h1>
           <h3 className="nav-text-sum"><a href="/#">Summarizer</a></h3>
           <h3 className="nav-text-short"><a href="/#">URL Shortener</a></h3>
           

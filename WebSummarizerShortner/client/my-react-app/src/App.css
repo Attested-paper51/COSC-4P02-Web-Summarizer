@@ -28,13 +28,6 @@ body{
   margin: 0;
 }
 
-.Summarizer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-}
-
 a {
   text-decoration: none;
   color: #2B4162; 

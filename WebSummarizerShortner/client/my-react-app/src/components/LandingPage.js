@@ -6,8 +6,8 @@ class LandingPage extends Component {
   render() {
     return (
       <div className='main'>
-        <a href="/#">
-          <body className="summarizer">
+        <a href="/#Summarizer" className="summarizer">
+          <div >
             <img 
               className="summarizer-img"
               alt="logo"
@@ -15,11 +15,11 @@ class LandingPage extends Component {
             />
             <h1 className='summarizer.title'>Summarizer</h1>
             <p className='summarizer-para'>Get AI’s help from Shortify to get summarized text with perfection. Create an account to access Pro features!</p>
-          </body> 
+          </div> 
         </a> 
         
-        <a href="/#">
-          <body className="shortener">
+        <a href="/#Shortener" className="shortener">
+          <body>
             <img 
               className="shortener-img"
               alt="logo"
