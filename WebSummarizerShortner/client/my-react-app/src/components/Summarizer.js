@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./Summarizer.css";
+import "./css/SummarizerStyle.css";
 
 // const TextboxWithButton = () => {
 //   const [text, setText] = useState('');

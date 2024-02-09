@@ -95,7 +95,7 @@
 
 
 import { Component } from "react";
-import "./HeaderStyle.css";
+import "./css/HeaderStyle.css";
 
 class Header extends Component {
   render() {

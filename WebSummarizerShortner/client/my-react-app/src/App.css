@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Eczar:wght@520&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
 *,
 *::before,
@@ -9,7 +9,7 @@
 /* ----Customizable properties---- */
 
 :root{
-  --ff-primary: 'Eczar', sans-serif;
+  --ff-primary: 'Roboto Slab', serif;
   --clr-dark1: #374375;
   --clr-light1: #FFFCF5;
   --clr-accent1: #BABDE2;
