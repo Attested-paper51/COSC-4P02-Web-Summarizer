@@ -71,7 +71,7 @@ def processYouTubeURL(url):
 def processURL(url):
     endpoint = "https://extractorapi.com/api/v1/extractor"
     params = {
-        "apikey": "f1fe711b72df1cfa3ad4ff5c1ac8ccc8c8eba7b6",
+        "apikey": os.getenv("URL_API_KEY"),
         "url": url
     }
 
