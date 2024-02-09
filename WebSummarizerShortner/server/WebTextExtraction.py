@@ -9,7 +9,7 @@ import time
 app = Flask(__name__)
 CORS(app)  # Enable CORS
 
-# Correctly move the definition of extract_text_from_url above its first call
+
 def extract_text_from_url(url):
     try:
         options = Options()
