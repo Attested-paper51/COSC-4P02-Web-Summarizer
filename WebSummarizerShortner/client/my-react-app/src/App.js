@@ -3,16 +3,18 @@ import Header from './components/Header.js';
 import Summarizer from './components/Summarizer.js';
 import LandingPage from './components/LandingPage.js';
 import Footer from './components/Footer.js';
+import Hero from './components/Hero.js';
+import LogIn from './components/LogIn.js';
+
 
 function App() {
   return (
     <div className="App">
       <Header />
+      <Hero />
       <LandingPage />
-      {/* <div className='Summarizer'>
-        <Summarizer />
-      </div> */}
-      <Footer />
+      {/* <LogIn /> */}
+      {/* <Footer /> */}
     </div>
   );
 }
