@@ -4,12 +4,13 @@ from shortenerNoFlask import SimpleURLShortener
 
 
 
-
-#def urlShortener():
-#    return SimpleURLShortener
-
 def testTableCreated():
-    pass
+    urlShortener = SimpleURLShortener()
+    cursor = urlShortener.conn.cursor()
+    cursor.execute("SELECT to_regclass('shortened_url')")
+    table = cursor.fetchone()[0] is not None
+    cursor.close()
+    assert table, "The table does not exist in the database."
 
 def testlinkShortened():
     urlShortener = SimpleURLShortener()
