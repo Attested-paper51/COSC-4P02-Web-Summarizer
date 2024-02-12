@@ -24,7 +24,7 @@ footer {
 
 @media (max-width: 768px) {
     .footer-text{
-        left: 70%;
+        left: 68%;
     }
 }
 
@@ -34,21 +34,21 @@ footer {
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 570px) {
     .footer-text{
-        left: 60%;
+        left: 55%;
     }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 445px) {
     .footer-text{
-        left: 50%;
+        left: 45%;
     }
 }
 
 @media (max-width: 355px) {
     .footer-text{
-        left: 45%;
+        left: 40%;
     }
 }
 
