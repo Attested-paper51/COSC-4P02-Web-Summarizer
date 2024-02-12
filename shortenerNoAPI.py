@@ -9,46 +9,50 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/database4p02'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-migrate = Migrate(app,db)
+migrate = Migrate(app,db)#So that changes can be migrated to the database automatically
 
+
+#Defining the ShortenedURL class in the same fashion as the database
 class ShortenedURL(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    originalURL = db.Column(db.String(512),nullable=False)
-    shortURL = db.Column(db.String(20),unique=True,nullable=False)
-    clickCount = db.Column(db.Integer,default=0)
+    original_url = db.Column(db.String(512),nullable=False)
+    short_url = db.Column(db.String(20),unique=True,nullable=False)
+    click_count = db.Column(db.Integer,default=0)
 
 
-
+#Render the index.html landing page
 @app.route('/')
 def index():
     return render_template('index.html')
 
+#Renders new page with the link information
 @app.route('/shorten',methods=['POST'])
 def shorten():
     originalURL = request.form['originalURL']
 
-    existingEntry = ShortenedURL.query.filter_by(originalURL = originalURL).first()
+    existingEntry = ShortenedURL.query.filter_by(original_url = originalURL).first()
+    
     if existingEntry:
         return render_template('result.html',
-            originalURL=existingEntry.originalURL,
-            shortURL = request.url_root+existingEntry.shortURL,
-            clickCount = existingEntry.clickCount)
+            originalURL=existingEntry.original_url,
+            shortURL = request.url_root+existingEntry.short_url,
+            clickCount = existingEntry.click_count)
 
     shortURL = shortuuid.ShortUUID().random(length=6)
 
-    newEntry = ShortenedURL(originalURL=originalURL,shortURL=shortURL)
+    newEntry = ShortenedURL(original_url=originalURL,short_url=shortURL)
     db.session.add(newEntry)
     db.session.commit()
 
     with app.app_context():
         migrate.init_app(app, db)
         #migrate.migrate()
-        migrate.upgrade()
+        #migrate.upgrade()
 
     return render_template('result.html',
-            originalURL=newEntry.originalURL,
-            shortURL = request.url_root+newEntry.shortURL,
-            clickCount = newEntry.clickCount)
+            originalURL=newEntry.original_url,
+            shortURL = request.url_root+newEntry.short_url,
+            clickCount = newEntry.click_count)
 
 
 #Does not work yet, can generate a link but naturally, it doesn't go anywhere.
@@ -58,12 +62,12 @@ def constructShortenedURL(shortURL):
 
 @app.route('/<shortURL>')
 def redirectToOriginal(shortURL):
-    entry = ShortenedURL.query.filter_by(shortURL=shortURL).first_or_404()
+    entry = ShortenedURL.query.filter_by(short_url=shortURL).first_or_404()
 
-    entry.clickCount+=1
+    entry.click_count+=1
     db.session.commit()
 
-    return redirect(entry.originalURL)
+    return redirect(entry.original_url)
 
 
 with app.app_context():
