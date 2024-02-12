@@ -1,25 +1,50 @@
-import shortenerNoAPI as shortener
+import pytest
+from shortenerNoFlask import SimpleURLShortener
 
-import unittest
+
+
 #from flask_testing import TestCase
 
 from shortenerNoAPI import app,db,ShortenedURL
 
 class TestShortenURL():
 
-    #not done
-    def create_app(self):
-        app.config['TESTING'] = True
+    def urlShortener():
+        return SimpleURLShortener
 
+    def testTableCreated():
+        pass
 
-    def test_index_route(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code,200)
+    def testlinkShortened(urlShortener):
+        original_url = "www.testing.com"
+        short_url = urlShortener.shorten_url(original_url)
+        assert short_url is not None
 
-    def test_shorten_route(self):
-        response = self.client.post('/shorten',data = {'originalURL':'https://medium.com/muthoni-wanyoike/implementing-text-summarization-using-openais-gpt-3-api-dcd6be4f6933'})
-        self.assertEqual(response.status.code, 200)
-        self.assertIn(b'Original URL:',response.data)
         
+
+    def testLinkRedirected(urlShortener):
+        original_url = "www.testing.com"
+        short_url = urlShortener.shorten_url(original_url)
+        resolved_url = urlShortener.resolve_url(short_url)
+        assert resolved_url == original_url
+        
+
+    def testClickCountInitial(urlShortener):
+        original_url = "www.testingCountIsZero.com"
+        short_url = urlShortener.shorten_url(original_url)
+        initialCount = urlShortener.getClickCount(short_url)
+        assert initialCount == 0
+
+    def testClickCountUpdated(urlShortener):
+        original_url = "www.testingCount.com"
+        short_url = urlShortener.shorten_url(original_url)
+        resolved_url = urlShortener.resolve_url(short_url)
+        count = urlShortener.getClickCount(short_url)
+        assert count == 1
+        
+    
+
+
+
 
 
