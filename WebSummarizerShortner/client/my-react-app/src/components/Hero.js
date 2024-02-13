@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import "./css/HeroStyle.css";
 import img from "./images/img1.png"
 
-class Hero extends Component {
+class Hero extends Component 
+{
   render() {
     return(
       <div className="hero">
