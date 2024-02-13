@@ -20,6 +20,8 @@ const URLShortener = () => {
         console.log(url)
     }
 
+    const [summarize, showSummarize] = useState(false);
+
     return (
         <div className='url'>
             {/* <h1>Shorten a URL</h1>*/}
@@ -31,7 +33,8 @@ const URLShortener = () => {
                 onChange={(e) => setURL(e.target.value)}
                 placeholder='Enter URL here' 
             />
-            <button className='shorten' onClick={handleSubmit}>Shorten URL</button>
+
+            <button className='shorten' onClick={()=> { handleSubmit(); showSummarize(true); }} >Shorten URL</button>
             <label className='shorten-url'>Shortened URL</label> 
             <input className='output-url' 
                 type="text" 
@@ -41,6 +44,12 @@ const URLShortener = () => {
                 placeholder='Get Shortened URL' 
             />
             <button className='copy-url' onClick={handleCopy}>{CopyURL}</button>
+
+            
+            { summarize && <button className='summarize-url-content'>Summarize the URL content</button> }
+            
+
+            
         </div>
     );
   
