@@ -1,5 +1,3 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import logging
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
