@@ -1,8 +1,7 @@
 footer {
-    background-color:#A3CEEC ;
-    padding: 10px 10px;
-    position: fixed;
-    bottom: 0;
+    margin-top: auto;
+    background-color:#A3CEEC;
+    position: relative;
     height: 90px;
     width: 100%;
 }
@@ -13,8 +12,8 @@ footer {
     position: absolute;
     left: 65%;
     right: 1%;
-    top: 25.18%;
-    bottom: 25.18%;
+    top: 0%;
+    bottom: 25%;
 }
 
 @media (max-width: 1024px) {
@@ -25,7 +24,7 @@ footer {
 
 @media (max-width: 768px) {
     .footer-text{
-        left: 70%;
+        left: 68%;
     }
 }
 
@@ -35,21 +34,21 @@ footer {
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 570px) {
     .footer-text{
-        left: 60%;
+        left: 55%;
     }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 445px) {
     .footer-text{
-        left: 50%;
+        left: 45%;
     }
 }
 
 @media (max-width: 355px) {
     .footer-text{
-        left: 45%;
+        left: 40%;
     }
 }
 
