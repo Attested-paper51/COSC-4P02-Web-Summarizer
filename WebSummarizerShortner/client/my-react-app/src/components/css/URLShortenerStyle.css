@@ -1,0 +1,122 @@
+.url {
+    max-width: 600px;
+    margin-top: 5%;
+    margin-left: 33%;
+    text-align: center;
+    font-size: larger;
+}
+
+.insert-url {
+    display: block;
+    padding: 5%;
+}
+
+.input-url{
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #716f6f;
+    box-sizing: border-box;
+    display: box;
+}
+
+.output-url {
+    width: 85%;
+    padding: 10px 10px;
+    border: 1px solid #716f6f;
+    box-sizing: border-box;
+    display: box;
+}
+
+.shorten {
+    
+}
+
+.shorten-url {
+    margin-top: 50px;
+    padding: 10px;
+    display: block;
+}
+
+.shorten, .copy-url {
+    background: #A3CEEC;
+    color: #0f0f0f;
+    border: 1;
+    padding: 5px;
+    margin-top: 5%;
+    cursor: pointer;
+    font-size: medium;
+}
+
+@media (max-width: 1225px) {
+    .url {
+        margin-left: 25%;
+    }
+}
+
+@media (max-width: 995px) {
+    .url {
+        margin-left: 20%;
+    }
+}
+
+@media (max-width: 880px) {
+    .url {
+        margin-left: 17%;
+    }
+}
+
+@media (max-width: 840px) {
+    .url {
+        margin-left: 17%;
+    }
+}
+
+@media (max-width: 800px) {
+    .url {
+        margin-left: 10%;
+    }
+}
+
+@media (max-width: 710px) {
+    .url {
+        margin-left: 5%;
+    }
+}
+
+@media (max-width: 665px) {
+    .url {
+        max-width: 400px;
+        margin-top: 12%;
+        margin-left: 20%;
+    }
+}
+
+@media (max-width: 565px) {
+    .url {
+        margin-top: 15%;
+        margin-left: 13%;
+    }
+}
+
+@media (max-width: 500px) {
+    .url {
+        margin-left: 6%;
+    }
+}
+
+@media (max-width: 440px) {
+    .url {
+        max-width: 300px;
+        margin-top: 20%;
+        margin-left: 13%;
+    }
+}
+
+@media (max-width: 378px) {
+    .url {
+        max-width: 250px;
+        font-size: medium;
+        margin-top: 28%;
+        margin-left: 15%;
+    }
+}
