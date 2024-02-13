@@ -95,6 +95,7 @@
 
 
 import { Component } from "react";
+import { Link } from 'react-router-dom';
 import "./css/HeaderStyle.css";
 
 class Header extends Component {
@@ -102,34 +103,33 @@ class Header extends Component {
     return (
       <section>
         <nav className='header-nav'>
-          <a href="/#">
+          <Link to="/">
             <img
-  
               className="img"
               alt="logo"
               src="images/logo.png"
             />
-          </a>
+          </Link>
           
-          <h1><a href="/#">Shortify</a></h1>
-          <h3 className="nav-text-sum"><a href="/#">Summarizer</a></h3>
-          <h3 className="nav-text-short"><a href="/#">URL Shortener</a></h3>
+          <h1><Link to="/">Shortify</Link></h1>
+          <h3 className="nav-text-sum"><Link to="/Summarizer">Summarizer</Link></h3>
+          <h3 className="nav-text-short"><Link to="/Shortener">URL Shortener</Link></h3>
           
-          <a href="/#">
+          <Link to="/Mode">
             <img 
               className="darkmode"
               alt="darkmode"
               src="images/darkmode.png"
             />
-          </a>
+          </Link>
 
-          <a href="/#">
+          <Link to="/Login">
             <img 
               className="profile"
               alt="profile"
               src="images/profile.png"
             />
-          </a>
+          </Link>
         </nav>
 
       </section>
