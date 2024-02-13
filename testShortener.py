@@ -17,9 +17,7 @@ def testlinkShortened():
     original_url = "www.testing.com"
     short_url = urlShortener.shorten_url(original_url)
     assert short_url is not None
-
-            
-
+   
 def testLinkRedirected():
     urlShortener = SimpleURLShortener()
     original_url = "www.testing.com"
