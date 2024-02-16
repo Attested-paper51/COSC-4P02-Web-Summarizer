@@ -5,17 +5,28 @@ import { useState } from 'react';
 const Feedback = () => {
 
     const [rating, setRating] = useState(null);
+    const [feedback, setFeedback] = useState('');
     const [hover, setHover] = useState(null);
 
     const handleRating = (e) => {
         console.log(rating) //number of stars stored in rating
+        const Feedback = {feedback}
+        console.log(Feedback)
+        setRating(null)
+        setFeedback('')
     }
     return (
-        <div>
+        <div className='feedback'>
+            <h2 className='feedback-title'>Rate your experience</h2>
+            <p className='feedback-para'>
+                We highly value your feedback! Kindly take a moment to
+                rate your experience and provide us with your valuable feedback.
+            </p>
+            <div className='star-section'> 
             {[...Array(5)].map((star,index) => {
                 const currentRating = index + 1;
                 return(
-                    <label>
+                    <label className='five-stars'>
                         <input className='rating-input'
                             type="radio" 
                             name="rating" 
@@ -29,17 +40,19 @@ const Feedback = () => {
                             onMouseEnter={() => setHover(currentRating)}
                             onMouseLeave={() => setHover(null)}
                         />
-
-            
                     </label>
                 ); 
                 
             })}
+            </div>
             <textarea
+                className='feedback-input'
                 id='input'
-                placeholder='Type Feedback here'required>
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder='Tell us about your experience'required>
             </textarea>
-            <button onClick={handleRating}>Submit</button>
+            <button className='send-feedback' onClick={handleRating}>Send</button>
         </div>
     );
 }

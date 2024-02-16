@@ -4,6 +4,9 @@ footer {
     position: relative;
     height: 90px;
     width: 100%;
+    display: flex;
+
+    
 }
 
 .footer-text {
