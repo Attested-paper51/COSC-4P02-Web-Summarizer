@@ -2,6 +2,11 @@ import hashlib
 import psycopg2
 from psycopg2 import sql
 from urllib.parse import urlparse
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 
 class SimpleURLShortener:
     def __init__(self):
@@ -97,6 +102,6 @@ def main():
             print("Invalid choice. Please enter 1, 2, or 3.")
 
 if __name__ == "__main__":
-    main()
+    app.run(port=3000)
 
 
