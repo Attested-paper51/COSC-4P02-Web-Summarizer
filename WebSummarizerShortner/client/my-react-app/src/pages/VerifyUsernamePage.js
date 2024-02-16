@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from '../components/Header.js';
-import SignUp from '../components/Password.js';
+import VerifyUser from '../components/VerifyUser.js';
 import Footer from '../components/Footer.js';
 
-const ForgotPasswordPage = () => {
+const VerifyUsernamePage = () => {
     return (
         <div className='App'>
             <Header />
-            <Password />
+            <VerifyUser />
             <Footer />
         </div>
     );
 };
 
-export default ForgotPasswordPage;
+export default VerifyUsernamePage;

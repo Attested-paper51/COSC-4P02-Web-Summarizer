@@ -6,6 +6,8 @@ import SummarizerPage from './pages/SummarizerPage.js'
 import ShortenerPage from './pages/ShortenerPage.js'
 import AuthenticationPage from './pages/AuthenticationPage.js'
 import CreateAccountPage from './pages/CreateAccountPage.js'
+import VerifyUsernamePage from './pages/VerifyUsernamePage.js'
+import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
 
 
@@ -20,7 +22,8 @@ function App() {
             <Route path="/Shortener" element={<ShortenerPage />} />
             <Route path="/Login" element={<AuthenticationPage />} />
             <Route path="/Signup" element={<CreateAccountPage />} />
-            <Route path="/Forgot" element={<CreateAccountPage />} />
+            <Route path="/Verify" element={<VerifyUsernamePage />} />
+            <Route path="/Reset" element={<ResetPasswordPage />} />
             <Route path="/Feedback" element={<FeedbackPage />} />
           </Routes>
         </div>
