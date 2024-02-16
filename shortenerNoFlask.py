@@ -1,9 +1,11 @@
 import hashlib
 import psycopg2
+import time
 from psycopg2 import sql
 from urllib.parse import urlparse
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
+
 
 app = Flask(__name__)
 CORS(app)
@@ -33,11 +35,16 @@ class SimpleURLShortener:
         ''')
         self.conn.commit()
 
+    #
     def shorten_url(self, originalURL):
         # Generate a hash for the original URL
-        url_hash = hashlib.md5(originalURL.encode()).hexdigest()[:6]
+        #Applying a unique identifier so that the hash is different even if the same URL is inputted twice
+        uniqueIdentifier = str(int(time.time()))
+        modURL = originalURL+uniqueIdentifier
+        url_hash = hashlib.md5(modURL.encode()).hexdigest()[:6]
         # Create a link with the domain and the hash to the end
         shortURL = "http://127.0.0.1:5000/"+url_hash[:6]
+        #shortURL = url_hash[:6]
 
         # Store the mapping in the database
         cursor = self.conn.cursor()
@@ -62,13 +69,11 @@ class SimpleURLShortener:
         cursor = self.conn.cursor()
         cursor.execute('SELECT original_url FROM shortened_url WHERE short_url = %s', (shortURL,))
         result = cursor.fetchone()
+        cursor.execute('UPDATE shortened_url SET click_count = click_count + 1 WHERE short_url = %s RETURNING click_count', (shortURL,))
+        self.conn.commit()
+        print(result)
+        return result[0]
 
-        if result:
-            cursor.execute('UPDATE shortened_url SET click_count = click_count + 1 WHERE short_url = %s RETURNING click_count', (shortURL,))
-            self.conn.commit()
-            return result[0]
-        else:
-            return "URL not found."
 
     def __del__(self):
         # Close the database connection when the object is deleted
@@ -114,14 +119,14 @@ def shorten_url():
     return jsonify({'shortenedURL': shortURL})
 
 @app.route('/<short_url>')
-def redirectToOriginal(shortURL):
-    originalURL = url_shortener.resolve_url(shortURL)
-    if originalURL != "URL not found":
-        return redirect(originalURL)
-    else:
-        return "URL not found"
+def redirectToOriginal(short_url):
+    fullURL = "http://127.0.0.1:5000/"+short_url
+    originalURL = url_shortener.resolve_url(fullURL)
+    return redirect(originalURL)
+
 
 if __name__ == "__main__":
     app.run(port=5000)
+    #main()
 
 
