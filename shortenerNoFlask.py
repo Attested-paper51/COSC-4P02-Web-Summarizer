@@ -102,6 +102,6 @@ def main():
             print("Invalid choice. Please enter 1, 2, or 3.")
 
 if __name__ == "__main__":
-    app.run(port=3000)
+    app.run(port=5000)
 
 
