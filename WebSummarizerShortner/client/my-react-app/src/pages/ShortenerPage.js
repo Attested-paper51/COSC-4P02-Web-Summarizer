@@ -4,7 +4,7 @@ import Header from '../components/Header.js';
 const ShortenerPage = () => {
     return (
         <div>
-            <Header />
+            <Header />  
         </div>
     );
 };
