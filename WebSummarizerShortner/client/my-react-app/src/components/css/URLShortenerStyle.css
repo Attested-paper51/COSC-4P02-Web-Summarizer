@@ -37,7 +37,7 @@
     display: block;
 }
 
-.shorten, .copy-url {
+.shorten, .copy-url, .summarize-url-content {
     background: #A3CEEC;
     color: #0f0f0f;
     border: 1;
@@ -89,6 +89,9 @@
         margin-top: 12%;
         margin-left: 20%;
     }
+    .output-url {
+        width: 78%;
+    }
 }
 
 @media (max-width: 565px) {
@@ -110,6 +113,9 @@
         margin-top: 20%;
         margin-left: 13%;
     }
+    .output-url {
+        width: 67%;
+    }
 }
 
 @media (max-width: 378px) {
@@ -118,5 +124,8 @@
         font-size: medium;
         margin-top: 28%;
         margin-left: 15%;
+    }
+    .output-url {
+        width: 60%;
     }
 }

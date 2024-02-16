@@ -1,21 +1,25 @@
 import './App.css';
-import Header from './components/Header.js';
-import Summarizer from './components/Summarizer.js';
-import LandingPage from './components/LandingPage.js';
-import Footer from './components/Footer.js';
-import Hero from './components/Hero.js';
-import LogIn from './components/LogIn.js';
+import React from 'react';
+import HomePage from './pages/HomePage.js'
+import SummarizerPage from './pages/SummarizerPage.js'
+import ShortenerPage from './pages/ShortenerPage.js'
+import AuthenticationPage from './pages/AuthenticationPage.js'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      {/* <Summarizer /> */}
-      {/* <Hero /> */}
-      {/* <LandingPage /> */}
-      <LogIn />
-      <Footer />
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route path="/Summarizer" element={<SummarizerPage />} />
+            <Route path="/Shortener" element={<ShortenerPage />} />
+            <Route path="/Login" element={<AuthenticationPage />} />
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
 }
