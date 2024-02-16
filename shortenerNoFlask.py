@@ -2,7 +2,7 @@ import hashlib
 import psycopg2
 from psycopg2 import sql
 from urllib.parse import urlparse
-from flask import Flask
+from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -47,6 +47,8 @@ class SimpleURLShortener:
 
         # Return the shortened URL
         return shortURL
+
+    
 
     def getClickCount(self,shortURL):
         cursor = self.conn.cursor()
@@ -100,6 +102,24 @@ def main():
 
         else:
             print("Invalid choice. Please enter 1, 2, or 3.")
+
+url_shortener = SimpleURLShortener()
+@app.route('/shorten',methods=['POST'])
+def shorten_url():
+    data = request.get_json()
+    originalURL = data.get('originalURL')
+
+    shortURL = url_shortener.shorten_url(originalURL)
+
+    return jsonify({'shortenedURL': shortURL})
+
+@app.route('/<short_url>')
+def redirectToOriginal(shortURL):
+    originalURL = url_shortener.resolve_url(shortURL)
+    if originalURL != "URL not found":
+        return redirect(originalURL)
+    else:
+        return "URL not found"
 
 if __name__ == "__main__":
     app.run(port=5000)
