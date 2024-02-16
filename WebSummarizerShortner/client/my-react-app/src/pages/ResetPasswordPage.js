@@ -1,18 +1,16 @@
 import React from 'react';
 import Header from '../components/Header.js';
-import Hero from '../components/Hero.js';
-import LandingPage from '../components/LandingPage.js';
+import Password from '../components/Password.js';
 import Footer from '../components/Footer.js';
 
-const HomePage = () => {
+const ResetPasswordPage = () => {
     return (
         <div className='App'>
             <Header />
-            <Hero />
-            <LandingPage />
+            <Password />
             <Footer />
         </div>
     );
 };
 
-export default HomePage;
+export default ResetPasswordPage;

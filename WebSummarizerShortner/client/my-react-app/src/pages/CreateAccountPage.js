@@ -1,18 +1,16 @@
 import React from 'react';
 import Header from '../components/Header.js';
-import Hero from '../components/Hero.js';
-import LandingPage from '../components/LandingPage.js';
+import SignUp from '../components/SignUp.js';
 import Footer from '../components/Footer.js';
 
-const HomePage = () => {
+const CreateAccountPage = () => {
     return (
         <div className='App'>
             <Header />
-            <Hero />
-            <LandingPage />
+            <SignUp />
             <Footer />
         </div>
     );
 };
 
-export default HomePage;
+export default CreateAccountPage;

@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from '../components/Header.js';
-import Summarizer from '../components/Summarizer.js';
+import Feedback from '../components/Feedback.js';
 import Footer from '../components/Footer.js';
 
-const SummarizerPage = () => {
+const FeedbackPage = () => {
     return (
-        <div className='App'>
+        <div  className='App'>
             <Header />
-            <Summarizer />
+            <Feedback />
             <Footer />
         </div>
     );
 };
 
-export default SummarizerPage;
+export default FeedbackPage;

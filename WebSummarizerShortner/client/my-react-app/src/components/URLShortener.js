@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./css/URLShortenerStyle.css";
 
+
 const URLShortener = () => {
 
     const [URL, setURL] = useState('');
@@ -15,10 +16,33 @@ const URLShortener = () => {
         }, 3000); // Reverts back to 'Submit' after 3 seconds
     }
 
-    const handleSubmit = (e) => {
-        const url = {URL} 
-        console.log(url)
-    }
+    // const handleSubmit = (e) => {
+    //     const url = {URL} 
+    //     console.log(url)
+    // }
+
+    //Added code for handleSubmit
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ originalURL: URL }),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                setShortURL(result.shortenedURL);
+            } else {
+                console.error('Failed to shorten URL');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
 
     const [summarize, showSummarize] = useState(false);
 
