@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import "./css/FooterStyle.css";
 
 class Footer extends Component {
@@ -6,8 +7,8 @@ class Footer extends Component {
     return (
       <footer>
         <nav className='footer-text'>
-            <h3><a href="/#">Help</a></h3>
-            <h3><a href="/#">Feedback</a></h3>
+            <h3><Link to="/#">Help</Link></h3>
+            <h3><Link to="/#">Feedback</Link></h3>
         </nav>
       </footer>
     );
