@@ -1,18 +1,16 @@
 import React from 'react';
 import Header from '../components/Header.js';
-import Hero from '../components/Hero.js';
-import LandingPage from '../components/LandingPage.js';
+import VerifyUser from '../components/VerifyUser.js';
 import Footer from '../components/Footer.js';
 
-const HomePage = () => {
+const VerifyUsernamePage = () => {
     return (
         <div className='App'>
             <Header />
-            <Hero />
-            <LandingPage />
+            <VerifyUser />
             <Footer />
         </div>
     );
 };
 
-export default HomePage;
+export default VerifyUsernamePage;

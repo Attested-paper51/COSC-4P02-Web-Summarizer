@@ -1,3 +1,30 @@
+.feedback {
+    display: flex;
+    flex-direction: column;
+    font-size: medium;
+    
+    max-width: 600px;
+    margin-top: 6%;
+    margin-left: 32%;
+    text-align: center;
+}
+
+.feedback-title {
+    
+}
+
+.feedback-para {
+    padding: 5%;
+}
+
+.star-section {
+    padding: 5%;
+}
+
+.five-stars {
+    padding: 1.5%;
+}
+
 .rating-input {
     display: none;
 }
@@ -5,3 +32,34 @@
 .star {
     cursor: pointer;
 }
+
+.feedback-input {
+    padding: 5%;
+
+    width: 100%;
+    padding: 20px 10px;
+    border: 2px solid #A3CEEC;
+    box-sizing: border-box;
+    display: box;
+    box-shadow: 5px 5px 5px #A3CEEC;
+    border-radius: 10px;
+}
+
+.send-feedback {
+    margin: 5% auto;
+
+    background: #A3CEEC;
+    color: #0f0f0f;
+    border: 1;
+    padding: 10px 25px;
+    margin-top: 5%;
+    cursor: pointer;
+    font-size: medium;
+
+    border-radius: 10px;
+}
+
+.send-feedback:hover {
+    background-color: #99c1d7; /* Green */
+    color: black;
+  }
