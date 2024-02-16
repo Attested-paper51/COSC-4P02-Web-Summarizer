@@ -5,21 +5,16 @@ const SignUp = () => {
 
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
-  
-  // const [CopyURL, setCopyURL] = useState('Copy URL')
-  // const handleCopy = () => {
-  //     navigator.clipboard.writeText(shortened)
-  //     setCopyURL('Copied')
-  //     setTimeout(() => {
-  //         setCopyURL('Copy URL');
-  //     }, 3000); // Reverts back to 'Submit' after 3 seconds
-  // }
+  const [finalPass, confirmPass] = useState('');
+
 
   const handleSubmit = (e) => {
-      const User = {user} 
-      const Pass = {pass}
-      console.log(User)
-      console.log(Pass)
+      const Username = {user} 
+      const Password = {pass}
+      const ConfirmPassword = {finalPass}
+      console.log(Username)
+      console.log(Password)
+      console.log(ConfirmPassword)
   }
 
   return (
@@ -57,8 +52,8 @@ const SignUp = () => {
           <input className='textfield'
             type="text" 
             required
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
+            value={finalPass}
+            onChange={(e) => confirmPass(e.target.value)}
             placeholder='Enter password here' 
           />
         </div>
@@ -68,6 +63,7 @@ const SignUp = () => {
             <div className="signup">Create an account</div>
           </div>
         </button>
+        
       </div>
     </div>
   );

@@ -21,10 +21,10 @@ const LogIn = () => {
   // }
 
   const handleSubmit = (e) => {
-      const User = {user} 
-      const Pass = {pass}
-      console.log(User)
-      console.log(Pass)
+      const Username = {user} 
+      const Password = {pass}
+      console.log(Username)
+      console.log(Password)
   }
 
   return (
@@ -75,7 +75,7 @@ const LogIn = () => {
           </button>
         </Link>
         
-        <Link to="/Forgot">
+        <Link to="/Verify">
           <div className="forgot">
             Forgot your password?
           </div>
