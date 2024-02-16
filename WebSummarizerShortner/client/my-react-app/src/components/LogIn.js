@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import "./css/LogInStyle.css";
 import img from "./images/img2.png"
 import gmail from "./images/gmail.jpg"
@@ -27,7 +28,7 @@ const LogIn = () => {
   }
 
   return (
-    <div className="box">
+    <div className="login-box">
       <div className="form">
         <div className="form-title">Log in</div>
         <button className="gmail-btn">
@@ -64,17 +65,22 @@ const LogIn = () => {
             onChange={(e) => setPass(e.target.value)}
             placeholder='Enter password here' 
           />
-          {/* <div className="pass-text">Your password</div>
-          <div className="textfield"></div> */}
         </div>
-        <button className="login-btn" onClick={handleSubmit}>
-          <div className="login-overlap">
-            <div className="login">Log in</div>
+
+        <Link to="/#">
+          <button className="login-btn" onClick={handleSubmit}>
+            <div className="login-overlap">
+              <div className="login">Log in</div>
+            </div>
+          </button>
+        </Link>
+        
+        <Link to="/Forgot">
+          <div className="forgot">
+            Forgot your password?
           </div>
-        </button>
-        <div className="forgot">
-          <a href="#">Forgot your password?</a>
-        </div>
+        </Link>
+        
       </div>
       <div className="account">
           <div className="join">
@@ -83,14 +89,15 @@ const LogIn = () => {
           <div className="account-img">
             <img className="logo" alt="Logo" src={img} />
           </div>
-          {/* <div className="dont">
-            Don't have an account?
-          </div> */}
-          <button className="create-btn">
-            <div className="create-overlap">
-              <div className="create">Create an account</div>
-            </div>
-          </button>
+      
+          <Link to="/Signup">
+            <button className="create-btn">
+              <div className="create-overlap">
+                <div className="create">Create an account</div>
+              </div>
+            </button>
+          </Link>
+
         </div>
     </div>
   );
