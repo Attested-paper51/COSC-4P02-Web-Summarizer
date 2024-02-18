@@ -1,25 +1,22 @@
 .footer-container {
+    margin-top: auto;
     background-color:#A3CEEC;
-    position: relative;
     height: 90px;
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    align-items: center;
+    padding: 1.5em;
 }
 
 .footer-text {
-    margin-right: 2%; 
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
 }
 
-.footer-link{
-    display: inline;
-    margin-right: 1em;
-    font-size: 15px;
-    line-height: 15px;
+.footer-help {
+    padding-right: 2em
 }
 
-/* .footer-container {
-    margin-top: auto;
-    padding-top: 30px;
-} */
+.footer-feedback {
+    padding-right: 1.5em
+}
+
+
