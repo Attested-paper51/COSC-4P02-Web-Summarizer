@@ -7,8 +7,8 @@ class Footer extends Component {
     return (
       <footer className='footer-container'>
         <nav className='footer-text'>
-            <h3><Link to="/#">Help</Link></h3>
-            <h3><Link to="/Feedback">Feedback</Link></h3>
+            <h3 className='footer-link'><Link to="/#">Help</Link></h3>
+            <h3 className='footer-link'><Link to="/Feedback">Feedback</Link></h3>
         </nav>
       </footer>
     );

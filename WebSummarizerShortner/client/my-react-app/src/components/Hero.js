@@ -13,7 +13,7 @@ class Hero extends Component
               Your shortcut to simplicity.
             </p>
             <p className="hero-subheading">
-              Say goodbye to lengthy URLs and information overload—discover the power of simplicity with our intuitive platform.
+              Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
             </p>
           </div>
         </div>
