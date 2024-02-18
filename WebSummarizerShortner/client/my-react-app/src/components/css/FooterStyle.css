@@ -1,8 +1,12 @@
-.footer-container {
-    margin-top: auto;
+footer {
     background-color:#A3CEEC;
     height: 90px;
     padding: 1.5em;
+}
+
+.footer-container {
+    margin-top: auto;
+    padding-top: 30px;
 }
 
 .footer-text {
