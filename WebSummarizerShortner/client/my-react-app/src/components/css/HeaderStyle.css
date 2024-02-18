@@ -6,6 +6,7 @@
     box-shadow: 0 0.5px 3px #d4d1d1;
     top: 0;
     position: sticky;
+    z-index: 100;
   }
 
   .header-nav{

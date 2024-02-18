@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
+import { FaTrashCan } from "react-icons/fa6";
 
-class Summarizer extends Component 
-{
-    componentDidMount()
+const Summarizer = () => {
+    const componentDidMount = () =>
     {
         // // This is called after the component has been mounted to the DOM
         // const inputArea = document.querySelector("textarea");
@@ -29,41 +28,44 @@ class Summarizer extends Component
         // });
     }
 
-    render() 
-    {
-        return (
-            <div className="wrapper">
-                <h2>Summarizer</h2>
-                <div className="text">
-                    <div className="inputArea">
-                        <textarea
-                            id='input' 
-                            placeholder='Paste your text here...' 
-                            required>    
-                        </textarea>
-                        <div className='buttonDiv'>
-                            <button className="signup-btn">
-                                <div className="summarize-overlap">
-                                    <div className="summarize">Summarize</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
+    const emptyInput = () => {
+        const textarea = document.getElementById('input');
+        textarea.value = '';
+    }
 
-                    <div className="inputArea">
-                        <textarea 
-                            id='output'
-                            placeholder='Get output here...' 
-                            required
-                            readOnly>   
-                        </textarea>
-                        <div className='buttonDiv'>
-                        </div>
+    return (
+        <div className="wrapper">
+            <h2>Summarizer</h2>
+            <div className="text">
+                <div className="inputArea">
+                    <textarea
+                        id='input' 
+                        placeholder='Paste your text here...' 
+                        required>    
+                    </textarea>
+                    <button className='delete-button' onClick={emptyInput}><FaTrashCan /></button>
+                    <div className='buttonDiv'>
+                        <button className="signup-btn">
+                            <div className="summarize-overlap">
+                                <div className="summarize">Summarize</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div className="inputArea">
+                    <textarea 
+                        id='output'
+                        placeholder='Get output here...' 
+                        required
+                        readOnly>   
+                    </textarea>
+                    <div className='buttonDiv'>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Summarizer;

@@ -26,7 +26,10 @@
 .wrapper textarea {
     width: 65vh;
     height: 60vh;
-    padding: 15px;
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    padding-right: 30px;
     border-radius: 5px;
     outline: none;
     resize: none;
@@ -38,9 +41,16 @@
     /* transition: all 0.3s ease; Add a transition for all properties with a duration of 0.3 seconds */
 }
 
+/* textarea {
+    padding-right: 10em;
+} */
+
 textarea#input:focus {
     border-width: 2px;
-    padding: 14px;
+    padding-top: 19px;
+    padding-left: 14px;
+    padding-bottom: 19px;
+    padding-right: 29px;
     border-color: #87CEFA;
 }
 
@@ -58,6 +68,8 @@ textarea::-webkit-scrollbar{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    background-color: #0d55a7;
+    position: relative;
 }
 
 .buttonDiv {
@@ -68,6 +80,21 @@ textarea::-webkit-scrollbar{
 
     display: flex; 
     justify-content: flex-end; 
+}
+
+.delete-button {
+    position: absolute;
+    top: 28px;
+    right: 5px;
+    padding-bottom: 0px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.delete-button:hover svg {
+    color: #0d55a7;
 }
 
 .summarize-overlap{
