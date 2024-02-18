@@ -115,21 +115,23 @@ class Header extends Component {
           <h3 className="nav-text-sum"><Link to="/Summarizer">Summarizer</Link></h3>
           <h3 className="nav-text-short"><Link to="/Shortener">URL Shortener</Link></h3>
           
-          <Link to="/Mode">
-            <img 
-              className="darkmode"
-              alt="darkmode"
-              src="images/darkmode.png"
-            />
-          </Link>
+          <div className="icons">
+            <Link to="/Mode">
+              <img 
+                className="darkmode"
+                alt="darkmode"
+                src="images/darkmode.png"
+              />
+            </Link>
 
-          <Link to="/Login">
-            <img 
-              className="profile"
-              alt="profile"
-              src="images/profile.png"
-            />
-          </Link>
+            <Link to="/Login">
+              <img 
+                className="profile"
+                alt="profile"
+                src="images/profile.png"
+              />
+            </Link>
+          </div>
         </nav>
       </section>
     );
