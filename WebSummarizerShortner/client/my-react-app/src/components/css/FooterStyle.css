@@ -1,17 +1,25 @@
-footer {
+.footer-container {
     background-color:#A3CEEC;
     position: relative;
     height: 90px;
     width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.footer-text {
+    margin-right: 2%; 
+}
+
+.footer-link{
+    display: inline;
+    margin-right: 1em;
+    font-size: 15px;
+    line-height: 15px;
 }
 
 /* .footer-container {
     margin-top: auto;
     padding-top: 30px;
 } */
-
-.footer-text {
-    margin-right: 2%;
-    justify-content: right;
-}
-
