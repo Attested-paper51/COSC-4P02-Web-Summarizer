@@ -1,12 +1,14 @@
 footer {
-    margin-top: auto;
     background-color:#A3CEEC;
     position: relative;
     height: 90px;
     width: 100%;
     display: flex;
+}
 
-    
+.footer-container {
+    margin-top: auto;
+    padding-top: 30px;
 }
 
 .footer-text {
