@@ -52,7 +52,9 @@ const Feedback = () => {
                 onChange={(e) => setFeedback(e.target.value)}
                 placeholder='Tell us about your experience'required>
             </textarea>
-            <button className='send-feedback' onClick={handleRating}>Send</button>
+            <button className='send-feedback' onClick={handleRating}>
+                <div className='send'>Send</div>
+            </button>
         </div>
     );
 }
