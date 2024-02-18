@@ -68,7 +68,7 @@ textarea::-webkit-scrollbar{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background-color: #0d55a7;
+    /* background-color: #0d55a7; */
     position: relative;
 }
 
