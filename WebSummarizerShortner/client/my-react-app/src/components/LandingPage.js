@@ -7,7 +7,7 @@ const LandingPage = () =>
   return (
     <div className='main'>
       <Link to="/Summarizer" className="summarizer">
-        <div >
+        <div className='main-summarizer'>
           <img 
             className="summarizer-img"
             alt="logo"
@@ -19,7 +19,7 @@ const LandingPage = () =>
       </Link>
     
       <Link to="/Shortener" className="shortener">
-        <div>
+        <div className='main-shortener'>
           <img 
             className="shortener-img"
             alt="logo"

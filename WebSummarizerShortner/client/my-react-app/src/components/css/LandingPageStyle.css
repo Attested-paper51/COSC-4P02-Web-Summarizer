@@ -1,22 +1,22 @@
 .main{
-    padding-bottom: 10em;
-    padding-top: 1.5em;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    font-size: larger;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+    padding: 200px 200px;
 }
 
 .summarizer {
     width: 354px;
     height: 127px;
-    margin-left: 23%;
-    margin-top: 10%;
-    text-align: center;
     display: block; /* Ensure the entire block is clickable */
 }
 
 .shortener {
     width: 354px;
-    margin-left: 54%;
-    margin-top: -125px;
-    text-align: center;
     display: block; /* Ensure the entire block is clickable */
 }
 
@@ -25,65 +25,35 @@
     padding-bottom: 15px;
 }
 
-@media (max-width: 1140px) {
-    .summarizer {
-        margin-left: 20%;
+@media (max-width: 745px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
     }
-}
-
-@media (max-width: 1024px) {
-    .summarizer {
-        margin-left: 13%;
+    .main-shortener {
+        margin-top: 80%;
     }
-}
-
-@media (max-width: 815px) {
     .summarizer {
-        margin-left: 5%;
+        padding-top: 50px;
     }
     .shortener {
-        margin-left: 50%;
+        padding-bottom: 80px;
     }
 }
 
-@media (max-width: 700px) {
-    .shortener {
-        margin-left: 25%;
-        margin-top: 40%;
-    }
-    .summarizer {
-        margin-left: 25%;
+@media (max-width: 460px) {
+    .main {
+        font-size: medium;
+        width: 50%;
     }
 }
 
-@media (max-width: 570px) {
-    .shortener {
-        margin-left: 18%;
-        margin-top: 55%;
-    }
-    .summarizer {
-        margin-left: 18%;
-    }
-}
-
-@media (max-width: 440px) {
-    .shortener {
-        margin-left: 12%;
-        margin-top: 55%;
-    }
-    .summarizer {
-        margin-left: 12%;
-    }
-}
-
-@media (max-width: 400px) {
-    .shortener {
-        width: 300px;
-        margin-left: 0%;
-        margin-top: 55%;
-    }
+@media (max-width: 380px) {
     .summarizer {
         width: 300px;
-        margin-left: 0%;
+        height: 127px;
+    }
+    .shortener {
+        width: 300px;
     }
 }
