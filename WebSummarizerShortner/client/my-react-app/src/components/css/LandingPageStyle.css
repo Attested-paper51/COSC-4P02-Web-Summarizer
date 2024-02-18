@@ -6,6 +6,7 @@
     justify-content: center;
     width: 100%;
     margin: auto;
+    padding: 200px 200px;
 }
 
 .summarizer {
@@ -30,7 +31,13 @@
         align-items: center;
     }
     .main-shortener {
-        margin-top: 60%;
+        margin-top: 80%;
+    }
+    .summarizer {
+        padding-top: 50px;
+    }
+    .shortener {
+        padding-bottom: 80px;
     }
 }
 
@@ -38,9 +45,6 @@
     .main {
         font-size: medium;
         width: 50%;
-    }
-    .main-shortener {
-        margin-top: 50%;
     }
 }
 
@@ -51,8 +55,5 @@
     }
     .shortener {
         width: 300px;
-    }
-    .main-shortener {
-        margin-top: 60%;
     }
 }
