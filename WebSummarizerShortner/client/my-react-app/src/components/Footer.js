@@ -5,14 +5,12 @@ import "./css/FooterStyle.css";
 class Footer extends Component {
   render() {
     return (
-      <div className='footer-container'>
-        <footer>
-            <nav className='footer-text'>
-                <h3><Link to="/#">Help</Link></h3>
-                <h3><Link to="/Feedback">Feedback</Link></h3>
-            </nav>
-        </footer>
-      </div>
+      <footer>
+        <nav className='footer-text'>
+            <h3><Link to="/#">Help</Link></h3>
+            <h3><Link to="/Feedback">Feedback</Link></h3>
+        </nav>
+      </footer>
     );
   };
 }
