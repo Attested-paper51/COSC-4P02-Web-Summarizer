@@ -40,6 +40,18 @@ def testClickCountUpdated():
     resolved_url = urlShortener.resolve_url(short_url)
     count = urlShortener.getClickCount(short_url)
     assert count == 1
+
+#test unique URL creation
+def testUniqueURL():
+    pass
+
+#test custom URL creation
+def testCustomURLMade():
+    pass
+
+#test that there cannot exist 2 of the same custom URLs
+def testNoSameCustomURL():
+    pass
         
     
 
