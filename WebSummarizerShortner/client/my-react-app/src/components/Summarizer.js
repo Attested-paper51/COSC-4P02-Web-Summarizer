@@ -1,30 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 import { FaTrashCan } from "react-icons/fa6";
 import DialogBox from '../components/DialogBox.js';
 
 const Summarizer = () => {
-    const [deleteButton, showDeleteButton] = useState(false);
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
     const [open, setOpen] = useState(false);
 
+    // for opening Dialog Box
     const handleOpen = () => {
         setOpen(true);
     }
 
+    // for closing Dialog Box
     const handleClose = () => {
         setOpen(false);
     }
 
+    // detecting input text change
     const handleInputChange = (event) => {
         setInputContent(event.target.value);
     }
 
+    // detecting output text change
     const handleOutputChange = (event) => {
         setOutputContent(event.target.value);
     }
+
+    /** every render: checks if output has text
+     *  if it does, then makes output editable
+     *  else, keeps it readOnly*/
+    useEffect(() => {
+        // runs after every render
+        const output = document.getElementById("output");
+        if(outputContent !== '') {
+            output.readOnly = false;
+        }
+        else {
+            output.readOnly = true;
+        }
+    });
 
     const componentDidMount = () =>
     {
@@ -51,15 +68,15 @@ const Summarizer = () => {
         // });
     }
 
+    // empties input and output
     const emptyTextContent = () => {
         setInputContent('');
         setOutputContent('');
     }
 
+    // empties content and closes Dialog Box
     const handleConfirm = () => {
-        // Empty the textarea
         emptyTextContent();
-        // Close the dialog box
         handleClose();
     }
 
@@ -104,7 +121,7 @@ const Summarizer = () => {
             open={open} 
             onClose={handleClose}
             title={"Delete Text"}
-            content={"You’re about to delete the Original and Paraphrased text."}
+            content={"You're about to delete the Original and Summarized text."}
             confirmText={"Continue"}
             onConfirm={handleConfirm}
             />

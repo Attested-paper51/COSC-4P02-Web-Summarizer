@@ -97,6 +97,22 @@ textarea::-webkit-scrollbar{
     color: #0d55a7;
 }
 
+.delete-button:hover::after {
+    content: "Delete"; /* Tooltip text */
+    position: absolute;
+    top: -30px; /* Position the tooltip above the button */
+    left: 50%; /* Position the tooltip at the center horizontally */
+    transform: translateX(-50%); /* Center the tooltip horizontally */
+    background-color: rgba(0, 0, 0, 0.8); /* Tooltip background color */
+    color: white; /* Tooltip text color */
+    padding: 5px 10px; /* Padding for the tooltip */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 12px; /* Font size */
+    visibility: visible; /* Show the tooltip on hover */
+    opacity: 1; /* Show the tooltip on hover */
+    transition: opacity 0.3s ease; /* Add a transition effect for smoother visibility */
+  }
+
 .summarize-overlap{
     /* height: 45px;
     margin-top: 0.2em;
