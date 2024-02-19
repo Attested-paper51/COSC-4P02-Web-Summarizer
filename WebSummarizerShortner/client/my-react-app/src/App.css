@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz@0,9..40;1,9..40&family=Poppins&display=swap');
 
 *,
 *::before,
@@ -9,13 +9,9 @@
 /* ----Customizable properties---- */
 
 :root{
-  --ff-primary: 'Roboto Slab', serif;
-  --clr-dark1: #374375;
-  --clr-light1: #FFFCF5;
-  --clr-accent1: #BABDE2;
-  --clr-dark2: #895159;
-  --clr-light2: #EADCBF;
-  --clr-accent2:#DFAEA1;
+  /* --font-primary: "DM Sans", sans-serif; */
+  --font-primary: "Poppins", sans-serif;
+  --clr-background: #FFFCF5;
 }
 
 html{
@@ -23,8 +19,9 @@ html{
 }
 
 body{
-  background: var(--clr-light1);
-  font-family: var(--ff-primary);
+  background: var(--clr-background);
+  font-family: var(--font-primary);
+  font-weight: 400;
   margin: 0;
 }
 
