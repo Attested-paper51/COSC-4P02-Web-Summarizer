@@ -61,7 +61,7 @@ class SimpleURLShortener:
 
         #check if the custom string is already in the database
         cursor = self.conn.cursor()
-        cursor.execute('SELECT id fFROM shortened_url WHERE short_url = %s', (shortURL,))
+        cursor.execute('SELECT id FROM shortened_url WHERE short_url = %s', (shortURL,))
         result = cursor.fetchone()
         if result:
             return -1
@@ -154,7 +154,7 @@ def redirectToOriginal(short_url):
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
-    #main()
+    #app.run(port=5000)
+    main()
 
 
