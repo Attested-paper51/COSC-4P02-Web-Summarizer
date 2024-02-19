@@ -1,6 +1,6 @@
 
   .header-nav-container{
-    background-color:#e1eef8 ;
+    background-color:#FFFCF5;
     padding: 1.4em 1em 1em;
     border-bottom: 1px solid #efecec;
     box-shadow: 0 0.5px 3px #d4d1d1;
@@ -33,6 +33,11 @@
     font-size: 16px;
     padding-right: 2em;
   }
+
+  .nav-text-short:hover, .nav-text-sum:hover{
+    text-decoration: underline;
+  }
+
   /* nav > h1 {
     margin:10px;
   } */
@@ -48,12 +53,20 @@
 
   .darkmode {
     height: 35px;
-    padding-right: 1em
+    padding-right: 1em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
   }
 
   .profile {
     height: 27px;
-    padding-right: 0.5em
+    padding-right: 0.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
   }
 
   .sticky{

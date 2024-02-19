@@ -97,6 +97,8 @@
 import { Component } from "react";
 import { Link } from 'react-router-dom';
 import "./css/HeaderStyle.css";
+import { FaMoon } from "react-icons/fa";
+import { IoPersonSharp } from "react-icons/io5";
 
 class Header extends Component {
   render() {
@@ -113,26 +115,18 @@ class Header extends Component {
                 src="images/logo.png"
               />
             </Link> 
-            <h1 className="nav-title"><Link to="/">Shortify</Link></h1>
-            <h3 className="nav-text-sum"><Link to="/Summarizer">Summarizer</Link></h3>
-            <h3 className="nav-text-short"><Link to="/Shortener">URL Shortener</Link></h3>
+            <h1 className="nav-title"><Link to="/">shortify</Link></h1>
+            <h3 className="nav-text-sum"><Link to="/Summarizer">SUMMARIZER</Link></h3>
+            <h3 className="nav-text-short"><Link to="/Shortener">URL SHORTENER</Link></h3>
           </div>
 
           <div className="nav-div2">
             <Link to="/Mode">
-              <img 
-                className="darkmode"
-                alt="darkmode"
-                src="images/darkmode.png"
-              />
+              <button className="darkmode"><FaMoon size={25} /></button>
             </Link>
 
             <Link to="/Login">
-              <img 
-                className="profile"
-                alt="profile"
-                src="images/profile.png"
-              />
+              <button className="profile"><IoPersonSharp size={28} /></button>
             </Link>
           </div>
           

@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
-import { FaTrashCan } from "react-icons/fa6";
+// import { FaTrashCan } from "react-icons/fa6";
+import { GoThumbsdown } from "react-icons/go";
+import { GoThumbsup } from "react-icons/go";
+import { IoClipboardOutline } from "react-icons/io5";
+import { IoClipboard } from "react-icons/io5";
+import { FaRegTrashCan } from "react-icons/fa6";
 import DialogBox from '../components/DialogBox.js';
 
 const Summarizer = () => {
@@ -80,6 +85,20 @@ const Summarizer = () => {
         handleClose();
     }
 
+    // functions can be changed accordingly
+    const thumbsUp = () => {
+        console.log("Output summary is good!")
+    }
+    const thumbsDown = () => {
+        console.log("Output summary is bad.")
+    }
+
+    const [isCopied, setCopy] = useState(false);
+    const copySummary = () => {
+        navigator.clipboard.writeText(outputContent)
+        setCopy(!isCopied);
+    }
+
     return (
         <div className="wrapper">
             <h2>Summarizer</h2>
@@ -93,7 +112,7 @@ const Summarizer = () => {
                         required>    
                     </textarea>
                     { inputContent &&
-                        (<button className='delete-button' onClick={handleOpen}><FaTrashCan /></button>)
+                        (<button className='delete-button' onClick={handleOpen}><FaRegTrashCan size={18} /></button>)
                     }
                     <div className='buttonDiv'>
                         <button className="signup-btn">
@@ -113,8 +132,11 @@ const Summarizer = () => {
                         required
                         readOnly>   
                     </textarea>
-                    <div className='buttonDiv'>
-                    </div>
+                    <div className='buttonDiv'></div>
+                    <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                    <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                    <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                    
                 </div>
             </div>
             <DialogBox 
