@@ -5,6 +5,7 @@ import "./css/SignUpStyle.css";
 import { GoThumbsdown } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
+import { IoClipboard } from "react-icons/io5";
 import { FaRegTrashCan } from "react-icons/fa6";
 import DialogBox from '../components/DialogBox.js';
 
@@ -74,8 +75,11 @@ const Summarizer = () => {
     const thumbsDown = () => {
         console.log("Output summary is bad.")
     }
+
+    const [isCopied, setCopy] = useState(false);
     const copySummary = () => {
-        console.log("Output summary is copied!")
+        navigator.clipboard.writeText(outputContent)
+        setCopy(!isCopied);
     }
 
     return (
@@ -114,7 +118,8 @@ const Summarizer = () => {
                     <div className='buttonDiv'></div>
                     <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
                     <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
-                    <button className='copy-button' onClick={copySummary}><IoClipboardOutline size={17}/></button>
+                    <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                    
                 </div>
             </div>
             <DialogBox 
