@@ -35,7 +35,7 @@ class SimpleURLShortener:
         ''')
         self.conn.commit()
 
-    #
+    #Generate a random shortened URL given an input original URL
     def shorten_url(self, originalURL):
         # Generate a hash for the original URL
         #Applying a unique identifier so that the hash is different even if the same URL is inputted twice
@@ -55,7 +55,24 @@ class SimpleURLShortener:
         # Return the shortened URL
         return shortURL
 
-    
+    #Method to allow users to enter a custom short URL
+    def customShorten_url(self, originalURL,customString):
+        shortURL = "http://127.0.0.1:5000/"+customString
+
+        #check if the custom string is already in the database
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT id fFROM shortened_url WHERE short_url = %s', (shortURL,))
+        result = cursor.fetchone()
+        if result:
+            return -1
+
+
+        #cursor = self.conn.cursor()
+        insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING")
+        cursor.execute(insert_query, (shortURL, originalURL, 0))
+        self.conn.commit()
+
+        return shortURL
 
     def getClickCount(self,shortURL):
         cursor = self.conn.cursor()
@@ -87,6 +104,7 @@ def main():
         print("1. Shorten URL")
         print("2. Resolve Shortened URL")
         print("3. Exit")
+        print("4. Custom string")
 
         choice = input("Enter your choice (1/2/3): ")
 
@@ -104,6 +122,16 @@ def main():
         elif choice == "3":
             print("Exiting.")
             break
+
+        elif choice == "4":
+            originalURL = input("Enter the URL you wanna shorten: ")
+            customString = input("Enter the custom ending for your URL")
+            shortened_url = url_shortener.customShorten_url(originalURL,customString)
+            while shortened_url == -1:
+                customString = input("Custom string already taken, try again: ")
+                shortened_url = url_shortener.customShorten_url(originalURL,customString)
+            print("Shortened URL: ", shortened_url)
+
 
         else:
             print("Invalid choice. Please enter 1, 2, or 3.")
