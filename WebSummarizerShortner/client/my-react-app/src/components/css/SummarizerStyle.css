@@ -1,10 +1,8 @@
-/* Import Google font - Poppins */
-@import url('https://fonts.googleapis.com/css?family=Poppins');
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
     /* max-height: 85vh; */
  }
 
@@ -82,7 +80,7 @@ textarea::-webkit-scrollbar{
     justify-content: flex-end; 
 }
 
-.delete-button {
+.delete-button, .feedback-up, .feedback-down, .copy-button {
     position: absolute;
     top: 28px;
     right: 5px;
@@ -92,9 +90,25 @@ textarea::-webkit-scrollbar{
     cursor: pointer;
     outline: none;
 }
+.delete-button{
+    padding-top: 2px;
+}
+.feedback-down{
+    margin-top: 26em;
+    bottom: 0px;
+}
+.feedback-up{
+    margin-right: 25px;
+    margin-top: 26em;
+    bottom: 0px;
+}
+.copy-button{
+    margin-right: 0px;
+    margin-top: 1.5px;
+}
 
-.delete-button:hover svg {
-    color: #0d55a7;
+.delete-button:hover svg, .feedback-up:hover svg, .feedback-down:hover svg, .copy-button:hover svg{
+    color: #2861a3;
 }
 
 .delete-button:hover::after {
