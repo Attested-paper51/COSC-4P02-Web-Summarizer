@@ -90,23 +90,25 @@ textarea::-webkit-scrollbar{
     cursor: pointer;
     outline: none;
 }
-
 .delete-button{
     padding-top: 2px;
 }
 .feedback-down{
-    margin-top: 1px;
+    margin-top: 26em;
+    bottom: 0px;
 }
 .feedback-up{
     margin-right: 25px;
+    margin-top: 26em;
+    bottom: 0px;
 }
 .copy-button{
-    margin-right: 50px;
+    margin-right: 0px;
     margin-top: 1.5px;
 }
 
 .delete-button:hover svg, .feedback-up:hover svg, .feedback-down:hover svg, .copy-button:hover svg{
-    color: #0d55a7;
+    color: #2861a3;
 }
 
 .summarize-overlap{
