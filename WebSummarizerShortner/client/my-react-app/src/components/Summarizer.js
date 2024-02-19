@@ -91,7 +91,7 @@ const Summarizer = () => {
                         required>    
                     </textarea>
                     { inputContent &&
-                        (<button className='delete-button' onClick={handleOpen}><FaTrashCan /></button>)
+                        (<button className='delete-button' onClick={handleOpen}><FaRegTrashCan size={18} /></button>)
                     }
                     <div className='buttonDiv'>
                         <button className="signup-btn">
