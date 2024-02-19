@@ -23,8 +23,7 @@
 }
 
 .hero-div2 .logo{
-  height: 100%;
-  width: 100%;
+  width: 500px;
   /* padding-bottom: 3em; */
   background-repeat: no-repeat;
   background-size: contain;
@@ -82,6 +81,10 @@
   .hero-div2{
     padding-top: 1em;
   } 
+  .hero-div2 .logo{
+    height: 100%;
+    width: 100%;
+  }
 }
 
 @media (max-width: 949px) {
