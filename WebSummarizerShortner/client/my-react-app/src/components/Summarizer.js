@@ -1,8 +1,31 @@
+import { useState } from "react";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 import { FaTrashCan } from "react-icons/fa6";
+import DialogBox from '../components/DialogBox.js';
 
 const Summarizer = () => {
+    const [deleteButton, showDeleteButton] = useState(false);
+    const [inputContent, setInputContent] = useState('');
+    const [outputContent, setOutputContent] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const handleInputChange = (event) => {
+        setInputContent(event.target.value);
+    }
+
+    const handleOutputChange = (event) => {
+        setOutputContent(event.target.value);
+    }
+
     const componentDidMount = () =>
     {
         // // This is called after the component has been mounted to the DOM
@@ -28,9 +51,16 @@ const Summarizer = () => {
         // });
     }
 
-    const emptyInput = () => {
-        const textarea = document.getElementById('input');
-        textarea.value = '';
+    const emptyTextContent = () => {
+        setInputContent('');
+        setOutputContent('');
+    }
+
+    const handleConfirm = () => {
+        // Empty the textarea
+        emptyTextContent();
+        // Close the dialog box
+        handleClose();
     }
 
     return (
@@ -41,9 +71,13 @@ const Summarizer = () => {
                     <textarea
                         id='input' 
                         placeholder='Paste your text here...' 
+                        value={inputContent} 
+                        onChange={handleInputChange} 
                         required>    
                     </textarea>
-                    <button className='delete-button' onClick={emptyInput}><FaTrashCan /></button>
+                    { inputContent &&
+                        (<button className='delete-button' onClick={handleOpen}><FaTrashCan /></button>)
+                    }
                     <div className='buttonDiv'>
                         <button className="signup-btn">
                             <div className="summarize-overlap">
@@ -57,6 +91,8 @@ const Summarizer = () => {
                     <textarea 
                         id='output'
                         placeholder='Get output here...' 
+                        value={outputContent} 
+                        onChange={handleOutputChange} 
                         required
                         readOnly>   
                     </textarea>
@@ -64,6 +100,14 @@ const Summarizer = () => {
                     </div>
                 </div>
             </div>
+            <DialogBox 
+            open={open} 
+            onClose={handleClose}
+            title={"Delete Text"}
+            content={"You’re about to delete the Original and Paraphrased text."}
+            confirmText={"Continue"}
+            onConfirm={handleConfirm}
+            />
         </div>
     );
 }
