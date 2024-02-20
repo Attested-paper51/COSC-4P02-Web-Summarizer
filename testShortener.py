@@ -43,12 +43,23 @@ def testClickCountUpdated():
 
 #test unique URL creation
 def testUniqueURL():
-    pass
+    urlShortener = SimpleURLShortener()
+    original_url = "wwww.testingUnique.com"
+    short_url_1 = urlShortener.shorten_url(original_url)
+    short_url_2 = urlShortener.shorten_url(original_url)
+    assert short_url_1 != short_url_2
+
 
 #test custom URL creation
 def testCustomURLMade():
-    pass
+    urlShortener = SimpleURLShortener()
+    originalURL = "www.testingCustom.com"
+    short_url = urlShortener.customShorten_url(originalURL,"customTest")
+    assert short_url == "www.testingCustom.com/customTest"
+    short_url = urlShortener.customShorten_url(originalURL,"customTest")
+    assert short_url == -1
 
+#--obsolete with the above assertion
 #test that there cannot exist 2 of the same custom URLs
 def testNoSameCustomURL():
     pass
