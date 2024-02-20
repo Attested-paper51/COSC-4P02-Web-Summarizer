@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
+
+// Icons
 // import { FaTrashCan } from "react-icons/fa6";
 import { GoThumbsdown } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
 import { IoClipboard } from "react-icons/io5";
 import { FaRegTrashCan } from "react-icons/fa6";
+
+// Components
 import DialogBox from '../components/DialogBox.js';
 
 const Summarizer = () => {
@@ -132,9 +136,10 @@ const Summarizer = () => {
                         required
                         readOnly>   
                     </textarea>
-                    <div className='buttonDiv'></div>
-                    <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                    <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                    <div className='buttonDiv'>
+                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                    </div>
                     <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
                     
                 </div>
