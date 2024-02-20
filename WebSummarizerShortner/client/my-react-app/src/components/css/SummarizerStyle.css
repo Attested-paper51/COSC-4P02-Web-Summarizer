@@ -80,7 +80,7 @@ textarea::-webkit-scrollbar{
     justify-content: flex-end; 
 }
 
-.delete-button, .feedback-up, .feedback-down, .copy-button {
+.delete-button, .copy-button {
     position: absolute;
     top: 28px;
     right: 5px;
@@ -93,18 +93,17 @@ textarea::-webkit-scrollbar{
 .delete-button{
     padding-top: 2px;
 }
-.feedback-down{
-    margin-top: 26em;
-    bottom: 0px;
-}
-.feedback-up{
-    margin-right: 25px;
-    margin-top: 26em;
-    bottom: 0px;
-}
 .copy-button{
     margin-right: 0px;
     margin-top: 1.5px;
+}
+
+.feedback-up, .feedback-down{
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding-right: 5px;
 }
 
 .delete-button:hover svg, .feedback-up:hover svg, .feedback-down:hover svg, .copy-button:hover svg{
