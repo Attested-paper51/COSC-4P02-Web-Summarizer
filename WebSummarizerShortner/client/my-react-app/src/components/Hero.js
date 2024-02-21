@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "./css/HeroStyle.css";
-import img from "./images/img1.png"
 
 class Hero extends Component 
 {
@@ -18,7 +17,7 @@ class Hero extends Component
           </div>
         </div>
         <div className="hero-div2">
-          <img className="logo" alt="Logo" src={img} />
+          <img className="logo" alt="Logo" src="images/img1.png" />
         </div>
       </div>
     );
