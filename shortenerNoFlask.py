@@ -154,7 +154,7 @@ def redirectToOriginal(short_url):
 
 
 if __name__ == "__main__":
-    #app.run(port=5000)
-    main()
+    app.run(port=5000)
+    #main()
 
 
