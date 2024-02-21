@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./css/LogInStyle.css";
-import img from "./images/img2.png"
-import gmail from "./images/gmail.jpg"
-import fb from "./images/fb.png"
-
 
 const LogIn = () => {
 
@@ -33,13 +29,13 @@ const LogIn = () => {
         <div className="form-title">Log in</div>
         <button className="gmail-btn">
           <div className="gmail-overlap">
-            <img className="gmail-icon" alt="Log in with Gmail" src={gmail} />
+            <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
             <div className="login-social">Continue with Gmail</div>
           </div>
         </button>
         <button className="fb-btn">
           <div className="fb-overlap">
-          < img className="fb-icon" alt="Log in with Facebook" src={fb} />
+          < img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
             <div className="login-social">Continue with Facebook</div>
           </div>
         </button>
@@ -87,7 +83,7 @@ const LogIn = () => {
             Upgrade to Pro for FREE and unlock Tailored Summaries, Analytics and API Integration!
           </div>
           <div className="account-img">
-            <img className="logo" alt="Logo" src={img} />
+            <img className="logo" alt="Logo" src="images/img2.png" />
           </div>
       
           <Link to="/Signup">
