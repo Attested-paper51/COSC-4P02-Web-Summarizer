@@ -112,7 +112,7 @@ class Header extends Component {
               <img
                 className="img"
                 alt="logo"
-                src="images/logo.png"
+                src="images/logo5.png"
               />
             </Link> 
             <h1 className="nav-title"><Link to="/">shortify</Link></h1>
