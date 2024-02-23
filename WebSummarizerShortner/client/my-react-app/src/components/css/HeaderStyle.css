@@ -1,62 +1,120 @@
 
-  nav{
-    margin:0;
+  .header-nav-container{
+    background-color:#FFFCF5;
+    padding: 1.4em 1em 1em;
+    border-bottom: 1px solid #efecec;
+    box-shadow: 0 0.5px 3px #d4d1d1;
+    top: 0;
+    position: sticky;
+    z-index: 100;
+  }
+
+  .header-nav{
     display: flex;
     align-items: center;
-    background-color:#A3CEEC ;
-    padding: 10px 10px;
-    height: 90px;
+    justify-content: space-between;
   }
 
-  nav > h1 {
+  .nav-div1, .nav-div2{
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-title, .nav-text-short, .nav-text-sum{
+    display: inline;
+  }
+
+  .nav-title{
+    font-size: 23px;
+    padding-right: 3em;
+  }
+
+  .nav-text-short, .nav-text-sum{
+    font-size: 16px;
+    padding-right: 2em;
+  }
+
+  .nav-text-short:hover, .nav-text-sum:hover{
+    text-decoration: underline;
+  }
+
+  /* nav > h1 {
     margin:10px;
-  }
+  } */
 
-  nav > h3 {
+  /* nav > h3 {
     margin:50px;
-  }
+  } */
 
   .img {
     height: 50px;
-    margin-right: 4px;
+    margin-right: 0.5em;
   }
 
   .darkmode {
-    height: 40px;
-    position: absolute;
-    right: 7%;
-    top:1.8%;
+    height: 35px;
+    padding-right: 1em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
   }
 
   .profile {
-    height: 30px;
-    position: absolute;
-    right: 2%;
-    top:2%;
+    height: 27px;
+    padding-right: 0.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
   }
 
-  @media (max-width: 1024px) {
+  .sticky{
+    position: fixed;
+    width: 100%;
+    top: 0;
+  }
+
+  /* @media (max-width: 1024px) {
     nav > h3 {
       margin: 25px;
       margin-right: -5px;
     }
-  }
+  } */
 
   @media (max-width: 610px) {
-    nav > h1{
+
+    .nav-title{
       display: none;
     }
-    nav > h3 {
+    .darkmode {
+      height: 30px;
+    }
+    .profile {
+      height: 23px;
+    }
+    .img{
+      margin-right: 2em;
+    }
+
+    /* nav > h1{
+      display: none;
+    } */
+    /* nav > h3 {
       margin: 25px;
       margin-right: -5px;
-    }
-    .darkmode{
+    } */
+    /* .darkmode{
       right: 10%;
-    }
+    } */
   }
 
-  @media (max-width: 425px) {
-    nav > h1{
+  @media (max-width: 426px) {
+
+    .nav-text-short, .nav-text-sum{
+      font-size: 13px;
+    }
+    /* nav > h1{
       display: none;
     }
     .nav-text-sum {
@@ -72,5 +130,9 @@
     }
     .darkmode{
       right: 10%;
-    }
+    } */
   } 
+
+  /* section {
+    margin-bottom: 30px;
+  } */

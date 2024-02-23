@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./css/URLShortenerStyle.css";
+import { Link } from 'react-router-dom';
 
 
 const URLShortener = () => {
@@ -58,7 +59,11 @@ const URLShortener = () => {
                 placeholder='Enter URL here' 
             />
 
-            <button className='shorten' onClick={()=> { handleSubmit(); showSummarize(true); }} >Shorten URL</button>
+            <button 
+                className='shorten' 
+                onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                <div className='button-text'>Shorten URL</div>
+            </button>
             <label className='shorten-url'>Shortened URL</label> 
             <input className='output-url' 
                 type="text" 
@@ -67,14 +72,23 @@ const URLShortener = () => {
                 onChange={(e) => setShortURL(e.target.value)}
                 placeholder='Get Shortened URL' 
             />
-            <button className='copy-url' onClick={handleCopy}>{CopyURL}</button>
+            <button 
+                className='copy-url' 
+                onClick={handleCopy}>
+                <div className='button-text'>{CopyURL}</div>
+            </button>
 
-            
-            { summarize && <button className='summarize-url-content'>Summarize the URL content</button> }
-            
+              
+            { summarize &&
+                <Link to = "/Summarizer">
+                    <button 
+                        className='summarize-url-content'>
+                        <div className='button-text'>Summarize the URL content</div>
+                    </button> 
+                </Link>
+            }
 
-            
-        </div>
+        </div> 
     );
   
 }

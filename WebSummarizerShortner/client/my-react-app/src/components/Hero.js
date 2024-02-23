@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "./css/HeroStyle.css";
-import img from "./images/img1.png"
 
 class Hero extends Component 
 {
@@ -13,12 +12,12 @@ class Hero extends Component
               Your shortcut to simplicity.
             </p>
             <p className="hero-subheading">
-              Say goodbye to lengthy URLs and information overload—discover the power of simplicity with our intuitive platform.
+              Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
             </p>
           </div>
         </div>
         <div className="hero-div2">
-          <img className="logo" alt="Logo" src={img} />
+          <img className="logo" alt="Logo" src="images/img1.png" />
         </div>
       </div>
     );

@@ -1,131 +1,99 @@
 .url {
     max-width: 600px;
-    margin-top: 5%;
-    margin-left: 33%;
     text-align: center;
     font-size: larger;
+    justify-content: center;
+    width: 80%;
+    margin: auto;
 }
 
 .insert-url {
     display: block;
-    padding: 5%;
+    padding: 3%;
 }
 
-.input-url{
-    width: 100%;
-    padding: 10px 10px;
+.input-url, .output-url{
+    width: 70%;
+    padding: 11px 10px;
     border: 1px solid #716f6f;
     box-sizing: border-box;
     display: box;
 }
-
-.output-url {
-    width: 85%;
-    padding: 10px 10px;
-    border: 1px solid #716f6f;
-    box-sizing: border-box;
-    display: box;
-}
-
-/* .shorten {
-    
-} */
 
 .shorten-url {
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 10px;
     display: block;
 }
 
-.shorten, .copy-url, .summarize-url-content {
-    background: #A3CEEC;
-    color: #0f0f0f;
-    border: 1;
-    padding: 5px;
-    margin-top: 5%;
+.summarize-url-content {
+    margin: 5% auto;
+    border: 0;
+    padding: 10px 25px;
     cursor: pointer;
     font-size: medium;
+    border-radius: 10px;
+    background-color: #0d55a7; 
+    width: 200px; 
+    margin-top: 1em;
+    box-shadow: 0px 3px 4px #0000004c;
+    border-radius: 9px;
 }
 
-@media (max-width: 1225px) {
-    .url {
-        margin-left: 25%;
-    }
+.shorten, .copy-url {
+    margin: 5% auto;
+    border: 0;
+    padding: 11px 25px;
+    cursor: pointer;
+    font-size: medium;
+    background-color: #0d55a7; 
+    width: 150px; 
+    margin-top: 1em;
+    box-shadow: 0px 3px 4px #0000004c;
+    border-radius: 0px;
 }
 
-@media (max-width: 995px) {
-    .url {
-        margin-left: 20%;
-    }
+.summarize-url-content {
+    width: 95%;
 }
 
-@media (max-width: 880px) {
-    .url {
-        margin-left: 17%;
-    }
+.button-text {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    text-wrap: none;
 }
 
-@media (max-width: 840px) {
-    .url {
-        margin-left: 17%;
-    }
+
+.shorten:hover, .copy-url:hover, .summarize-url-content:hover {
+    opacity: 0.8;
 }
 
-@media (max-width: 800px) {
-    .url {
-        margin-left: 10%;
-    }
-}
 
-@media (max-width: 710px) {
-    .url {
-        margin-left: 5%;
-    }
-}
-
-@media (max-width: 665px) {
-    .url {
-        max-width: 400px;
-        margin-top: 12%;
-        margin-left: 20%;
-    }
-    .output-url {
-        width: 78%;
+@media (max-width: 625px) {
+    .input-url, .output-url{
+        width: 65%;
     }
 }
 
-@media (max-width: 565px) {
-    .url {
-        margin-top: 15%;
-        margin-left: 13%;
-    }
-}
-
-@media (max-width: 500px) {
-    .url {
-        margin-left: 6%;
-    }
-}
-
-@media (max-width: 440px) {
-    .url {
-        max-width: 300px;
-        margin-top: 20%;
-        margin-left: 13%;
-    }
-    .output-url {
-        width: 67%;
-    }
-}
-
-@media (max-width: 378px) {
-    .url {
-        max-width: 250px;
-        font-size: medium;
-        margin-top: 28%;
-        margin-left: 15%;
-    }
-    .output-url {
+@media (max-width: 550px) {
+    .input-url, .output-url{
         width: 60%;
     }
 }
+
+@media (max-width: 470px) {
+    .input-url, .output-url{
+        width: 50%;
+    }
+    .button-text {
+        font-size: 13px;
+    }
+    .shorten, .copy-url {
+        width: 130px;
+    }
+    .summarize-url-content {
+        width: 80%;
+    }
+} 
