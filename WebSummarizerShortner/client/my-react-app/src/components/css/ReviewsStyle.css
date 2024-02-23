@@ -1,0 +1,26 @@
+.reviews {
+    text-align: center;
+    padding: 3rem;
+}
+
+.review-container {
+    box-shadow: 3px 3px 10px #888888;
+    width: 20vw;
+    height: 20vh;
+    border: 1px solid #aaaaaa;
+    border-radius: 9px;
+    box-sizing: border-box;
+    padding: 1rem;
+    background:linear-gradient(#b4d7f0,transparent);
+  background-color:white
+}
+
+.right-quote {
+    margin-left: 15px;
+}
+
+.review-text {
+    padding: 0rem;
+}
+
+

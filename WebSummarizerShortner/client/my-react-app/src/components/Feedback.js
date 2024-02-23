@@ -8,13 +8,22 @@ const Feedback = () => {
     const [feedback, setFeedback] = useState('');
     const [hover, setHover] = useState(null);
 
+    
+
+    const [thankyou, showThankyou] = useState(false);
+
     const handleRating = (e) => {
         console.log(rating) //number of stars stored in rating
         const Feedback = {feedback}
         console.log(Feedback)
         setRating(null)
         setFeedback('')
+
+        setTimeout(() => {
+            showThankyou('');
+        }, 5000); // Reverts back to 'Submit' after 5 seconds
     }
+    
     return (
         <div className='feedback'>
             <h2 className='feedback-title'>Rate your experience</h2>
@@ -52,7 +61,15 @@ const Feedback = () => {
                 onChange={(e) => setFeedback(e.target.value)}
                 placeholder='Tell us about your experience'required>
             </textarea>
-            <button className='send-feedback' onClick={handleRating}>Send</button>
+            <button 
+                className='send-feedback' 
+                onClick={()=> { handleRating(); showThankyou(true); }} >
+                <div className='send'>Send</div>
+            </button>
+
+            { thankyou &&  
+                <div className='thank you'>Thank you for your feedback!</div>
+            }
         </div>
     );
 }
