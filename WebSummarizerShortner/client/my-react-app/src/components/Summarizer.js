@@ -118,8 +118,8 @@ const Summarizer = () => {
                     { inputContent &&
                         (<button className='delete-button' onClick={handleOpen}><FaRegTrashCan size={18} /></button>)
                     }
-                    <div className='buttonDiv'>
-                        <button className="signup-btn">
+                    <div className='buttonDiv' id="btnDiv">
+                        <button className="summarize-btn">
                             <div className="summarize-overlap">
                                 <div className="summarize">Summarize</div>
                             </div>
