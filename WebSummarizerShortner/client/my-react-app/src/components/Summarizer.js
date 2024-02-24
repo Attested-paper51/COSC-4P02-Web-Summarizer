@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 
@@ -17,6 +18,12 @@ const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
     const [open, setOpen] = useState(false);
+    const [shorten, showShorten] = useState(false);
+    const [isClicked, setClickedButton] = useState(0);
+
+    const toggleClicked = (buttonIndex) => {
+        setClickedButton(buttonIndex);
+    }
 
     // for opening Dialog Box
     const handleOpen = () => {
@@ -103,45 +110,85 @@ const Summarizer = () => {
         setCopy(!isCopied);
     }
 
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const textarea = document.getElementById('input');
+    //     const targetDiv = document.getElementById('btnDiv');
+
+    //     textarea.addEventListener('input', function() {
+    //         targetDiv.style.borderColor = '#87CEFA'; // Change border color when typing
+    //     });
+
+    //     textarea.addEventListener('blur', function() {
+    //         targetDiv.style.borderColor = '#ccc'; // Reset border color when textarea loses focus
+    //     });
+    // });
+
     return (
         <div className="wrapper">
             <h2>Summarizer</h2>
-            <div className="text">
-                <div className="inputArea">
-                    <textarea
-                        id='input' 
-                        placeholder='Paste your text here...' 
-                        value={inputContent} 
-                        onChange={handleInputChange} 
-                        required>    
-                    </textarea>
-                    { inputContent &&
-                        (<button className='delete-button' onClick={handleOpen}><FaRegTrashCan size={18} /></button>)
-                    }
-                    <div className='buttonDiv' id="btnDiv">
-                        <button className="summarize-btn">
-                            <div className="summarize-overlap">
-                                <div className="summarize">Summarize</div>
+            <div className="summarizer-container">
+                <div className="centered-Div">
+                    <div class="button-container">
+                                <button 
+                                className={`customSumBtn ${isClicked === 0? 'clicked':''}`} 
+                                onClick={() => toggleClicked(0)}>Text</button>
+                                <button 
+                                className={`customSumBtn ${isClicked === 1? 'clicked':''}`} 
+                                onClick={() => toggleClicked(1)}>Website URL</button>
+                                <button 
+                                className={`customSumBtn ${isClicked === 2? 'clicked':''}`} 
+                                onClick={() => toggleClicked(2)}>Youtube URL</button>
+                    </div>
+                    <div className="text">
+                        <div className="inputArea">
+                            <textarea
+                                id='input' 
+                                placeholder='Paste your text here...' 
+                                value={inputContent} 
+                                onChange={handleInputChange} 
+                                required>    
+                            </textarea>
+                            { inputContent &&
+                                (<button className='delete-button' onClick={handleOpen}><FaRegTrashCan size={18} /></button>)
+                            }
+                            <div className='buttonDiv' id="btnDiv">
+                                <button className="summarize-btn">
+                                    <div className="summarize-overlap">
+                                        <div className="summarize">Summarize</div>
+                                    </div>
+                                </button>
                             </div>
-                        </button>
-                    </div>
-                </div>
+                        </div>
 
-                <div className="inputArea">
-                    <textarea 
-                        id='output'
-                        placeholder='Get output here...' 
-                        value={outputContent} 
-                        onChange={handleOutputChange} 
-                        required
-                        readOnly>   
-                    </textarea>
-                    <div className='buttonDiv'>
-                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                        <div className="inputArea">
+                            {/* <div class="button-container">
+                                
+                            </div> */}
+                            <textarea 
+                                id='output'
+                                placeholder='Get output here...' 
+                                value={outputContent} 
+                                onChange={handleOutputChange} 
+                                required
+                                readOnly>   
+                            </textarea>
+                            <div className='buttonDiv'>
+                                { shorten &&
+                                    <Link to = "/Shortener">
+                                        <button className="summarize-btn">
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Shorten you URL</div>
+                                            </div>
+                                        </button>
+                                    </Link>
+                                }
+                                <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                            </div>
+                            <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                            
+                        </div>
                     </div>
-                    <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
-                    
                 </div>
             </div>
             <DialogBox 
