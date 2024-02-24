@@ -11,14 +11,31 @@
     /* background: rgb(150, 16, 16); */
     border-radius: 5px;
     padding: 25px 25px 30px;
+    display: grid;
+    place-items: center; /* Center horizontally and vertically */
     /* flex: content; */
     /* width: 50%; */
     /* margin-bottom: 40px; */
 }
 
+.summarizer-container {
+    /* background-color: yellow; */
+}
+
 .wrapper h2 {
     font-size: 28px;
     text-align: center;
+}
+h2 {
+    margin-bottom: 15px;
+}
+
+#input {
+    /* box-shadow: 0px 4px 15px 0px #00000033; */
+}
+#output {
+    /* box-shadow: 0px 4px 15px 0px #00000033; */
+    /* box-shadow: 0px 4px 15px 0px #00000033, -1px 0px 0px 0px #00000033; */
 }
 
 .wrapper textarea {
@@ -30,39 +47,48 @@
     padding-right: 30px;
     outline: none;
     resize: none;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    border-bottom: 0;
+    /* border-top-right-radius: 5px;
+    border-top-left-radius: 5px; */
+    border: 0;
+    /* border-top: 0;
+    border-bottom: 0; */
     font-size: 16px;
     border-color: #bfbfbf;
-    margin-top: 20px;
+    margin-top: 0px;
     max-height: 80vh;
     /* transition: all 0.3s ease; Add a transition for all properties with a duration of 0.3 seconds */
 }
 
-#input:focus {
+textarea#input:focus {
     border-width: 2px;
+    /* border-bottom: 1px solid; */
     padding-top: 19px;
     padding-left: 14px;
     padding-bottom: 19px;
     padding-right: 29px;
     border-color: #87CEFA;
 }
-#input:focus + .buttonDiv {
+/* #input:focus + .buttonDiv {
     padding-right: 9px;
     padding-top: 2px;
     border-width: 2px;
     border-color: #87CEFA;
-}
+} */
 
 textarea::-webkit-scrollbar{
     width: 0px;
 }
 
+.centered-Div {
+    /* background-color: #0d55a7; */
+}
+
 .text{
     display: flex;
-    justify-content: center;
+    
     align-items: center;
+    box-shadow: 0px 4px 15px 0px #00000033;
+    /* background-color: greenyellow; */
 }
 
 .inputArea{
@@ -82,8 +108,7 @@ textarea::-webkit-scrollbar{
     display: flex; 
     justify-content: flex-end; 
 
-    border: 1px solid #bfbfbf;
-    border-top: 0;
+    border: 0;
     padding-right: 10px;
     padding-top: 2px;
     border-bottom-right-radius: 5px;
@@ -179,4 +204,39 @@ textarea::-webkit-scrollbar{
     top: 13px;
     white-space: nowrap;
     padding-top: 12px;
+}
+
+.button-container {
+    width: 50%; /* Covering 80% of the horizontal screen space */
+    height: 35px;
+    display: flex;
+    justify-content: space-between; /* Evenly space out the buttons */
+    margin-bottom: 0px;
+    /* padding-right: 30px;
+    padding-left: 30px; */
+    /* background-color: pink; */
+}
+
+.customSumBtn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 0px;
+}
+
+.customSumBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.clicked {
+    background-color: white;
+    box-shadow: 0px 4px 15px 0px #00000033;
+    -webkit-text-stroke: 0.3px;
+}
+
+.disabled-hover:hover {
+    background-color: white !important;
 }
