@@ -2,6 +2,69 @@
     display: flex;
     flex-direction: row;
     text-align: center;
+    justify-content: center;
+    padding: 1rem;
+    column-gap: clamp(3vw, 10vw, 15vw);
+}
+
+.summarizer {
+    width: clamp(10vw, 30vw, 60vw);
+    display: block; /* Ensure the entire block is clickable */
+} 
+
+.shortener {
+    display: block; /* Ensure the entire block is clickable */
+}
+
+.title {
+    font-size: clamp(0.6rem, 1.7vw, 10rem);
+    font-weight: 600;
+}
+
+.para {
+    font-size: clamp(0.6rem, 1vw, 10rem);
+    font-weight: 500;
+}
+
+.summarizer-img {
+    width: clamp(10vw, 13vw, 60vw);
+    padding: 1rem;
+}
+
+.shortener-img {
+    width: clamp(10vw, 15vw, 60vw);
+    padding: 1rem;
+}
+
+@media (max-width: 1000px) {
+    .main{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      row-gap: clamp(3vw, 6vw, 15vw);
+    }
+    .summarizer {
+        width: clamp(10vw, 60vw, 100vw);
+    } 
+    .summarizer-img, .shortener-img{
+        width: clamp(25vw, 25vw, 60vw);
+    }
+    .title {
+      font-size: clamp(1.1rem, 3.5vw, 15rem);
+    }
+    .para {
+      color: #002959;
+      font-size: clamp(0.6rem, 2vw, 10rem);
+    }
+  }
+
+
+/*.main{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
     font-size: larger;
     justify-content: center;
     width: 100%;
@@ -12,12 +75,12 @@
 .summarizer {
     width: 354px;
     height: 127px;
-    display: block; /* Ensure the entire block is clickable */
-}
+    display: block; /* Ensure the entire block is clickable 
+} 
 
 .shortener {
     width: 354px;
-    display: block; /* Ensure the entire block is clickable */
+    display: block; /* Ensure the entire block is clickable 
 }
 
 .summarizer-img, .shortener-img {
@@ -57,3 +120,5 @@
         width: 300px;
     }
 }
+
+*/
