@@ -1,6 +1,6 @@
 footer {
     background-color:#A3CEEC;
-    height: 90px;
+    min-height: 10vh;
     padding: 1.5em;
 }
 
@@ -13,7 +13,8 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: right;
-    margin-top: 6px;
+    margin-top: clamp(0vh, 1vh, 4vh);
+    font-size: clamp(1rem, 1.8vw, 4rem); 
 }
 
 .footer-help {
