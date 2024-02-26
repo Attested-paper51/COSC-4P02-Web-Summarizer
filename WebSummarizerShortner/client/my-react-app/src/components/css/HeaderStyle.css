@@ -26,12 +26,12 @@
   }
 
   .nav-title{
-    font-size: clamp(1rem, 2.8vw, 5rem); 
+    font-size: clamp(1rem, 2vw, 5rem); 
     padding-right: clamp(2rem, 4rem, 6rem);
   }
 
   .nav-text-short, .nav-text-sum{
-    font-size: clamp(1rem, 2.1vw, 4rem);
+    font-size: clamp(1rem, 1.4vw, 4rem);
     text-wrap: nowrap;
     padding-right: 2em;
   }
@@ -41,16 +41,16 @@
   }
 
   .img {
-    max-height: clamp(3rem, 6vw, 10rem);
+    max-height: clamp(3rem, 4vw, 10rem);
     margin-right: 0.5em;
   }
 
   .darkmode-icon {
-    font-size: clamp(2vw, 9vh, 2.3vw);
+    font-size: clamp(0.5vw, 7vh, 2vw);
   }
 
   .profile-icon {
-    font-size: clamp(2.2vw, 9vh, 2.5vw);
+    font-size: clamp(0.7vw, 7vh, 2.2vw);
   }
 
   .darkmode {
