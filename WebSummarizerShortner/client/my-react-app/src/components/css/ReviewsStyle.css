@@ -1,26 +1,83 @@
 .reviews {
-    text-align: center;
-    padding: 3rem;
+    padding: 10rem 5rem 5rem;
+    justify-content: center;
+}
+
+.carousel {
+    position: unset !important;
+    margin-left: 4.5vw;
 }
 
 .review-container {
-    box-shadow: 3px 3px 10px #888888;
-    width: 20vw;
-    height: 20vh;
-    border: 1px solid #aaaaaa;
+    box-shadow: 1px 1px 5px #888888;
+    width: clamp(15vw, 25vw, 50vw);
+    height: clamp(220px, 10vh, 250px);
+    border: none;
     border-radius: 9px;
     box-sizing: border-box;
     padding: 1rem;
-    background:linear-gradient(#b4d7f0,transparent);
-  background-color:white
+    background:linear-gradient(#d8e7f2,transparent);
+    background-color:white
+}
+
+.review-div {
+    display: flex;
+    flex-direction: row;
 }
 
 .right-quote {
-    margin-left: 15px;
+    font-size: clamp(0.5vw, 1.5vw, 2vw);
+    margin-left: auto;
 }
 
 .review-text {
+    font-size: clamp(1rem, 0.9vw, 2rem);
+    padding: 0.5rem;
+}
+
+.star {
+    font-size: clamp(0.7vw, 1.5vw, 2vw);
     padding: 0rem;
 }
 
+@media (max-width: 2200px) {
+    .review-container {
+        height: clamp(165px, 10vh, 250px);
+    }
+}
+
+@media (max-width: 1400px) {
+    .star {
+        font-size: clamp(0.7vw, 1.8vw, 2.5vw);
+    }
+}
+
+@media (max-width: 1240px) {
+    .review-text {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .review-text {
+        font-size: 0.7rem;
+    }
+    .star {
+        font-size: clamp(1vw, 2.2vw, 2.5vw);
+    }
+}
+
+@media (max-width: 651px) {
+    .review-container {
+        width: clamp(15vw, 45vw, 50vw);
+        height: clamp(140px, 5vh, 250px);
+    }
+    .review-text {
+        font-size: 0.65rem;
+    }
+    .star {
+        font-size: clamp(2vw, 3.5vw, 5vw);
+    }
+}
+ 
 

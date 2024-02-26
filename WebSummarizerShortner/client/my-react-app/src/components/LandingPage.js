@@ -13,8 +13,8 @@ const LandingPage = () =>
             alt="logo"
             src="images/summarizer.png"
           />
-          <h1 className='summarizer.title'>Summarizer</h1>
-          <p className='summarizer-para'>Get AI’s help from Shortify to get summarized text with perfection. Create an account to access Pro features!</p>
+          <h1 className='title'>Summarizer</h1>
+          <p className='para'>Get AI’s help from Shortify to get summarized text with perfection. Create an account to access Pro features!</p>
         </div> 
       </Link>
     
@@ -25,8 +25,8 @@ const LandingPage = () =>
             alt="logo"
             src="images/shortner.png"
           />
-          <h1 className='summarizer.title'>URL Shortener</h1>
-          <p className='summarizer-para'>Create a Shortened link with one click!</p>
+          <h1 className='title'>URL Shortener</h1>
+          <p className='para'>Create a Shortened link with one click!</p>
         </div>
       </Link> 
     </div>

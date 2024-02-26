@@ -15,7 +15,7 @@ class Hero extends Component
               Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
             </p>
           </div>
-        </div>
+          </div>
         <div className="hero-div2">
           <img className="logo" alt="Logo" src="images/img1.png" />
         </div>
