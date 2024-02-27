@@ -13,6 +13,10 @@
     <br>
     <textarea cols="100" rows="1" id="inputURL" name="inputURL"></textarea>
     <br>
+    <label for="inputURL">Enter a YouTube URL to summarize:</label>
+    <br>
+    <textarea cols="100" rows="1" id="inputYTURL" name="inputYTURL"></textarea>
+    <br>
     <label for="videoUpload">Or upload a video:</label>
     <br>
     <input type="file" id="videoUpload" name="videoUpload">
@@ -21,7 +25,12 @@
 </form>
 
 <h2>Summary:</h2>
-<textarea cols="100" rows="15" readonly> {{ summary }} </textarea>
+
+ <form action="/download" method="post">
+<textarea name=summary cols="100" rows="15"> {{ summary }} </textarea>
+     <br>
+       <input type="submit" value="Download as JSON">
+</form>
 
 </body>
 </html>

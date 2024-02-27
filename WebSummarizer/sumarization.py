@@ -1,7 +1,7 @@
 from openai import OpenAI
-from pytube import YouTube
 import os
 import textExtraction
+import YT_Caption_Extract as ytExtract
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -16,7 +16,7 @@ def summarize(text):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-0125",
             messages=[
-                {"role": "system", "content": "Summarize the following text:"},
+                {"role": "system", "content": "Summarize the following:"},
                 {"role": "user", "content": text}
             ]
         )
@@ -27,10 +27,11 @@ def summarize(text):
     return summary
 
 def processYouTubeURL(url):
-    caption = YouTube(url).captions.get_by_language_code('en')
-    transcript = caption.generate_srt_captions()
-    return summarize(transcript)
+    extractedText = ytExtract.videoTranscript(url)
 
+    print(extractedText)
+
+    return summarize(extractedText)
 def processURL(url):
 
     extractedText = textExtraction.extract_text_from_url(url)

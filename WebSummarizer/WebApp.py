@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import sumarization as sum
 
 app = Flask(__name__)
@@ -22,6 +22,11 @@ def handleUser():
             print("User given URL", url)
             summarizedText = sum.processURL(url)
             inputProcessed = True
+        elif 'inputYTURL' in request.form and request.form['inputYTURL'].strip() and not inputProcessed:
+            url = request.form.get('inputYTURL')
+            print("User given URL", url)
+            summarizedText = sum.processYouTubeURL(url)
+            inputProcessed = True
         # If no text or URL input or they're empty, check for video file upload
         elif 'videoUpload' in request.files and not inputProcessed:
             video = request.files['videoUpload']
@@ -36,6 +41,21 @@ def handleUser():
 
     # If not POST, or no input processed, render template with default message
     return render_template("index.html", summary=summarizedText)
+
+# Route to download JSON data
+@app.route('/download', methods=['GET', 'POST'])
+def download_json():
+    if request.method == 'POST':
+        summary = request.form['summary']
+        data = {"text": summary}
+
+        print(data)
+
+        response = make_response(data)
+        response.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Disposition'] = 'attachment; filename=summary.json'
+
+        return response
 
 
 if __name__ == "__main__":
