@@ -21,14 +21,14 @@
 }
 
 .hero-heading {
-  color: #002959;
+  /* color: #002959; */
   font-size: clamp(1.1rem, 2.5vw, 15rem);
   font-weight: 600;
   width: 100%;
 }
   
 .hero-subheading {
-  color: #002959;
+  /* color: #002959; */
   font-size: clamp(0.6rem, 1vw, 10rem);
   font-weight: 400;
   width: 100%;
@@ -47,11 +47,11 @@
     width: clamp(10vw, 100vw, 60vw);
   }
   .hero-heading {
-    color: #002959;
+    /* color: #002959; */
     font-size: clamp(1.1rem, 3.5vw, 15rem);
   }
   .hero-subheading {
-    color: #002959;
+    /* color: #002959; */
     font-size: clamp(0.6rem, 2vw, 10rem);
   }
 }

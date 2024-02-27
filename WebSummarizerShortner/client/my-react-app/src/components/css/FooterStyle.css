@@ -1,7 +1,11 @@
 footer {
-    background-color:#A3CEEC;
+    background-color:#48587e;
     min-height: 5vh;
     padding: clamp(1rem, 1vw, 10rem);
+}
+
+footer a{
+    color: white
 }
 
 .footer-container {
