@@ -1,9 +1,9 @@
 
   .header-nav-container{
-    background-color:#FFFCF5;
+    background-color:#edf7f9;
     padding: 1.4em 1em 1em;
-    border-bottom: 1px solid #efecec;
-    box-shadow: 0 0.5px 3px #d4d1d1;
+    border-bottom: 1px solid #edf7f9;
+    box-shadow: 0 0.5px 3px #b5d3da;
     top: 0;
     position: sticky;
     z-index: 100;
