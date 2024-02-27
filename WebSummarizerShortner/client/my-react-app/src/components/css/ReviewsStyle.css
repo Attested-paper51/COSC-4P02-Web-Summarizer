@@ -11,7 +11,7 @@
 .review-container {
     box-shadow: 1px 1px 5px #888888;
     width: clamp(15vw, 25vw, 50vw);
-    height: clamp(220px, 10vh, 250px);
+    height: clamp(240px, 12vh, 250px);
     border: none;
     border-radius: 9px;
     box-sizing: border-box;
@@ -31,7 +31,7 @@
 }
 
 .review-text {
-    font-size: clamp(1rem, 0.9vw, 2rem);
+    font-size: clamp(1rem, 1vw, 3rem);
     padding: 0.5rem;
 }
 
