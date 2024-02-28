@@ -24,7 +24,17 @@ const Reviews = () => {
       return (
         <div className='reviews'>
             
-            <Carousel className="carousel" responsive={responsive}>
+            <Carousel 
+                className="carousel" 
+                responsive={responsive}
+                infinite={true}
+                autoPlay={true}
+                autoPlaySpeed={3000}
+                keyBoardControl={true}
+                customTransition="all .5"
+                transitionDuration={600}
+                swipeable={true}
+                focusOnSelect={true}>
                 {data.map((d) => (
                 <div className='review-container'>
                     <div className='review-div'>

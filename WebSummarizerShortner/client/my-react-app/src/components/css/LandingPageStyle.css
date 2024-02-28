@@ -55,7 +55,7 @@
       font-size: clamp(1.1rem, 3.5vw, 15rem);
     }
     .para {
-      color: #002959;
+      /* color: #002959; */
       font-size: clamp(0.6rem, 2vw, 10rem);
     }
   }
