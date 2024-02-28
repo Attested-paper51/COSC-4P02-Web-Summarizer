@@ -1,6 +1,6 @@
 
   .header-nav-container{
-    background-color:#edf7f9;
+    background-color:#f4f9fa;
     padding: 1.4em 1em 1em;
     border-bottom: 1px solid #edf7f9;
     box-shadow: 0 0.5px 3px #b5d3da;
@@ -26,12 +26,12 @@
   }
 
   .nav-title{
-    font-size: clamp(1rem, 2vw, 5rem); 
+    font-size: clamp(1rem, 1.7vw, 5rem); 
     padding-right: clamp(2rem, 4rem, 6rem);
   }
 
   .nav-text-short, .nav-text-sum{
-    font-size: clamp(1rem, 1.4vw, 4rem);
+    font-size: clamp(1rem, 1vw, 4rem);
     text-wrap: nowrap;
     padding-right: 2em;
   }
@@ -81,7 +81,7 @@
     }
 
     .nav-text-short, .nav-text-sum{
-      font-size: clamp(1.2rem, 2.5vw, 4rem);
+      font-size: clamp(1rem, 2.5vw, 4rem);
     }
 
     .darkmode-icon {
