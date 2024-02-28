@@ -11,7 +11,8 @@
 :root{
   /* --font-primary: "DM Sans", sans-serif; */
   --font-primary: "Poppins", sans-serif;
-  --clr-background: #FFFCF5;
+  --clr-background: #edf7f9;
+  --font-color: #000000;
 }
 
 html{
@@ -21,13 +22,14 @@ html{
 body{
   background: var(--clr-background);
   font-family: var(--font-primary);
+  color: var(--font-color);
   font-weight: 400;
   margin: 0;
 }
 
 a {
   text-decoration: none;
-  color: #2B4162; 
+  color: var(--font-color); 
 }
 
 .App{
