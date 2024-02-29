@@ -31,6 +31,17 @@ class Authentication:
         count = cursor.fetchone()[0]
         return count > 0
 
+    def loginUser(self,username,password):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM users WHERE username = %s AND password = %s", (username, password))
+        count = cursor.fetchone()[0]
+        return count == 1
+
+    def deleteAccount(self,username):
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM users WHERE username = %s",(username,))
+        self.conn.commit()
+
     def __del__(self):
         self.conn.close()
 
@@ -41,6 +52,7 @@ def signup():
     # Extract user data from the request
     username = data.get('user')
     password = data.get('pass')
+    #email = data.get('email') ##Add this when an email section is entered
 
     # Insert the user data into the database
     userMgr = Authentication()
@@ -51,5 +63,18 @@ def signup():
 
     return jsonify({'message': 'User registered successfully'})
 
+@app.route('/login',methods=['POST'])
+def login():
+    data = request.get_json()
+    # Extract user data from the request
+    username = data.get('user')
+    password = data.get('pass')
+
+    userMgr = Authentication()
+    if (userMgr.loginUser(username,password)):
+        return jsonify({'message':'User found.'})
+    return jsonify({'message':'User not found or password is incorrect'})
+
 if __name__ == '__main__':
     app.run(port=5001)
+
