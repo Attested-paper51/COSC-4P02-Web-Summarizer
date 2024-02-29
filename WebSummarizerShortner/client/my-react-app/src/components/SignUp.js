@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./css/SignUpStyle.css";
+//import { Link } from 'react-router-dom';
 
 const SignUp = () => {
 
@@ -8,14 +9,33 @@ const SignUp = () => {
   const [finalPass, confirmPass] = useState('');
 
 
-  const handleSubmit = (e) => {
-      const Username = {user} 
-      const Password = {pass}
-      const ConfirmPassword = {finalPass}
-      console.log(Username)
-      console.log(Password)
-      console.log(ConfirmPassword)
-  }
+  const handleSubmit = async () => {
+    try {
+        if (pass !== finalPass) {
+            console.error('Passwords do not match');
+            return;
+        }
+
+        // Make a POST request to the Flask backend
+        const response = await fetch('http://localhost:5001/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user, pass}),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+      } else {
+          console.error('Failed to register');
+      }
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+
+  };
 
   return (
     <div className="box">
