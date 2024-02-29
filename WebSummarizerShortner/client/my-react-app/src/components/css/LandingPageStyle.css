@@ -3,17 +3,28 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 4rem;
     column-gap: clamp(3vw, 10vw, 15vw);
+    background-color: #B5CCE2;
 }
 
-.summarizer {
+.summarizer, .shortener {
     width: clamp(10vw, 30vw, 60vw);
     display: block; /* Ensure the entire block is clickable */
+    height: 350px;
+    min-width: 500px;
+    border: 2px solid;
+    border-radius: 10px;
+    background-color: #edf7f9;
 } 
 
-.shortener {
-    display: block; /* Ensure the entire block is clickable */
+.summarizer:hover, .shortener:hover{
+    background-color: #fcfcfc;
+    scale: 1.05;
+}
+
+.main-summarizer, .main-shortener{
+    padding: 0.8em 2em;
 }
 
 .title {
@@ -24,6 +35,7 @@
 .para {
     font-size: clamp(0.6rem, 1vw, 10rem);
     font-weight: 500;
+    margin-top: 1em;
 }
 
 .summarizer-img {

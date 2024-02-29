@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./css/HeroStyle.css";
+import { Link } from 'react-router-dom';
 
 class Hero extends Component 
 {
@@ -14,10 +15,15 @@ class Hero extends Component
             <p className="hero-subheading">
               Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
             </p>
-          </div>
-          </div>
+            <button className="try-btn">
+              <div className="try-overlap">
+                <div className="try"><Link to="/Summarizer">Try it now!</Link></div>
+              </div>
+            </button>
+          </div> 
+        </div>
         <div className="hero-div2">
-          <img className="logo" alt="Logo" src="images/img1.png" />
+          <img className="logo" alt="Logo" src="images/img3.png" />
         </div>
       </div>
     );
