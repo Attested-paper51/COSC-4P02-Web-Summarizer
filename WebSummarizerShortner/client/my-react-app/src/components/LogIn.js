@@ -16,12 +16,29 @@ const LogIn = () => {
   //     }, 3000); // Reverts back to 'Submit' after 3 seconds
   // }
 
-  const handleSubmit = (e) => {
-      const Username = {user} 
-      const Password = {pass}
-      console.log(Username)
-      console.log(Password)
-  }
+  const handleSubmit = async () => {
+    try {
+
+        // Make a POST request to the Flask backend
+        const response = await fetch('http://localhost:5001/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user, pass}),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+      } else {
+          console.error('Failed to login.');
+      }
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+
+  };
 
   return (
     <div className="login-box">
