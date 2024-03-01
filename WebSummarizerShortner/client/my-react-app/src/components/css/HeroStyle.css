@@ -2,7 +2,8 @@
 .hero {
   display: flex;
   justify-content: center;
-  padding: 1.5rem;
+  padding: clamp(2rem, 3%, 10rem) clamp(1rem, 6%, 10rem);
+  /* padding-bottom: clamp(1rem, 3%, 10rem); */
 }
 
 .logo{
@@ -10,7 +11,12 @@
   justify-content: center;
   padding: clamp(2rem, 5%, 20rem);
   padding-right: 0;
-  margin-right: 3rem;
+  margin-right: clamp(1rem, 6%, 10rem);
+}
+
+.hero-div1{
+  display: flex;
+  justify-content: center;
 }
 
 .hero-title {
@@ -19,7 +25,8 @@
   justify-content: center;
   gap: 5%;
   width: 100%;
-  padding: clamp(0rem, 8%, 20rem);
+  /* padding-top: clamp(0rem, 6%, 20rem); */
+  padding-right: clamp(0rem, 7%, 20rem);
 }
 
 .hero-heading {
@@ -34,28 +41,30 @@
   font-size: clamp(0.6rem, 1.4vw, 10rem);
   font-weight: 400;
   width: 100%;
-  padding-top: 2em;
-}
-
-.try-overlap{
-  background-color: #576896; 
-  width: 150px; 
-  height: 45px;
-  position: relative;
-  margin-top: 1em;
-  box-shadow: 0px 3px 4px #0000004c;
-  border-radius: 40px;
+  padding-top: 0.5em;
 }
 
 .try-btn{
   all: unset;
   box-sizing: border-box;
-  height: 45px; 
-  margin-top: 1em;
+  height: clamp(4vw, 4.5vw, 14vw);
+  margin-top: clamp(0rem, 0.8vw, 10rem);
+  margin-bottom: 2em;
+}
+
+.try-overlap{
+  background-color: #576896; 
+  /* width: 150px;  */
+  width: clamp(3vw, 12vw, 42vw);
+  height: clamp(4vw, 4.5vw, 14vw);
+  position: relative;
+  margin-top: clamp(1.2rem, 1.4vw, 20rem);
+  box-shadow: 0px 3px 4px #0000004c;
+  border-radius: clamp(1.2rem, 2.3vw, 20rem);
 }
 
 .try-overlap:hover{
-  background-color: #791341; 
+  background-color: #082353; 
 }
 
 .try a{
@@ -63,15 +72,15 @@
 }
 
 .try{
-  font-size: 14px;
+  font-size: clamp(0.3rem, 1.1vw, 10rem);
   font-weight: 600;
   left: 123px;
   letter-spacing: 0;
-  line-height: 22px;
+  line-height: clamp(0.6rem, 2.2vw, 20rem);
   text-align: center;
   top: 13px;
   white-space: nowrap;
-  padding-top: 12px;
+  padding-top: clamp(0.3rem, 1.1vw, 15rem);
 }
 
 @media (max-width: 1000px) {
@@ -85,11 +94,12 @@
 
   .hero-title{
     padding-bottom: 0;
+    padding-right: 0;
     align-items: center;
   }
 
   .hero-div1{
-    margin-bottom: 4em;
+    margin-bottom: 2.5em;
   }
 
   .logo{
@@ -106,6 +116,26 @@
     font-size: clamp(0.6rem, 2.2vw, 10rem);
     padding-top: 1em;
   }
+
+  .try-btn{
+    height: clamp(4vw, 5.5vw, 14vw);
+    margin-top: clamp(0rem, 1.1vw, 15rem);
+    margin-bottom: clamp(0rem, 1.1vw, 15rem);
+  }
+  
+  .try-overlap{
+    height: clamp(4vw, 5.5vw, 14vw);
+    width: clamp(3vw, 15vw, 42vw);
+    margin-top: clamp(1.2rem, 1.4vw, 20rem);
+    border-radius: clamp(1.2rem, 2.7vw, 20rem);
+  }
+
+  .try{
+    font-size: clamp(0.3rem, 1.5vw, 10rem);
+    line-height: clamp(0.6rem, 2.8vw, 20rem);
+    padding-top: clamp(0.3rem, 1.3vw, 15rem);
+  }
+  
 }
 
 /*.hero {
