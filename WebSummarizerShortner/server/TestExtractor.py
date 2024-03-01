@@ -12,7 +12,12 @@ r = requests.get(endpoint, params=params)
 json_response = r.json()
 extracted_text = json_response.get('text', 'Text Not Found')
 <<<<<<< HEAD
+<<<<<<< HEAD
 print(extracted_text)
 =======
 print(extracted_text)
 >>>>>>> TextExtraction
+=======
+
+print(extracted_text)
+>>>>>>> 592047b919cb6fba476e680ef5e4a51fd8f057f5
