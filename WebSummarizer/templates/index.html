@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Web Summarizer</h1>
+
+<form action="/" method="post" enctype="multipart/form-data">
+    <label for="inputText">Enter Text to Summarize:</label>
+    <br>
+    <textarea cols="100" rows="10" id="inputText" name="inputText"></textarea>
+    <br>
+    <label for="inputURL">Enter a URL to summarize:</label>
+    <br>
+    <textarea cols="100" rows="1" id="inputURL" name="inputURL"></textarea>
+    <br>
+    <label for="inputURL">Enter a YouTube URL to summarize:</label>
+    <br>
+    <textarea cols="100" rows="1" id="inputYTURL" name="inputYTURL"></textarea>
+    <br>
+    <label for="videoUpload">Or upload a video:</label>
+    <br>
+    <input type="file" id="videoUpload" name="videoUpload">
+    <br><br>
+    <input type="submit" value="Summarize">
+</form>
+
+<h2>Summary:</h2>
+
+ <form action="/download" method="post">
+<textarea name=summary cols="100" rows="15"> {{ summary }} </textarea>
+     <br>
+       <input type="submit" value="Download as JSON">
+</form>
+
+</body>
+</html>
+
