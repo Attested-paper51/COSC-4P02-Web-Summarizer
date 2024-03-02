@@ -116,17 +116,19 @@ class Header extends Component {
               />
             </Link> 
             <h1 className="nav-title"><Link to="/">shortify</Link></h1>
+            <div className="nav-text">
             <h3 className="nav-text-sum"><Link to="/Summarizer">SUMMARIZER</Link></h3>
             <h3 className="nav-text-short"><Link to="/Shortener">URL SHORTENER</Link></h3>
+            </div>
           </div>
 
           <div className="nav-div2">
             <Link to="/Mode">
-              <button className="darkmode"><FaMoon size={25} /></button>
+              <button className="darkmode"><FaMoon className="darkmode-icon" /></button>
             </Link>
 
             <Link to="/Login">
-              <button className="profile"><IoPersonSharp size={28} /></button>
+              <button className="profile"><IoPersonSharp className="profile-icon" /></button>
             </Link>
           </div>
           

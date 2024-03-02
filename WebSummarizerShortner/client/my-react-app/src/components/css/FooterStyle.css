@@ -1,7 +1,11 @@
 footer {
-    background-color:#A3CEEC;
-    height: 90px;
-    padding: 1.5em;
+    background-color:#48587e;
+    min-height: 5vh;
+    padding: clamp(1rem, 1vw, 10rem);
+}
+
+footer a{
+    color: white
 }
 
 .footer-container {
@@ -13,7 +17,8 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: right;
-    margin-top: 6px;
+    padding: clamp(1rem, 1vw, 10rem);
+    font-size: clamp(1rem, 1.1vw, 5rem); 
 }
 
 .footer-help {

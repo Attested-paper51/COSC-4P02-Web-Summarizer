@@ -1,9 +1,9 @@
 
   .header-nav-container{
-    background-color:#FFFCF5;
+    background-color:#f4f9fa;
     padding: 1.4em 1em 1em;
-    border-bottom: 1px solid #efecec;
-    box-shadow: 0 0.5px 3px #d4d1d1;
+    border-bottom: 1px solid #edf7f9;
+    box-shadow: 0 0.5px 3px #b5d3da;
     top: 0;
     position: sticky;
     z-index: 100;
@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: 5vh;
   }
 
   .nav-div1, .nav-div2{
@@ -25,12 +26,13 @@
   }
 
   .nav-title{
-    font-size: 23px;
-    padding-right: 3em;
+    font-size: clamp(1rem, 1.7vw, 5rem); 
+    padding-right: clamp(2rem, 4rem, 6rem);
   }
 
   .nav-text-short, .nav-text-sum{
-    font-size: 16px;
+    font-size: clamp(1rem, 1vw, 4rem);
+    text-wrap: nowrap;
     padding-right: 2em;
   }
 
@@ -38,21 +40,20 @@
     text-decoration: underline;
   }
 
-  /* nav > h1 {
-    margin:10px;
-  } */
-
-  /* nav > h3 {
-    margin:50px;
-  } */
-
   .img {
-    height: 50px;
+    max-height: clamp(3rem, 4vw, 10rem);
     margin-right: 0.5em;
   }
 
+  .darkmode-icon {
+    font-size: clamp(0.5vw, 7vh, 2vw);
+  }
+
+  .profile-icon {
+    font-size: clamp(0.7vw, 7vh, 2.2vw);
+  }
+
   .darkmode {
-    height: 35px;
     padding-right: 1em;
     background: none;
     border: none;
@@ -61,7 +62,6 @@
   }
 
   .profile {
-    height: 27px;
     padding-right: 0.5em;
     background: none;
     border: none;
@@ -75,64 +75,35 @@
     top: 0;
   }
 
-  /* @media (max-width: 1024px) {
-    nav > h3 {
-      margin: 25px;
-      margin-right: -5px;
-    }
-  } */
-
-  @media (max-width: 610px) {
-
+  @media (max-width: 625px) {
     .nav-title{
       display: none;
     }
-    .darkmode {
-      height: 30px;
-    }
-    .profile {
-      height: 23px;
-    }
-    .img{
-      margin-right: 2em;
-    }
-
-    /* nav > h1{
-      display: none;
-    } */
-    /* nav > h3 {
-      margin: 25px;
-      margin-right: -5px;
-    } */
-    /* .darkmode{
-      right: 10%;
-    } */
-  }
-
-  @media (max-width: 426px) {
 
     .nav-text-short, .nav-text-sum{
-      font-size: 13px;
+      font-size: clamp(1rem, 2.5vw, 4rem);
     }
-    /* nav > h1{
-      display: none;
-    }
-    .nav-text-sum {
-      position: absolute;
-      left: 15%;
-      top: -15px;;
-    }
-    .nav-text-short {
-      position: absolute;
-      left: 19%;
-      top:26px;
-      margin: 10px;
-    }
-    .darkmode{
-      right: 10%;
-    } */
-  } 
 
-  /* section {
-    margin-bottom: 30px;
-  } */
+    .darkmode-icon {
+      font-size: clamp(4vw, 8vh, 4.6vw);
+    }
+  
+    .profile-icon {
+      font-size: clamp(4.2vw, 8vh, 4.8vw);
+    }
+  }
+
+  @media (max-width: 475px) {
+    .nav-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .darkmode-icon {
+      font-size: clamp(4vw, 8vh, 6vw);
+    }
+  
+    .profile-icon {
+      font-size: clamp(4.2vw, 8vh, 6.2vw);
+    }
+  } 
