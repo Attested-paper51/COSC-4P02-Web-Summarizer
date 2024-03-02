@@ -7,44 +7,49 @@ import 'react-multi-carousel/lib/styles.css';
 const Reviews = () => {
 
     const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 5
-          },
-          desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 4
-          },
-          tablet: {
-            breakpoint: { max: 1024, min: 464 },
+        desktop: {
+            breakpoint: { max: 4000, min: 1024 },
             items: 3
-          },
-          mobile: {
-            breakpoint: { max: 464, min: 0 },
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2
+        },
+        mobile: {
+            breakpoint: { max: 650, min: 0 },
             items: 1
-          }
+        } 
     }
 
       return (
         <div className='reviews'>
             
-            <Carousel className="carousel" responsive={responsive}>
+            <Carousel 
+                className="carousel" 
+                responsive={responsive}
+                infinite={true}
+                autoPlay={true}
+                autoPlaySpeed={3000}
+                keyBoardControl={true}
+                customTransition="all .5"
+                transitionDuration={600}
+                swipeable={true}
+                focusOnSelect={true}>
                 {data.map((d) => (
                 <div className='review-container'>
-                    <p className='review-text'>
-                        {d.feedback}
-                        <FaQuoteRight className='right-quote' size={20}/>
-                    </p>
-
+                    <div className='review-div'>
+                        <p className='review-text'>
+                            {d.feedback}
+                        </p>
+                         { /*<FaQuoteRight className='right-quote' /> */}
+                    </div>
                     <div className='star-section'> 
                         {[...Array(5)].map((star,index) => {
                             const currentRating = index + 1;
                             return(
                                 <label className='five-stars'>
                                     <FaStar 
-                                        className='star' 
-                                        size={25} 
+                                        className='star'  
                                         color={currentRating <= d.rating ? "#ffc107" : "#e4e5e9"}
                                     />
                                 </label>
@@ -69,7 +74,7 @@ const data = [
         rating: '5'
     },
     {
-        feedback: 'Simplify with style! This website streamlines text summarization with elegance and precision.',
+        feedback: 'Simplify with style! This website streamlines text summarization with precision.',
         rating: '4'
     },
     {

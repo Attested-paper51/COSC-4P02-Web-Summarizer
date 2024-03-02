@@ -5,6 +5,8 @@ from psycopg2 import sql
 from urllib.parse import urlparse
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
+import os
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
@@ -12,14 +14,16 @@ CORS(app)
 
 class SimpleURLShortener:
     def __init__(self):
-        # Connect to PostgreSQL database
+        load_dotenv()
+        databasePW = os.getenv("DATABASE_PW")
         self.conn = psycopg2.connect(
-            database="database4p02",
-            user="postgres",
-            password="password",
-            host="localhost",
-            port="5432"
-        )
+            database="encvegpm",
+            user="encvegpm",
+            password=databasePW,
+            host="drona.db.elephantsql.com",
+            port="5432",
+            sslmode="require"
+        )    
         self.create_table()
 
     def create_table(self):
