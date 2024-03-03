@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 
@@ -129,15 +130,15 @@ const Summarizer = () => {
             <div className="summarizer-container">
                 <div className="centered-Div">
                     <div class="button-container">
-                                <button 
-                                className={`customSumBtn ${isClicked === 0? 'clicked':''}`} 
-                                onClick={() => toggleClicked(0)}>Text</button>
-                                <button 
-                                className={`customSumBtn ${isClicked === 1? 'clicked':''}`} 
-                                onClick={() => toggleClicked(1)}>Website URL</button>
-                                <button 
-                                className={`customSumBtn ${isClicked === 2? 'clicked':''}`} 
-                                onClick={() => toggleClicked(2)}>Youtube URL</button>
+                        <button 
+                            className={`customSumBtn ${isClicked === 0? 'clicked disabled-hover':''}`} 
+                            onClick={() => toggleClicked(0)}>Text</button>
+                        <button 
+                            className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
+                            onClick={() => toggleClicked(1)}>Website URL</button>
+                        <button 
+                            className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
+                            onClick={() => toggleClicked(2)}>Youtube URL</button>
                     </div>
                     <div className="text">
                         <div className="inputArea">
@@ -149,7 +150,11 @@ const Summarizer = () => {
                                 required>    
                             </textarea>
                             { inputContent &&
-                                (<button className='delete-button' onClick={handleOpen}><FaRegTrashCan size={18} /></button>)
+                                (<Tooltip title="Delete" arrow>
+                                    <button className='delete-button' 
+                                        onClick={handleOpen}><FaRegTrashCan size={18} />
+                                    </button>
+                                </Tooltip>)
                             }
                             <div className='buttonDiv' id="btnDiv">
                                 <button className="summarize-btn">
@@ -160,7 +165,7 @@ const Summarizer = () => {
                             </div>
                         </div>
 
-                        <div className="inputArea">
+                        <div className="inputArea" id="OutputTextArea">
                             {/* <div class="button-container">
                                 
                             </div> */}
@@ -172,20 +177,27 @@ const Summarizer = () => {
                                 required
                                 readOnly>   
                             </textarea>
-                            <div className='buttonDiv'>
+                            <div className='buttonDiv' id="btnDiv2">
                                 { shorten &&
                                     <Link to = "/Shortener">
                                         <button className="summarize-btn">
                                             <div className="summarize-overlap">
-                                                <div className="summarize">Shorten you URL</div>
+                                                <div className="summarize">Shorten your URL</div>
                                             </div>
                                         </button>
                                     </Link>
                                 }
-                                <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                                <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                
+                                <Tooltip title="Like" arrow>
+                                    <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                </Tooltip>
+                                <Tooltip title="Dislike" arrow>
+                                    <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                </Tooltip>
                             </div>
-                            <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                            <Tooltip title="Copy" arrow>
+                                <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                            </Tooltip>
                             
                         </div>
                     </div>

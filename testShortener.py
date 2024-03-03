@@ -1,6 +1,6 @@
 import pytest
 from flask_cors import CORS
-from shortenerNoFlask import SimpleURLShortener
+from shortenerFlask import SimpleURLShortener
 import time
 
 #test that the table is created if it is doesn't already exist
