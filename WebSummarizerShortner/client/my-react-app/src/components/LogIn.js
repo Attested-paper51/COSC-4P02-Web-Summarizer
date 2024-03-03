@@ -4,7 +4,7 @@ import "./css/LogInStyle.css";
 
 const LogIn = () => {
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   
   // const [CopyURL, setCopyURL] = useState('Copy URL')
@@ -25,7 +25,7 @@ const LogIn = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user, pass}),
+            body: JSON.stringify({ email, pass}),
         });
 
         if (response.ok) {
@@ -56,13 +56,13 @@ const LogIn = () => {
             <div className="login-social">Continue with Facebook</div>
           </div>
         </button>
-        <div className="username">
-          <label className='user-text'>Your email</label> 
+        <div className="email">
+          <label className='email-text'>Your email</label> 
           <input className='textfield'
             type="text" 
             required
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder='Enter email here' 
           />
           {/* <div className="user-text">Your email</div>
