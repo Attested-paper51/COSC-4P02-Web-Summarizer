@@ -19,7 +19,7 @@
     flex-direction: row;
     height: clamp(40px, 2.5vw, 100px);
     margin-top: 1%;
-    box-shadow: 0px 4px 15px 0px #00000033;
+    
 }
 
 .shorten, .copy-url {
@@ -42,6 +42,14 @@
 
 .input-url:focus, .output-url:focus {
     outline: none;
+}
+
+.output-url:hover {
+    cursor: default;
+}
+
+.url-div1:hover, .input-url:focus {
+    box-shadow: 0px 4px 15px 0px #00000033;
 }
 
 .button-text {
