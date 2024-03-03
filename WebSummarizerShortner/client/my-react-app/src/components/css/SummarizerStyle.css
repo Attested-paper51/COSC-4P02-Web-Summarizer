@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: "Poppins", sans-serif; */
+    font-family: "Poppins", sans-serif;
     /* max-height: 85vh; */
  }
 
@@ -30,12 +30,8 @@ h2 {
     margin-bottom: 15px;
 }
 
-#input {
-    /* box-shadow: 0px 4px 15px 0px #00000033; */
-}
-#output {
-    /* box-shadow: 0px 4px 15px 0px #00000033; */
-    /* box-shadow: 0px 4px 15px 0px #00000033, -1px 0px 0px 0px #00000033; */
+#OutputTextArea {
+    border-left: solid 2px #bfbfbf;
 }
 
 .wrapper textarea {
@@ -47,33 +43,13 @@ h2 {
     padding-right: 30px;
     outline: none;
     resize: none;
-    /* border-top-right-radius: 5px;
-    border-top-left-radius: 5px; */
     border: 0;
-    /* border-top: 0;
-    border-bottom: 0; */
     font-size: 16px;
     border-color: #bfbfbf;
     margin-top: 0px;
     max-height: 80vh;
     /* transition: all 0.3s ease; Add a transition for all properties with a duration of 0.3 seconds */
 }
-
-textarea#input:focus {
-    border-width: 2px;
-    /* border-bottom: 1px solid; */
-    padding-top: 19px;
-    padding-left: 14px;
-    padding-bottom: 19px;
-    padding-right: 29px;
-    border-color: #87CEFA;
-}
-/* #input:focus + .buttonDiv {
-    padding-right: 9px;
-    padding-top: 2px;
-    border-width: 2px;
-    border-color: #87CEFA;
-} */
 
 textarea::-webkit-scrollbar{
     width: 0px;
@@ -107,6 +83,7 @@ textarea::-webkit-scrollbar{
 
     display: flex; 
     justify-content: flex-end; 
+    align-items: center;
 
     border: 0;
     padding-right: 10px;
@@ -117,7 +94,7 @@ textarea::-webkit-scrollbar{
 
 .delete-button, .copy-button {
     position: absolute;
-    top: 28px;
+    top: 8px;
     right: 5px;
     padding-bottom: 0px;
     background: none;
@@ -145,22 +122,6 @@ textarea::-webkit-scrollbar{
     color: #2861a3;
 }
 
-.delete-button:hover::after {
-    content: "Delete"; /* Tooltip text */
-    position: absolute;
-    top: -30px; /* Position the tooltip above the button */
-    left: 50%; /* Position the tooltip at the center horizontally */
-    transform: translateX(-50%); /* Center the tooltip horizontally */
-    background-color: rgba(0, 0, 0, 0.8); /* Tooltip background color */
-    color: white; /* Tooltip text color */
-    padding: 5px 10px; /* Padding for the tooltip */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 12px; /* Font size */
-    visibility: visible; /* Show the tooltip on hover */
-    opacity: 1; /* Show the tooltip on hover */
-    transition: opacity 0.3s ease; /* Add a transition effect for smoother visibility */
-}
-
 .summarize-btn {
     all: unset;
     box-sizing: border-box;
@@ -174,13 +135,6 @@ textarea::-webkit-scrollbar{
 } 
 
 .summarize-overlap{
-    /* height: 45px;
-    margin-top: 0.2em;
-    box-shadow: 0px 3px 4px #0000004c;
-    border-radius: 9px;
-    background-color: #0d55a7; 
-    width: auto; */
-
     padding-left: 12px;
     padding-right: 12px;
     height: 45px;
@@ -199,7 +153,6 @@ textarea::-webkit-scrollbar{
     left: 123px;
     letter-spacing: 0;
     line-height: 20px;
-    /* position: absolute; */
     text-align: center;
     top: 13px;
     white-space: nowrap;
@@ -207,13 +160,11 @@ textarea::-webkit-scrollbar{
 }
 
 .button-container {
-    width: 50%; /* Covering 80% of the horizontal screen space */
+    width: 50%; /* Covering 50% of the horizontal screen space */
     height: 35px;
     display: flex;
-    justify-content: space-between; /* Evenly space out the buttons */
+    justify-content:flex-start;
     margin-bottom: 0px;
-    /* padding-right: 30px;
-    padding-left: 30px; */
     /* background-color: pink; */
 }
 
