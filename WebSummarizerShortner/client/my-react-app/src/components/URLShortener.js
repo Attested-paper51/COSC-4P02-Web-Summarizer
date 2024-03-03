@@ -50,41 +50,48 @@ const URLShortener = () => {
     return (
         <div className='url'>
             {/* <h1>Shorten a URL</h1>*/}
-            <label className='insert-url'>Insert URL to be shortened</label> 
-            <input className='input-url'
-                type="text" 
-                required
-                value={URL}
-                onChange={(e) => setURL(e.target.value)}
-                placeholder='Enter URL here' 
-            />
-
-            <button 
-                className='shorten' 
-                onClick={()=> { handleSubmit(); showSummarize(true); }} >
-                <div className='button-text'>Shorten URL</div>
-            </button>
-            <label className='shorten-url'>Shortened URL</label> 
-            <input className='output-url' 
-                type="text" 
-                required
-                value={shortened}
-                onChange={(e) => setShortURL(e.target.value)}
-                placeholder='Get Shortened URL' 
-            />
-            <button 
-                className='copy-url' 
-                onClick={handleCopy}>
-                <div className='button-text'>{CopyURL}</div>
-            </button>
-
+            <h3 className='insert-url'>Insert URL to be shortened</h3> 
+            <div className='url-div1'>
+                <input className='input-url'
+                    type="text" 
+                    required
+                    value={URL}
+                    onChange={(e) => setURL(e.target.value)}
+                    placeholder='Enter URL here' 
+                />
+                <button 
+                    className='shorten' 
+                    onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                    <div className='button-text'>Shorten URL</div>
+                </button>
+            </div>
+            <div className='url-shorten-container'>
+                <h3 className='shorten-url'>Shortened URL</h3> 
+                <div className='url-div2'>
+                    <input className='output-url' 
+                        type="text" 
+                        required
+                        value={shortened}
+                        onChange={(e) => setShortURL(e.target.value)}
+                        placeholder='Get Shortened URL' 
+                        readOnly
+                    />
+                    <button 
+                        className='copy-url' 
+                        onClick={handleCopy}>
+                        <div className='button-text'>{CopyURL}</div>
+                    </button>
+                </div>
+            </div>
               
             { summarize &&
                 <Link to = "/Summarizer">
-                    <button 
-                        className='summarize-url-content'>
-                        <div className='button-text'>Summarize the URL content</div>
-                    </button> 
+                    <div className='url-div3'>
+                        <button 
+                            className='summarize-url-content'>
+                            <div className='button-text'>Summarize the URL content</div>
+                        </button> 
+                    </div>
                 </Link>
             }
 
