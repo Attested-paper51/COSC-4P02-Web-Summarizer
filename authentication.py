@@ -6,8 +6,8 @@ from flask_cors import CORS
 import re
 import hashlib
 
-app = Flask(__name__)
-CORS(app)
+appA = Flask(__name__)
+CORS(appA)
 
 class Authentication:
     def __init__(self):
@@ -71,7 +71,7 @@ class Authentication:
         self.conn.close()
 
 
-@app.route('/changepassword',methods=['POST'])
+@appA.route('/changepassword',methods=['POST'])
 def changePW():
     data = request.get_json()
     email = data.get('email')
@@ -87,7 +87,7 @@ def changePW():
     else:
         return jsonify({'message':'Current password incorrect'})
 
-@app.route('/register', methods=['POST'])
+@appA.route('/register', methods=['POST'])
 def signup():
     data = request.get_json()
     # Extract user data from the request
@@ -107,7 +107,7 @@ def signup():
 
     return jsonify({'message': 'User registered successfully'})
 
-@app.route('/login',methods=['POST'])
+@appA.route('/login',methods=['POST'])
 def login():
     data = request.get_json()
     # Extract user data from the request
@@ -120,5 +120,5 @@ def login():
     return jsonify({'message':'User not found or password is incorrect'})
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    appA.run(port=5001)
 
