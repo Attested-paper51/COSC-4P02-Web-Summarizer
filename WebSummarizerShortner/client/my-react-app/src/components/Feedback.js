@@ -43,8 +43,7 @@ const Feedback = () => {
                             onClick={() => setRating(currentRating)}
                         />
                         <FaStar 
-                            className='star' 
-                            size={50} 
+                            className='star'
                             color={currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
                             onMouseEnter={() => setHover(currentRating)}
                             onMouseLeave={() => setHover(null)}
