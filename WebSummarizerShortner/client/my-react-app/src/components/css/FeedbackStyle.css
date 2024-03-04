@@ -1,14 +1,15 @@
 .feedback {
+    font-size: clamp(0.95rem, 1.1vw, 10rem);
     text-align: center;
-    max-width: 600px;
-    font-size: larger;
     justify-content: center;
-    width: 100%;
     margin: auto;
+    width: clamp(280px, 45vw, 3000px);
+    padding-top: 10vh;
 }
 
 .feedback-para {
-    padding: 3%;
+    padding: 1%;
+    padding-top: 1%;
 }
 
 .star-section {
@@ -25,82 +26,60 @@
 
 .star {
     cursor: pointer;
+    font-size: clamp(30px, 7vh, 4vw);
 }
 
 .feedback-input {
     width: 100%;
-    padding: 10px 10px;
+    padding: 0.5rem;
     border: 2px solid #A3CEEC;
     box-sizing:border-box;
     display: box;
     box-shadow: 5px 5px 5px #A3CEEC;
     border-radius: 10px;
-    line-height: 2em;
+    height: clamp(40px, 9vh, 300px);
+    font-size: clamp(0.75rem, 0.8vw, 10rem);
 }
 
 .feedback-input:focus {
     outline: none;
-    padding: 10px 10px;
+}
+
+.feedback-input:hover {
+    cursor: text;
 }
 
 .send-feedback {
     margin: 5% auto;
     border: 0;
-    padding: 11px 25px;
     cursor: pointer;
-    font-size: medium;
     background-color: #0d55a7; 
-    width: 150px; 
-    margin-top: 1em;
+    width: clamp(80px, 4.2vw, 300px); 
+    margin-top: 2em;
     box-shadow: 0px 3px 4px #0000004c;
     border-radius: 9px;
-}
+    height: clamp(40px, 3.8vh, 100px);
 
-.summarize-url-content {
-    width: 95%;
+    width: clamp(70px, 4.2vw, 300px); 
+    height: clamp(30px, 3.8vh, 100px);
 }
 
 .send {
     color: #ffffff;
-    font-size: 16px;
+    font-size: clamp(0.5rem, 1.25vw, 10rem);
     font-weight: 600;
-    line-height: 20px;
-    text-wrap: none;
+    text-wrap: nowrap;
+
+    font-size: clamp(0.85rem, 1.1vw, 10rem);
 }
 
 
 .send-feedback:hover {
     opacity: 0.8;
+    cursor: pointer;
 }
 
-@media (max-width: 665px) {
-    .feedback {
-        max-width: 500px;
-    }
-    .feedback-input {
-        width: 90%;
-    }
-}
 
-@media (max-width: 535px) {
-    .feedback {
-        max-width: 450px;
-        font-size: large;
-    }
-    .feedback-input {
-        width: 85%;
-    }
-}
-
-@media (max-width: 460px) {
-    .feedback {
-        max-width: 350px;
-        font-size: medium;
-    }
-    .feedback-input {
-        width: 85%;
-    }
-}
 
 
 
