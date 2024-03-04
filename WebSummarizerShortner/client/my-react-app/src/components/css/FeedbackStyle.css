@@ -54,22 +54,17 @@
     border: 0;
     cursor: pointer;
     background-color: #0d55a7; 
-    width: clamp(80px, 4.2vw, 300px); 
     margin-top: 2em;
     box-shadow: 0px 3px 4px #0000004c;
     border-radius: 9px;
-    height: clamp(40px, 3.8vh, 100px);
-
     width: clamp(70px, 4.2vw, 300px); 
     height: clamp(30px, 3.8vh, 100px);
 }
 
 .send {
     color: #ffffff;
-    font-size: clamp(0.5rem, 1.25vw, 10rem);
     font-weight: 600;
     text-wrap: nowrap;
-
     font-size: clamp(0.85rem, 1.1vw, 10rem);
 }
 
