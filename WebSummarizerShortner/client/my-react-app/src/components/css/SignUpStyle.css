@@ -33,12 +33,12 @@
     font-size: 13px;
 }
 
-.username, .password{
+.email, .password{
     width: 450px;
     margin-bottom: 1em;
 }
 
-.user-text, .pass-text{
+.email-text, .pass-text{
     display: block;
     padding-bottom: 5px;
     color: #757373;
@@ -106,7 +106,7 @@
         width: 400px;
         margin-bottom: 3.5em;
     }
-    .signup-overlap, .username, .password{
+    .signup-overlap, .email, .password{
         width: 300px;
     }
     
@@ -116,13 +116,13 @@
     .form{
         width: 360px;
     }
-    .signup-overlap, .username, .password{
+    .signup-overlap, .email, .password{
         width: 250px;
     }
     .box{
         font-size: 1em;
     }
-    .user-text, .pass-text, .signup{
+    .email-text, .pass-text, .signup{
         font-size: 12px;
         line-height: 12px;
     }
