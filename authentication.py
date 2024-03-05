@@ -65,6 +65,20 @@ class Authentication:
         else:
             #Passwords don't match
             return 0
+    
+    def changeEmail(self,email,newEmail,password):
+        cursor = self.conn.cursor()
+        cursor.execute("SELCT * FROM users WHERE email = %s AND password = %s",(email,password))
+        #it should be implied that the user exists, no?
+        userExists = cursor.fetchone()
+
+        if userExists:
+            cursor.execute("UPDATE users SET email = %s WHERE email = %s",(newEmail,email))
+            self.conn.commit()
+            return 1
+        else:
+            return 0
+
 
 
     def __del__(self):
