@@ -1,7 +1,7 @@
 from openai import OpenAI
 import os
 import textExtraction
-import YT_Caption_Extract as ytExtract
+import youtubeSummarization as ytExtract
 from dotenv import load_dotenv
 
 # Load environment variables
