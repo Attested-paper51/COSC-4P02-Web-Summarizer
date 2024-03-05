@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./css/LogInStyle.css";
 
+
+//Need to make sure that if the user's pw is entered incorrectly it doesn't
+//redirect
 const LogIn = () => {
 
   const [email, setEmail] = useState('');

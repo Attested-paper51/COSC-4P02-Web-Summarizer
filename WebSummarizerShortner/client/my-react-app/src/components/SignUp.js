@@ -12,6 +12,7 @@ const SignUp = () => {
   const handleSubmit = async () => {
     try {
         if (pass !== finalPass) {
+            //this will be a popup
             console.error('Passwords do not match');
             return;
         }
