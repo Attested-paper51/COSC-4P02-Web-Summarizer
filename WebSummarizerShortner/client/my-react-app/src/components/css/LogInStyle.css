@@ -33,12 +33,12 @@
     border-left: 0;
 }
 
-.login-box .username, .login-box .password{
+.login-box .email, .login-box .password{
     width: 450px;
     margin-bottom: 1em;
 }
 
-.login-box .user-text, .login-box .pass-text{
+.login-box .email-text, .login-box .pass-text{
     display: block;
     padding-bottom: 5px;
     color: #757373;
@@ -189,7 +189,7 @@
     .login-box .form, .login-box .account{
         width: 400px;
     }
-    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .username, .login-box .password{
+    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .email, .login-box .password{
         width: 300px;
     }
     
@@ -199,13 +199,13 @@
     .login-box .form, .login-box .account{
         width: 360px;
     }
-    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .username, .login-box .password{
+    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .email, .login-box .password{
         width: 250px;
     }
     .login-box{
         font-size: 1em;
     }
-    .login-box .login-social, .login-box .user-text, .login-box .pass-text, .login-box .login, .login-box .create, .login-box .forgot{
+    .login-box .login-social, .login-box .email-text, .login-box .pass-text, .login-box .login, .login-box .create, .login-box .forgot{
         font-size: 12px;
         line-height: 12px;
     }

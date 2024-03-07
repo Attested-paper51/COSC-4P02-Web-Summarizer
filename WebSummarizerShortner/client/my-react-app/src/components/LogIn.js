@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./css/LogInStyle.css";
 
+
+//Need to make sure that if the user's pw is entered incorrectly it doesn't
+//redirect
 const LogIn = () => {
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   
   // const [CopyURL, setCopyURL] = useState('Copy URL')
@@ -16,12 +19,29 @@ const LogIn = () => {
   //     }, 3000); // Reverts back to 'Submit' after 3 seconds
   // }
 
-  const handleSubmit = (e) => {
-      const Username = {user} 
-      const Password = {pass}
-      console.log(Username)
-      console.log(Password)
-  }
+  const handleSubmit = async () => {
+    try {
+
+        // Make a POST request to the Flask backend
+        const response = await fetch('http://localhost:5001/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, pass}),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+      } else {
+          console.error('Failed to login.');
+      }
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+
+  };
 
   return (
     <div className="login-box">
@@ -39,13 +59,13 @@ const LogIn = () => {
             <div className="login-social">Continue with Facebook</div>
           </div>
         </button>
-        <div className="username">
-          <label className='user-text'>Your email</label> 
+        <div className="email">
+          <label className='email-text'>Your email</label> 
           <input className='textfield'
             type="text" 
             required
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder='Enter email here' 
           />
           {/* <div className="user-text">Your email</div>

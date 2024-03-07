@@ -9,8 +9,8 @@ import os
 from dotenv import load_dotenv
 
 
-app = Flask(__name__)
-CORS(app)
+appS = Flask(__name__)
+CORS(appS)
 
 class SimpleURLShortener:
     def __init__(self):
@@ -141,7 +141,7 @@ def main():
             print("Invalid choice. Please enter 1, 2, or 3.")
 
 url_shortener = SimpleURLShortener()
-@app.route('/shorten',methods=['POST'])
+@appS.route('/shorten',methods=['POST'])
 def shorten_url():
     data = request.get_json()
     originalURL = data.get('originalURL')
@@ -150,7 +150,7 @@ def shorten_url():
 
     return jsonify({'shortenedURL': shortURL})
 
-@app.route('/<short_url>')
+@appS.route('/<short_url>')
 def redirectToOriginal(short_url):
     fullURL = "http://127.0.0.1:5000/"+short_url
     originalURL = url_shortener.resolve_url(fullURL)
@@ -158,7 +158,7 @@ def redirectToOriginal(short_url):
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    appS.run(port=5000)
     #main()
 
 

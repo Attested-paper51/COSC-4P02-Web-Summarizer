@@ -4,7 +4,7 @@ import "./css/SignUpStyle.css";
 
 const SignUp = () => {
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [finalPass, confirmPass] = useState('');
 
@@ -12,6 +12,7 @@ const SignUp = () => {
   const handleSubmit = async () => {
     try {
         if (pass !== finalPass) {
+            //this will be a popup
             console.error('Passwords do not match');
             return;
         }
@@ -22,7 +23,7 @@ const SignUp = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user, pass}),
+            body: JSON.stringify({ email, pass}),
         });
 
         if (response.ok) {
@@ -43,16 +44,16 @@ const SignUp = () => {
         <div className='form-title'>Create an account</div>
         <div className="form-subtitle">Join us to access to Tailored Summaries, Analytics, API Integration and more!</div>
 
-        <div className="username">
-          <label className='user-text'>Enter your email</label> 
+        <div className="email">
+          <label className='email-text'>Enter your email</label> 
           <input className='textfield'
             type="text" 
             required
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder='Enter email here' 
           />
-          {/* <div className="user-text">Your email</div>
+          {/* <div className="email-text">Your email</div>
           <textfield className="textfield"></textfield> */}
         </div>
       
