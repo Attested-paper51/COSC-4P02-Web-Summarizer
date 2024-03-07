@@ -131,7 +131,7 @@ const Summarizer = () => {
                 <div className="centered-Div">
                     <div class="button-container">
                         <button 
-                            className={`customSumBtn ${isClicked === 0? 'clicked disabled-hover':''}`} 
+                            className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
                             onClick={() => toggleClicked(0)}>Text</button>
                         <button 
                             className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
