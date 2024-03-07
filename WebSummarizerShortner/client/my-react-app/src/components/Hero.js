@@ -15,11 +15,13 @@ class Hero extends Component
             <p className="hero-subheading">
               Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
             </p>
-            <button className="try-btn">
-              <div className="try-overlap">
-                <div className="try"><Link to="/Summarizer">Try it now!</Link></div>
-              </div>
-            </button>
+            <Link to="/Summarizer">
+              <button className="try-btn">
+                <div className="try-overlap">
+                  <div className="try">Try it now!</div>
+                </div>
+              </button>
+            </Link>
           </div> 
         </div>
         <div className="hero-div2">
