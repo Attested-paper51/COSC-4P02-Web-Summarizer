@@ -1,5 +1,5 @@
 .reviews {
-    padding: 10rem 5rem 5rem;
+    padding: 8rem;
     justify-content: center;
 }
 
@@ -9,15 +9,15 @@
 }
 
 .review-container {
-    box-shadow: 1px 1px 5px #888888;
-    width: clamp(15vw, 25vw, 50vw);
-    height: clamp(240px, 12vh, 250px);
-    border: none;
-    border-radius: 9px;
+    /* box-shadow: 1px 1px 5px #888888; */
+    width: clamp(15vw, 30vw, 50vw);
+    height: clamp(400px, 12vh, 700px);
+    border: 1px solid black;
+    /* border-radius: 9px; */
     box-sizing: border-box;
-    padding: 1rem;
-    background:linear-gradient(#d8e7f2,transparent);
-    background-color:white
+    padding: 1.3rem;
+    /* background:linear-gradient(#d8e7f2,transparent); */
+    background-color:white;
 }
 
 .review-div {

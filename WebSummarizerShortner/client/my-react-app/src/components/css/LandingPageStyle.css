@@ -3,8 +3,8 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    padding: 4rem;
-    column-gap: clamp(3vw, 10vw, 15vw);
+    padding: 6rem;
+    column-gap: clamp(3vw, 4vw, 15vw);
     background-color: #B5CCE2;
 }
 
