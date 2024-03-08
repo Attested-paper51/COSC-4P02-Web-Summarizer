@@ -83,7 +83,7 @@ const LogIn = () => {
           <div class="pass-error">Incorrect Password!</div>
         </div>
 
-        <Link to="/#">
+        <Link to="/Dashboard">
           <button className="login-btn" onClick={handleSubmit}>
             <div className="login-overlap">
               <div className="login">Log in</div>
