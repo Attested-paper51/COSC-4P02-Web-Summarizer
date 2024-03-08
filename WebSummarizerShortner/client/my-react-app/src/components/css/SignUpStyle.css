@@ -88,7 +88,7 @@
     padding-top: 12px;
 }
 
-.box .pass-error{
+.box .pass-error, .box .email-error{
     font-size: 13px;
     padding-top: 2px;
     color: red;
