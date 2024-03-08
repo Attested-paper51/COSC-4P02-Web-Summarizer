@@ -77,6 +77,7 @@ const SignUp = () => {
             onChange={(e) => confirmPass(e.target.value)}
             placeholder='Enter password here' 
           />
+          <div class="pass-error">Passwords do not match!</div>
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>
