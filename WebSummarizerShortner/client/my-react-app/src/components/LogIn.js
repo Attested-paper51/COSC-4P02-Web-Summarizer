@@ -68,8 +68,7 @@ const LogIn = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder='Enter email here' 
           />
-          {/* <div className="user-text">Your email</div>
-          <textfield className="textfield"></textfield> */}
+          <div class="email-error">Incorrect Email ID!</div>
         </div>
       
         <div className="password">
@@ -81,6 +80,7 @@ const LogIn = () => {
             onChange={(e) => setPass(e.target.value)}
             placeholder='Enter password here' 
           />
+          <div class="pass-error">Incorrect Password!</div>
         </div>
 
         <Link to="/#">
