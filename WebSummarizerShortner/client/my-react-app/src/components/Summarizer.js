@@ -23,7 +23,9 @@ const Summarizer = () => {
     const [isClicked, setClickedButton] = useState(0);
 
     const toggleClicked = (buttonIndex) => {
-        setClickedButton(buttonIndex);
+        setClickedButton(buttonIndex)
+        emptyTextContent()
+        showShorten(false)
     }
 
     // for opening Dialog Box
@@ -57,6 +59,14 @@ const Summarizer = () => {
         }
         else {
             output.readOnly = true;
+        }
+
+        if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
+            showShorten(true)
+        }   
+        else if (isClicked == 0)
+        {
+            showShorten(false)
         }
     });
 
@@ -94,6 +104,7 @@ const Summarizer = () => {
     // empties content and closes Dialog Box
     const handleConfirm = () => {
         emptyTextContent();
+        showShorten(false)
         handleClose();
     }
 
@@ -103,6 +114,7 @@ const Summarizer = () => {
     }
     const thumbsDown = () => {
         console.log("Output summary is bad.")
+        setOutputContent('Bilaaaaal')
     }
 
     const [isCopied, setCopy] = useState(false);
@@ -142,13 +154,34 @@ const Summarizer = () => {
                     </div>
                     <div className="text">
                         <div className="inputArea">
-                            <textarea
-                                id='input' 
+                            { isClicked == 0 &&
+                                <textarea
+                                id='inputText' 
                                 placeholder='Paste your text here...' 
                                 value={inputContent} 
                                 onChange={handleInputChange} 
                                 required>    
-                            </textarea>
+                                </textarea>
+                            }
+                            { isClicked == 1 &&
+                                <textarea
+                                    id='inputURL' 
+                                    placeholder='Paste your text here...' 
+                                    value={inputContent} 
+                                    onChange={handleInputChange} 
+                                    required>    
+                                </textarea>
+                            }
+                            { isClicked == 2 &&
+                                <textarea
+                                    id='inputYTURL' 
+                                    placeholder='Paste your text here...' 
+                                    value={inputContent} 
+                                    onChange={handleInputChange} 
+                                    required>    
+                                </textarea>
+                            }
+
                             { inputContent &&
                                 (<Tooltip title="Delete" arrow>
                                     <button className='delete-button' 
