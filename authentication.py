@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 import re
 import hashlib
+import requests
 
 appA = Flask(__name__)
 CORS(appA)
@@ -107,8 +108,15 @@ def signup():
     # Extract user data from the request
     email = data.get('email')
     password = data.get('pass')
-    #email = data.get('email') ##Add this when an email section is entered
     
+    api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
+    url = 'https://api.hunter.io/v2/email-verifier?email={email}}&api_key=d321a91641fa776088ed4673351eafb1625dd4b1'
+
+    response = requests.get(url)
+    result = response.json()
+ 
+    if 'data' not in result or result['data'].get('result') != 'deliverable':
+        return jsonify({'message': 'Email does not exist or is not deliverable'})
     # Insert the user data into the database
     userMgr = Authentication()
     if not (userMgr.isPasswordValid(password)):
