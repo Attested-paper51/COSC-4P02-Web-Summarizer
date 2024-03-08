@@ -25,6 +25,7 @@ const VerifyUser = () => {
             onChange={(e) => setUser(e.target.value)}
             placeholder='Enter email here' 
           />
+          <div class="email-error">Email ID not found!</div>
         </div>  
 
         <Link to="/Reset">
