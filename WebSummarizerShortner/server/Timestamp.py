@@ -2,7 +2,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import re
 
 def extract_video_id(url):
-    video_id_match = re.search(r'v=([0-9A-Za-z_-]{11})', url)
+    video_id_match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11})', url)
     if video_id_match:
         return video_id_match.group(1)
     return None
