@@ -166,6 +166,11 @@
     height: 1.5em;
 }
 
+.login-box .email-error, .login-box .pass-error{
+    font-size: 13px;
+    padding-top: 2px;
+    color: red;
+}
 
 @media (max-width: 1140px) {
     .login-box{
