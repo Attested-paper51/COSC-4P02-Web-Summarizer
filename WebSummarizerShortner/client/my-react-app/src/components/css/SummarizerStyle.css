@@ -83,7 +83,7 @@ textarea::-webkit-scrollbar{
     position: relative;
 }
 
-.buttonDiv {
+.bottom-div1 {
     background-color: white;
 
     width: 100%;
@@ -91,13 +91,33 @@ textarea::-webkit-scrollbar{
 
     display: flex; 
     justify-content: flex-end; 
-    align-items: center;
+    /* justify-content: space-between; */
+   
 
     border: 0;
     padding-right: 10px;
     padding-top: 2px;
     /* border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px; */
+}
+
+.bottom-div2 {
+    background-color: white;
+
+    width: 100%;
+    height: 60px;
+
+    display: flex; 
+    justify-content: flex-start;
+
+    border: 0;
+    padding-right: 20px;
+    padding-left: 10px;
+    padding-top: 2px;
+    /* border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px; */
+
+    position: relative;
 }
 
 .delete-button, .copy-button {
@@ -165,6 +185,30 @@ textarea::-webkit-scrollbar{
     top: 13px;
     white-space: nowrap;
     padding-top: 12px;
+}
+
+.feedback-buttons {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.export-button {
+    position: absolute;
+    bottom: 0;
+    right: 60px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.word-count {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 10px;
+    padding-right: 10px;
 }
 
 .button-container {
