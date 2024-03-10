@@ -7,13 +7,17 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [finalPass, confirmPass] = useState('');
+  
+  const [emailError, setEmailError] = useState('');
+  const [passError, setPassError] = useState('');
 
 
   const handleSubmit = async () => {
     try {
         if (pass !== finalPass) {
             //this will be a popup
-            console.error('Passwords do not match');
+            //console.error('Passwords do not match');
+            setPassError('Passwords do not match!');
             return;
         }
 
@@ -29,8 +33,17 @@ const SignUp = () => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
+
+          if (result.message === 'Email is already registered.') {
+            setEmailError('Email is already registered.');
+            setEmail('');
+          } else if (result.message === 'Email does not exist or is not deliverable.') {
+            setEmailError('Email does not exist or is not deliverable.');
+            setEmail('');
+          }
       } else {
-          console.error('Failed to register');
+          const result = await response.json();
+          console.error('Failed to register', result.message);
       }
     } catch (error) {
         console.error('Error:', error.message);
@@ -53,7 +66,7 @@ const SignUp = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder='Enter email here' 
           />
-          <div class="email-error">Invalid email!</div>
+          {emailError && <div className="email-error">{emailError}</div>}
         </div>
       
         <div className="password">
