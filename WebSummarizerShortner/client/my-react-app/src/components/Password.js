@@ -50,6 +50,7 @@ const Password = () => {
             onChange={(e) => confirmPass(e.target.value)} 
             placeholder='Enter password here' 
           />
+          <div class="pass-error">Passwords do not match!</div>
         </div>
 
         <button className="reset-btn" onClick={handleSubmit}>
