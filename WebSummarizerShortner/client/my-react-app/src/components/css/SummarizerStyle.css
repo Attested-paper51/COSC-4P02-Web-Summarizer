@@ -212,12 +212,43 @@ textarea::-webkit-scrollbar{
     font-size: 14px;
 }
 
+.word-cnt-div {
+    cursor: pointer;
+}
+
+.link-blue {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.link-blue:hover {
+    color: #0056b3;
+}
+
+.button-disabled {
+    opacity: 0.5;
+    cursor: not-allowed; 
+}
+
+.button-disabled:hover {
+    opacity: 0.5;
+    cursor: not-allowed; 
+}
+
+.get-premium {
+    background-color: rgb(255, 241, 241);
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .button-container {
     width: 50%; /* Covering 50% of the horizontal screen space */
     height: 35px;
     display: flex;
     justify-content:flex-start;
-    background-color: pink;
+    /* background-color: pink; */
 }
 
 .customSumBtn {
