@@ -9,6 +9,7 @@ import CreateAccountPage from './pages/CreateAccountPage.js'
 import VerifyUsernamePage from './pages/VerifyUsernamePage.js'
 import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
+import UserDashboardPage from './pages/UserDashboardPage.js';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/Verify" element={<VerifyUsernamePage />} />
             <Route path="/Reset" element={<ResetPasswordPage />} />
             <Route path="/Feedback" element={<FeedbackPage />} />
+            <Route path="/Dashboard" element={<UserDashboardPage />} />
           </Routes>
         </div>
       </Router>

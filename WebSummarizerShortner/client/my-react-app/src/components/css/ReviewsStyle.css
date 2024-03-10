@@ -1,46 +1,42 @@
 .reviews {
-    padding: 10rem 5rem 5rem;
-    justify-content: center;
+    padding: 8rem;
+    /*justify-content: center;*/
+    place-items: center;
 }
 
 .carousel {
     position: unset !important;
-    margin-left: 4.5vw;
+    margin-left: clamp(0px, 10px, 100px);
 }
 
 .review-container {
-    box-shadow: 1px 1px 5px #888888;
+    /* box-shadow: 1px 1px 5px #888888; */
     width: clamp(15vw, 25vw, 50vw);
-    height: clamp(240px, 12vh, 250px);
-    border: none;
-    border-radius: 9px;
+    height: clamp(120px, 25vh, 450px);
+    border: 0.15vw solid black;
+    /* border-radius: 9px; */
     box-sizing: border-box;
-    padding: 1rem;
-    background:linear-gradient(#d8e7f2,transparent);
-    background-color:white
+    /* background:linear-gradient(#d8e7f2,transparent); */
+    background-color:white;
+    padding: 2vw 4vw;
+    border-radius: 1vw;
 }
 
 .review-div {
-    display: flex;
-    flex-direction: row;
-}
-
-.right-quote {
-    font-size: clamp(0.5vw, 1.5vw, 2vw);
-    margin-left: auto;
+    /*display: flex;
+    flex-direction: row;*/
 }
 
 .review-text {
-    font-size: clamp(1rem, 1vw, 3rem);
+    font-size: clamp(1rem, 1.1vw, 3rem);
     padding: 0.5rem;
 }
 
-.star {
+.review-star {
     font-size: clamp(0.7vw, 1.5vw, 2vw);
-    padding: 0rem;
 }
 
-@media (max-width: 2200px) {
+/*@media (max-width: 2200px) {
     .review-container {
         height: clamp(165px, 10vh, 250px);
     }
@@ -78,6 +74,6 @@
     .star {
         font-size: clamp(2vw, 3.5vw, 5vw);
     }
-}
+}*/
  
 
