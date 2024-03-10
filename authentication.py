@@ -107,14 +107,16 @@ def signup():
     data = request.get_json()
     # Extract user data from the request
     email = data.get('email')
+    print(email)
     password = data.get('pass')
     
+    #Add this to .env
     api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
-    url = 'https://api.hunter.io/v2/email-verifier?email={email}}&api_key=d321a91641fa776088ed4673351eafb1625dd4b1'
+    url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
 
     response = requests.get(url)
     result = response.json()
- 
+    
     if 'data' not in result or result['data'].get('result') != 'deliverable':
         return jsonify({'message': 'Email does not exist or is not deliverable'})
     # Insert the user data into the database
