@@ -53,8 +53,7 @@ const SignUp = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder='Enter email here' 
           />
-          {/* <div className="email-text">Your email</div>
-          <textfield className="textfield"></textfield> */}
+          <div class="email-error">Invalid email!</div>
         </div>
       
         <div className="password">
@@ -77,6 +76,7 @@ const SignUp = () => {
             onChange={(e) => confirmPass(e.target.value)}
             placeholder='Enter password here' 
           />
+          <div class="pass-error">Passwords do not match!</div>
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>

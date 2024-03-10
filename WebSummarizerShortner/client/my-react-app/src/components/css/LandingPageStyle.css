@@ -3,18 +3,19 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    padding: 4rem;
-    column-gap: clamp(3vw, 10vw, 15vw);
+    padding: 10vh;
+    column-gap: clamp(3vw, 4vw, 15vw);
     background-color: #B5CCE2;
 }
 
 .summarizer, .shortener {
     width: clamp(10vw, 30vw, 60vw);
     display: block; /* Ensure the entire block is clickable */
-    height: 350px;
-    min-width: 500px;
-    border: 2px solid;
-    border-radius: 10px;
+    /*height: 450px;
+    min-width: 500px;*/
+    padding: 0.5vw;
+    border: 0.2vw solid;
+    border-radius: 1vw;
     background-color: #edf7f9;
 } 
 
@@ -33,7 +34,7 @@
 }
 
 .para {
-    font-size: clamp(0.6rem, 1vw, 10rem);
+    font-size: clamp(0.6rem, 1.1vw, 10rem);
     font-weight: 500;
     margin-top: 1em;
 }
@@ -57,8 +58,11 @@
       align-items: center;
       row-gap: clamp(3vw, 6vw, 15vw);
     }
-    .summarizer {
-        width: clamp(10vw, 60vw, 100vw);
+    .summarizer, .shortener {
+        width: clamp(10vw, 65vw, 60vw);
+        height: clamp(400px, 0, 550px);
+        padding: 0.1vw;
+        border: 0.35vw solid;
     } 
     .summarizer-img, .shortener-img{
         width: clamp(25vw, 25vw, 60vw);
@@ -72,65 +76,3 @@
     }
   }
 
-
-/*.main{
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    font-size: larger;
-    justify-content: center;
-    width: 100%;
-    margin: auto;
-    padding: 6rem;
-}
-
-.summarizer {
-    width: 354px;
-    height: 127px;
-    display: block; /* Ensure the entire block is clickable 
-} 
-
-.shortener {
-    width: 354px;
-    display: block; /* Ensure the entire block is clickable 
-}
-
-.summarizer-img, .shortener-img {
-    height: 130px;
-    padding-bottom: 15px;
-}
-
-@media (max-width: 745px) {
-    .main {
-        flex-direction: column;
-        align-items: center;
-    }
-    .main-shortener {
-        margin-top: 80%;
-    }
-    .summarizer {
-        padding-top: 50px;
-    }
-    .shortener {
-        padding-bottom: 80px;
-    }
-}
-
-@media (max-width: 460px) {
-    .main {
-        font-size: medium;
-        width: 50%;
-    }
-}
-
-@media (max-width: 380px) {
-    .summarizer {
-        width: 300px;
-        height: 127px;
-    }
-    .shortener {
-        width: 300px;
-    }
-}
-
-*/
