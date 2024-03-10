@@ -16,7 +16,7 @@ const SignUp = () => {
     try {
         if (pass !== finalPass) {
             //this will be a popup
-            //console.error('Passwords do not match');
+            console.log('Passwords do not match!');
             setPassError('Passwords do not match!');
             return;
         }
@@ -40,6 +40,10 @@ const SignUp = () => {
           } else if (result.message === 'Email does not exist or is not deliverable.') {
             setEmailError('Email does not exist or is not deliverable.');
             setEmail('');
+          } else if (result.message === 'Password invalid.'){
+            setPassError('Password invalid.');
+            setPass('');
+            confirmPass('');
           }
       } else {
           const result = await response.json();
@@ -50,6 +54,21 @@ const SignUp = () => {
     }
 
   };
+
+  const handleEmailChange = (e) => {
+    setEmailError('');
+    setEmail(e.target.value);
+  };
+
+  const handlePassChange = (e) => {
+    setPassError('');
+    setPass(e.target.value);
+  }
+
+  const handleConfirmChange = (e) => {
+    setPassError('');
+    confirmPass(e.target.value);
+  }
 
   return (
     <div className="box">
@@ -63,7 +82,7 @@ const SignUp = () => {
             type="text" 
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
           {emailError && <div className="email-error">{emailError}</div>}
@@ -75,7 +94,7 @@ const SignUp = () => {
             type="text" 
             required
             value={pass}
-            onChange={(e) => setPass(e.target.value)}
+            onChange={handlePassChange}
             placeholder='Enter password here' 
           />
         </div>
@@ -86,10 +105,10 @@ const SignUp = () => {
             type="text" 
             required
             value={finalPass}
-            onChange={(e) => confirmPass(e.target.value)}
+            onChange={handleConfirmChange}
             placeholder='Enter password here' 
           />
-          <div class="pass-error">Passwords do not match!</div>
+          {passError && <div className="pass-error">{passError}</div>}
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>
