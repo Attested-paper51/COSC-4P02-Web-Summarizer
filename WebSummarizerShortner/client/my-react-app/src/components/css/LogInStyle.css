@@ -201,6 +201,11 @@
     padding-right: 0.1vw;
 }
 
+.login-box .email-error, .login-box .pass-error{
+    padding-top: 2px;
+    color: red;
+}
+
 @media (max-width: 800px) {
     .login-box{
         display: flex;
@@ -215,12 +220,6 @@
         border-radius: 10px;
         border: 2px solid #bba048;
     }
-}
-
-.login-box .email-error, .login-box .pass-error{
-    font-size: 13px;
-    padding-top: 2px;
-    color: red;
 }
 
 
