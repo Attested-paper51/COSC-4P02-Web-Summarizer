@@ -3,8 +3,6 @@ import { Link , useNavigate} from 'react-router-dom';
 import "./css/LogInStyle.css";
 
 
-//Need to make sure that if the user's pw is entered incorrectly it doesn't
-//redirect
 const LogIn = () => {
 
   const [email, setEmail] = useState('');
@@ -37,13 +35,13 @@ const LogIn = () => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
-
-          if (result.message === 'User not found or password is incorrect.') {
+          if (result.message === 'User found.'){
+            //Navigate to dashboard if the backend finds the user.
+            navigate('/Dashboard');
+          }else if (result.message === 'User not found or password is incorrect.') {
             setPassError(result.message);
             setPass('');
             setEmail('');
-          }else if ( result.message === 'User found.'){
-            navigate('/Dashboard');
           }
       } else {
           console.error('Failed to login.');
@@ -54,6 +52,8 @@ const LogIn = () => {
 
   };
 
+  //Email and password change handling so that the errors disappear when
+  //the user types in either field.
   const handleEmailChange = (e) => {
     setPassError('');
     setEmail(e.target.value);
