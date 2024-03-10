@@ -118,18 +118,18 @@ def signup():
     result = response.json()
     
     if 'data' not in result or result['data'].get('result') != 'deliverable':
-        return jsonify({'message': 'Email does not exist or is not deliverable'})
+        return jsonify({'message': 'Email does not exist or is not deliverable.'})
     # Insert the user data into the database
     userMgr = Authentication()
     if not (userMgr.isPasswordValid(password)):
-        return jsonify({'message':'Password invalid'})
+        return jsonify({'message':'Password invalid.'})
 
     if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Email is already registered'})
+        return jsonify({'message':'Email is already registered.'})
     userMgr.registerUser(email,password)
     #print("request made")
 
-    return jsonify({'message': 'User registered successfully'})
+    return jsonify({'message': 'User registered successfully.'})
 
 @appA.route('/login',methods=['POST'])
 def login():
@@ -140,8 +140,8 @@ def login():
 
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
-        return jsonify({'message':'Logging in user'})
-    return jsonify({'message':'User not found or password is incorrect'})
+        return jsonify({'message':'User found.'})
+    return jsonify({'message':'User not found or password is incorrect.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
