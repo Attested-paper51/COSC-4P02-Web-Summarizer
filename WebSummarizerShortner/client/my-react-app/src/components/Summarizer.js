@@ -23,6 +23,7 @@ const Summarizer = () => {
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
+    const [isPremium, setPremium] = useState(false);
 
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
@@ -197,7 +198,7 @@ const Summarizer = () => {
                             { isClicked == 0 &&
                                 <textarea
                                 id='inputText' 
-                                placeholder='Paste your text here...' 
+                                placeholder='Enter or paste your text and click "Summarize."' 
                                 value={inputContent} 
                                 onChange={handleInputChange} 
                                 required>    
@@ -206,7 +207,7 @@ const Summarizer = () => {
                             { isClicked == 1 &&
                                 <textarea
                                     id='inputURL' 
-                                    placeholder='Paste your text here...' 
+                                    placeholder='Enter or paste your URL and click "Summarize."' 
                                     value={inputContent} 
                                     onChange={handleInputChange} 
                                     required>    
@@ -215,7 +216,7 @@ const Summarizer = () => {
                             { isClicked == 2 &&
                                 <textarea
                                     id='inputYTURL' 
-                                    placeholder='Paste your text here...' 
+                                    placeholder='Enter or paste your Youtube URL and click "Summarize."' 
                                     value={inputContent} 
                                     onChange={handleInputChange} 
                                     required>    
@@ -230,17 +231,30 @@ const Summarizer = () => {
                                 </Tooltip>)
                             }
                             <div className='bottom-div1'>
-                                <button className="summarize-btn">
-                                    <div className="summarize-overlap">
-                                        <div className="summarize">Summarize</div>
-                                    </div>
-                                </button>
+                                { wordCount > 125? 
+                                    <Tooltip title="Over the word limit" arrow>
+                                        <button className='summarize-btn button-disabled'>
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Summarize</div>
+                                            </div>
+                                        </button>
+                                    </Tooltip> :
+                                        <button className='summarize-btn'>
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Summarize</div>
+                                            </div>
+                                        </button>
+                                }
 
                                 <div className="word-count">
-                                    { inputContent && wordCount >= 1 &&
+                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
                                         (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                            <div>{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                        </Tooltip>)
+                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                        </Tooltip>) : wordCount >= 126 ?
+                                        <div className="get-premium">
+                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                            <div>{wordCount}/125 Words</div>    
+                                        </div> : null
                                     }
                                 </div>
                             </div>
