@@ -49,7 +49,7 @@ const Reviews = () => {
                             return(
                                 <label className='five-stars'>
                                     <FaStar 
-                                        className='star'  
+                                        className='review-star'  
                                         color={currentRating <= d.rating ? "#ffc107" : "#e4e5e9"}
                                     />
                                 </label>
@@ -74,7 +74,7 @@ const data = [
         rating: '5'
     },
     {
-        feedback: 'Simplify with style! This website streamlines text summarization with precision.',
+        feedback: 'This website streamlines text summarization with precision.',
         rating: '4'
     },
     {
