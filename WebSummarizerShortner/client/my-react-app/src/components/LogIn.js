@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import "./css/LogInStyle.css";
 
 
@@ -9,6 +9,9 @@ const LogIn = () => {
 
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+
+  const [passError, setPassError] = useState('');
+  const navigate = useNavigate();
   
   // const [CopyURL, setCopyURL] = useState('Copy URL')
   // const handleCopy = () => {
@@ -34,6 +37,14 @@ const LogIn = () => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
+
+          if (result.message === 'User not found or password is incorrect.') {
+            setPassError(result.message);
+            setPass('');
+            setEmail('');
+          }else if ( result.message === 'User found.'){
+            navigate('/Dashboard');
+          }
       } else {
           console.error('Failed to login.');
       }
@@ -42,6 +53,16 @@ const LogIn = () => {
     }
 
   };
+
+  const handleEmailChange = (e) => {
+    setPassError('');
+    setEmail(e.target.value);
+  };
+
+  const handlePassChange = (e) => {
+    setPassError('');
+    setPass(e.target.value);
+  }
 
   return (
     <div className="login-box">
@@ -65,10 +86,10 @@ const LogIn = () => {
             type="text" 
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          <div class="email-error">Incorrect Email ID!</div>
+          
         </div>
       
         <div className="password">
@@ -77,19 +98,20 @@ const LogIn = () => {
             type="text" 
             required
             value={pass}
-            onChange={(e) => setPass(e.target.value)}
+            onChange={handlePassChange}
             placeholder='Enter password here' 
           />
-          <div class="pass-error">Incorrect Password!</div>
+          {passError && <div className="pass-error">{passError}</div>}
         </div>
 
-        <Link to="/Dashboard">
+        
           <button className="login-btn" onClick={handleSubmit}>
             <div className="login-overlap">
               <div className="login">Log in</div>
             </div>
           </button>
-        </Link>
+
+        
         
         <Link to="/Verify">
           <div className="forgot">
