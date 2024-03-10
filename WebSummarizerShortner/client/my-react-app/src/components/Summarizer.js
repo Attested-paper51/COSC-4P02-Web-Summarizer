@@ -11,7 +11,7 @@ import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
 import { IoClipboard } from "react-icons/io5";
 import { FaRegTrashCan } from "react-icons/fa6";
-
+import { PiExport } from "react-icons/pi";
 // Components
 import DialogBox from '../components/DialogBox.js';
 
@@ -21,44 +21,94 @@ const Summarizer = () => {
     const [open, setOpen] = useState(false);
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
+    const [wordCount, setWordCount] = useState(0);
+    const [timeoutId, setTimeoutId] = useState(null);
 
     const toggleClicked = (buttonIndex) => {
-        setClickedButton(buttonIndex);
+        setClickedButton(buttonIndex)
+        emptyTextContent()
+        showShorten(false)
     }
 
     // for opening Dialog Box
     const handleOpen = () => {
-        setOpen(true);
+        setOpen(true)
     }
 
     // for closing Dialog Box
     const handleClose = () => {
-        setOpen(false);
+        setOpen(false)
     }
 
     // detecting input text change
     const handleInputChange = (event) => {
-        setInputContent(event.target.value);
+        setInputContent(event.target.value)
     }
 
     // detecting output text change
     const handleOutputChange = (event) => {
-        setOutputContent(event.target.value);
+        setOutputContent(event.target.value)
     }
+
+    // counts number of words in a string
+    const countWords = (text) => {
+        text = text.trim()
+        const words = text.split(/\s+/)
+        return words.length
+    }    
+
+
+    useEffect(() => {
+        
+        if (timeoutId) {
+            clearTimeout(timeoutId)
+        }
+
+        // set a timeout of 200 miliseconds - then update the word count
+        const id = setTimeout(() => {
+            // updates word count
+            if(inputContent.trim().length == 0) {
+                setWordCount(0)
+            }
+            else {
+                const words = countWords(inputContent)
+                setWordCount(words)
+            }
+        }, 200)
+
+        setTimeoutId(id)
+
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
+        }
+    }, [inputContent])
+
 
     /** every render: checks if output has text
      *  if it does, then makes output editable
      *  else, keeps it readOnly*/
-    useEffect(() => {
+    useEffect (() => {
         // runs after every render
         const output = document.getElementById("output");
         if(outputContent !== '') {
-            output.readOnly = false;
+            output.readOnly = false
         }
         else {
-            output.readOnly = true;
+            output.readOnly = true
         }
-    });
+
+        // conditions for showing the link to Url Shortener
+        if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
+            showShorten(true)
+        }   
+        else if (isClicked == 0)
+        {
+            showShorten(false)
+        }
+    })
+
 
     const componentDidMount = () =>
     {
@@ -87,14 +137,15 @@ const Summarizer = () => {
 
     // empties input and output
     const emptyTextContent = () => {
-        setInputContent('');
-        setOutputContent('');
+        setInputContent('')
+        setOutputContent('')
     }
 
     // empties content and closes Dialog Box
     const handleConfirm = () => {
-        emptyTextContent();
-        handleClose();
+        emptyTextContent()
+        showShorten(false)
+        handleClose()
     }
 
     // functions can be changed accordingly
@@ -103,12 +154,13 @@ const Summarizer = () => {
     }
     const thumbsDown = () => {
         console.log("Output summary is bad.")
+        setOutputContent('Bilaaaaal')
     }
 
-    const [isCopied, setCopy] = useState(false);
+    const [isCopied, setCopy] = useState(false)
     const copySummary = () => {
         navigator.clipboard.writeText(outputContent)
-        setCopy(!isCopied);
+        setCopy(!isCopied)
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -142,13 +194,34 @@ const Summarizer = () => {
                     </div>
                     <div className="text">
                         <div className="inputArea">
-                            <textarea
-                                id='input' 
+                            { isClicked == 0 &&
+                                <textarea
+                                id='inputText' 
                                 placeholder='Paste your text here...' 
                                 value={inputContent} 
                                 onChange={handleInputChange} 
                                 required>    
-                            </textarea>
+                                </textarea>
+                            }
+                            { isClicked == 1 &&
+                                <textarea
+                                    id='inputURL' 
+                                    placeholder='Paste your text here...' 
+                                    value={inputContent} 
+                                    onChange={handleInputChange} 
+                                    required>    
+                                </textarea>
+                            }
+                            { isClicked == 2 &&
+                                <textarea
+                                    id='inputYTURL' 
+                                    placeholder='Paste your text here...' 
+                                    value={inputContent} 
+                                    onChange={handleInputChange} 
+                                    required>    
+                                </textarea>
+                            }
+
                             { inputContent &&
                                 (<Tooltip title="Delete" arrow>
                                     <button className='delete-button' 
@@ -156,12 +229,20 @@ const Summarizer = () => {
                                     </button>
                                 </Tooltip>)
                             }
-                            <div className='buttonDiv' id="btnDiv">
+                            <div className='bottom-div1'>
                                 <button className="summarize-btn">
                                     <div className="summarize-overlap">
                                         <div className="summarize">Summarize</div>
                                     </div>
                                 </button>
+
+                                <div className="word-count">
+                                    { inputContent && wordCount >= 1 &&
+                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                            <div>{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                        </Tooltip>)
+                                    }
+                                </div>
                             </div>
                         </div>
 
@@ -171,13 +252,13 @@ const Summarizer = () => {
                             </div> */}
                             <textarea 
                                 id='output'
-                                placeholder='Get output here...' 
+                                placeholder='Get summary here...' 
                                 value={outputContent} 
                                 onChange={handleOutputChange} 
                                 required
                                 readOnly>   
                             </textarea>
-                            <div className='buttonDiv' id="btnDiv2">
+                            <div className='bottom-div2'>
                                 { shorten &&
                                     <Link to = "/Shortener">
                                         <button className="summarize-btn">
@@ -188,12 +269,19 @@ const Summarizer = () => {
                                     </Link>
                                 }
                                 
-                                <Tooltip title="Like" arrow>
-                                    <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                                </Tooltip>
-                                <Tooltip title="Dislike" arrow>
-                                    <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
-                                </Tooltip>
+                                <div className="feedback-buttons">
+                                    <Tooltip title="Like" arrow>
+                                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                    </Tooltip>
+                                    <Tooltip title="Dislike" arrow>
+                                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                    </Tooltip>
+                                </div>
+                                <div className="export-button">
+                                    <Tooltip title="Export" arrow>
+                                        <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
+                                    </Tooltip>
+                                </div>
                             </div>
                             <Tooltip title="Copy" arrow>
                                 <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
