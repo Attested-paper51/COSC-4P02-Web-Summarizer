@@ -55,7 +55,7 @@ const LogIn = () => {
         </button>
         <button className="fb-btn">
           <div className="fb-overlap">
-          < img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
+            <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
             <div className="login-social">Continue with Facebook</div>
           </div>
         </button>
