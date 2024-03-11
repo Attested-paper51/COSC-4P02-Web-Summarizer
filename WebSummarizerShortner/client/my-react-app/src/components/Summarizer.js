@@ -231,6 +231,18 @@ const Summarizer = () => {
                                 </Tooltip>)
                             }
                             <div className='bottom-div1'>
+                                <div className="word-count">
+                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
+                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                        </Tooltip>) : wordCount >= 126 ?
+                                        <div className="get-premium">
+                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                            <div>{wordCount}/125 Words</div>    
+                                        </div> : null
+                                    }
+                                </div>
+
                                 { wordCount > 125? 
                                     <Tooltip title="Over the word limit" arrow>
                                         <button className='summarize-btn button-disabled'>
@@ -245,18 +257,6 @@ const Summarizer = () => {
                                             </div>
                                         </button>
                                 }
-
-                                <div className="word-count">
-                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                        </Tooltip>) : wordCount >= 126 ?
-                                        <div className="get-premium">
-                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
-                                            <div>{wordCount}/125 Words</div>    
-                                        </div> : null
-                                    }
-                                </div>
                             </div>
                         </div>
 
@@ -273,16 +273,6 @@ const Summarizer = () => {
                                 readOnly>   
                             </textarea>
                             <div className='bottom-div2'>
-                                { shorten &&
-                                    <Link to = "/Shortener">
-                                        <button className="summarize-btn">
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Shorten your URL</div>
-                                            </div>
-                                        </button>
-                                    </Link>
-                                }
-                                
                                 <div className="feedback-buttons">
                                     <Tooltip title="Like" arrow>
                                         <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
@@ -296,6 +286,16 @@ const Summarizer = () => {
                                         <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
                                     </Tooltip>
                                 </div>
+                                
+                                { shorten &&
+                                    <Link to = "/Shortener">
+                                        <button className="summarize-btn">
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Shorten your URL</div>
+                                            </div>
+                                        </button>
+                                    </Link>
+                                }
                             </div>
                             <Tooltip title="Copy" arrow>
                                 <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
