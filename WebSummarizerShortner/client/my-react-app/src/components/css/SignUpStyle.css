@@ -1,0 +1,137 @@
+.box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    padding-top: 7vh;
+    /* background-color: rgb(248, 248, 238); */
+}
+
+.form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0.15vw solid #7e7d7d;
+    border-radius: 1vw;
+    background-color: #ffffff;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    width: clamp(320px, 32vw, 1100px);
+}
+
+.form-title{
+    text-align: center;
+    font-weight: bold;
+    /* padding: 1em; */
+    font-size: clamp(1.1rem, 1vw, 10rem);
+}
+
+.form-subtitle{
+    text-align: center;
+    padding: 1.5vw 1vw;
+    font-size: clamp(0.8rem, 0.7vw, 10rem);
+}
+
+.email, .password{
+    width: clamp(300px, 28vw, 1000px);
+    font-size: clamp(0.8rem, 0.8vw, 10rem);
+    margin-bottom: 1em;
+}
+
+.email-text, .pass-text{
+    display: block;
+    padding-bottom: 5px;
+    color: #757373;
+}
+
+.textfield{
+    border: 1px solid #b7b6b6;
+    border-radius: 8px;
+    position: relative;
+    width: 100%;
+    padding-left: 5px;
+    height: clamp(40px, 3.2vh, 500px);
+    font-size: clamp(0.8rem, 0.65vw, 10rem);
+}
+
+.signup-btn{
+    all: unset;
+    box-sizing: border-box;
+    width: clamp(300px, 28vw, 1000px); 
+    margin-bottom: 1em;
+}
+
+.signup-btn:hover{
+    opacity: 0.8;
+} 
+
+.signup-overlap{
+    position: relative;
+    margin-top: 1em;
+    box-shadow: 0px 3px 4px #0000004c;
+    border-radius: 9px;
+    background-color: #0d55a7; 
+}
+
+.signup{
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0;
+    /* position: absolute; */
+    text-align: center;
+    white-space: nowrap;
+    padding: 0.2vw;
+    font-size: clamp(1.1rem, 0.95vw, 10rem);
+}
+
+.box .pass-error, .box .email-error{
+    font-size: clamp(0.8rem, 0.7vw, 10rem);
+    padding-top: 2px;
+    color: red;
+}
+
+/*@media (max-width: 1140px) {
+    .box{
+        display: flex;
+        flex-direction: column;
+    }
+    .form{
+        margin-bottom: 0;
+        margin-bottom: 3.5em;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .form{
+        width: 400px;
+        margin-bottom: 3.5em;
+    }
+    .signup-overlap, .email, .password{
+        width: 300px;
+    }
+    
+}
+
+@media (max-width: 450px) {
+    .form{
+        width: 360px;
+    }
+    .signup-overlap, .email, .password{
+        width: 250px;
+    }
+    .box{
+        font-size: 1em;
+    }
+    .email-text, .pass-text, .signup{
+        font-size: 12px;
+        line-height: 12px;
+    }
+    .signup-overlap{
+        height: 35px;
+    }
+}*/
