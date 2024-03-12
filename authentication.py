@@ -73,6 +73,12 @@ class Authentication:
             #Passwords don't match
             return 0
     
+    def resetPassword(self,email,newPassword):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword, email))
+        self.conn.commit()
+
+    
     def changeEmail(self,email,newEmail,password):
         cursor = self.conn.cursor()
         cursor.execute("SELCT * FROM users WHERE email = %s AND password = %s",(email,password))
@@ -99,9 +105,23 @@ def verify():
     if (userMgr.checkIfAlreadyRegistered(email)):
         return jsonify({'message':'Email found.'})
     return jsonify({'message':'Email not found!'})
-    
+
+#Resetting a user's password, given that they forgot their old.
+@appA.route('/reset',methods=['POST'])
+def resetPW():
+    data = request.get_json()
+    email = data.get('email')
+    newPassword = data.get('pass')
+    userMgr = Authentication()
+    if not (userMgr.isPasswordValid(newPassword)):
+        return jsonify({'message':'New password requirements not met.'})
+
+    userMgr.resetPassword(email,newPassword)
+    return jsonify({'message':'Password changed successfully.'})
 
 
+#Changing a user's password, given that they know their current pass and
+#Just want to change it.
 @appA.route('/changepassword',methods=['POST'])
 def changePW():
     data = request.get_json()
@@ -111,12 +131,12 @@ def changePW():
 
     userMgr = Authentication()
     if not (userMgr.isPasswordValid(newPassword)):
-        return jsonify({'message':'New password invalid'})
+        return jsonify({'message':'New password requirements not met.'})
 
     if (userMgr.changePassword(email,password,newPassword)):
-        return jsonify({'message':'Password changed successfully'})
+        return jsonify({'message':'Password changed successfully.'})
     else:
-        return jsonify({'message':'Current password incorrect'})
+        return jsonify({'message':'Current password incorrect.'})
 
 @appA.route('/register', methods=['POST'])
 def signup():
