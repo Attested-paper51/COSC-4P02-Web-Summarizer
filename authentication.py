@@ -35,6 +35,12 @@ class Authentication:
         count = cursor.fetchone()[0]
         return count > 0
 
+    def findEmail(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = %s",(email,))
+        email = cursor.fetchone()
+        return email
+
     def loginUser(self,email,password):
         cursor = self.conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM users WHERE email = %s AND password = %s", (email, password))
@@ -84,6 +90,16 @@ class Authentication:
 
     def __del__(self):
         self.conn.close()
+
+@appA.route('/verify',methods=['POST'])
+def verify():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    if (userMgr.checkIfAlreadyRegistered(email)):
+        return jsonify({'message':'Email found.'})
+    return jsonify({'message':'Email not found!'})
+    
 
 
 @appA.route('/changepassword',methods=['POST'])
