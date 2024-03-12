@@ -190,12 +190,12 @@
     width: clamp(300px, 25vh, 580px);
 }
 
-.login-box .account-img{
-    /* width: 500px; */
-    /*height: 250px;
+/* .login-box .account-img{
+    width: 500px; 
+    height: 250px;
     padding-top: 3.5em; 
-    margin: 1em;*/
-}
+    margin: 1em;
+} */
   
 .login-box .account-img .logo{
     /*width: 250px;
