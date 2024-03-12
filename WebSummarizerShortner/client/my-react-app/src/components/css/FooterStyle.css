@@ -1,0 +1,32 @@
+footer {
+    background-color:#48587e;
+    min-height: 5vh;
+    padding: clamp(1rem, 1vw, 10rem);
+}
+
+footer a{
+    color: white
+}
+
+.footer-container {
+    margin-top: auto;
+    padding-top: 30px;
+}
+
+.footer-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding: clamp(1rem, 1vw, 10rem);
+    font-size: clamp(1rem, 1.1vw, 5rem); 
+}
+
+.footer-help {
+    padding-right: 2em
+}
+
+.footer-feedback {
+    padding-right: 1.5em
+}
+
+
