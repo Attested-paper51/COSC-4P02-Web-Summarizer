@@ -10,11 +10,13 @@ import VerifyUsernamePage from './pages/VerifyUsernamePage.js'
 import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
 import UserDashboardPage from './pages/UserDashboardPage.js';
+import { AuthProvider } from './context/AuthContext.js';
 
 
 function App() {
   return (
     <div className="App">
+      <AuthProvider>
       <Router>
         <div className="App">
           <Routes>
@@ -30,6 +32,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      </AuthProvider>
     </div>
   );
 }
