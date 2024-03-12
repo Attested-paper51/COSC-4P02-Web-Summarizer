@@ -13,14 +13,6 @@ const LogIn = () => {
   const [passError, setPassError] = useState('');
   const navigate = useNavigate();
   
-  // const [CopyURL, setCopyURL] = useState('Copy URL')
-  // const handleCopy = () => {
-  //     navigator.clipboard.writeText(shortened)
-  //     setCopyURL('Copied')
-  //     setTimeout(() => {
-  //         setCopyURL('Copy URL');
-  //     }, 3000); // Reverts back to 'Submit' after 3 seconds
-  // }
   const [visible, setVisible] = useState(false);
 
   const handleSubmit = async () => {
@@ -92,19 +84,11 @@ const LogIn = () => {
             onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          
+          {/* <div class="email-error">Incorrect Email!</div> */}
         </div>
       
         <div className="password">
           <label className='pass-text'>Your password</label> 
-          <input className='textfield'
-            type="text" 
-            required
-            value={pass}
-            onChange={handlePassChange}
-            placeholder='Enter password here' 
-          />
-          {passError && <div className="pass-error">{passError}</div>}
           <div className='pass-container'>
             <input className='textfield'
               type={visible ? "text":"password"}
@@ -117,7 +101,7 @@ const LogIn = () => {
               {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
             </div>
           </div>
-          <div class="pass-error">Incorrect Password!</div>
+          {passError && <div className="pass-error">{passError}</div>} 
         </div>
 
         
