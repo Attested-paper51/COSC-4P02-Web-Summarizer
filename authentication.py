@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 import re
 import hashlib
+import requests
 
 appA = Flask(__name__)
 CORS(appA)
@@ -33,6 +34,12 @@ class Authentication:
         cursor.execute("SELECT COUNT(*) FROM users WHERE email = %s", (email,))
         count = cursor.fetchone()[0]
         return count > 0
+
+    def findEmail(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = %s",(email,))
+        email = cursor.fetchone()
+        return email
 
     def loginUser(self,email,password):
         cursor = self.conn.cursor()
@@ -66,6 +73,12 @@ class Authentication:
             #Passwords don't match
             return 0
     
+    def resetPassword(self,email,newPassword):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword, email))
+        self.conn.commit()
+
+    
     def changeEmail(self,email,newEmail,password):
         cursor = self.conn.cursor()
         cursor.execute("SELCT * FROM users WHERE email = %s AND password = %s",(email,password))
@@ -84,7 +97,31 @@ class Authentication:
     def __del__(self):
         self.conn.close()
 
+@appA.route('/verify',methods=['POST'])
+def verify():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    if (userMgr.checkIfAlreadyRegistered(email)):
+        return jsonify({'message':'Email found.'})
+    return jsonify({'message':'Email not found!'})
 
+#Resetting a user's password, given that they forgot their old.
+@appA.route('/reset',methods=['POST'])
+def resetPW():
+    data = request.get_json()
+    email = data.get('email')
+    newPassword = data.get('pass')
+    userMgr = Authentication()
+    if not (userMgr.isPasswordValid(newPassword)):
+        return jsonify({'message':'New password requirements not met.'})
+
+    userMgr.resetPassword(email,newPassword)
+    return jsonify({'message':'Password changed successfully.'})
+
+
+#Changing a user's password, given that they know their current pass and
+#Just want to change it.
 @appA.route('/changepassword',methods=['POST'])
 def changePW():
     data = request.get_json()
@@ -94,32 +131,41 @@ def changePW():
 
     userMgr = Authentication()
     if not (userMgr.isPasswordValid(newPassword)):
-        return jsonify({'message':'New password invalid'})
+        return jsonify({'message':'New password requirements not met.'})
 
     if (userMgr.changePassword(email,password,newPassword)):
-        return jsonify({'message':'Password changed successfully'})
+        return jsonify({'message':'Password changed successfully.'})
     else:
-        return jsonify({'message':'Current password incorrect'})
+        return jsonify({'message':'Current password incorrect.'})
 
 @appA.route('/register', methods=['POST'])
 def signup():
     data = request.get_json()
     # Extract user data from the request
     email = data.get('email')
+    print(email)
     password = data.get('pass')
-    #email = data.get('email') ##Add this when an email section is entered
     
+    #Add this to .env
+    api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
+    url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
+
+    response = requests.get(url)
+    result = response.json()
+    
+    if 'data' not in result or result['data'].get('result') != 'deliverable':
+        return jsonify({'message': 'Email does not exist or is not deliverable.'})
     # Insert the user data into the database
     userMgr = Authentication()
     if not (userMgr.isPasswordValid(password)):
-        return jsonify({'message':'Password invalid'})
+        return jsonify({'message':'Password invalid.'})
 
     if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Email is already registered'})
+        return jsonify({'message':'Email is already registered.'})
     userMgr.registerUser(email,password)
     #print("request made")
 
-    return jsonify({'message': 'User registered successfully'})
+    return jsonify({'message': 'User registered successfully.'})
 
 @appA.route('/login',methods=['POST'])
 def login():
@@ -130,8 +176,8 @@ def login():
 
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
-        return jsonify({'message':'Logging in user'})
-    return jsonify({'message':'User not found or password is incorrect'})
+        return jsonify({'message':'User found.'})
+    return jsonify({'message':'User not found or password is incorrect.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
