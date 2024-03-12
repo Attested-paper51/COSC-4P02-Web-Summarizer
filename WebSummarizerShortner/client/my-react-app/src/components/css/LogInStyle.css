@@ -10,7 +10,7 @@
     /* background-color: rgb(248, 248, 238); */
 }
 
-.login-box form, .login-box .account{
+.login-box .form, .login-box .account{
     height: 550px;
     position: relative;
     display: flex;
@@ -132,7 +132,7 @@
     left: 74px;
     text-align: center;
     width: 300px;
-    padding-top: 2.5em;
+    padding-top: 1.7em;
 }
 
 .login-box .forgot:hover{
@@ -172,6 +172,20 @@
     color: red;
 }
 
+.login-box .hide-pass{
+    position: absolute;
+    bottom: 8px;
+    left: 425px;
+}
+
+.login-box .hide-pass:hover{
+    cursor: pointer;
+}
+
+.login-box .pass-container{
+    position: relative;
+}
+
 @media (max-width: 1140px) {
     .login-box{
         display: flex;
@@ -187,6 +201,9 @@
         border-radius: 10px;
         border: 2px solid #bba048;
     }
+    .login-box .hide-pass{
+        left: 425px;
+    }
 }
 
 @media (max-width: 640px) {
@@ -197,7 +214,9 @@
     .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .email, .login-box .password{
         width: 300px;
     }
-    
+    .login-box .hide-pass{
+        left: 278px;
+    }
 }
 
 @media (max-width: 450px) {
@@ -216,5 +235,8 @@
     }
     .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .create-overlap{
         height: 35px;
+    }
+    .login-box .hide-pass{
+        left: 227px;
     }
 }
