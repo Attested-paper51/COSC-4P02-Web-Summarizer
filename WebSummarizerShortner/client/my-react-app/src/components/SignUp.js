@@ -7,13 +7,17 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [finalPass, confirmPass] = useState('');
+  
+  const [emailError, setEmailError] = useState('');
+  const [passError, setPassError] = useState('');
 
 
   const handleSubmit = async () => {
     try {
         if (pass !== finalPass) {
             //this will be a popup
-            console.error('Passwords do not match');
+            console.log('Passwords do not match!');
+            setPassError('Passwords do not match!');
             return;
         }
 
@@ -29,14 +33,42 @@ const SignUp = () => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
+
+          if (result.message === 'Email is already registered.') {
+            setEmailError('Email is already registered.');
+            setEmail('');
+          } else if (result.message === 'Email does not exist or is not deliverable.') {
+            setEmailError('Email does not exist or is not deliverable.');
+            setEmail('');
+          } else if (result.message === 'Password invalid.'){
+            setPassError('Password invalid.');
+            setPass('');
+            confirmPass('');
+          }
       } else {
-          console.error('Failed to register');
+          const result = await response.json();
+          console.error('Failed to register', result.message);
       }
     } catch (error) {
         console.error('Error:', error.message);
     }
 
   };
+
+  const handleEmailChange = (e) => {
+    setEmailError('');
+    setEmail(e.target.value);
+  };
+
+  const handlePassChange = (e) => {
+    setPassError('');
+    setPass(e.target.value);
+  }
+
+  const handleConfirmChange = (e) => {
+    setPassError('');
+    confirmPass(e.target.value);
+  }
 
   return (
     <div className="box">
@@ -50,10 +82,10 @@ const SignUp = () => {
             type="text" 
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          <div class="email-error">Invalid email!</div>
+          {emailError && <div className="email-error">{emailError}</div>}
         </div>
       
         <div className="password">
@@ -62,7 +94,7 @@ const SignUp = () => {
             type="text" 
             required
             value={pass}
-            onChange={(e) => setPass(e.target.value)}
+            onChange={handlePassChange}
             placeholder='Enter password here' 
           />
         </div>
@@ -73,10 +105,10 @@ const SignUp = () => {
             type="text" 
             required
             value={finalPass}
-            onChange={(e) => confirmPass(e.target.value)}
+            onChange={handleConfirmChange}
             placeholder='Enter password here' 
           />
-          <div class="pass-error">Passwords do not match!</div>
+          {passError && <div className="pass-error">{passError}</div>}
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>

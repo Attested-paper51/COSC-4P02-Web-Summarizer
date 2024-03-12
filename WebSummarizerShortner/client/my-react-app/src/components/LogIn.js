@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
+import { Link , useNavigate} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import "./css/LogInStyle.css";
 
 
-//Need to make sure that if the user's pw is entered incorrectly it doesn't
-//redirect
 const LogIn = () => {
 
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+
+  const [passError, setPassError] = useState('');
+  const navigate = useNavigate();
+  
+  // const [CopyURL, setCopyURL] = useState('Copy URL')
+  // const handleCopy = () => {
+  //     navigator.clipboard.writeText(shortened)
+  //     setCopyURL('Copied')
+  //     setTimeout(() => {
+  //         setCopyURL('Copy URL');
+  //     }, 3000); // Reverts back to 'Submit' after 3 seconds
+  // }
   const [visible, setVisible] = useState(false);
 
   const handleSubmit = async () => {
@@ -28,6 +39,14 @@ const LogIn = () => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
+          if (result.message === 'User found.'){
+            //Navigate to dashboard if the backend finds the user.
+            navigate('/Dashboard');
+          }else if (result.message === 'User not found or password is incorrect.') {
+            setPassError(result.message);
+            setPass('');
+            setEmail('');
+          }
       } else {
           console.error('Failed to login.');
       }
@@ -36,6 +55,18 @@ const LogIn = () => {
     }
 
   };
+
+  //Email and password change handling so that the errors disappear when
+  //the user types in either field.
+  const handleEmailChange = (e) => {
+    setPassError('');
+    setEmail(e.target.value);
+  };
+
+  const handlePassChange = (e) => {
+    setPassError('');
+    setPass(e.target.value);
+  }
 
   return (
     <div className="login-box">
@@ -49,7 +80,7 @@ const LogIn = () => {
         </button>
         <button className="fb-btn">
           <div className="fb-overlap">
-          < img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
+            <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
             <div className="login-social">Continue with Facebook</div>
           </div>
         </button>
@@ -59,14 +90,22 @@ const LogIn = () => {
             type="text" 
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          <div class="email-error">Incorrect Email ID!</div>
+          
         </div>
       
         <div className="password">
           <label className='pass-text'>Your password</label> 
+          <input className='textfield'
+            type="text" 
+            required
+            value={pass}
+            onChange={handlePassChange}
+            placeholder='Enter password here' 
+          />
+          {passError && <div className="pass-error">{passError}</div>}
           <div className='pass-container'>
             <input className='textfield'
               type={visible ? "text":"password"}
@@ -82,13 +121,14 @@ const LogIn = () => {
           <div class="pass-error">Incorrect Password!</div>
         </div>
 
-        <Link to="/Dashboard">
+        
           <button className="login-btn" onClick={handleSubmit}>
             <div className="login-overlap">
               <div className="login">Log in</div>
             </div>
           </button>
-        </Link>
+
+        
         
         <Link to="/Verify">
           <div className="forgot">
