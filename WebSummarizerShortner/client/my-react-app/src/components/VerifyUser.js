@@ -22,7 +22,7 @@ const VerifyUser = () => {
       console.log(result);
       if (result.message === 'Email found.'){
         //Navigate to password reset if the backend finds the user.
-        navigate('/Reset');
+        navigate(`/Reset?email=${encodeURIComponent(email)}`);
       }else if (result.message === 'Email not found!') {
         setEmailError(result.message);
         setEmail('');
@@ -56,7 +56,7 @@ const VerifyUser = () => {
             onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          {emailError && <div class="email-error">Email ID not found!</div>}
+          {emailError && <div class="email-error">{emailError}</div>}
         </div>  
 
             <button className="reset-btn" onClick={handleSubmit}>
