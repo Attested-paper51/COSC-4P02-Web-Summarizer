@@ -12,7 +12,6 @@
 <li>Hamza Sidat (6599591) hs18so@brocku.ca </li><br>
 <li>Abdul-Maalik Siddiqui (6785828) as19fa@brocku.ca </li><br>
 </ul>
-<br>
 
 <h4>What was your motivation?:</h4>
 This project aims to address the challenges users face in accessing relevant information efficiently in the digital age. Navigating through the vast amount of information available online without efficient technologies that provide concise summaries makes information retrieval a daunting task. To simplify access to information, the proposed tool aims to generate shorter URLs for easy sharing and provide succinct and insightful content summaries while employing LLMs or NLP, thus hoping to contribute to a more streamlined and user-friendly digital experience.
