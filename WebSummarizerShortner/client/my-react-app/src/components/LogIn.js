@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 import "./css/LogInStyle.css";
 
 
@@ -9,15 +11,7 @@ const LogIn = () => {
 
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  
-  // const [CopyURL, setCopyURL] = useState('Copy URL')
-  // const handleCopy = () => {
-  //     navigator.clipboard.writeText(shortened)
-  //     setCopyURL('Copied')
-  //     setTimeout(() => {
-  //         setCopyURL('Copy URL');
-  //     }, 3000); // Reverts back to 'Submit' after 3 seconds
-  // }
+  const [visible, setVisible] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -73,13 +67,18 @@ const LogIn = () => {
       
         <div className="password">
           <label className='pass-text'>Your password</label> 
-          <input className='textfield'
-            type="text" 
-            required
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-            placeholder='Enter password here' 
-          />
+          <div className='pass-container'>
+            <input className='textfield'
+              type={visible ? "text":"password"}
+              required
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+              placeholder='Enter password here' 
+            />
+            <div className='hide-pass' onClick = {() => setVisible(!visible)}>
+              {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
+            </div>
+          </div>
           <div class="pass-error">Incorrect Password!</div>
         </div>
 
