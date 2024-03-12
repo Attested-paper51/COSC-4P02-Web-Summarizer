@@ -39,6 +39,7 @@ const Password = () => {
             onChange={(e) => setPass(e.target.value)}
             placeholder='Enter password here' 
           />
+          <div class="pass-error">Password requirements not met.</div>
         </div>
 
         <div className="password">

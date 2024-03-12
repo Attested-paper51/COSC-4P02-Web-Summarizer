@@ -1,15 +1,46 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import "./css/VerifyUserStyle.css";
 
 const VerifyUser = () => {
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-      const Username = {user}
-      console.log(Username)
-  }
+  const handleSubmit = async() => {
+    const response = await fetch('http://localhost:5001/verify', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result);
+      if (result.message === 'Email found.'){
+        //Navigate to password reset if the backend finds the user.
+        navigate('/Reset');
+      }else if (result.message === 'Email not found!') {
+        setEmailError(result.message);
+        setEmail('');
+      }
+
+    }else {
+      console.error('Failed to verify.');
+    }
+
+
+  };
+
+  //Email change handling so that the errors disappear when
+  //the user types in the field.
+  const handleEmailChange = (e) => {
+    setEmailError('');
+    setEmail(e.target.value);
+  };
 
   return (
     <div className="verify-box">
@@ -21,20 +52,19 @@ const VerifyUser = () => {
           <input className='textfield'
             type="text" 
             required
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            value={email}
+            onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          <div class="email-error">Email ID not found!</div>
+          {emailError && <div class="email-error">Email ID not found!</div>}
         </div>  
 
-        <Link to="/Reset">
             <button className="reset-btn" onClick={handleSubmit}>
             <div className="reset-overlap">
                 <div className="reset">Reset your password</div>
             </div>
             </button>
-        </Link>
+        
     
       </div>
     </div>
