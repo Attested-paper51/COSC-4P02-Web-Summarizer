@@ -1,56 +1,69 @@
-# COSC 4P02 PROJECT: Web Summarizer and Shortener
+<h1>COSC 4P02 PROJECT</h1><br>
+<h2>SOFTWARE: Web Summarizer and shortner</h2><br>
 
-## SOFTWARE
+<h3>Team and Project Information:</h3>
+<h4>TEAM MEMBERS:</h4>
+<ul>
+<li>Amani Anderson (6617344) aa18ex@brocku.ca </li><br>
+<li>Muhammed Bilal (6695738) bb18hb@brocku.ca </li><br>
+<li>Tanvir Hasan (6599328) th18ai@brocku.ca </li><br>
+<li>Marium Nur (7327182) mn21xu@brocku.ca </li><br> 
+<li>Anjali Sabu	(7337033)	as21qj@brocku.ca </li><br>
+<li>Hamza Sidat (6599591) hs18so@brocku.ca </li><br>
+<li>Abdul-Maalik Siddiqui (6785828) as19fa@brocku.ca </li><br>
+</ul>
+<br>
 
-This project aims to develop a Web Summarizer and Shortener tool that enhances the digital experience by providing succinct content summaries and generating shorter URLs for easy sharing.
+<h4>What was your motivation?:</h4>
+This project aims to address the challenges users face in accessing relevant information efficiently in the digital age. Navigating through the vast amount of information available online without efficient technologies that provide concise summaries makes information retrieval a daunting task. To simplify access to information, the proposed tool aims to generate shorter URLs for easy sharing and provide succinct and insightful content summaries while employing LLMs or NLP, thus hoping to contribute to a more streamlined and user-friendly digital experience.
 
-## Team and Project Information
+<h4>What problem does it solve?:</h4>
+When looking for quick access to relevant material in the age of technology, people may find it overwhelming due to the huge amount of information available online. Long URLs are difficult to navigate, and the lack of concise summaries may make it more difficult to understand information properly. It is obvious that to improve user experience and make information retrieval simpler, a tool that can create concise summaries and shorten URLs will be required.
 
-### TEAM MEMBERS
+<h4>What is our objective?:</h4>
+The objective is to create a program where the input would be a YouTube video or a webpage URL and the output would include a shorter URL for simple sharing. Additionally, the tool will make use of Large Language Models (LLMs) or Natural Language Processing (NLP) to provide short and insightful summaries of web content. Both free and premium aspects of the application would be available, such as user dashboard, social media integration, API access, and custom summarization levels.
 
-- **Amani Anderson** (6617344) - aa18ex@brocku.ca
-- **Muhammed Bilal** (6695738) - bb18hb@brocku.ca
-- **Tanvir Hasan** (6599328) - th18ai@brocku.ca
-- **Marium Nur** (7327182) - mn21xu@brocku.ca
-- **Anjali Sabu**	(7337033) - as21qj@brocku.ca
-- **Hamza Sidat** (6599591) - hs18so@brocku.ca
-- **Abdul-Maalik Siddiqui** (6785828) - as19fa@brocku.ca
 
-### Motivation
-
-Our motivation stems from the challenges faced in efficiently accessing relevant information in the digital age. With the vast amount of information available online, technologies that can provide concise summaries and shorten URLs are essential for a streamlined digital experience.
-
-### Problem Solved
-
-The tool addresses the overwhelming nature of navigating through extensive information online and simplifies access to relevant material by creating concise summaries and shortening URLs for easier navigation and understanding.
-
-### Objective
-
-Our objective is to develop a program that inputs a YouTube video or webpage URL and outputs a shorter URL for simple sharing. Utilizing Large Language Models (LLMs) or Natural Language Processing (NLP), the tool will also provide short and insightful summaries of web content, offering both free and premium features such as user dashboards, social media integration, API access, and custom summarization levels.
-
-## Getting Started
+# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Available Scripts
+## Available Scripts
 
 In the project directory, you can run:
 
-#### `npm start`
+### `npm start`
 
-Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload with changes.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-#### `npm test`
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-Launches the test runner in interactive watch mode. More info [here](https://facebook.github.io/create-react-app/docs/running-tests).
+### `npm test`
 
-#### `npm run build`
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Builds the app for production to the `build` folder. It optimizes the build for best performance. The build is minified, and filenames include hashes.
+### `npm run build`
 
-#### `npm run eject`
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-**Note:** This is a one-way operation. Once you `eject`, there's no going back! If you're not satisfied with the build tool and configuration choices, you can `eject` at any time.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 ## Learn More
 
@@ -58,10 +71,26 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-## Deployment
+### Code Splitting
 
-This section provides information on deployment: [Deployment Guide](https://facebook.github.io/create-react-app/docs/deployment).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-## Troubleshooting
+### Analyzing the Bundle Size
 
-For issues related to `npm run build` failing to minify, visit [this troubleshooting guide](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
