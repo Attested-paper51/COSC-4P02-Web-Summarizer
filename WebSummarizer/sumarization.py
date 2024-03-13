@@ -10,13 +10,13 @@ load_dotenv()
 # Initialize OpenAI client with API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def summarize(text):
+def summarize(text, extra):
     try:
         # Using OpenAI's API for text summarization
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-0125",
             messages=[
-                {"role": "system", "content": "Summarize the following:"},
+                {"role": "system", "content": "Summarize the following, " + extra},
                 {"role": "user", "content": text}
             ]
         )
@@ -26,22 +26,20 @@ def summarize(text):
         summary = f"An error occurred: {str(e)}"
     return summary
 
-def processYouTubeURL(url):
-    extractedText = ytExtract.videoTranscript(url)
+def processYouTubeURL(url, on, startM, startS, endM,  endS, extra):
+    extractedText = ytExtract.timeStampCaptions(on, url, startM, startS, endM,  endS)
+
+    extra = "Youtube Video, " + extra
 
     print(extractedText)
 
-    return summarize(extractedText)
-def processURL(url):
+    return summarize(extractedText, extra)
 
+def processURL(url, extra):
     extractedText = textExtraction.extract_text_from_url(url)
 
+    extra = "webpage, " + extra
+
     print(extractedText)
 
-    return summarize(extractedText)
-
-def processVideo(video):
-    # Placeholder for video processing logic
-    # Here, you'll need to implement video processing, such as extracting the transcript
-    # and summarizing it.
-    return "Video processing and summarization not implemented yet."
+    return summarize(extractedText, extra)
