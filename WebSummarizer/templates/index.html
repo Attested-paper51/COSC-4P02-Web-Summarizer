@@ -9,29 +9,28 @@
     <br>
     <textarea cols="100" rows="10" id="inputText" name="inputText"></textarea>
     <br>
-    <label for="inputURL">Enter a URL to summarize:</label>
+    <label for="inputURL">Enter a Article URL to summarize:</label>
     <br>
     <textarea cols="100" rows="1" id="inputURL" name="inputURL"></textarea>
     <br>
     <label for="inputURL">Enter a YouTube URL to summarize:</label>
     <br>
+    <label for="inputURL">Enter a start and end times (MM:SS):</label>
+    <br>
+    <textarea cols="10" rows="1" id="startM" name="startM"></textarea>
+    <textarea cols="10" rows="1" id="startS" name="startS"></textarea>
+    <textarea cols="10" rows="1" id="endM" name="endM"></textarea>
+    <textarea cols="10" rows="1" id="ends" name="endS"></textarea>
+    <br>
     <textarea cols="100" rows="1" id="inputYTURL" name="inputYTURL"></textarea>
     <br>
-    <label for="videoUpload">Or upload a video:</label>
+    <label for="extra">Extra formating or instructions:</label>
     <br>
-    <input type="file" id="videoUpload" name="videoUpload">
-    <br><br>
     <input type="submit" value="Summarize">
 </form>
 
 <h2>Summary:</h2>
-
- <form action="/download" method="post">
-<textarea name=summary cols="100" rows="15"> {{ summary }} </textarea>
-     <br>
-       <input type="submit" value="Download as JSON">
-</form>
+<textarea readonly> {{ summary }} </textarea>
 
 </body>
 </html>
-
