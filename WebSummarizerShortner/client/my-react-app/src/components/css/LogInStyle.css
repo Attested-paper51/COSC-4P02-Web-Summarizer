@@ -13,7 +13,9 @@
 }
 
 .login-box .form, .login-box .account{
-    height: 550px;
+    /*height: 550px;*/
+    height: clamp(570px, 50vh, 3200px);
+    width: clamp(350px, 32vw, 1100px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -47,8 +49,8 @@
 }
 
 .login-box .create{
-    padding: 0.1vw;
-    font-size: clamp(1.15rem, 0.95vw, 10rem);
+    padding: 0.3vw;
+    font-size: clamp(1rem, 0.95vw, 10rem);
 }
 
 .login-box .textfield{
@@ -66,8 +68,8 @@
 }
 
 .login-box .login{
-    padding: 0.2vw;
-    font-size: clamp(1.1rem, 0.95vw, 10rem);
+    padding: 0.3vw;
+    font-size: clamp(1rem, 0.95vw, 10rem);
 }
 
 .login-box .forgot{
@@ -159,17 +161,7 @@
     /*line-height: 14px;
     padding-top: 2px;
     padding-left: 8px;
-    font-size: 14px;
-}
-
-.login-box .forgot{
-    color: #585757;
-    font-size: 14px;
-    font-weight: 500;
-    left: 74px;
-    text-align: center;
-    width: 300px;
-    padding-top: 1.7em;
+    font-size: 14px;*/
 }
 
 .login-box .forgot:hover{
@@ -217,7 +209,7 @@
 .login-box .hide-pass{
     position: absolute;
     bottom: 8px;
-    left: 425px;
+    left: 90%;
 }
 
 .login-box .hide-pass:hover{
@@ -228,7 +220,23 @@
     position: relative;
 }
 
-@media (max-width: 1140px) {
+@media (max-width: 800px) {
+    .login-box{
+        display: flex;
+        flex-direction: column;
+    }
+    .login-box .form{
+        margin-bottom: 0;
+        border-radius: 10px;
+    }
+    .login-box .account{
+        margin-top: 0.5em;
+        border-radius: 10px;
+        border: 2px solid #bba048;
+    }
+}
+
+/*@media (max-width: 1140px) {
     .login-box{
         display: flex;
         flex-direction: column;
@@ -281,4 +289,4 @@
     .login-box .hide-pass{
         left: 227px;
     }
-}
+}*/
