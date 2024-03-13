@@ -1,0 +1,133 @@
+<!--
+    This is a frontend code to test the HistoryManagement.py. This HTML
+    file contains three forms, one to enter the history, second to retrieve,
+    and last to delete. Please make sure to run the server before submitting 
+    the form.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form for Flask App</title>
+</head>
+<body>
+    <h2>Submit History</h2>
+    <form id="submitForm">
+        <label for="submitUsername">Username:</label><br>
+        <input type="text" id="submitUsername" name="username"><br>
+        <label for="inputText">Input Text:</label><br>
+        <textarea id="inputText" name="inputText"></textarea><br>
+        <label for="summarizedText">Summarized Text:</label><br>
+        <textarea id="summarizedText" name="summarizedText"></textarea><br>
+        <button type="button" onclick="submitHistory()">Submit History</button>
+    </form>
+
+    <h2>Retrieve History</h2>
+    <form id="retrieveForm">
+        <label for="retrieveUsername">Username:</label><br>
+        <input type="text" id="retrieveUsername" name="username"><br>
+        <button type="button" onclick="retrieveHistory()">Retrieve History</button>
+    </form>
+
+    <h2>History Content</h2>
+    <div id="historyContent"></div>
+
+    <h2>Delete History</h2>
+    <form id="deleteForm">
+        <label for="deleteHistoryUsername">Username:</label><br>
+        <input type="text" id="deleteHistoryUsername" name="username"><br>
+        <label for="deleteHistoryID">History ID:</label><br>
+        <input type="text" id="deleteHistoryID" name="deleteHID"><br>
+        <button type="button" onclick="deleteHistory()">Delete History</button>
+    </form>
+
+    <h2>Delete Status</h2>
+    <div id="deleteStatus"></div>
+
+    <script>
+        function submitHistory() {
+            const formData = {
+                username: document.getElementById('submitUsername').value,
+                inputT: document.getElementById('inputText').value,
+                summarizedT: document.getElementById('summarizedText').value,
+            };
+
+            fetch('http://127.0.0.1:5001/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Display submission success message
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error submitting history!');
+            });
+        }
+
+        function retrieveHistory() {
+            const username = document.getElementById('retrieveUsername').value;
+
+            fetch('http://127.0.0.1:5001/history', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: username }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                let historyContent = document.getElementById('historyContent');
+                historyContent.innerHTML = ''; // Clear previous content
+                if (data.history && data.history.length > 0) {
+                    data.history.forEach(item => {
+                        let para = document.createElement("p");
+                        para.innerHTML = `History ID: ${item[0]}<br>Input: ${item[1]}<br>Summarized: ${item[2]}`;
+                        historyContent.appendChild(para);
+                    });
+                } else {
+                    historyContent.innerHTML = 'No history found for the user.';
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching history:', error);
+            });
+        }
+
+        
+        function deleteHistory() {
+        const formData = {
+            username: document.getElementById('deleteHistoryUsername').value,
+            historyID: document.getElementById('deleteHistoryID').value
+        };
+
+        fetch('http://127.0.0.1:5001/deleteHistory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            let deleteStatusContent = document.getElementById('deleteStatus'); // Ensure this element exists in your HTML
+            if (data.status === "success") {
+                deleteStatusContent.innerHTML = `<p>${data.message}</p>`; // Display the success message
+            } else {
+                deleteStatusContent.innerHTML = `<p>${data.message}</p>`; // Display the failure message
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById('deleteStatus').innerHTML = 'Error processing your request.';
+        });
+        }
+
+    </script>
+</body>
+</html>
