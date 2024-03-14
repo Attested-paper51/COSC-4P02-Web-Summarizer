@@ -50,7 +50,7 @@ const Dropdown = ({buttonText, content}) => {
                 {buttonText}
             </DropdownButton>
 
-            <DropdownContent top={dropdownTop} ref={contentRef} open={open}>
+            <DropdownContent top={dropdownTop} toggle={toggleDropdown} ref={contentRef} open={open}>
                 {content}
             </DropdownContent>
         </div>
