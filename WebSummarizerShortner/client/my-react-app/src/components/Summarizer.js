@@ -28,7 +28,10 @@ const Summarizer = () => {
     const [isPremium, setPremium] = useState(false);
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
-    const [selectedItem, setItem] = useState(tone[0]);
+    const [selectedTone, setTone] = useState(tone[0]);
+
+    const layout = ["Paragraph", "Bullet Points", "Numbered List"];
+    const [selectedLayout, setLayout] = useState(layout[0]);
 
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
@@ -169,8 +172,12 @@ const Summarizer = () => {
         setCopy(!isCopied)
     }
 
-    const handleItemClick = (item) => {
-        setItem(item)
+    const handleToneChange = (item) => {
+        setTone(item)
+    }
+
+    const handleLayoutChange = (item) => {
+        setLayout(item)
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -209,20 +216,37 @@ const Summarizer = () => {
                                 <div className="mode">
                                     <p>Modes:</p>
                                 </div>
-                                <div>
-                                    <Dropdown
-                                        buttonText={selectedItem}
-                                        content={<>
-                                            {
-                                                tone.map(item => 
-                                                    <DropdownItem
-                                                        key={item}
-                                                        onClick={() => handleItemClick(item)}>
-                                                            {`${item}`}
-                                                    </DropdownItem>)
-                                            }
-                                        </>} 
-                                    />
+                                <div className="dropdown-menus modes">
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedTone}
+                                            content={<>
+                                                {
+                                                    tone.map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleToneChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedLayout}
+                                            content={<>
+                                                {
+                                                    layout.map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleLayoutChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
