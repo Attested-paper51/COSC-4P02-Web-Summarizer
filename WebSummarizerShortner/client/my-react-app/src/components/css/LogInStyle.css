@@ -15,7 +15,7 @@
 .login-box .form, .login-box .account{
     /*height: 550px;*/
     height: clamp(570px, 50vh, 3200px);
-    width: clamp(350px, 32vw, 1100px);
+    width: clamp(340px, 32vw, 1100px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -32,6 +32,14 @@
     background-color: #ffffff;
 }
 
+.login-box .account{
+    /*width: 550px;*/
+    background-color: #f5e4a5;
+    border: 0.1vw solid #bba048;
+    border-left: 0;
+    border-radius: 0px 10px 10px 0;
+}
+
 .login-box .form-title{
     font-size: clamp(1.1rem, 1.3vw, 10rem);
 }
@@ -40,6 +48,25 @@
     height: clamp(40px, 3.2vh, 500px);
     font-size: clamp(0.9rem, 0.8vw, 10rem);
     border-radius: 25px;
+    background-color: #fafaf9;
+    width: clamp(300px, 20vw, 1000px);
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box .gmail-icon, .login-box .fb-icon{
+    height: 1.5em;
+    padding-right: 0.3vw;
+}
+
+.login-box .gmail-btn{
+    margin-bottom: 0.7em;
+}
+
+.login-box .fb-btn{
+    margin-bottom: 2.3em;
 }
 
 .login-box .email, .login-box .password{
@@ -48,9 +75,9 @@
     margin-bottom: 1em;
 }
 
-.login-box .create{
-    padding: 0.3vw;
-    font-size: clamp(1rem, 0.95vw, 10rem);
+.login-box .email-text, .login-box .pass-text{
+    display: block;
+    color: #757373;
 }
 
 .login-box .textfield{
@@ -65,58 +92,31 @@
 .login-box .login-overlap{
     background-color: #0d55a7; 
     width: clamp(300px, 20vw, 1000px); 
+    font-size: clamp(0.9rem, 0.8vw, 10rem);
 }
 
-.login-box .login{
+.login-box .create-overlap{
+    background-color: #361e04;
+    width: clamp(300px, 20vw, 1000px);
+    font-size: clamp(0.9rem, 0.8vw, 10rem);
+}
+
+.login-box .login, .login-box .create{
     padding: 0.3vw;
-    font-size: clamp(1rem, 0.95vw, 10rem);
 }
-
-.login-box .forgot{
-    color: #585757;
-    /*font-size: 14px;*/
-    font-size: clamp(0.9rem, 0.95vw, 10rem);
-    font-weight: 500;
-    /*left: 74px;*/
-    text-align: center;
-    /*width: 300px;*/
-    padding-top: 2vh;
-}
-
-.login-box .account{
-    /*width: 550px;*/
-    background-color: #f5e4a5;
-    border: 0.1vw solid #bba048;
-    border-left: 0;
-    border-radius: 0px 10px 10px 0;
-}
-
-.login-box .email-text, .login-box .pass-text{
-    display: block;
-    color: #757373;
-}
-
 
 .login-box .login-btn, .login-box .create-btn, .login-box .gmail-btn, .login-box .fb-btn{
     all: unset;
     box-sizing: border-box;
-    /*height: 45px; */
+    height: clamp(40px, 3.2vh, 500px);
 }
 
 .login-box .login-btn:hover, .login-box .create-btn:hover{
     opacity: 0.8;
 } 
 
-.login-box .gmail-btn{
-    margin-bottom: 0.7em;
-}
-
-.login-box .fb-btn{
-    margin-bottom: 2.3em;
-}
-
 .login-box .login-overlap, .login-box .create-overlap, .login-box .gmail-overlap, .login-box .fb-overlap{
-    /*height: 45px;*/
+    height: clamp(40px, 3.2vh, 500px);
     position: relative;
     margin-top: 1em;
     box-shadow: 0px 3px 4px #0000004c;
@@ -125,21 +125,6 @@
 
 .login-box .gmail-overlap:hover, .login-box .fb-overlap:hover{
     background-color: #e7e7e7;
-}
-
-.login-box .gmail-overlap, .login-box .fb-overlap{
-    background-color: #fafaf9;
-    width: clamp(300px, 20vw, 1000px);
-    /*border-radius: 25px;*/
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-box .create-overlap{
-    background-color: #361e04;
-    width: clamp(300px, 15vw, 1000px);
 }
 
 .login-box .login, .login-box .create, .login-box .login-social{
@@ -162,6 +147,17 @@
     padding-top: 2px;
     padding-left: 8px;
     font-size: 14px;*/
+}
+
+.login-box .forgot{
+    color: #585757;
+    /*font-size: 14px;*/
+    font-size: clamp(0.9rem, 0.85vw, 8rem);
+    font-weight: 500;
+    /*left: 74px;*/
+    text-align: center;
+    /*width: 300px;*/
+    padding-top: clamp(3vh, 3vh, 2vh);
 }
 
 .login-box .forgot:hover{
@@ -196,11 +192,6 @@
     background-size: contain;
 }
   
-.login-box .gmail-icon, .login-box .fb-icon{
-    height: 1.5em;
-    padding-right: 0.1vw;
-}
-
 .login-box .email-error, .login-box .pass-error{
     padding-top: 2px;
     color: red;
@@ -233,6 +224,9 @@
         margin-top: 0.5em;
         border-radius: 10px;
         border: 2px solid #bba048;
+    }
+    .login-box .gmail-icon, .login-box .fb-icon{
+        padding-right: 0.3vw;
     }
 }
 

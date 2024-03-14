@@ -111,8 +111,6 @@ const LogIn = () => {
             </div>
           </button>
 
-        
-        
         <Link to="/Verify">
           <div className="forgot">
             Forgot your password?
