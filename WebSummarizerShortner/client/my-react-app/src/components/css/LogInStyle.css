@@ -12,8 +12,8 @@
     /* background-color: rgb(248, 248, 238); */
 }
 
-
 .login-box .form, .login-box .account{
+    /*height: 550px;*/
     height: clamp(570px, 50vh, 3200px);
     width: clamp(350px, 32vw, 1100px);
     position: relative;
@@ -49,8 +49,8 @@
 }
 
 .login-box .create{
-    padding: 0.1vw;
-    font-size: clamp(1.15rem, 0.95vw, 10rem);
+    padding: 0.3vw;
+    font-size: clamp(1rem, 0.95vw, 10rem);
 }
 
 .login-box .textfield{
@@ -68,8 +68,8 @@
 }
 
 .login-box .login{
-    padding: 0.2vw;
-    font-size: clamp(1.1rem, 0.95vw, 10rem);
+    padding: 0.3vw;
+    font-size: clamp(1rem, 0.95vw, 10rem);
 }
 
 .login-box .forgot{
@@ -182,12 +182,12 @@
     width: clamp(300px, 25vh, 580px);
 }
 
-.login-box .account-img{
-    /* width: 500px; */
-    /*height: 250px;
+/* .login-box .account-img{
+    width: 500px; 
+    height: 250px;
     padding-top: 3.5em; 
-    margin: 1em;*/
-}
+    margin: 1em;
+} */
   
 .login-box .account-img .logo{
     /*width: 250px;
@@ -206,6 +206,20 @@
     color: red;
 }
 
+.login-box .hide-pass{
+    position: absolute;
+    bottom: 8px;
+    left: 90%;
+}
+
+.login-box .hide-pass:hover{
+    cursor: pointer;
+}
+
+.login-box .pass-container{
+    position: relative;
+}
+
 @media (max-width: 800px) {
     .login-box{
         display: flex;
@@ -222,7 +236,6 @@
     }
 }
 
-
 /*@media (max-width: 1140px) {
     .login-box{
         display: flex;
@@ -238,6 +251,9 @@
         border-radius: 10px;
         border: 2px solid #bba048;
     }
+    .login-box .hide-pass{
+        left: 425px;
+    }
 }
 
 @media (max-width: 640px) {
@@ -248,7 +264,9 @@
     .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .email, .login-box .password{
         width: 300px;
     }
-    
+    .login-box .hide-pass{
+        left: 278px;
+    }
 }
 
 @media (max-width: 450px) {
@@ -267,5 +285,8 @@
     }
     .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .create-overlap{
         height: 35px;
+    }
+    .login-box .hide-pass{
+        left: 227px;
     }
 }*/
