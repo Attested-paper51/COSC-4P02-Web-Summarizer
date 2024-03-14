@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 import "./css/LogInStyle.css";
 
 
@@ -11,14 +13,7 @@ const LogIn = () => {
   const [passError, setPassError] = useState('');
   const navigate = useNavigate();
   
-  // const [CopyURL, setCopyURL] = useState('Copy URL')
-  // const handleCopy = () => {
-  //     navigator.clipboard.writeText(shortened)
-  //     setCopyURL('Copied')
-  //     setTimeout(() => {
-  //         setCopyURL('Copy URL');
-  //     }, 3000); // Reverts back to 'Submit' after 3 seconds
-  // }
+  const [visible, setVisible] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -89,19 +84,24 @@ const LogIn = () => {
             onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          
+          {/* <div class="email-error">Incorrect Email!</div> */}
         </div>
       
         <div className="password">
           <label className='pass-text'>Your password</label> 
-          <input className='textfield'
-            type="text" 
-            required
-            value={pass}
-            onChange={handlePassChange}
-            placeholder='Enter password here' 
-          />
-          {passError && <div className="pass-error">{passError}</div>}
+          <div className='pass-container'>
+            <input className='textfield'
+              type={visible ? "text":"password"}
+              required
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+              placeholder='Enter password here' 
+            />
+            <div className='hide-pass' onClick = {() => setVisible(!visible)}>
+              {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
+            </div>
+          </div>
+          {passError && <div className="pass-error">{passError}</div>} 
         </div>
 
         
@@ -111,8 +111,6 @@ const LogIn = () => {
             </div>
           </button>
 
-        
-        
         <Link to="/Verify">
           <div className="forgot">
             Forgot your password?
