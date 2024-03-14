@@ -4,19 +4,36 @@
 }
 .side-panel{
     border: 1px solid red;
-    padding: 4rem;
-    width: 25%;
+    padding: 2rem;
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-items: center;
     align-items: center;
+    background-color: #ffffff;
 }
 .main-panel{
     border: 1px solid blue;
-    padding: 4rem;
-    width: 75%;
+    padding: 2rem;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-items: center;
     align-items: center;
+    background-color: #dde3f1;
+}
+
+.dashboard-options{
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-option{
+    display: flex;
+    justify-content: center;
+    border: 1px solid;
+    width: 100%;
+    padding: 1em;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
 }
