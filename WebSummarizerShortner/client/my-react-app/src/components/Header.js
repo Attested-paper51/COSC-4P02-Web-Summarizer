@@ -94,14 +94,15 @@
 // export default Header;
 
 
-import { Component } from "react";
+import { Component, useContext } from "react";
 import { Link } from 'react-router-dom';
 import "./css/HeaderStyle.css";
 import { FaMoon } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
+import { AuthContext } from '../context/AuthContext.js';
 
-class Header extends Component {
-  render() {
+const Header = () => {
+  const { userEmail } = useContext(AuthContext);//for user displaying
     return (
       <section className="header-nav-container">
 
@@ -127,15 +128,26 @@ class Header extends Component {
               <button className="darkmode"><FaMoon className="darkmode-icon" /></button>
             </Link>
 
-            <Link to="/Login">
+            {/* To display the currently logged in user, WIP*/}
+            {userEmail ? (
+              <>
+                <Link to="/Login">
+                  <button className="profile"><IoPersonSharp className="profile-icon" /></button>
+                </Link>
+                <div className="profile-email">{userEmail}</div>
+
+              </>
+            ) : (
+              <Link to="/Login">
               <button className="profile"><IoPersonSharp className="profile-icon" /></button>
             </Link>
+            )}
           </div>
           
         </nav>
       </section>
     );
-  };
+  
 }
 
 export default Header;

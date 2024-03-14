@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import "./css/DashboardStyle.css";
 //import { Link } from 'react-router-dom';
+import { AuthContext  } from '../context/AuthContext';
 
 const Dashboard = () => {
+
+  //Testing, not fully working, attempting to see if the logged in user will
+  //persist after refreshing the page.
+  const { userEmail } = useContext(AuthContext);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect (() => {
+    const isAuthenticated = localStorage.getItem('authenticated');
+    const userEmail = localStorage.getItem('email');
+    setAuthenticated(!!isAuthenticated);
+    
+
+    console.log('Authentication state is: ',isAuthenticated);
+    console.log('Authenticated email: ',userEmail);
+
+  }, []);
 
   return (
 
     <div className="dashboard">
         <div className="side-panel">
             <div>Image</div>
-            <div>User Name</div>
+            
+            {userEmail && <div>{userEmail}</div>} {/* Change this eventually*/}
             <div className='dashboard-options'>
                 <div className='dash-option'>History</div>
                 <div className='dash-option'>Templates</div>
