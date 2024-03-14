@@ -61,14 +61,6 @@
     padding-right: 0.3vw;
 }
 
-.login-box .gmail-btn{
-    margin-bottom: 0.7em;
-}
-
-.login-box .fb-btn{
-    margin-bottom: 2.3em;
-}
-
 .login-box .email, .login-box .password{
     font-size: clamp(0.8rem, 0.8vw, 10rem);
     width: clamp(300px, 20vw, 1000px);
@@ -170,8 +162,9 @@
     font-weight: 550;
     line-height: 25px;
     padding: 0em 2em;*/
-    font-size:clamp(0.9rem, 1vw, 10rem);
+    font-size: clamp(0.9rem, 1vw, 10rem);
     text-align: center;
+    padding: 0em 2em 1em;
 }
 
 .login-box .logo{
@@ -209,6 +202,14 @@
 
 .login-box .pass-container{
     position: relative;
+}
+
+.login-box .gmail-btn{
+    margin-bottom: 1em;
+}
+
+.login-box .fb-btn{
+    margin-bottom: 3em;
 }
 
 @media (max-width: 800px) {
