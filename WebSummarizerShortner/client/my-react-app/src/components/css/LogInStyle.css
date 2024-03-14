@@ -94,7 +94,7 @@
 }
 
 .login-box .login, .login-box .create{
-    padding: 0.3vw;
+    padding: 0.4vw;
 }
 
 .login-box .login-btn, .login-box .create-btn, .login-box .gmail-btn, .login-box .fb-btn{
@@ -108,7 +108,7 @@
 } 
 
 .login-box .login-overlap, .login-box .create-overlap, .login-box .gmail-overlap, .login-box .fb-overlap{
-    height: clamp(40px, 3.2vh, 500px);
+    /*height: clamp(40px, 3.2vh, 500px);*/
     position: relative;
     margin-top: 1em;
     box-shadow: 0px 3px 4px #0000004c;
@@ -228,6 +228,9 @@
     }
     .login-box .gmail-icon, .login-box .fb-icon{
         padding-right: 0.3vw;
+    }
+    .login-box .login, .login-box .create{
+        padding: 1vw;
     }
 }
 
