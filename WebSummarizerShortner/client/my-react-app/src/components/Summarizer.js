@@ -14,6 +14,8 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
 // Components
 import DialogBox from '../components/DialogBox.js';
+import Dropdown from "./Dropdown.js";
+import DropdownItem from "./DropdownItem.js";
 
 const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
@@ -24,6 +26,9 @@ const Summarizer = () => {
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [isPremium, setPremium] = useState(false);
+
+    const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
+    const [selectedItem, setItem] = useState(tone[0]);
 
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
@@ -164,6 +169,10 @@ const Summarizer = () => {
         setCopy(!isCopied)
     }
 
+    const handleItemClick = (item) => {
+        setItem(item)
+    }
+
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
     //     const targetDiv = document.getElementById('btnDiv');
@@ -193,114 +202,140 @@ const Summarizer = () => {
                             className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
                             onClick={() => toggleClicked(2)}>Youtube URL</button>
                     </div>
-                    <div className="text">
-                        <div className="inputArea">
-                            { isClicked == 0 &&
-                                <textarea
-                                id='inputText' 
-                                placeholder='Enter or paste your text and click "Summarize."' 
-                                value={inputContent} 
-                                onChange={handleInputChange} 
-                                required>    
-                                </textarea>
-                            }
-                            { isClicked == 1 &&
-                                <textarea
-                                    id='inputURL' 
-                                    placeholder='Enter or paste your URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
-                            { isClicked == 2 &&
-                                <textarea
-                                    id='inputYTURL' 
-                                    placeholder='Enter or paste your Youtube URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
 
-                            { inputContent &&
-                                (<Tooltip title="Delete" arrow>
-                                    <button className='delete-button' 
-                                        onClick={handleOpen}><FaRegTrashCan size={18} />
-                                    </button>
-                                </Tooltip>)
-                            }
-                            <div className='bottom-div1'>
-                                <div className="word-count">
-                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                        </Tooltip>) : wordCount >= 126 ?
-                                        <div className="get-premium">
-                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
-                                            <div>{wordCount}/125 Words</div>    
-                                        </div> : null
-                                    }
+                    <div className="main-content">
+                        <div className="premium-container">
+                            <div className="modes">
+                                <div className="mode">
+                                    <p>Modes:</p>
                                 </div>
-
-                                { wordCount > 125? 
-                                    <Tooltip title="Over the word limit" arrow>
-                                        <button className='summarize-btn button-disabled'>
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Summarize</div>
-                                            </div>
-                                        </button>
-                                    </Tooltip> :
-                                        <button className='summarize-btn'>
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Summarize</div>
-                                            </div>
-                                        </button>
-                                }
+                                <div>
+                                    <Dropdown
+                                        buttonText={selectedItem}
+                                        content={<>
+                                            {
+                                                tone.map(item => 
+                                                    <DropdownItem
+                                                        key={item}
+                                                        onClick={() => handleItemClick(item)}>
+                                                            {`${item}`}
+                                                    </DropdownItem>)
+                                            }
+                                        </>} 
+                                    />
+                                </div>
                             </div>
                         </div>
-
-                        <div className="inputArea" id="OutputTextArea">
-                            {/* <div class="button-container">
-                                
-                            </div> */}
-                            <textarea 
-                                id='output'
-                                placeholder='Get summary here...' 
-                                value={outputContent} 
-                                onChange={handleOutputChange} 
-                                required
-                                readOnly>   
-                            </textarea>
-                            <div className='bottom-div2'>
-                                <div className="feedback-buttons">
-                                    <Tooltip title="Like" arrow>
-                                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                                    </Tooltip>
-                                    <Tooltip title="Dislike" arrow>
-                                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
-                                    </Tooltip>
-                                </div>
-                                <div className="export-button">
-                                    <Tooltip title="Export" arrow>
-                                        <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
-                                    </Tooltip>
-                                </div>
-                                
-                                { shorten &&
-                                    <Link to = "/Shortener">
-                                        <button className="summarize-btn">
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Shorten your URL</div>
-                                            </div>
-                                        </button>
-                                    </Link>
+                        <div className="text">
+                            <div className="inputArea">
+                                { isClicked == 0 &&
+                                    <textarea
+                                    id='inputText' 
+                                    placeholder='Enter or paste your text and click "Summarize."' 
+                                    value={inputContent} 
+                                    onChange={handleInputChange} 
+                                    required>    
+                                    </textarea>
                                 }
+                                { isClicked == 1 &&
+                                    <textarea
+                                        id='inputURL' 
+                                        placeholder='Enter or paste your URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+                                { isClicked == 2 &&
+                                    <textarea
+                                        id='inputYTURL' 
+                                        placeholder='Enter or paste your Youtube URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+
+                                { inputContent &&
+                                    (<Tooltip title="Delete" arrow>
+                                        <button className='delete-button' 
+                                            onClick={handleOpen}><FaRegTrashCan size={18} />
+                                        </button>
+                                    </Tooltip>)
+                                }
+                                <div className='bottom-div1'>
+                                    <div className="word-count">
+                                        { inputContent && wordCount >= 1 && wordCount < 126 ? 
+                                            (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                                <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                            </Tooltip>) : wordCount >= 126 ?
+                                            <div className="get-premium">
+                                                <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                                <div>{wordCount}/125 Words</div>    
+                                            </div> : null
+                                        }
+                                    </div>
+
+                                    { wordCount > 125? 
+                                        <Tooltip title="Over the word limit" arrow>
+                                            <button className='summarize-btn button-disabled'>
+                                                <div className="summarize-overlap">
+                                                    <div className="summarize">Summarize</div>
+                                                </div>
+                                            </button>
+                                        </Tooltip> :
+                                            <button className='summarize-btn'>
+                                                <div className="summarize-overlap">
+                                                    <div className="summarize">Summarize</div>
+                                                </div>
+                                            </button>
+                                    }
+                                </div>
                             </div>
-                            <Tooltip title="Copy" arrow>
-                                <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
-                            </Tooltip>
-                            
+
+                            <div className="inputArea" id="OutputTextArea">
+                                {/* <div class="button-container">
+                                    
+                                </div> */}
+                                <textarea 
+                                    id='output'
+                                    placeholder='Get summary here...' 
+                                    value={outputContent} 
+                                    onChange={handleOutputChange} 
+                                    required
+                                    readOnly>   
+                                </textarea>
+                                <div className='bottom-div2'>
+                                    <div className="feedback-buttons">
+                                        <Tooltip title="Like" arrow>
+                                            <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                        </Tooltip>
+                                        <Tooltip title="Dislike" arrow>
+                                            <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                        </Tooltip>
+                                    </div>
+
+                                    <div className="export-button">
+                                        <Tooltip title="Export" arrow>
+                                            <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
+                                        </Tooltip>
+                                    </div>
+                                    
+                                    { shorten &&
+                                        <Link to = "/Shortener">
+                                            <button className="summarize-btn">
+                                                <div className="summarize-overlap">
+                                                    <div className="summarize">Shorten your URL</div>
+                                                </div>
+                                            </button>
+                                        </Link>
+                                    }
+                                </div>
+                                <Tooltip title="Copy" arrow>
+                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                                </Tooltip>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
