@@ -7,7 +7,7 @@ const History = () => {
 
     <div className="wrapper">
         
-        hello history
+        history
     
     </div>
 

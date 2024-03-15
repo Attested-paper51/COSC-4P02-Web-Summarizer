@@ -12,10 +12,12 @@ import APIAccess from './APIAccess.jsx';
 
 const Dashboard = () => {
 
-  const [historyVisible, setHistoryVisible] = useState(true)
+  let username = 'Jane Doe'
+
+  const [historyVisible, setHistoryVisible] = useState(false)
   const [templatesVisible, setTemplatesVisible] = useState(false)
   const [apiVisible, setAPIVisible] = useState(false)
-  const [settingsVisible, setSettingsVisible] = useState(false)
+  const [settingsVisible, setSettingsVisible] = useState(true)
 
   const handleHClick = (e) => {
     setHistoryVisible(true)
@@ -49,7 +51,7 @@ const Dashboard = () => {
             <div className='user-profile'>
               <IoPersonSharp size={160}/>
             </div>
-            <div className='user-name'>User Name</div>
+            <div className='user-name'>{username}</div>
             <div className='dashboard-options'>
                 <button className='dash-option' onClick={handleHClick}><MdHistory size={25} />History</button>
                 <button className='dash-option' onClick={handleTClick}><TbTemplate size={25}/>Templates</button>

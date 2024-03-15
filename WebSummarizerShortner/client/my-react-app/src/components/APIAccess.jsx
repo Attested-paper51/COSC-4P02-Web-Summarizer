@@ -7,7 +7,7 @@ const APIAccess = () => {
 
     <div className="wrapper">
         
-        hello api access
+        api access
     
     </div>
 
