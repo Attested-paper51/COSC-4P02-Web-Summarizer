@@ -26,6 +26,7 @@ const Summarizer = () => {
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [isPremium, setPremium] = useState(false);
+    const userEmail = localStorage.getItem('email');
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
