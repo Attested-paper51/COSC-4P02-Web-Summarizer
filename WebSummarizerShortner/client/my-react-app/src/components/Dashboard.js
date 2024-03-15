@@ -1,26 +1,70 @@
 import React, { useState } from 'react';
 import "./css/DashboardStyle.css";
-//import { Link } from 'react-router-dom';
+import { MdHistory } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
+import { TbTemplate } from "react-icons/tb";
+import { TbCloudNetwork } from "react-icons/tb";
+import { IoPersonSharp } from "react-icons/io5";
+import History from './History.jsx';
+import Templates from './Templates.jsx';
+import Settings from './Settings.jsx';
+import APIAccess from './APIAccess.jsx';
 
 const Dashboard = () => {
+
+  const [historyVisible, setHistoryVisible] = useState(true)
+  const [templatesVisible, setTemplatesVisible] = useState(false)
+  const [apiVisible, setAPIVisible] = useState(false)
+  const [settingsVisible, setSettingsVisible] = useState(false)
+
+  const handleHClick = (e) => {
+    setHistoryVisible(true)
+    setAPIVisible(false)
+    setSettingsVisible(false)
+    setTemplatesVisible(false)
+  }
+  const handleTClick = (e) => {
+    setTemplatesVisible(true)
+    setAPIVisible(false)
+    setSettingsVisible(false)
+    setHistoryVisible(false)
+  }
+  const handleAClick = (e) => {
+    setAPIVisible(true)
+    setHistoryVisible(false)
+    setSettingsVisible(false)
+    setTemplatesVisible(false)
+  }
+  const handleSClick = (e) => {
+    setSettingsVisible(true)
+    setAPIVisible(false)
+    setHistoryVisible(false)
+    setTemplatesVisible(false)
+  }
 
   return (
 
     <div className="dashboard">
         <div className="side-panel">
-            <div>Image</div>
-            <div>User Name</div>
+            <div className='user-profile'>
+              <IoPersonSharp size={160}/>
+            </div>
+            <div className='user-name'>User Name</div>
             <div className='dashboard-options'>
-                <div className='dash-option'>History</div>
-                <div className='dash-option'>Templates</div>
-                <div className='dash-option'>API Access</div>
-                <div className='dash-option'>Settings</div>
+                <button className='dash-option' onClick={handleHClick}><MdHistory size={25} />History</button>
+                <button className='dash-option' onClick={handleTClick}><TbTemplate size={25}/>Templates</button>
+                <button className='dash-option' onClick={handleAClick}><TbCloudNetwork size={25} />API Access</button>
+                <button className='dash-option' onClick={handleSClick}><IoSettingsOutline size={25}/>Settings</button>
             </div>
         </div>
         <div className="main-panel">
-            MAIN PANEL
+            {historyVisible && <History />}
+            {templatesVisible && <Templates />}
+            {apiVisible && <APIAccess />}
+            {settingsVisible && <Settings />}
         </div>
     </div>
+
   );
 }
 
