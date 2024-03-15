@@ -88,25 +88,26 @@ const Dashboard = () => {
               <button className='dash-option' onClick={handleTClick}><TbTemplate size={25}/>Templates</button>
               <button className='dash-option' onClick={handleAClick}><TbCloudNetwork size={25} />API Access</button>
               <button className='dash-option' onClick={handleSClick}><IoSettingsOutline size={25}/>Settings</button>
-          <div>Image</div>
+          {/* <div>Image</div> */}
           
-          {storedEmail && <div>{storedEmail}</div>} {/* Change this eventually*/}
-          <div className='dashboard-options'>
+          {/* {storedEmail && <div>{storedEmail}</div>}  */}
+          {/* Change this eventually */}
+          {/* <div className='dashboard-options'>
               <div className='dash-option'>History</div>
               <div className='dash-option'>Templates</div>
               <div className='dash-option'>API Access</div>
               <div className='dash-option'>Settings</div>
 
+          </div> */}
+          {/* <button onClick={handleLogout}>Logout</button> */}
           </div>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-        <div className="main-panel">
+      </div>
+      <div className="main-panel">
             {historyVisible && <History />}
             {templatesVisible && <Templates />}
             {apiVisible && <APIAccess />}
             {settingsVisible && <Settings />}
         </div>
-      </div>
     </div>
 
   );
