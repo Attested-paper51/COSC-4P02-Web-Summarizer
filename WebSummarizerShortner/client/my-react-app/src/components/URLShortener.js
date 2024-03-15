@@ -17,6 +17,8 @@ const URLShortener = () => {
         }, 3000); // Reverts back to 'Submit' after 3 seconds
     }
 
+    const email = localStorage.getItem('email');
+
     // const handleSubmit = (e) => {
     //     const url = {URL} 
     //     console.log(url)
@@ -30,7 +32,7 @@ const URLShortener = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ originalURL: URL }),
+                body: JSON.stringify({ originalURL: URL, email }),
             });
     
             if (response.ok) {
