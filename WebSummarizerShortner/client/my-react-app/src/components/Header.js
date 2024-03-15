@@ -102,7 +102,9 @@ import { IoPersonSharp } from "react-icons/io5";
 import { AuthContext } from '../context/AuthContext.js';
 
 const Header = () => {
+  //maybe remove
   const { userEmail } = useContext(AuthContext);//for user displaying
+  const storedEmail = localStorage.getItem('email');
     return (
       <section className="header-nav-container">
 
@@ -129,19 +131,22 @@ const Header = () => {
             </Link>
 
             {/* To display the currently logged in user, WIP*/}
-            {userEmail ? (
-              <>
-                <Link to="/Dashboard">
-                  <button className="profile"><IoPersonSharp className="profile-icon" /></button>
-                </Link>
-                <div className="profile-email">{userEmail}</div>
+            {/* Display profile icon and email if user is logged in */}
+            {storedEmail !== null && storedEmail !== 'null' && (
+            <>
+              <Link to="/Dashboard">
+                <button className="profile"><IoPersonSharp className="profile-icon" /></button>
+              </Link>
+              <div className="profile-email">{storedEmail}</div>
+            </>
+          )}
 
-              </>
-            ) : (
-              <Link to="/Login">
+          {/* Display login button if user is not logged in */}
+          {(storedEmail === null || storedEmail === 'null') && (
+            <Link to="/Login">
               <button className="profile"><IoPersonSharp className="profile-icon" /></button>
             </Link>
-            )}
+          )}
           </div>
           
         </nav>
