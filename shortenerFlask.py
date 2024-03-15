@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 import os
+import re
 from dotenv import load_dotenv
 
 
@@ -167,6 +168,12 @@ def shorten_url():
 def redirectToOriginal(short_url):
     fullURL = "http://127.0.0.1:5000/"+short_url
     originalURL = url_shortener.resolve_url(fullURL)
+    print(originalURL)
+    #Ensure the url has http in front of it.
+    pattern = re.compile(r'^(?!https?://).*$', re.IGNORECASE)
+    if pattern.match(originalURL):
+        originalURL = 'http://'+originalURL
+    print(originalURL)
     return redirect(originalURL)
 
 
