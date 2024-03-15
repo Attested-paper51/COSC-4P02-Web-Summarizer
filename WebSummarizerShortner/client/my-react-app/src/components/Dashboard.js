@@ -16,10 +16,10 @@ const Dashboard = () => {
 
   let username = 'Jane Doe'
 
-  const [historyVisible, setHistoryVisible] = useState(false)
+  const [historyVisible, setHistoryVisible] = useState(true)
   const [templatesVisible, setTemplatesVisible] = useState(false)
   const [apiVisible, setAPIVisible] = useState(false)
-  const [settingsVisible, setSettingsVisible] = useState(true)
+  const [settingsVisible, setSettingsVisible] = useState(false)
 
   const handleHClick = (e) => {
     setHistoryVisible(true)
