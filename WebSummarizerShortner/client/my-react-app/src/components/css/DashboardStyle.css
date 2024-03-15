@@ -150,11 +150,13 @@
     padding-bottom: 1.7em;
 }
 
-.pop-label{
-    margin-top: 3em;
-}
-
 .textfield{
     margin-bottom: 1em;
     margin-top: 0.5em;
+}
+
+.logout-btn{
+    margin-top: 3em;
+    background-color: #4f6390;
+    color: white;
 }

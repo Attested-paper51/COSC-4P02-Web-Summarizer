@@ -1,16 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { AuthContext  } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 import "./css/DashboardStyle.css";
 import { MdHistory } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbTemplate } from "react-icons/tb";
 import { TbCloudNetwork } from "react-icons/tb";
 import { IoPersonSharp } from "react-icons/io5";
+import { TbLogout } from "react-icons/tb";
+
 import History from './History.jsx';
 import Templates from './Templates.jsx';
 import Settings from './Settings.jsx';
 import APIAccess from './APIAccess.jsx';
-import { AuthContext  } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
 
@@ -88,18 +91,9 @@ const Dashboard = () => {
               <button className='dash-option' onClick={handleTClick}><TbTemplate size={25}/>Templates</button>
               <button className='dash-option' onClick={handleAClick}><TbCloudNetwork size={25} />API Access</button>
               <button className='dash-option' onClick={handleSClick}><IoSettingsOutline size={25}/>Settings</button>
-          {/* <div>Image</div> */}
+              <button className='dash-option logout-btn' onClick={handleLogout}><TbLogout size={25}/>Logout</button>
           
-          {/* {storedEmail && <div>{storedEmail}</div>}  */}
-          {/* Change this eventually */}
-          {/* <div className='dashboard-options'>
-              <div className='dash-option'>History</div>
-              <div className='dash-option'>Templates</div>
-              <div className='dash-option'>API Access</div>
-              <div className='dash-option'>Settings</div>
-
-          </div> */}
-          {/* <button onClick={handleLogout}>Logout</button> */}
+              {storedEmail && <div>{storedEmail}</div>} {/* Change this eventually */}
           </div>
       </div>
       <div className="main-panel">
