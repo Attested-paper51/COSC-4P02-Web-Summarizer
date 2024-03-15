@@ -84,8 +84,8 @@
     /* position: absolute; */
     text-align: center;
     white-space: nowrap;
-    padding: 0.2vw;
-    font-size: clamp(1.1rem, 0.95vw, 10rem);
+    padding: clamp(0.4rem, 0.5vw, 2rem);
+    font-size: clamp(0.8rem, 0.9vw, 10rem);
 }
 
 .box .pass-error, .box .email-error{
