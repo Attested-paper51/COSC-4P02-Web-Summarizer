@@ -131,7 +131,7 @@ const Header = () => {
             {/* To display the currently logged in user, WIP*/}
             {userEmail ? (
               <>
-                <Link to="/Login">
+                <Link to="/Dashboard">
                   <button className="profile"><IoPersonSharp className="profile-icon" /></button>
                 </Link>
                 <div className="profile-email">{userEmail}</div>
