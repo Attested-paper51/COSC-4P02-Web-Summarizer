@@ -35,7 +35,8 @@ const LogIn = () => {
           console.log(result);
           if (result.message === 'User found.'){
             //Navigate to dashboard if the backend finds the user.
-            login(email);
+            login(email);//wip - maybe remove, authcontext maybe no good..
+            //wip
             localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             console.log('Email being logged in: ',localStorage.getItem('email'));
@@ -124,6 +125,8 @@ const LogIn = () => {
             </div>
           </button>
 
+        
+        
         <Link to="/Verify">
           <div className="forgot">
             Forgot your password?
