@@ -18,9 +18,9 @@
     border: 0.15vw solid #7e7d7d;
     border-radius: 1vw;
     background-color: #ffffff;
-    padding-top: 1.5vh;
-    padding-bottom: 1.5vh;
-    width: clamp(320px, 32vw, 1100px);
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    width: clamp(330px, 32vw, 1100px);
 }
 
 .form-title{
