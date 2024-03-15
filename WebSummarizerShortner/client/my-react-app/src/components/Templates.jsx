@@ -7,7 +7,7 @@ const Templates = () => {
 
     <div className="wrapper">
         
-        hello templates
+        templates
     
     </div>
 
