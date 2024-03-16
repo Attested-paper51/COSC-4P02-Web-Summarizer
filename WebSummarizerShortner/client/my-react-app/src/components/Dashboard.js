@@ -19,35 +19,11 @@ const Dashboard = () => {
 
   let username = 'Jane Doe'
 
-  const [historyVisible, setHistoryVisible] = useState(true)
-  const [templatesVisible, setTemplatesVisible] = useState(false)
-  const [apiVisible, setAPIVisible] = useState(false)
-  const [settingsVisible, setSettingsVisible] = useState(false)
+  const [activeComponent, setActiveComponent] = useState('Settings'); // Default to Settings component
 
-  const handleHClick = (e) => {
-    setHistoryVisible(true)
-    setAPIVisible(false)
-    setSettingsVisible(false)
-    setTemplatesVisible(false)
-  }
-  const handleTClick = (e) => {
-    setTemplatesVisible(true)
-    setAPIVisible(false)
-    setSettingsVisible(false)
-    setHistoryVisible(false)
-  }
-  const handleAClick = (e) => {
-    setAPIVisible(true)
-    setHistoryVisible(false)
-    setSettingsVisible(false)
-    setTemplatesVisible(false)
-  }
-  const handleSClick = (e) => {
-    setSettingsVisible(true)
-    setAPIVisible(false)
-    setHistoryVisible(false)
-    setTemplatesVisible(false)
-  }
+  const handleOptionClick = (componentName) => {
+    setActiveComponent(componentName);
+  };
 
   //Testing, not fully working, attempting to see if the logged in user will
   //persist after refreshing the page.
@@ -61,7 +37,6 @@ const Dashboard = () => {
     //const userEmail = localStorage.getItem('email');
     setAuthenticated(!!isAuthenticated);
     
-
     console.log('Authentication state is: ',isAuthenticated);
     //console.log('Authenticated email: ',userEmail);
 
@@ -77,7 +52,6 @@ const Dashboard = () => {
   console.log('AuthContext email: ',userEmail);
   console.log('Local Storage email: ',storedEmail);
 
-
   return (
 
     <div className="dashboard">
@@ -87,21 +61,21 @@ const Dashboard = () => {
           </div>
           <div className='user-name'>{username}</div>
           <div className='dashboard-options'>
-              <button className='dash-option' onClick={handleHClick}><MdHistory size={25} />History</button>
-              <button className='dash-option' onClick={handleTClick}><TbTemplate size={25}/>Templates</button>
-              <button className='dash-option' onClick={handleAClick}><TbCloudNetwork size={25} />API Access</button>
-              <button className='dash-option' onClick={handleSClick}><IoSettingsOutline size={25}/>Settings</button>
+              <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory size={25} />History</button>
+              <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate size={25}/>Templates</button>
+              <button className={`dash-option ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork size={25} />API Access</button>
+              <button className={`dash-option ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline size={25}/>Settings</button>
               <button className='dash-option logout-btn' onClick={handleLogout}><TbLogout size={25}/>Logout</button>
-          
-              {storedEmail && <div>{storedEmail}</div>} {/* Change this eventually */}
+              {/* {storedEmail && <div>{storedEmail}</div>}  */}
+              {/* Change this eventually */}
           </div>
       </div>
       <div className="main-panel">
-            {historyVisible && <History />}
-            {templatesVisible && <Templates />}
-            {apiVisible && <APIAccess />}
-            {settingsVisible && <Settings />}
-        </div>
+        {activeComponent === 'History' && <History />}
+        {activeComponent === 'Templates' && <Templates />}
+        {activeComponent === 'APIAccess' && <APIAccess />}
+        {activeComponent === 'Settings' && <Settings />}
+      </div>
     </div>
 
   );

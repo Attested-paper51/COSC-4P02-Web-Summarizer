@@ -45,10 +45,9 @@
     color: #2e4069;
 }
 
-.dash-option:focus{  
+.dash-option:focus, .dash-option.active{  
     background-color: #4f618a;
     color: white;
-    cursor: pointer;
 }
 
 .dash-option:hover{
@@ -75,20 +74,21 @@
 
 .settings-wrapper .profile, .plan, .app, .extra{
     border-bottom: 1px solid rgb(194, 193, 193);
-    padding-bottom: 2em;;
+    padding-bottom: 2em;
+    padding-top: 1em;
 }
 
 .settings-wrapper .profile-div{
     font-weight: 600;
-    padding: 1em 0;
 }
 
 .settings-wrapper .label{
     color: black;
     padding-bottom: 0.5em;
-    padding-top: 1em;
+    padding-top: 1.5em;
     font-size: 16px;
     display: block;
+    font-weight: 600;
 }
 
 .settings-wrapper .text{
@@ -96,6 +96,35 @@
     font-size: 15px;
     display: inline-block; 
     font-weight: 400;
+}
+
+.settings-wrapper .plan-list{
+    font-size: 15px;
+    padding-top: 1em;
+}
+
+.plan-text{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: #a06307;
+}
+
+.plan-list ul{
+    font-size: 14px;
+    margin-top: 1em;
+    padding-left: 1em;
+    list-style: none;
+}
+
+.plan-list li{
+    padding-bottom: 0.2em;
+}
+
+.plan-list span{
+    font-weight: 600;
+    padding-left: 0.7em;
+    padding-right: 0.3em;
 }
 
 .settings-wrapper .update, .popup-close{
@@ -157,6 +186,47 @@
 
 .logout-btn{
     margin-top: 3em;
-    background-color: #4f6390;
+    border: 2px solid #2e4069;
+    color: black;
+}
+
+.mode-btn, .review-btn, .acc-delete-btn{
+    all: unset;
+    font-size: 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: #5d6f98;
+    opacity: 0.8;
+    padding: 1em 2em;
     color: white;
+    margin: 1em 0;
+    width: 250px;
+    text-align: center;
+}
+
+.mode-btn:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.review-btn{
+    border: 2px solid #95ace1;
+    background-color: #e0e9fe;
+    color: #2e4069;
+    font-weight: 550;
+}
+
+.review-btn:hover{
+    border-color: black;
+    cursor: pointer;
+    color: black;
+}
+
+.acc-delete-btn{
+    background-color: #6b0606;
+    opacity: 0.7;
+}
+
+.acc-delete-btn:hover{
+    opacity: 1;
 }
