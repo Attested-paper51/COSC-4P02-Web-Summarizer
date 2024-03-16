@@ -5,9 +5,9 @@ const Templates = () => {
 
   return (
 
-    <div className="wrapper">
+    <div className="templates-wrapper">
         
-        templates
+        <h1>Templates</h1>
     
     </div>
 

@@ -8,7 +8,7 @@ const PopUp = (props) => {
         <div className='popup'>
             <div className='popup-inner'>
                 <div className='popup-title'>
-                    <h3>Update {props.title}</h3>
+                    <h3>{props.title}</h3>
                     <button className='popup-close' onClick={() => props.setTrigger(false)}><IoMdClose /></button>
                 </div>
                 <div className='popup-content'>{props.children}</div>

@@ -14,6 +14,7 @@ const Settings = () => {
 
   const[namePopup, setNamePopup] = useState(false);
   const[emailPopup, setEmailPopup] = useState(false);
+  const[deletePopup, setDeletePopup] = useState(false);
 
   return (
 
@@ -27,13 +28,15 @@ const Settings = () => {
             <div className='text'>{username}</div>
             <button className='update' onClick={() => setNamePopup(true)}>Update Name</button>
            
-            <PopUp trigger={namePopup} setTrigger={setNamePopup} title='Name'>
+            <PopUp trigger={namePopup} setTrigger={setNamePopup} title='Update Name'>
               <label className='pop-label'>Enter new name</label>
               <input 
                 type="text"
                 className='textfield'
                 placeholder={username}
               />
+              {/* Use button below to change user's name in the database */}
+              <button className='confirm-btn'>Confirm name change</button>
             </PopUp>
           </div>
 
@@ -41,7 +44,8 @@ const Settings = () => {
             <div className='label'>Email</div> 
             <div className='text'>{useremail}</div>
             <button className='update' onClick={() => setEmailPopup(true)}>Update Email</button>
-            <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Email'>
+
+            <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
               <label className='pop-label'>Enter new email</label>
               <input 
                 type="email"
@@ -54,6 +58,8 @@ const Settings = () => {
                 className='textfield'
                 placeholder={'\u25CF'.repeat(userpass.length)}
               />
+              {/* Use button below to change user's email in the database  */}
+              <button className='confirm-btn'>Confirm email change</button>
             </PopUp>
           </div>
 
@@ -79,13 +85,13 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className='app'>
-          {/* <div className='label'>Language</div> */}
+        {/* <div className='app'>
+          <div className='label'>Language</div>
           <div className='label'>Mode</div>
           <button className='mode-btn'>Change to Dark Mode</button>
-          {/* <div className='label'>Notifications</div>
-          <div style={{paddingTop: '0.5em'}}>Toggle to turn on notifications</div> */}
-        </div>
+          <div className='label'>Notifications</div>
+          <div style={{paddingTop: '0.5em'}}>Toggle to turn on notifications</div>
+        </div> */}
         
         {/* <div className='extra'>
           <div className='label'>Rate & Review</div>
@@ -94,8 +100,12 @@ const Settings = () => {
         </div> */}
       
         <div className='delete'>
-          <div className='label'>Delete Account</div>
-          <button className='acc-delete-btn'>Delete account permanently</button>
+          <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>Delete account</button>
+          <PopUp trigger={deletePopup} setTrigger={setDeletePopup} title='Delete Account'>
+            <label className='pop-label'>Are you sure you want to delete your account permanently?</label>
+            {/* Use the button below to permanently remove user from database */}
+            <button className='acc-delete-btn'>Delete account permanently</button>
+          </PopUp>
         </div>
     </div>
 
