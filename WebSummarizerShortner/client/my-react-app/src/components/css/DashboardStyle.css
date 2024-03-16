@@ -67,7 +67,7 @@
     font-size: 18px;
 }
 
-.settings-wrapper{
+.settings-wrapper, .templates-wrapper{
     display: flex;
     flex-direction: column;
 }
@@ -80,6 +80,7 @@
 
 .settings-wrapper .profile-div{
     font-weight: 600;
+    cursor: auto;
 }
 
 .settings-wrapper .label{
@@ -137,6 +138,7 @@
 
 .settings-wrapper .update:hover{
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .popup-close{
@@ -148,6 +150,7 @@
 
 .popup-close:hover{
     scale: 1.2;
+    cursor: pointer;
 }
 
 .popup{
@@ -166,7 +169,7 @@
 
 .popup-inner{
     position: relative;
-    padding: 2em;
+    padding: 3em;
     width: 100%;
     max-width: 640px;
     background-color: rgb(255, 255, 255, 1);
@@ -177,6 +180,12 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 1.7em;
+}
+
+.popup-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .textfield{
@@ -190,12 +199,12 @@
     color: black;
 }
 
-.mode-btn, .review-btn, .acc-delete-btn{
+.mode-btn, .review-btn, .acc-delete-btn, .confirm-btn{
     all: unset;
     font-size: 14px;
     border: 1px solid;
     border-radius: 10px;
-    background-color: #5d6f98;
+    background-color: #3b4b71;
     opacity: 0.8;
     padding: 1em 2em;
     color: white;
@@ -204,7 +213,7 @@
     text-align: center;
 }
 
-.mode-btn:hover{
+.mode-btn:hover, .confirm-btn:hover{
     opacity: 1;
     cursor: pointer;
 }
@@ -223,10 +232,12 @@
 }
 
 .acc-delete-btn{
+    margin-top: 2.6em;
     background-color: #6b0606;
     opacity: 0.7;
 }
 
 .acc-delete-btn:hover{
     opacity: 1;
+    cursor: pointer;
 }
