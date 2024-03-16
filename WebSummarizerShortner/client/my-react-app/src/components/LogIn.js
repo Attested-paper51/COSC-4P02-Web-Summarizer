@@ -127,7 +127,7 @@ const LogIn = () => {
 
         
         
-        <Link to="/Verify">
+        <Link to="/Dashboard">
           <div className="forgot">
             Forgot your password?
           </div>
