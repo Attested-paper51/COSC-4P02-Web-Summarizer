@@ -9,6 +9,7 @@ const Password = () => {
   const [pass, setPass] = useState('');
   const [finalPass, confirmPass] = useState('');
   const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
 
   const [passError, setPassError] = useState('');
   const [finalError, setFinalError] = useState('');
@@ -77,13 +78,18 @@ const Password = () => {
       
         <div className="password">
           <label className='pass-text'>Enter new password</label> 
-          <input className='textfield'
-            type="text" 
-            required
-            value={pass}
-            onChange={handlePassChange}
-            placeholder='Enter password here' 
-          />
+          <div className='pass-container'>
+            <input className='textfield'
+              type={visible ? "text":"password"}
+              required
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+              placeholder='Enter password here' 
+            />
+            <div className='hide-pass1' onClick = {() => setVisible(!visible)}>
+              {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
+            </div>
+          </div>
           {passError && <div class="pass-error">{passError}</div>}
         </div>
 
@@ -91,17 +97,16 @@ const Password = () => {
           <label className='pass-text'>Re-enter new password</label> 
           <div className='pass-container'>
             <input className='textfield'
-                type={visible ? "text":"password"}
+                type={visible1 ? "text":"password"}
                 required
                 value={finalPass}
                 onChange={handleConfirmChange} 
                 placeholder='Enter password here' 
               />
-              <div className='hide-pass' onClick = {() => setVisible(!visible)}>
-                  {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
+              <div className='hide-pass2' onClick = {() => setVisible1(!visible1)}>
+                  {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}
               </div>
           </div>
-              
           {finalError && <div class="pass-error">{finalError}</div>}
         </div>
 
