@@ -133,6 +133,12 @@
     /*padding-top: 12px;*/
 }
 
+.login-box .pass-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .login-box .login-social{
     color: black;
     /*line-height: 14px;
@@ -192,8 +198,8 @@
 
 .login-box .hide-pass{
     position: absolute;
-    bottom: 8px;
-    left: 90%;
+    /* bottom: 8px;*/
+    left: 92%; 
 }
 
 .login-box .hide-pass:hover{
