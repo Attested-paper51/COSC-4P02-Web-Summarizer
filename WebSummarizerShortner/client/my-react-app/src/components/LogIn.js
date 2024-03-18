@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
 
 
@@ -14,6 +15,8 @@ const LogIn = () => {
   const navigate = useNavigate();
   
   const [visible, setVisible] = useState(false);
+
+  const {login} = useAuth();
 
   const handleSubmit = async () => {
     try {
@@ -32,9 +35,20 @@ const LogIn = () => {
           console.log(result);
           if (result.message === 'User found.'){
             //Navigate to dashboard if the backend finds the user.
+            login(email);//wip - maybe remove, authcontext maybe no good..
+            //wip
+            localStorage.setItem('authenticated',true);
+            localStorage.setItem('email',email);
+            console.log('Email being logged in: ',localStorage.getItem('email'));
+            console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             navigate('/Dashboard');
           }else if (result.message === 'User not found or password is incorrect.') {
             setPassError(result.message);
+            localStorage.setItem('authenticated',false);
+            localStorage.setItem('email',null);
+            console.log('Email being logged in: ',localStorage.getItem('email'));
+            console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
+            
             setPass('');
             setEmail('');
           }
@@ -111,6 +125,8 @@ const LogIn = () => {
             </div>
           </button>
 
+        
+        
         <Link to="/Verify">
           <div className="forgot">
             Forgot your password?

@@ -2,6 +2,7 @@
     padding: 8rem;
     /*justify-content: center;*/
     place-items: center;
+    
 }
 
 .carousel {
@@ -11,7 +12,7 @@
 
 .review-container {
     /* box-shadow: 1px 1px 5px #888888; */
-    width: clamp(15vw, 25vw, 50vw);
+    /* width: clamp(15vw, 25vw, 50vw); */
     height: clamp(120px, 25vh, 450px);
     border: 0.15vw solid black;
     /* border-radius: 9px; */

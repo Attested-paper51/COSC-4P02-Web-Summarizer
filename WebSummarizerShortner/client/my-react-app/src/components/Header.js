@@ -94,14 +94,17 @@
 // export default Header;
 
 
-import { Component } from "react";
+import { Component, useContext } from "react";
 import { Link } from 'react-router-dom';
 import "./css/HeaderStyle.css";
 import { FaMoon } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
+import { AuthContext } from '../context/AuthContext.js';
 
-class Header extends Component {
-  render() {
+const Header = () => {
+  //maybe remove
+  const { userEmail } = useContext(AuthContext);//for user displaying
+  const storedEmail = localStorage.getItem('email');
     return (
       <section className="header-nav-container">
 
@@ -127,15 +130,29 @@ class Header extends Component {
               <button className="darkmode"><FaMoon className="darkmode-icon" /></button>
             </Link>
 
+            {/* To display the currently logged in user, WIP*/}
+            {/* Display profile icon and email if user is logged in */}
+            {storedEmail !== null && storedEmail !== 'null' && (
+            <>
+              <Link to="/Dashboard">
+                <button className="profile"><IoPersonSharp className="profile-icon" /></button>
+              </Link>
+              <div className="profile-email">{storedEmail}</div>
+            </>
+          )}
+
+          {/* Display login button if user is not logged in */}
+          {(storedEmail === null || storedEmail === 'null') && (
             <Link to="/Login">
               <button className="profile"><IoPersonSharp className="profile-icon" /></button>
             </Link>
+          )}
           </div>
           
         </nav>
       </section>
     );
-  };
+  
 }
 
 export default Header;

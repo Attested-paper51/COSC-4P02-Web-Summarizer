@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 import os
+import re
 from dotenv import load_dotenv
 
 
@@ -40,7 +41,7 @@ class SimpleURLShortener:
         self.conn.commit()
 
     #Generate a random shortened URL given an input original URL
-    def shorten_url(self, originalURL):
+    def shorten_url(self, originalURL,email):
         # Generate a hash for the original URL
         #Applying a unique identifier so that the hash is different even if the same URL is inputted twice
         uniqueIdentifier = str(int(time.time()))
@@ -50,11 +51,23 @@ class SimpleURLShortener:
         shortURL = "http://127.0.0.1:5000/"+url_hash[:6]
         #shortURL = url_hash[:6]
 
-        # Store the mapping in the database
-        cursor = self.conn.cursor()
-        insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING")
-        cursor.execute(insert_query, (shortURL, originalURL, 0))
-        self.conn.commit()
+        #Resolve the user ID associated with the email, if exists
+        if (email == None):
+            # Store the mapping in the database
+            cursor = self.conn.cursor()
+            insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING")
+            cursor.execute(insert_query, (shortURL, originalURL, 0,))
+            self.conn.commit()
+        else:
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
+            user = cursor.fetchone()
+            insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count,user_id) VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING")
+            cursor.execute(insert_query, (shortURL, originalURL, 0, user))
+            self.conn.commit()
+            
+
+        
 
         # Return the shortened URL
         return shortURL
@@ -145,8 +158,9 @@ url_shortener = SimpleURLShortener()
 def shorten_url():
     data = request.get_json()
     originalURL = data.get('originalURL')
+    email = data.get('email')
 
-    shortURL = url_shortener.shorten_url(originalURL)
+    shortURL = url_shortener.shorten_url(originalURL,email)
 
     return jsonify({'shortenedURL': shortURL})
 
@@ -154,6 +168,12 @@ def shorten_url():
 def redirectToOriginal(short_url):
     fullURL = "http://127.0.0.1:5000/"+short_url
     originalURL = url_shortener.resolve_url(fullURL)
+    print(originalURL)
+    #Ensure the url has http in front of it.
+    pattern = re.compile(r'^(?!https?://).*$', re.IGNORECASE)
+    if pattern.match(originalURL):
+        originalURL = 'http://'+originalURL
+    print(originalURL)
     return redirect(originalURL)
 
 
