@@ -6,6 +6,8 @@
     width: 100%;
     margin: auto;
     padding-top: 7vh;
+    padding-bottom: 7vh;
+    color: #757373;
     /* background-color: rgb(248, 248, 238); */
 }
 
@@ -18,9 +20,9 @@
     border: 0.15vw solid #7e7d7d;
     border-radius: 1vw;
     background-color: #ffffff;
-    padding-top: 1.5vh;
-    padding-bottom: 1.5vh;
-    width: clamp(320px, 32vw, 1100px);
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    width: clamp(330px, 32vw, 1100px);
 }
 
 .form-title{
@@ -36,26 +38,98 @@
     font-size: clamp(0.8rem, 0.7vw, 10rem);
 }
 
-.email, .password{
+.name, .email, .password{
     width: clamp(300px, 28vw, 1000px);
     font-size: clamp(0.8rem, 0.8vw, 10rem);
     margin-bottom: 1em;
 }
 
-.email-text, .pass-text{
+.name-text, .email-text, .pass-text{
     display: block;
     padding-bottom: 5px;
     color: #757373;
 }
 
 .textfield{
-    border: 1px solid #b7b6b6;
+    border: 0.1vw solid #b7b6b6;
     border-radius: 8px;
     position: relative;
     width: 100%;
     padding-left: 5px;
     height: clamp(40px, 3.2vh, 500px);
     font-size: clamp(0.8rem, 0.65vw, 10rem);
+    padding-right: 35px;
+}
+
+.pass-req{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.pass-text{
+    position: relative;
+}
+
+.pass-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.pass-req-icon{
+    position: relative;
+    left: 3px;
+} 
+
+.pass-wrapper p {
+    margin-bottom: 10px;
+    /* margin: auto; */
+    opacity: 0.5;
+}
+
+.pass-wrapper p span{
+    padding-left: clamp(35px, 2.5vh, 1.5vw);
+    padding-bottom: 5px;
+}
+
+.fa-times{
+    opacity: 1;
+}
+
+.fa-check{
+    opacity: 0;
+}
+
+/* .pass-checklist{
+    display: none;
+}
+
+.pass-container:focus .textfield:focus ~ .pass-checklist{
+    display: block;
+} */
+
+.pass-wrapper p .icon{
+    position: absolute;
+    text-align: center;
+    width: clamp(20px, 2.5vh, 1vw);
+    height: clamp(20px, 2.5vh, 1vw);
+    line-height: 30px;
+    font-size: large;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.hide-pass1, .hide-pass2{
+    position: absolute;
+    left: 93%; 
+    /* bottom: 8px;
+    left: 90%; */
+}
+
+.hide-pass1:hover, .hide-pass2:hover{
+    cursor: pointer;
 }
 
 .signup-btn{
@@ -84,8 +158,8 @@
     /* position: absolute; */
     text-align: center;
     white-space: nowrap;
-    padding: 0.2vw;
-    font-size: clamp(1.1rem, 0.95vw, 10rem);
+    padding: clamp(0.4rem, 0.5vw, 2rem);
+    font-size: clamp(0.8rem, 0.9vw, 10rem);
 }
 
 .box .pass-error, .box .email-error{
