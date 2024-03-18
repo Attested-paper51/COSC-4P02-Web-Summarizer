@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 
@@ -32,6 +34,13 @@ const Summarizer = () => {
 
     const layout = ["Paragraph", "Bullet Points", "Numbered List"];
     const [selectedLayout, setLayout] = useState(layout[0]);
+
+    const videoSetting = ["Full Video", "Timestamp"];
+    const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
+
+    function valuetext(value) {
+        return `${value}°C`;
+    }
 
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
@@ -65,7 +74,6 @@ const Summarizer = () => {
         const words = text.split(/\s+/)
         return words.length
     }    
-
 
     useEffect(() => {
         
@@ -180,6 +188,10 @@ const Summarizer = () => {
         setLayout(item)
     }
 
+    const handleVideoSettingChange = (item) => {
+        setVideoSetting(item)
+    }
+
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
     //     const targetDiv = document.getElementById('btnDiv');
@@ -247,6 +259,49 @@ const Summarizer = () => {
                                             </>} 
                                         />
                                     </div>
+                                    <div className="slider-container">
+                                        <div className="slider-text">
+                                            <p>Summary Length:</p>
+                                        </div>
+                                        <div className="slider-text">
+                                            <p>Short</p>
+                                        </div>
+                                        <div className="slider-wrapper">
+                                            <Box sx={{ width: 100 }} className="slider">
+                                                <Slider
+                                                    aria-label="Temperature"
+                                                    defaultValue={10}
+                                                    getAriaValueText={valuetext}
+                                                    // valueLabelDisplay="auto"
+                                                    shiftStep={0}
+                                                    step={10}
+                                                    marks
+                                                    min={10}
+                                                    max={40}
+                                                />
+                                            </Box>
+                                        </div>
+                                        <div className="slider-text">
+                                            <p>Long</p>
+                                        </div>
+                                    </div>
+                                    { isClicked == 2 &&
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedVideoSetting}
+                                                content={<>
+                                                    {
+                                                        videoSetting.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleVideoSettingChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

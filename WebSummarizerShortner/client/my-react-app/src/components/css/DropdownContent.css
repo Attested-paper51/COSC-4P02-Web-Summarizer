@@ -1,3 +1,7 @@
+/* .content-close {
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+} */
+
 .dropdown-content {
     position: absolute;
     /* width: auto; */

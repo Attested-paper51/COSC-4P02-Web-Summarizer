@@ -305,6 +305,32 @@ textarea::-webkit-scrollbar{
     background-color: white !important;
 }
 
+.slider-container {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    /* background-color: pink; */
+}
+
+.slider-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.slider {
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding-left: 8px; */
+}
+
+.slider-text {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 10px 10px 0 0;
+}
+
 /* .clamp-text {
     font-size: clamp(1rem, 1.1vw, 1rem);
 } */
