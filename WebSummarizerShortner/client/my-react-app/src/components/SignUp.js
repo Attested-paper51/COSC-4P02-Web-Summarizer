@@ -180,11 +180,11 @@ const SignUp = () => {
             <div>
               <label className='pass-text'>Enter your password</label> 
             </div>
-            <Tooltip className="pass-req-text" title="Password must have 8-20 characters, atleast one uppercase and atleast one number." placement='right' arrow>
+            {/* <Tooltip className="pass-req-text" title="Password must have 8-20 characters, atleast one uppercase and atleast one number." placement='right' arrow>
               <div>
                   <FontAwesomeIcon icon={faQuestionCircle} className='pass-req-icon'/>
               </div>
-            </Tooltip>
+            </Tooltip> */}
           </div>
           <div className='pass-wrapper'>
             <div className='pass-container' onClick={()=> { showChecklist(true); }}>
