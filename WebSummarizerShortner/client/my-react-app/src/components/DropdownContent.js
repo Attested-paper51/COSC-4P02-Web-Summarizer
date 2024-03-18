@@ -7,7 +7,7 @@ const DropdownContent = forwardRef((props, ref) => {
   return (
     <div 
       ref={ref}
-      className={`dropdown-content ${open? "content-open":null}`}
+      className={`dropdown-content ${open? "content-open":"content-close"}`}
       style={{top: top? `${top}px`: "100%"}}
       onClick={toggle}>
         {children}
