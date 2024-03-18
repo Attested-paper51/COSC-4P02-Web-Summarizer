@@ -86,10 +86,11 @@
 .pass-wrapper p {
     margin-bottom: 10px;
     /* margin: auto; */
+    opacity: 0.5;
 }
 
 .pass-wrapper p span{
-    padding-left: 2vw;
+    padding-left: clamp(35px, 2.5vh, 1.5vw);
     padding-bottom: 5px;
 }
 
@@ -112,8 +113,8 @@
 .pass-wrapper p .icon{
     position: absolute;
     text-align: center;
-    width: clamp(0.5vw, 2.5vh, 1vw);
-    height: clamp(0.5vw, 2.5vh, 1vw);
+    width: clamp(20px, 2.5vh, 1vw);
+    height: clamp(20px, 2.5vh, 1vw);
     line-height: 30px;
     font-size: large;
     border-radius: 50%;
