@@ -37,8 +37,10 @@ const LogIn = () => {
             //Navigate to dashboard if the backend finds the user.
             login(email);//wip - maybe remove, authcontext maybe no good..
             //wip
+            const name = result.name;
             localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
+            localStorage.setItem('name',name);
             console.log('Email being logged in: ',localStorage.getItem('email'));
             console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             navigate('/Dashboard');

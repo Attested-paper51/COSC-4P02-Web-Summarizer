@@ -17,6 +17,17 @@ import APIAccess from './APIAccess.jsx';
 
 const Dashboard = () => {
 
+
+  const navigate = useNavigate();
+  const emailCheck = localStorage.getItem('email');
+
+  useEffect (() => {
+    if (!emailCheck) {
+      navigate('/login');
+    }
+  }, [emailCheck,navigate]);
+  
+
   let username = localStorage.getItem('name');
 
   const [activeComponent, setActiveComponent] = useState('Settings'); // Default to Settings component
@@ -30,7 +41,7 @@ const Dashboard = () => {
   const { userEmail } = useContext(AuthContext);
   const [authenticated, setAuthenticated] = useState(false);
   const storedEmail = localStorage.getItem('email');
-  const navigate = useNavigate();
+  
 
   useEffect (() => {
     const isAuthenticated = localStorage.getItem('authenticated');
