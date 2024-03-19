@@ -17,7 +17,7 @@ import APIAccess from './APIAccess.jsx';
 
 const Dashboard = () => {
 
-  let username = 'Jane Doe'
+  let username = localStorage.getItem('name');
 
   const [activeComponent, setActiveComponent] = useState('Settings'); // Default to Settings component
 
@@ -45,6 +45,7 @@ const Dashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('email');
     localStorage.removeItem('authenticated');
+    localStorage.removeItem('name');
     navigate('/');
   };
 

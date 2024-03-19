@@ -105,6 +105,7 @@ const Header = () => {
   //maybe remove
   const { userEmail } = useContext(AuthContext);//for user displaying
   const storedEmail = localStorage.getItem('email');
+  const storedName = localStorage.getItem('name');
     return (
       <section className="header-nav-container">
 
@@ -137,7 +138,7 @@ const Header = () => {
               <Link to="/Dashboard">
                 <button className="profile"><IoPersonSharp className="profile-icon" /></button>
               </Link>
-              <div className="profile-email">{storedEmail}</div>
+              <div className="profile-email">{storedName}</div>
             </>
           )}
 

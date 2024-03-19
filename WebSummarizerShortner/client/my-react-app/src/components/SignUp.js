@@ -58,6 +58,7 @@ const SignUp = () => {
             confirmPass('');
           } else if (result.message === 'User registered successfully.') {
             localStorage.setItem('email',email);
+            localStorage.setItem('name',name);
             navigate('/Dashboard');
           }      
       } else {
@@ -107,6 +108,8 @@ const SignUp = () => {
 
   const handleInputChange = (e) => {
     setPass(e.target.value)
+    setPassError('');
+    setFinalError('');
     const password =e.target.value;
 
     if (password.match(/[A-Z]/) != null) {
@@ -250,8 +253,8 @@ const SignUp = () => {
                 type={visible1 ? "text":"password"}
                 required
                 value={finalPass}
-                // onChange={handleConfirmChange} 
-                onClick={handleConfirmChange}
+                onChange={handleConfirmChange} 
+                //onClick={handleConfirmChange}
                 // onChange={(e) => setPass(e.target.value)}
                 placeholder='Enter password here' 
               />
