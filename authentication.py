@@ -23,10 +23,10 @@ class Authentication:
             sslmode="require"
         )
 
-    def registerUser(self,email,password):
+    def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+        cursor.execute("INSERT INTO users (username, email, password, name) VALUES (%s, %s, %s, %s)", (username, email, password, name))
         self.conn.commit()
 
     def checkIfAlreadyRegistered(self,email):
@@ -53,9 +53,9 @@ class Authentication:
 
         return any(char.isupper() for char in password) and any(char.isdigit() for char in password)
 
-    def deleteAccount(self,username):
+    def deleteAccount(self,email):
         cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM users WHERE username = %s",(username,))
+        cursor.execute("DELETE FROM users WHERE email = %s",(email,))
         self.conn.commit()
 
     def changePassword(self,email,password,newPassword):
@@ -92,6 +92,11 @@ class Authentication:
         else:
             return 0
 
+    def getName(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT name FROM users WHERE email = %s",(email,))
+        name = cursor.fetchone()[0]
+        return name
 
 
     def __del__(self):
@@ -143,8 +148,8 @@ def signup():
     data = request.get_json()
     # Extract user data from the request
     email = data.get('email')
-    print(email)
     password = data.get('pass')
+    name = data.get('name')
     
     #Add this to .env
     api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
@@ -162,7 +167,7 @@ def signup():
 
     if (userMgr.checkIfAlreadyRegistered(email)):
         return jsonify({'message':'Email is already registered.'})
-    userMgr.registerUser(email,password)
+    userMgr.registerUser(email,password,name)
     #print("request made")
 
     return jsonify({'message': 'User registered successfully.'})
@@ -176,8 +181,18 @@ def login():
 
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
-        return jsonify({'message':'User found.'})
+        name = userMgr.getName(email)
+        return jsonify({'message':'User found.','name':name})
     return jsonify({'message':'User not found or password is incorrect.'})
+
+@appA.route('/delete',methods=['POST'])
+def deleteAccount():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    userMgr.deleteAccount(email)
+    return jsonify({'message':'Account deleted.'})
+
 
 if __name__ == '__main__':
     appA.run(port=5001)
