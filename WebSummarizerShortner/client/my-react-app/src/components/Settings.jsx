@@ -9,12 +9,33 @@ import Feedback from './Feedback.js'
 const Settings = () => {
 
   let username = localStorage.getItem('name');
-  let useremail = localStorage.getItem('email');
+  let email = localStorage.getItem('email');
   let userpass = 'janedoe123'
 
   const[namePopup, setNamePopup] = useState(false);
   const[emailPopup, setEmailPopup] = useState(false);
   const[deletePopup, setDeletePopup] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email}),
+        });
+      if (response.ok) {
+        localStorage.removeItem('email');
+        localStorage.removeItem('name');
+        navigate('/SignUp');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+  }
 
   return (
 
@@ -42,7 +63,7 @@ const Settings = () => {
 
           <div className='profile-div'>
             <div className='label'>Email</div> 
-            <div className='text'>{useremail}</div>
+            <div className='text'>{email}</div>
             <button className='update' onClick={() => setEmailPopup(true)}>Update Email</button>
 
             <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
@@ -50,7 +71,7 @@ const Settings = () => {
               <input 
                 type="email"
                 className='textfield'
-                placeholder={useremail}
+                placeholder={email}
               />
               <label className='pop-label'>Enter password</label>
               <input 
@@ -104,7 +125,7 @@ const Settings = () => {
           <PopUp trigger={deletePopup} setTrigger={setDeletePopup} title='Delete Account'>
             <label className='pop-label'>Are you sure you want to delete your account permanently?</label>
             {/* Use the button below to permanently remove user from database */}
-            <button className='acc-delete-btn'>Delete account permanently</button>
+            <button className='acc-delete-btn' onClick={handleDelete}>Delete account permanently</button>
           </PopUp>
         </div>
     </div>
