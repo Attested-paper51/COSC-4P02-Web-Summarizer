@@ -8,8 +8,8 @@ import Feedback from './Feedback.js'
 
 const Settings = () => {
 
-  let username = 'Jane Doe'
-  let useremail = 'janedoe@gmail.com'
+  let username = localStorage.getItem('name');
+  let useremail = localStorage.getItem('email');
   let userpass = 'janedoe123'
 
   const[namePopup, setNamePopup] = useState(false);
