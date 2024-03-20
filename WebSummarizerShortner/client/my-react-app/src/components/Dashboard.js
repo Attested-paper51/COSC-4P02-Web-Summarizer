@@ -19,13 +19,13 @@ const Dashboard = () => {
 
 
   const navigate = useNavigate();
-  const emailCheck = localStorage.getItem('email');
+ // const emailCheck = localStorage.getItem('email');
 
-  useEffect (() => {
-    if (!emailCheck) {
-      navigate('/login');
-    }
-  }, [emailCheck,navigate]);
+  // useEffect (() => {
+  //   if (!emailCheck) {
+  //     navigate('/login');
+  //   }
+  // }, [emailCheck,navigate]);
   
 
   let username = localStorage.getItem('name');
