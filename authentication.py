@@ -81,7 +81,7 @@ class Authentication:
     
     def changeEmail(self,email,newEmail,password):
         cursor = self.conn.cursor()
-        cursor.execute("SELCT * FROM users WHERE email = %s AND password = %s",(email,password))
+        cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s",(email,password))
         #it should be implied that the user exists, no?
         userExists = cursor.fetchone()
 
@@ -103,6 +103,17 @@ class Authentication:
         cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
         username = cursor.fetchone()[0]
         return username
+
+    def isPasswordCorrect(self,email,password):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT password FROM users WHERE email = %s",(email,))
+        result = cursor.fetchone()
+
+        if result[0] == password:
+            return 1
+
+        return 0
+
 
 
     #Template Logic
@@ -164,6 +175,7 @@ class Authentication:
         self.conn.commit()
 
 
+
     def __del__(self):
         self.conn.close()
 
@@ -207,6 +219,19 @@ def changePW():
         return jsonify({'message':'Password changed successfully.'})
     else:
         return jsonify({'message':'Current password incorrect.'})
+
+@appA.route('/changeemail',methods=['POST'])
+def changeEmail():
+    data = request.get_json()
+    email = data.get('email')
+    newEmail = data.get('newEmail')
+    password = data.get('password')
+
+    userMgr = Authentication()
+    if not (userMgr.isPasswordCorrect(email,password)):
+        return jsonify({'message':'Password invalid!'})
+    userMgr.changeEmail(email,newEmail,password)
+    return jsonify({'message':'Email changed.'})
 
 @appA.route('/register', methods=['POST'])
 def signup():
@@ -266,8 +291,8 @@ def deleteAccount():
 
 
 if __name__ == '__main__':
-    #appA.run(port=5001)
+    appA.run(port=5001)
     auth = Authentication()
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
-    auth.clearTemplate("emailTest1@gmail.com","customTemplate1")
+    #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")
