@@ -177,6 +177,50 @@ const Summarizer = () => {
     //     });
     // });
 
+// function for handling text summarization
+const summarizeText = () => {
+    fetch('/api/summarize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: inputContent, type: isClicked }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        setOutputContent(data.summary); // This line updates the output area
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+};
+
+//export button handling, for downloading json file
+const exportJSON = () => {
+// Create a JSON object with the summarized text
+const data = { summary: outputContent };
+
+// Convert the JSON object to a string
+const jsonString = JSON.stringify(data);
+
+// Create a Blob from the JSON string
+const blob = new Blob([jsonString], { type: 'application/json' });
+
+// Create a URL for the blob
+const url = URL.createObjectURL(blob);
+
+// Create a temporary anchor element and trigger a download
+const a = document.createElement('a');
+a.href = url;
+a.download = 'summary.json'; // Filename for the downloaded file
+document.body.appendChild(a); // Append the anchor to the document
+a.click(); // Trigger the download
+document.body.removeChild(a); // Clean up
+
+}
+
+    
+
     return (
         <div className="wrapper">
             <h2>Summarizer</h2>
@@ -243,20 +287,23 @@ const Summarizer = () => {
                                     }
                                 </div>
 
-                                { wordCount > 125? 
+                                { wordCount > 125 ? 
                                     <Tooltip title="Over the word limit" arrow>
-                                        <button className='summarize-btn button-disabled'>
+                                        <button className='summarize-btn button-disabled' disabled>
                                             <div className="summarize-overlap">
                                                 <div className="summarize">Summarize</div>
                                             </div>
                                         </button>
                                     </Tooltip> :
-                                        <button className='summarize-btn'>
+                                    <Tooltip title="Click to summarize" arrow>
+                                        <button className='summarize-btn' onClick={summarizeText}>
                                             <div className="summarize-overlap">
                                                 <div className="summarize">Summarize</div>
                                             </div>
                                         </button>
+                                    </Tooltip>
                                 }
+
                             </div>
                         </div>
 
@@ -283,7 +330,7 @@ const Summarizer = () => {
                                 </div>
                                 <div className="export-button">
                                     <Tooltip title="Export" arrow>
-                                        <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
+                                        <button className='feedback-up' onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
                                     </Tooltip>
                                 </div>
                                 
