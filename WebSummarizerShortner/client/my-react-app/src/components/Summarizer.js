@@ -224,6 +224,8 @@ const Summarizer = () => {
                     </div>
 
                     <div className="main-content">
+                        {userEmail && (
+
                         <div className="premium-container">
                             <div className="modes">
                                 <div className="mode">
@@ -342,7 +344,7 @@ const Summarizer = () => {
                                     </div>
                                 </button>
                             </div>
-                        </div>
+                        </div>)}
                         <div className="text">
                             <div className="inputArea">
                                 { isClicked == 0 &&
