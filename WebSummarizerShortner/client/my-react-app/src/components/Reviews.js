@@ -12,7 +12,7 @@ const Reviews = () => {
             items: 3
         },
         tablet: {
-            breakpoint: { max: 1024, min: 464 },
+            breakpoint: { max: 1024, min: 650 },
             items: 2
         },
         mobile: {
@@ -37,28 +37,27 @@ const Reviews = () => {
                 focusOnSelect={true}>
                 {data.map((d) => (
                 <div className='review-container'>
-                    <div className='review-div'>
-                        <p className='review-text'>
-                            {d.feedback}
-                        </p>
-                         { /*<FaQuoteRight className='right-quote' /> */}
+                    <div className='review-wrapper'> 
+                        <div className='review-div'>
+                            <p className='review-text'>
+                                {d.feedback}
+                            </p>
+                            { /*<FaQuoteRight className='right-quote' /> */}
+                        </div>
+                        <div className='review-star-section'> 
+                            {[...Array(5)].map((star,index) => {
+                                const currentRating = index + 1;
+                                return(
+                                    <label className='five-stars'>
+                                        <FaStar 
+                                            className='review-star'  
+                                            color={currentRating <= d.rating ? "#ffc107" : "#e4e5e9"}
+                                        />
+                                    </label>
+                                );   
+                            })}   
+                        </div>
                     </div>
-                    <div className='star-section'> 
-                        {[...Array(5)].map((star,index) => {
-                            const currentRating = index + 1;
-                            return(
-                                <label className='five-stars'>
-                                    <FaStar 
-                                        className='review-star'  
-                                        color={currentRating <= d.rating ? "#ffc107" : "#e4e5e9"}
-                                    />
-                                </label>
-                            );   
-                        })}   
-
-                    </div>
-
-                    
                 </div> 
                 ))}
             </Carousel>

@@ -5,6 +5,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '@mui/material/Tooltip';
+import { Navigate, useNavigate } from 'react-router-dom';
 //import { Link } from 'react-router-dom';
 
 const SignUp = () => {
@@ -21,6 +22,7 @@ const SignUp = () => {
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
@@ -37,7 +39,7 @@ const SignUp = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, pass}),
+            body: JSON.stringify({ email, pass, name}),
         });
 
         if (response.ok) {
@@ -54,7 +56,11 @@ const SignUp = () => {
             setPassError('Password invalid.');
             setPass('');
             confirmPass('');
-          }
+          } else if (result.message === 'User registered successfully.') {
+            localStorage.setItem('email',email);
+            localStorage.setItem('name',name);
+            navigate('/Dashboard');
+          }      
       } else {
           const result = await response.json();
           console.error('Failed to register', result.message);
@@ -102,6 +108,8 @@ const SignUp = () => {
 
   const handleInputChange = (e) => {
     setPass(e.target.value)
+    setPassError('');
+    setFinalError('');
     const password =e.target.value;
 
     if (password.match(/[A-Z]/) != null) {
@@ -245,8 +253,8 @@ const SignUp = () => {
                 type={visible1 ? "text":"password"}
                 required
                 value={finalPass}
-                // onChange={handleConfirmChange} 
-                onClick={handleConfirmChange}
+                onChange={handleConfirmChange} 
+                //onClick={handleConfirmChange}
                 // onChange={(e) => setPass(e.target.value)}
                 placeholder='Enter password here' 
               />

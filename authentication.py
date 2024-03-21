@@ -23,10 +23,10 @@ class Authentication:
             sslmode="require"
         )
 
-    def registerUser(self,email,password):
+    def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+        cursor.execute("INSERT INTO users (username, email, password, name) VALUES (%s, %s, %s, %s)", (username, email, password, name))
         self.conn.commit()
 
     def checkIfAlreadyRegistered(self,email):
@@ -53,9 +53,9 @@ class Authentication:
 
         return any(char.isupper() for char in password) and any(char.isdigit() for char in password)
 
-    def deleteAccount(self,username):
+    def deleteAccount(self,email):
         cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM users WHERE username = %s",(username,))
+        cursor.execute("DELETE FROM users WHERE email = %s",(email,))
         self.conn.commit()
 
     def changePassword(self,email,password,newPassword):
@@ -81,7 +81,7 @@ class Authentication:
     
     def changeEmail(self,email,newEmail,password):
         cursor = self.conn.cursor()
-        cursor.execute("SELCT * FROM users WHERE email = %s AND password = %s",(email,password))
+        cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s",(email,password))
         #it should be implied that the user exists, no?
         userExists = cursor.fetchone()
 
@@ -91,6 +91,88 @@ class Authentication:
             return 1
         else:
             return 0
+
+    def getName(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT name FROM users WHERE email = %s",(email,))
+        name = cursor.fetchone()[0]
+        return name
+
+    def getUsername(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
+        username = cursor.fetchone()[0]
+        return username
+
+    def isPasswordCorrect(self,email,password):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT password FROM users WHERE email = %s",(email,))
+        result = cursor.fetchone()
+
+        if result[0] == password:
+            return 1
+
+        return 0
+
+
+
+    #Template Logic
+    def createTemplateRows(self,email):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        for i in range(1, 4):
+            cursor.execute("INSERT INTO templates (username, template_name) VALUES (%s, %s)", (user, f'customTemplate{i}'))
+            self.conn.commit()
+
+    def addTemplate(self,email,word_count,formality,structure,num_paragraphs,template_name):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+
+        #if username not in database, add 3 rows with custom template names
+        #cursor.execute("SELECT * FROM templates WHERE username = %s",(email,))
+        #exists = cursor.fetchone()
+        #print(exists)
+
+        cursor.execute("""
+            UPDATE templates 
+            SET 
+                word_count = %s, 
+                formality = %s, 
+                structure = %s, 
+                num_paragraphs = %s 
+            WHERE 
+                username = %s 
+            AND 
+                template_name = %s
+        """, (word_count, formality, structure, num_paragraphs, user, template_name))
+        
+        self.conn.commit()
+
+    def clearTemplate(self,email,template_name):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+
+        cursor.execute("""
+        UPDATE templates 
+        SET 
+            word_count = NULL, 
+            formality = NULL, 
+            structure = NULL, 
+            num_paragraphs = NULL
+        WHERE 
+            username = %s 
+        AND 
+            template_name = %s
+        """, (user, template_name))
+
+        # Commit the changes
+        self.conn.commit()
+
+    def deleteTemplates(self,email):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        cursor.execute("DELETE FROM templates WHERE username = %s",(user,))
+        self.conn.commit()
 
 
 
@@ -138,23 +220,39 @@ def changePW():
     else:
         return jsonify({'message':'Current password incorrect.'})
 
+@appA.route('/changeemail',methods=['POST'])
+def changeEmail():
+    data = request.get_json()
+    email = data.get('email')
+    newEmail = data.get('newEmail')
+    password = data.get('password')
+
+    userMgr = Authentication()
+    if not (userMgr.isPasswordCorrect(email,password)):
+        return jsonify({'message':'Password invalid!'})
+    userMgr.changeEmail(email,newEmail,password)
+    return jsonify({'message':'Email changed.'})
+
 @appA.route('/register', methods=['POST'])
 def signup():
     data = request.get_json()
     # Extract user data from the request
     email = data.get('email')
-    print(email)
     password = data.get('pass')
+    name = data.get('name')
     
     #Add this to .env
     api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
 
-    response = requests.get(url)
-    result = response.json()
+
+    #commented out for now, testing.
+
+    #response = requests.get(url)
+    #result = response.json()
     
-    if 'data' not in result or result['data'].get('result') != 'deliverable':
-        return jsonify({'message': 'Email does not exist or is not deliverable.'})
+    #if 'data' not in result or result['data'].get('result') != 'deliverable':
+    #    return jsonify({'message': 'Email does not exist or is not deliverable.'})
     # Insert the user data into the database
     userMgr = Authentication()
     if not (userMgr.isPasswordValid(password)):
@@ -162,7 +260,9 @@ def signup():
 
     if (userMgr.checkIfAlreadyRegistered(email)):
         return jsonify({'message':'Email is already registered.'})
-    userMgr.registerUser(email,password)
+    userMgr.registerUser(email,password,name)
+
+    userMgr.createTemplateRows(email)
     #print("request made")
 
     return jsonify({'message': 'User registered successfully.'})
@@ -176,9 +276,23 @@ def login():
 
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
-        return jsonify({'message':'User found.'})
+        name = userMgr.getName(email)
+        return jsonify({'message':'User found.','name':name})
     return jsonify({'message':'User not found or password is incorrect.'})
+
+@appA.route('/delete',methods=['POST'])
+def deleteAccount():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    userMgr.deleteAccount(email)
+    userMgr.deleteTemplates(email)
+    return jsonify({'message':'Account deleted.'})
+
 
 if __name__ == '__main__':
     appA.run(port=5001)
-
+    auth = Authentication()
+    #auth.addTemplate("emailTest1@gmail.com")
+    #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
+    #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")
