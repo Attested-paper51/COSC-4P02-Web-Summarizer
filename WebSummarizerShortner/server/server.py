@@ -18,9 +18,13 @@ def summarize_text():
     if input_type == 0:
         print("User pasted text:", input_text)
         summarizedText = sum.summarize(input_text, "")
+
+        return jsonify({'input text': input_text, 'summary': summarizedText})
     elif input_type == 1:
         print("User given URL", input_text)
         summarizedText = sum.processURL(input_text, "")
+
+        return jsonify({'input URL': input_text, 'summary': summarizedText})
     elif input_type == 2:
         startM = 0
         startS = 0
@@ -29,10 +33,11 @@ def summarize_text():
 
         print("User given YouTube URL", input_text)
         summarizedText = sum.processYouTubeURL(input_text, False, startM, startS, endM,  endS, "")
+
+        return jsonify({'input YouTube URL': input_text, 'summary': summarizedText})
     else:
         return jsonify({"error": "Invalid input type"}), 400
 
-    return jsonify({'summary': summarizedText})
 
 if __name__ == '__main__':
     app.run(debug=True)
