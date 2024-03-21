@@ -38,7 +38,7 @@ h2 {
     border-left: solid 2px #bfbfbf;
 }
 
-.wrapper textarea {
+.wrapper .text-area {
     width: 100%;
     height: 60vh;
     padding-top: 20px;
@@ -55,8 +55,53 @@ h2 {
     /* transition: all 0.3s ease; Add a transition for all properties with a duration of 0.3 seconds */
 }
 
-textarea::-webkit-scrollbar{
+.text-area::-webkit-scrollbar{
     width: 0px;
+}
+
+.timestamp {
+    /* width: 250px; */
+    /* height: 50px; */
+    display: flex;
+    justify-content:space-between;
+    /* background-color: rgb(192, 255, 225); */
+    flex-wrap: nowrap;
+    position: relative;
+}
+
+.timestamp-textarea {
+    width: 50px;
+    margin: 0 5px;
+    height: 30px;
+    text-align: center;
+    line-height: 2.5;
+    outline: none;
+    resize: none;
+    font-size: 11px;
+    background-color: white;
+    border: 1px solid #DEE1E3;
+    border-radius: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2)
+    0px 8px 50px;
+}
+.timestamp-textarea::-webkit-scrollbar{
+    width: 0px;
+}
+
+.start, .end {
+    width: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: red; */
+}
+
+.start-time, .end-time {
+    /* width: 100px;
+    height: 35px; */
+    display: flex;
+    justify-content:space-between;
+    /* background-color: rgb(46, 215, 63); */
 }
 
 .centered-Div {
@@ -263,6 +308,14 @@ textarea::-webkit-scrollbar{
     border-bottom: 1px solid #DEE1E3;
     display: flex;
     align-items: center;
+    /* background-color: orange; */
+    position: relative;
+}
+
+.save-custom-info {
+    position: absolute;
+    right: 0;
+    padding-right: 10px;
 }
 
 .modes {
@@ -305,6 +358,12 @@ textarea::-webkit-scrollbar{
     background-color: white !important;
 }
 
+.word-count-level {
+    /* background-color: yellow; */
+    display: grid;
+    place-items: center;
+}
+
 .slider-container {
     display: flex;
     align-items: center;
@@ -329,6 +388,10 @@ textarea::-webkit-scrollbar{
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 10px 10px 0 0;
+}
+
+.MuiSlider-root {
+    color: red; /* Change to your desired color */
 }
 
 /* .clamp-text {
