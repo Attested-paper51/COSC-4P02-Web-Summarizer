@@ -197,8 +197,12 @@ const summarizeText = () => {
 
 //export button handling, for downloading json file
 const exportJSON = () => {
-// Create a JSON object with the summarized text
-const data = { summary: outputContent };
+// Create a JSON object with the input and summarized text
+const data = {
+    input: inputContent, // Assuming you have the original input stored in inputContent
+    summary: outputContent
+};
+
 
 // Convert the JSON object to a string
 const jsonString = JSON.stringify(data);
