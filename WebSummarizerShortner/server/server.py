@@ -11,20 +11,24 @@ def summarize_text():
     input_text = data.get('text')
     input_type = data.get('type')  # 0 for Text, 1 for Website URL, 2 for YouTube URL
 
-    if input_type is None or input_text is None:
-        return jsonify({"error": "Missing text or type"}), 400
+    if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
+        return jsonify({"error": "Missing or empty text"}), 400
 
     # for Text
-    if input_type == 0:
+    elif input_type == 0:
         print("User pasted text:", input_text)
         summarizedText = sum.summarize(input_text, "")
 
-        return jsonify({'input text': input_text, 'summary': summarizedText})
+        return jsonify({'input': input_text, 'summary': summarizedText})
+    
+    # for a url
     elif input_type == 1:
         print("User given URL", input_text)
         summarizedText = sum.processURL(input_text, "")
 
-        return jsonify({'input URL': input_text, 'summary': summarizedText})
+        return jsonify({'input': input_text, 'summary': summarizedText})
+    
+    # for a YouTube video url
     elif input_type == 2:
         startM = 0
         startS = 0
@@ -34,7 +38,9 @@ def summarize_text():
         print("User given YouTube URL", input_text)
         summarizedText = sum.processYouTubeURL(input_text, False, startM, startS, endM,  endS, "")
 
-        return jsonify({'input YouTube URL': input_text, 'summary': summarizedText})
+        return jsonify({'input': input_text, 'summary': summarizedText})
+    
+    # error
     else:
         return jsonify({"error": "Invalid input type"}), 400
 

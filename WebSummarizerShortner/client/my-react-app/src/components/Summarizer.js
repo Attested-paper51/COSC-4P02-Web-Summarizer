@@ -177,6 +177,17 @@ const Summarizer = () => {
     //     });
     // });
 
+
+// for error handling
+const [errorMessage, setErrorMessage] = useState('');
+
+// for showing the error
+const showError = (message) => {
+    setErrorMessage(message);
+    handleOpen();
+};
+
+
 // function for handling text summarization
 const summarizeText = () => {
     fetch('/api/summarize', {
@@ -188,12 +199,14 @@ const summarizeText = () => {
     })
     .then(response => response.json())
     .then(data => {
-        setOutputContent(data.summary); // This line updates the output area
+
+            setOutputContent(data.summary); // This line updates the output area
     })
     .catch(error => {
-        console.error('Error:', error);
+        showError('An error occurred while fetching the summary.');
     });
 };
+
 
 //export button handling, for downloading json file
 const exportJSON = () => {
