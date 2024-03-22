@@ -11,6 +11,9 @@ const Settings = () => {
   let username = localStorage.getItem('name');
   let email = localStorage.getItem('email');
   let userpass = 'janedoe123'
+  const [newEmail, setNewEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passError, setPassError] = useState('');
 
   const[namePopup, setNamePopup] = useState(false);
   const[emailPopup, setEmailPopup] = useState(false);
@@ -35,6 +38,39 @@ const Settings = () => {
       console.error('Error:', error);
     }
 
+  };
+
+  const handleEmailChange = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/changeemail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email, newEmail, password}),
+        });
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        if (result.message === "Email changed.") {
+          localStorage.setItem('email',newEmail)
+          setEmailPopup(false);
+        }else if (result.message === "Password invalid!"){
+          //handle error
+          setPassError(result.message);
+          setPassword('');
+        }
+        
+        
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handlePassChange = (e) => {
+    setPassError('');
+    setPassword(e.target.value);
   }
 
   return (
@@ -72,15 +108,20 @@ const Settings = () => {
                 type="email"
                 className='textfield'
                 placeholder={email}
+                value ={newEmail}
+                onChange = {(e) => setNewEmail(e.target.value)}
               />
               <label className='pop-label'>Enter password</label>
               <input 
                 type="password"
                 className='textfield'
                 placeholder={'\u25CF'.repeat(userpass.length)}
+                value={password}
+                onChange={handlePassChange}
               />
+              {passError && <div className="pass-error">{passError}</div>}
               {/* Use button below to change user's email in the database  */}
-              <button className='confirm-btn'>Confirm email change</button>
+              <button className='confirm-btn' onClick={() => handleEmailChange(email, newEmail, password)}>Confirm email change</button>
             </PopUp>
           </div>
 
