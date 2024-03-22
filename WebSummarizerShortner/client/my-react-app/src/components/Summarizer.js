@@ -18,6 +18,7 @@ import { PiExport } from "react-icons/pi";
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
+import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
 
 const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
@@ -27,6 +28,7 @@ const Summarizer = () => {
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
+    const [value, setValue] = useState(null);
     const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
 
@@ -224,7 +226,7 @@ const Summarizer = () => {
                     </div>
 
                     <div className="main-content">
-                        {userEmail && (
+                        {/* {userEmail && ( */}
 
                         <div className="premium-container">
                             <div className="modes">
@@ -314,14 +316,16 @@ const Summarizer = () => {
                                             <div className="start">
                                                 Start Time:
                                                 <div className="start-time">
-                                                    <textarea 
+                                                    {/* <textarea 
                                                         className="timestamp-textarea" 
                                                         id="startM" 
                                                         name="startM" 
                                                         placeholder='Minutes'>
-                                                    </textarea>
+                                                    </textarea> */}
+                                                    <NumberInputBasic/>
                                                     :
-                                                    <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea>
+                                                    <QuantityInput/>
+                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                 </div>
                                             </div>
 
@@ -340,11 +344,12 @@ const Summarizer = () => {
                             <div className="save-custom-info">
                                 <button className='summarize-btn'>
                                     <div className="summarize-overlap">
-                                        <div className="summarize">Save Summary Features</div>
+                                        <div className="summarize">Save Features</div>
                                     </div>
                                 </button>
                             </div>
-                        </div>)}
+                        </div>
+                        {/* </div>)} */}
                         <div className="text">
                             <div className="inputArea">
                                 { isClicked == 0 &&
