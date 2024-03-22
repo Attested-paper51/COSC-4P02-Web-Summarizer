@@ -37,9 +37,12 @@ class Authentication:
 
     def findEmail(self,email):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = %s",(email,))
+        cursor.execute("SELECT email FROM users WHERE email = %s",(email,))
         email = cursor.fetchone()
-        return email
+        if email:
+            return email[0]
+        else:
+            return None
 
     def loginUser(self,email,password):
         cursor = self.conn.cursor()
@@ -55,8 +58,11 @@ class Authentication:
 
     def deleteAccount(self,email):
         cursor = self.conn.cursor()
+        if self.findEmail(email) is None:
+            return None
         cursor.execute("DELETE FROM users WHERE email = %s",(email,))
         self.conn.commit()
+        return 1
 
     def changePassword(self,email,password,newPassword):
 
@@ -97,6 +103,12 @@ class Authentication:
         cursor.execute("SELECT name FROM users WHERE email = %s",(email,))
         name = cursor.fetchone()[0]
         return name
+
+    def changeName(self,name,email):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE users SET name = %s WHERE email = %s",(name,email,))
+        self.conn.commit()
+        return 1
 
     def getUsername(self,email):
         cursor = self.conn.cursor()
@@ -232,6 +244,16 @@ def changeEmail():
         return jsonify({'message':'Password invalid!'})
     userMgr.changeEmail(email,newEmail,password)
     return jsonify({'message':'Email changed.'})
+
+
+@appA.route('/changeename',methods=['POST'])
+def changeName():
+    data = request.get_json()
+    email = data.get('email')
+    newName = data.get('newname')
+    userMgr = Authentication()
+    userMgr.changeName(newName,email)
+    return jsonify({'message':'Name changed.'})
 
 @appA.route('/register', methods=['POST'])
 def signup():
