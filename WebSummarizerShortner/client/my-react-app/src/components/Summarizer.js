@@ -12,6 +12,8 @@ import { GoThumbsdown } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
 import { IoClipboard } from "react-icons/io5";
+import { FaRegCopy } from "react-icons/fa6";
+import { FaCopy } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
 // Components
@@ -477,7 +479,7 @@ const Summarizer = () => {
                                     }
                                 </div>
                                 <Tooltip title="Copy" arrow>
-                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <FaCopy size={17}/> : <FaRegCopy size={17}/>}</button>
                                 </Tooltip>
                                 
                             </div>
