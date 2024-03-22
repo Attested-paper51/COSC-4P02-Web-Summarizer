@@ -130,6 +130,8 @@ textarea::-webkit-scrollbar{
     top: 8px;
     right: 5px;
     padding-bottom: 0px;
+    padding-right: 6px;
+    padding-top: 6px;
     background: none;
     border: none;
     cursor: pointer;
@@ -205,7 +207,7 @@ textarea::-webkit-scrollbar{
     bottom: 0;
     right: 60px;
     padding-bottom: 10px;
-    padding-right: 10px;
+    padding-right: 0px;
 }
 
 .word-count {
