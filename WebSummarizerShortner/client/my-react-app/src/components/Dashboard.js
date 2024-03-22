@@ -19,18 +19,18 @@ const Dashboard = () => {
 
 
   const navigate = useNavigate();
-  const emailCheck = localStorage.getItem('email');
+  // const emailCheck = localStorage.getItem('email');
 
-  useEffect (() => {
-    if (!emailCheck) {
-      navigate('/login');
-    }
-  }, [emailCheck,navigate]);
+  // useEffect (() => {
+  //   if (!emailCheck) {
+  //     navigate('/login');
+  //   }
+  // }, [emailCheck,navigate]);
   
 
   let username = localStorage.getItem('name');
 
-  const [activeComponent, setActiveComponent] = useState('Settings'); // Default to Settings component
+  const [activeComponent, setActiveComponent] = useState('History'); // Default to Settings component
 
   const handleOptionClick = (componentName) => {
     setActiveComponent(componentName);
