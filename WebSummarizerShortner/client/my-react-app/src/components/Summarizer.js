@@ -414,7 +414,7 @@ const Summarizer = () => {
                                         { inputContent && wordCount >= 1 && wordCount < 126 ? 
                                             (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
                                                 <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                            </Tooltip>) : wordCount >= 126 ?
+                                            </Tooltip>) : wordCount >= 126 && !userEmail ?
                                             <div className="get-premium">
                                                 <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
                                                 <div>{wordCount}/125 Words</div>    
