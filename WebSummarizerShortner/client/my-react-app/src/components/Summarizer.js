@@ -24,6 +24,7 @@ const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
     const [open, setOpen] = useState(false);
+    const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
@@ -193,6 +194,22 @@ const Summarizer = () => {
 
     const handleVideoSettingChange = (item) => {
         setVideoSetting(item)
+    }
+
+    const checkEmptyInput = () => {
+        //const input = document.getElementById("input");
+        if(inputContent === '') {
+            setOpenEmptyInput(true)
+        }
+    }
+
+    // for closing Dialog Box
+    const handleEmptyClose = () => {
+        setOpenEmptyInput(false)
+    }
+    // empties content and closes Dialog Box
+    const handleEmptyConfirm = () => {
+        handleEmptyClose()
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -411,11 +428,11 @@ const Summarizer = () => {
                                                 </div>
                                             </button>
                                         </Tooltip> :
-                                            <button className='summarize-btn'>
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Summarize</div>
-                                                </div>
-                                            </button>
+                                        <button className='summarize-btn' onClick={checkEmptyInput}>
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Summarize</div>
+                                            </div>
+                                        </button>
                                     }
                                 </div>
                             </div>
@@ -475,6 +492,14 @@ const Summarizer = () => {
             content={"You're about to delete the Original and Summarized text."}
             confirmText={"Continue"}
             onConfirm={handleConfirm}
+            />
+            <DialogBox 
+            open={openEmptyInput} 
+            onClose={handleEmptyClose}
+            title={"Error"}
+            content={"Please enter some text to summarize."}
+            confirmText={"Continue"}
+            onConfirm={handleEmptyConfirm}
             />
         </div>
     );
