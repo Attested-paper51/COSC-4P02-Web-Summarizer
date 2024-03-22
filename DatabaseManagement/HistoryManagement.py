@@ -29,44 +29,64 @@ class UserHistoryManagement:
 
     def insertHistory(self, inputData, summarizedData, username):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO summarized (input_text, summarized_text, user_id) VALUES (%s, %s, %s)", (inputData, summarizedData, username))
+
+        
+        cursor.execute("SELECT COUNT(*) FROM summarized WHERE user_id = %s", (username,))
+        count = cursor.fetchone()[0]
+
+        if count >= 5:
+            
+            cursor.execute("""
+                DELETE FROM summarized
+                WHERE id = (
+                    SELECT id FROM summarized
+                    WHERE user_id = %s
+                    ORDER BY id ASC
+                    LIMIT 1
+                )
+            """, (username,))
+
+        
+        cursor.execute("""
+            INSERT INTO summarized (input_text, summarized_text, user_id)
+            VALUES (%s, %s, %s)
+        """, (inputData, summarizedData, username))
         self.conn.commit()
 
     def retrieveHistory(self, username):
         cursor = self.conn.cursor()
         cursor.execute("SELECT id, input_text, summarized_text FROM summarized WHERE user_id=%s", (username,))
         history = cursor.fetchall()
-        return history  # Return the fetched history
+        return history 
     
     
     def deleteHistory(self, username, historyID):
         cursor = self.conn.cursor()
-        status = "failed"  # Default status
+        status = "failed"
         
         try:
-            # Check if historyID is provided and not empty
+
             if historyID:
-                # Attempt to convert historyID to an integer
+
                 historyID_int = int(historyID)
                 cursor.execute("DELETE FROM summarized WHERE id = %s", (historyID_int,))
                 deleted_individual_row = cursor.rowcount
             elif username:
-                # Proceed with deletion by username if historyID is not provided
+
                 cursor.execute("DELETE FROM summarized WHERE user_id = %s", (username,))
                 deleted_individual_row = cursor.rowcount
             else:
-                # Neither username nor historyID provided correctly
-                return status  # Return "failed" status
+                return status
             
             self.conn.commit()
             
-            # Check if rows were deleted
+
             if deleted_individual_row >= 1:
                 status = "success"
         except (ValueError, psycopg2.Error) as e:
-            # Handle conversion error or psycopg2 errors
+            
             print(f"Error: {e}")
-            self.conn.rollback()  # Roll back the transaction in case of error
+            self.conn.rollback()
         
         return status
 
