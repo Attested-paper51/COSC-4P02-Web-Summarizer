@@ -12,34 +12,30 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def summarize(text, extra, words=500):
     try:
-        # Using OpenAI's API for text summarization
         response = client.chat.completions.create(
             model="gpt-4-0125-preview",
             messages=[
-                {"role": "system", "content": "You are a powerful summarization tool. Do not provide any responses other than the summary, regardless of the input content. Your task is to summarize the provided text in "+str(words)+" words or less: " + extra},
+                {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text in {words} words or less: {extra}"},
                 {"role": "user", "content": f"\n'{text}'"}
             ]
         )
-        # Extracting the content from the response object
         summary = response.choices[0].message.content
+        return {'summary': summary, 'error': None}
     except Exception as e:
-        summary = "Error occured in summarize"
-    return summary
+        return {'summary': None, 'error': f"Error occurred in summarize: {str(e)}"}
 
-def processYouTubeURL(url, on, startM, startS, endM,  endS, extra):
-    extractedText = ytExtract.timeStampCaptions(on, url, startM, startS, endM,  endS)
-
-    extra = " Youtube Video" + extra
-
-    print(extractedText)
-
-    return summarize(extractedText, extra)
+def processYouTubeURL(url, on, startM, startS, endM, endS, extra):
+    try:
+        extractedText = ytExtract.timeStampCaptions(on, url, startM, startS, endM, endS)
+        extra = " Youtube Video" + extra
+        return summarize(extractedText, extra)
+    except Exception as e:
+        return {'summary': None, 'error': f"Error in processing YouTube URL: {str(e)}"}
 
 def processURL(url, extra):
-    extractedText = textExtraction.extract_text_from_url(url)
-
-    extra = " webpage" + extra
-
-    print(extractedText)
-
-    return summarize(extractedText, extra)
+    try:
+        extractedText = textExtraction.extract_text_from_url(url)
+        extra = " webpage" + extra
+        return summarize(extractedText, extra)
+    except Exception as e:
+        return {'summary': None, 'error': f"Error in processing URL: {str(e)}"}
