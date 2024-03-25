@@ -59,11 +59,11 @@ const VerifyUser = () => {
           {emailError && <div class="email-error">{emailError}</div>}
         </div>  
 
-            <button className="reset-btn" onClick={handleSubmit}>
-            <div className="reset-overlap">
-                <div className="reset">Reset your password</div>
-            </div>
-            </button>
+        <button className="reset-btn" onClick={handleSubmit}>
+        <div className="reset-overlap">
+            <div className="reset">Reset your password</div>
+        </div>
+        </button>
         
     
       </div>

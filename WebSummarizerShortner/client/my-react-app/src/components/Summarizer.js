@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 
@@ -14,6 +16,8 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
 // Components
 import DialogBox from '../components/DialogBox.js';
+import Dropdown from "./Dropdown.js";
+import DropdownItem from "./DropdownItem.js";
 
 const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
@@ -24,6 +28,20 @@ const Summarizer = () => {
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [isPremium, setPremium] = useState(false);
+    const userEmail = localStorage.getItem('email');
+
+    const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
+    const [selectedTone, setTone] = useState(tone[0]);
+
+    const layout = ["Paragraph", "Bullet Points", "Numbered List"];
+    const [selectedLayout, setLayout] = useState(layout[0]);
+
+    const videoSetting = ["Full Video", "Timestamp"];
+    const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
+
+    function valuetext(value) {
+        return `${value}°C`;
+    }
 
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
@@ -57,7 +75,6 @@ const Summarizer = () => {
         const words = text.split(/\s+/)
         return words.length
     }    
-
 
     useEffect(() => {
         
@@ -164,6 +181,18 @@ const Summarizer = () => {
         setCopy(!isCopied)
     }
 
+    const handleToneChange = (item) => {
+        setTone(item)
+    }
+
+    const handleLayoutChange = (item) => {
+        setLayout(item)
+    }
+
+    const handleVideoSettingChange = (item) => {
+        setVideoSetting(item)
+    }
+
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
     //     const targetDiv = document.getElementById('btnDiv');
@@ -254,55 +283,141 @@ document.body.removeChild(a); // Clean up
                             className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
                             onClick={() => toggleClicked(2)}>Youtube URL</button>
                     </div>
-                    <div className="text">
-                        <div className="inputArea">
-                            { isClicked == 0 &&
-                                <textarea
-                                id='inputText' 
-                                placeholder='Enter or paste your text and click "Summarize."' 
-                                value={inputContent} 
-                                onChange={handleInputChange} 
-                                required>    
-                                </textarea>
-                            }
-                            { isClicked == 1 &&
-                                <textarea
-                                    id='inputURL' 
-                                    placeholder='Enter or paste your URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
-                            { isClicked == 2 &&
-                                <textarea
-                                    id='inputYTURL' 
-                                    placeholder='Enter or paste your Youtube URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
 
-                            { inputContent &&
-                                (<Tooltip title="Delete" arrow>
-                                    <button className='delete-button' 
-                                        onClick={handleOpen}><FaRegTrashCan size={18} />
-                                    </button>
-                                </Tooltip>)
-                            }
-                            <div className='bottom-div1'>
-                                <div className="word-count">
-                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                        </Tooltip>) : wordCount >= 126 ?
-                                        <div className="get-premium">
-                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
-                                            <div>{wordCount}/125 Words</div>    
-                                        </div> : null
+                    <div className="main-content">
+                        {userEmail && (
+
+                        <div className="premium-container">
+                            <div className="modes">
+                                <div className="mode">
+                                    <p>Modes:</p>
+                                </div>
+                                <div className="dropdown-menus modes">
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedTone}
+                                            content={<>
+                                                {
+                                                    tone.map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleToneChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedLayout}
+                                            content={<>
+                                                {
+                                                    layout.map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleLayoutChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                    <div className="slider-container">
+                                        <div className="slider-text">
+                                            <p>Summary Length:</p>
+                                        </div>
+                                        <div className="slider-text">
+                                            <p>Short</p>
+                                        </div>
+                                        <div className="slider-wrapper">
+                                            <Box sx={{ width: 100 }} className="slider">
+                                                <Slider
+                                                    aria-label="Temperature"
+                                                    defaultValue={10}
+                                                    getAriaValueText={valuetext}
+                                                    // valueLabelDisplay="auto"
+                                                    shiftStep={0}
+                                                    step={10}
+                                                    marks
+                                                    min={10}
+                                                    max={40}
+                                                />
+                                            </Box>
+                                        </div>
+                                        <div className="slider-text">
+                                            <p>Long</p>
+                                        </div>
+                                    </div>
+                                    { isClicked == 2 &&
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedVideoSetting}
+                                                content={<>
+                                                    {
+                                                        videoSetting.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleVideoSettingChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
                                     }
                                 </div>
+                            </div>
+                        </div>)}
+                        <div className="text">
+                            <div className="inputArea">
+                                { isClicked == 0 &&
+                                    <textarea
+                                    id='inputText' 
+                                    placeholder='Enter or paste your text and click "Summarize."' 
+                                    value={inputContent} 
+                                    onChange={handleInputChange} 
+                                    required>    
+                                    </textarea>
+                                }
+                                { isClicked == 1 &&
+                                    <textarea
+                                        id='inputURL' 
+                                        placeholder='Enter or paste your URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+                                { isClicked == 2 &&
+                                    <textarea
+                                        id='inputYTURL' 
+                                        placeholder='Enter or paste your Youtube URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+
+                                { inputContent &&
+                                    (<Tooltip title="Delete" arrow>
+                                        <button className='delete-button' 
+                                            onClick={handleOpen}><FaRegTrashCan size={18} />
+                                        </button>
+                                    </Tooltip>)
+                                }
+                                <div className='bottom-div1'>
+                                    <div className="word-count">
+                                        { inputContent && wordCount >= 1 && wordCount < 126 ? 
+                                            (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                                <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                            </Tooltip>) : wordCount >= 126 ?
+                                            <div className="get-premium">
+                                                <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                                <div>{wordCount}/125 Words</div>    
+                                            </div> : null
+                                        }
+                                    </div>
 
                                 { wordCount > 125 ? 
                                     <Tooltip title="Over the word limit" arrow>
@@ -322,7 +437,6 @@ document.body.removeChild(a); // Clean up
                                 }
 
                             </div>
-                        </div>
 
                         <div className="inputArea" id="OutputTextArea">
                             {/* <div class="button-container">
