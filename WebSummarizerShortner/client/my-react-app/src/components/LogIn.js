@@ -46,6 +46,7 @@ const LogIn = () => {
             localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
+            localStorage.setItem('loginMethod',"manual");
             console.log('Email being logged in: ',localStorage.getItem('email'));
             console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             navigate('/Dashboard');
@@ -80,17 +81,49 @@ const LogIn = () => {
     setPass(e.target.value);
   };
 
-  const handleCallbackResponse = (response) => {
+  function handleCallbackResponse(response) {
     console.log("Encoded JWT Token: " + response.credential);
     var userObj = jwtDecode(response.credential);
     console.log(userObj);
+    
+    (async () => {
+      try {
+
+        // Make a POST request to the Flask backend
+        const response = await fetch('http://localhost:5001/logingoogle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email}),
+        });
   
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+        }
+  
+      } catch {
+        
+      }
+    
+    
+    var email2 = userObj.email;
+    //if the email is in the database already - pop up saying "account already there"
+    var name = userObj.name;
+    localStorage.setItem('email',email2);
+    localStorage.setItem('loginMethod',"google");
+    localStorage.setItem('name',name);
+    
+    navigate('/Dashboard');
+    })();
+
   }
 
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
-      client_id: '1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com',
+      client_id: clientId,
       callback: handleCallbackResponse
     });
 
@@ -107,12 +140,12 @@ const LogIn = () => {
       <div className="form">
         <div className="form-title">Log in</div>
         <div id="gmail-login"></div>
-        <button className="gmail-btn">
+        { /*<button className="gmail-btn">
           <div className="gmail-overlap">
             <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
             <div className="login-social">Continue with Gmail</div>
           </div>
-        </button>
+  </button> */}
         <button className="fb-btn">
           <div className="fb-overlap">
             <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
