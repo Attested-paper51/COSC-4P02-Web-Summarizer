@@ -227,6 +227,67 @@ const Summarizer = () => {
     //     });
     // });
 
+
+// for error handling
+const [errorMessage, setErrorMessage] = useState('');
+
+// for showing the error
+const showError = (message) => {
+    setErrorMessage(message);
+    handleOpen();
+};
+
+
+// function for handling text summarization
+const summarizeText = () => {
+    fetch('/api/summarize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: inputContent, type: isClicked }),
+    })
+    .then(response => response.json())
+    .then(data => {
+
+            setOutputContent(data.summary); // This line updates the output area
+    })
+    .catch(error => {
+        showError('An error occurred while fetching the summary.');
+    });
+};
+
+
+//export button handling, for downloading json file
+const exportJSON = () => {
+// Create a JSON object with the input and summarized text
+const data = {
+    input: inputContent, // Assuming you have the original input stored in inputContent
+    summary: outputContent
+};
+
+
+// Convert the JSON object to a string
+const jsonString = JSON.stringify(data);
+
+// Create a Blob from the JSON string
+const blob = new Blob([jsonString], { type: 'application/json' });
+
+// Create a URL for the blob
+const url = URL.createObjectURL(blob);
+
+// Create a temporary anchor element and trigger a download
+const a = document.createElement('a');
+a.href = url;
+a.download = 'summary.json'; // Filename for the downloaded file
+document.body.appendChild(a); // Append the anchor to the document
+a.click(); // Trigger the download
+document.body.removeChild(a); // Clean up
+
+}
+
+    
+
     return (
         <div className="wrapper">
             <h2>Summarizer</h2>
@@ -422,67 +483,66 @@ const Summarizer = () => {
                                         }
                                     </div>
 
-                                    { wordCount > 125? 
-                                        <Tooltip title="Over the word limit" arrow>
-                                            <button className='summarize-btn button-disabled'>
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Summarize</div>
-                                                </div>
-                                            </button>
-                                        </Tooltip> :
-                                        <button className='summarize-btn' onClick={checkEmptyInput}>
+                                { wordCount > 125 ? 
+                                    <Tooltip title="Over the word limit" arrow>
+                                        <button className='summarize-btn button-disabled' disabled>
                                             <div className="summarize-overlap">
                                                 <div className="summarize">Summarize</div>
                                             </div>
                                         </button>
-                                    }
-                                </div>
+                                    </Tooltip> :
+                                    <Tooltip title="Click to summarize" arrow>
+                                        <button className='summarize-btn' onClick={summarizeText}>
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Summarize</div>
+                                            </div>
+                                        </button>
+                                    </Tooltip>
+                                }
+
                             </div>
 
-                            <div className="inputArea" id="OutputTextArea">
-                                {/* <div class="button-container">
-                                    
-                                </div> */}
-                                <textarea 
-                                    className="text-area"
-                                    id='output'
-                                    placeholder='Get summary here...' 
-                                    value={outputContent} 
-                                    onChange={handleOutputChange} 
-                                    required
-                                    readOnly>   
-                                </textarea>
-                                <div className='bottom-div2'>
-                                    <div className="feedback-buttons">
-                                        <Tooltip title="Like" arrow>
-                                            <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                                        </Tooltip>
-                                        <Tooltip title="Dislike" arrow>
-                                            <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
-                                        </Tooltip>
-                                    </div>
-
-                                    <div className="export-button">
-                                        <Tooltip title="Export" arrow>
-                                            <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
-                                        </Tooltip>
-                                    </div>
-                                    
-                                    { shorten &&
-                                        <Link to = "/Shortener">
-                                            <button className="summarize-btn">
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Shorten your URL</div>
-                                                </div>
-                                            </button>
-                                        </Link>
-                                    }
-                                </div>
-                                <Tooltip title="Copy" arrow>
-                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <FaCopy size={17}/> : <FaRegCopy size={17}/>}</button>
-                                </Tooltip>
+                        <div className="inputArea" id="OutputTextArea">
+                            {/* <div class="button-container">
                                 
+                            </div> */}
+                            <textarea 
+                                id='output'
+                                placeholder='Get summary here...' 
+                                value={outputContent} 
+                                onChange={handleOutputChange} 
+                                required
+                                readOnly>   
+                            </textarea>
+                            <div className='bottom-div2'>
+                                <div className="feedback-buttons">
+                                    <Tooltip title="Like" arrow>
+                                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                    </Tooltip>
+                                    <Tooltip title="Dislike" arrow>
+                                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                    </Tooltip>
+                                </div>
+                                <div className="export-button">
+                                    <Tooltip title="Export" arrow>
+                                        <button className='feedback-up' onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                    </Tooltip>
+                                </div>
+                                
+                                { shorten &&
+                                    <Link to = "/Shortener">
+                                        <button className="summarize-btn">
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Shorten your URL</div>
+                                            </div>
+                                        </button>
+                                    </Link>
+                                }
                             </div>
+                            <Tooltip title="Copy" arrow>
+                                <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                            </Tooltip>
+                            
                         </div>
                     </div>
                 </div>

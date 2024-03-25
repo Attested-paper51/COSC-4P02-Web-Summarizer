@@ -3,13 +3,15 @@
 
 <h3>Team and Project Information:</h3>
 <h4>TEAM MEMBERS:</h4>
-Amani Anderson (6617344) aa18ex@brocku.ca <br>
-Muhammed Bilal (6695738) bb18hb@brocku.ca <br>
-Tanvir Hasan (6599328) th18ai@brocku.ca <br>
-Marium Nur (7327182) mn21xu@brocku.ca <br> 
-Anjali Sabu	(7337033)	as21qj@brocku.ca <br>
-Hamza Sidat (6599591) hs18so@brocku.ca <br>
-Abdul-Maalik Siddiqui (6785828) as19fa@brocku.ca <br><br>
+<ul>
+<li>Amani Anderson (6617344) aa18ex@brocku.ca </li><br>
+<li>Muhammed Bilal (6695738) bb18hb@brocku.ca </li><br>
+<li>Tanvir Hasan (6599328) th18ai@brocku.ca </li><br>
+<li>Marium Nur (7327182) mn21xu@brocku.ca </li><br> 
+<li>Anjali Sabu	(7337033)	as21qj@brocku.ca </li><br>
+<li>Hamza Sidat (6599591) hs18so@brocku.ca </li><br>
+<li>Abdul-Maalik Siddiqui (6785828) as19fa@brocku.ca </li><br>
+</ul>
 
 <h4>What was your motivation?:</h4>
 This project aims to address the challenges users face in accessing relevant information efficiently in the digital age. Navigating through the vast amount of information available online without efficient technologies that provide concise summaries makes information retrieval a daunting task. To simplify access to information, the proposed tool aims to generate shorter URLs for easy sharing and provide succinct and insightful content summaries while employing LLMs or NLP, thus hoping to contribute to a more streamlined and user-friendly digital experience.
