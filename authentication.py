@@ -264,7 +264,8 @@ def signup():
     name = data.get('name')
     
     #Add this to .env
-    api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
+    api_key = os.getenv("EMAILVF_PW")
+    
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
 
 
