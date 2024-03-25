@@ -11,9 +11,17 @@ import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
 import UserDashboardPage from './pages/UserDashboardPage.js';
 import { AuthProvider } from './context/AuthContext.js';
+//import LoginButton from './components/LogIn';
+import {useEffect} from 'react';
+import { gapi } from 'gapi-script';
+import { FaGoogle } from 'react-icons/fa';
+
+const clientId = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
 
 
 function App() {
+
+
   return (
     <div className="App">
       <AuthProvider>
