@@ -4,10 +4,13 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
+import { GoogleLogin } from 'react-google-login';
 
 
 const LogIn = () => {
 
+  const clientID = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
+  
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
