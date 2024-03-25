@@ -5,11 +5,13 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
 import { GoogleLogin } from 'react-google-login';
+import {jwtDecode} from 'jwt-decode';
+import {useEffect} from 'react';
 
 
 const LogIn = () => {
 
-  const clientID = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
+  const clientId = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
   
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -76,12 +78,35 @@ const LogIn = () => {
   const handlePassChange = (e) => {
     setPassError('');
     setPass(e.target.value);
+  };
+
+  const handleCallbackResponse = (response) => {
+    console.log("Encoded JWT Token: " + response.credential);
+    var userObj = jwtDecode(response.credential);
+    console.log(userObj);
+  
   }
 
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: '1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com',
+      callback: handleCallbackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("gmail-login"),
+      { theme: "outline", size: "large" }
+    );
+  }, []);
+  
+
   return (
+    
     <div className="login-box">
       <div className="form">
         <div className="form-title">Log in</div>
+        <div id="gmail-login"></div>
         <button className="gmail-btn">
           <div className="gmail-overlap">
             <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
