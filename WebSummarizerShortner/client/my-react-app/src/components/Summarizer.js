@@ -12,21 +12,26 @@ import { GoThumbsdown } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
 import { IoClipboard } from "react-icons/io5";
+import { FaRegCopy } from "react-icons/fa6";
+import { FaCopy } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
 // Components
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
+import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
 
 const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
     const [open, setOpen] = useState(false);
+    const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
+    const [value, setValue] = useState(null);
     const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
 
@@ -193,6 +198,22 @@ const Summarizer = () => {
         setVideoSetting(item)
     }
 
+    const checkEmptyInput = () => {
+        //const input = document.getElementById("input");
+        if(inputContent === '') {
+            setOpenEmptyInput(true)
+        }
+    }
+
+    // for closing Dialog Box
+    const handleEmptyClose = () => {
+        setOpenEmptyInput(false)
+    }
+    // empties content and closes Dialog Box
+    const handleEmptyConfirm = () => {
+        handleEmptyClose()
+    }
+
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
     //     const targetDiv = document.getElementById('btnDiv');
@@ -224,7 +245,7 @@ const Summarizer = () => {
                     </div>
 
                     <div className="main-content">
-                        {userEmail && (
+                        {/* {userEmail && ( */}
 
                         <div className="premium-container">
                             <div className="modes">
@@ -262,30 +283,33 @@ const Summarizer = () => {
                                             </>} 
                                         />
                                     </div>
-                                    <div className="slider-container">
+                                    <div className="word-count-level">
                                         <div className="slider-text">
                                             <p>Summary Length:</p>
                                         </div>
-                                        <div className="slider-text">
-                                            <p>Short</p>
-                                        </div>
-                                        <div className="slider-wrapper">
-                                            <Box sx={{ width: 100 }} className="slider">
-                                                <Slider
-                                                    aria-label="Temperature"
-                                                    defaultValue={10}
-                                                    getAriaValueText={valuetext}
-                                                    // valueLabelDisplay="auto"
-                                                    shiftStep={0}
-                                                    step={10}
-                                                    marks
-                                                    min={10}
-                                                    max={40}
-                                                />
-                                            </Box>
-                                        </div>
-                                        <div className="slider-text">
-                                            <p>Long</p>
+                                        <div className="slider-container">
+                                            <div className="slider-text">
+                                                <p>Short</p>
+                                            </div>
+                                            <div className="slider-wrapper">
+                                                <Box sx={{ width: 100 }} className="slider">
+                                                    <Slider
+                                                        aria-label="Temperature"
+                                                        defaultValue={10}
+                                                        getAriaValueText={valuetext}
+                                                        // valueLabelDisplay="auto"
+                                                        shiftStep={0}
+                                                        step={10}
+                                                        marks
+                                                        min={10}
+                                                        max={40}
+                                                        color="primary"
+                                                    />
+                                                </Box>
+                                            </div>
+                                            <div className="slider-text">
+                                                <p>Long</p>
+                                            </div>
                                         </div>
                                     </div>
                                     { isClicked == 2 &&
@@ -305,22 +329,61 @@ const Summarizer = () => {
                                             />
                                         </div>
                                     }
+
+                                    { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                                        <div className="timestamp">
+                                            <div className="start">
+                                                Start Time:
+                                                <div className="start-time">
+                                                    {/* <textarea 
+                                                        className="timestamp-textarea" 
+                                                        id="startM" 
+                                                        name="startM" 
+                                                        placeholder='Minutes'>
+                                                    </textarea> */}
+                                                    <NumberInputBasic/>
+                                                    :
+                                                    <QuantityInput/>
+                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                                </div>
+                                            </div>
+
+                                            <div className="end">
+                                                End Time:
+                                                <div className="end-time">
+                                                    <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                        </div>)}
+                            <div className="save-custom-info">
+                                <button className='summarize-btn'>
+                                    <div className="summarize-overlap">
+                                        <div className="summarize">Save Features</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        {/* </div>)} */}
                         <div className="text">
                             <div className="inputArea">
                                 { isClicked == 0 &&
                                     <textarea
-                                    id='inputText' 
-                                    placeholder='Enter or paste your text and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
+                                        className="text-area"
+                                        id='inputText' 
+                                        placeholder='Enter or paste your text and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
                                     </textarea>
                                 }
                                 { isClicked == 1 &&
                                     <textarea
+                                        className="text-area"
                                         id='inputURL' 
                                         placeholder='Enter or paste your URL and click "Summarize."' 
                                         value={inputContent} 
@@ -330,6 +393,7 @@ const Summarizer = () => {
                                 }
                                 { isClicked == 2 &&
                                     <textarea
+                                        className="text-area"
                                         id='inputYTURL' 
                                         placeholder='Enter or paste your Youtube URL and click "Summarize."' 
                                         value={inputContent} 
@@ -350,7 +414,7 @@ const Summarizer = () => {
                                         { inputContent && wordCount >= 1 && wordCount < 126 ? 
                                             (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
                                                 <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                            </Tooltip>) : wordCount >= 126 ?
+                                            </Tooltip>) : wordCount >= 126 && !userEmail ?
                                             <div className="get-premium">
                                                 <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
                                                 <div>{wordCount}/125 Words</div>    
@@ -366,11 +430,11 @@ const Summarizer = () => {
                                                 </div>
                                             </button>
                                         </Tooltip> :
-                                            <button className='summarize-btn'>
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Summarize</div>
-                                                </div>
-                                            </button>
+                                        <button className='summarize-btn' onClick={checkEmptyInput}>
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Summarize</div>
+                                            </div>
+                                        </button>
                                     }
                                 </div>
                             </div>
@@ -380,6 +444,7 @@ const Summarizer = () => {
                                     
                                 </div> */}
                                 <textarea 
+                                    className="text-area"
                                     id='output'
                                     placeholder='Get summary here...' 
                                     value={outputContent} 
@@ -414,7 +479,7 @@ const Summarizer = () => {
                                     }
                                 </div>
                                 <Tooltip title="Copy" arrow>
-                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <FaCopy size={17}/> : <FaRegCopy size={17}/>}</button>
                                 </Tooltip>
                                 
                             </div>
@@ -429,6 +494,14 @@ const Summarizer = () => {
             content={"You're about to delete the Original and Summarized text."}
             confirmText={"Continue"}
             onConfirm={handleConfirm}
+            />
+            <DialogBox 
+            open={openEmptyInput} 
+            onClose={handleEmptyClose}
+            title={"Error"}
+            content={"Please enter some text to summarize."}
+            confirmText={"Continue"}
+            onConfirm={handleEmptyConfirm}
             />
         </div>
     );
