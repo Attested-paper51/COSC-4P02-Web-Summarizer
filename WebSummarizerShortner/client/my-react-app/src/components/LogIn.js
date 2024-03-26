@@ -4,7 +4,7 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
-import { GoogleLogin } from 'react-google-login';
+//import { GoogleLogin } from 'react-google-login';
 import {jwtDecode} from 'jwt-decode';
 import {useEffect} from 'react';
 
