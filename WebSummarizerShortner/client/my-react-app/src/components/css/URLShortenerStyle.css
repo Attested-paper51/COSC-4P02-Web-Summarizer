@@ -4,6 +4,7 @@
     margin: auto;
     width: clamp(500px, 40vw, 2000px);
     padding-top: 10vh;
+    padding-bottom: 10vh;
 }
 
 .insert-url, .shorten-url {
@@ -24,6 +25,7 @@
 
 .premium-url {
     margin-top: 7%;
+    margin-bottom: 10%;
 }
 
 .shorten, .copy-url {
