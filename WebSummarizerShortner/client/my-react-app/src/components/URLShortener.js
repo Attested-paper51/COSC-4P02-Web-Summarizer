@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom';
 
 const URLShortener = () => {
 
+    const [isPremium, setPremium] = useState(true);
+
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
+    const [customWord, setCustomWord] = useState('');
     
     const [CopyURL, setCopyURL] = useState('Copy URL')
     const handleCopy = () => {
@@ -61,12 +64,42 @@ const URLShortener = () => {
                     onChange={(e) => setURL(e.target.value)}
                     placeholder='Enter URL here' 
                 />
+                { !isPremium &&
                 <button 
                     className='shorten' 
                     onClick={()=> { handleSubmit(); showSummarize(true); }} >
                     <div className='button-text'>Shorten URL</div>
                 </button>
+                }
             </div>
+            { isPremium &&
+                <div className='premium-url'>
+                    <h3 className='custom-url'>Customize your link</h3> 
+                    <div className='custom-div'>
+                        <input className='shortify-url'
+                            type="text" 
+                            required
+                            onChange={(e) => setURL(e.target.value)}
+                            placeholder='shortify.com' 
+                            readOnly
+                        />
+                        {/* <div className='custom-div1'> */}
+                            <input className='custom-word'
+                                type="text" 
+                                required
+                                value={customWord}
+                                onChange={(e) => setCustomWord(e.target.value)}
+                                placeholder='Enter custom word' 
+                            />
+                            <button 
+                                className='shorten-custom' 
+                                onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                                <div className='button-text'>Shorten URL</div>
+                            </button>
+                        {/* </div> */}
+                    </div>
+                </div>
+            }   
             <div className='url-shorten-container'>
                 <h3 className='shorten-url'>Shortened URL</h3> 
                 <div className='url-div2'>
