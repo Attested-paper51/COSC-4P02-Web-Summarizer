@@ -409,59 +409,62 @@ document.body.removeChild(a); // Clean up
                                             </div>
                                         </div>
 
-                                        <div className="end">
-                                            End Time:
-                                            <div className="end-time">
-                                                <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                                :
-                                                <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                            <div className="end">
+                                                End Time:
+                                                <div className="end-time">
+                                                    <NumberInputBasic/>
+                                                    :
+                                                    <QuantityInput/>
+                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                </div>
                                             </div>
                                         </div>
+                                    }
+                                </div>
+                            </div>
+                            <div className="save-custom-info">
+                                <button className='summarize-btn'>
+                                    <div className="summarize-overlap">
+                                        <div className="summarize">Save settings as a template</div>
                                     </div>
-                                }
+                                </button>
                             </div>
                         </div>
-                        <div className="save-custom-info">
-                            <button className='summarize-btn'>
-                                <div className="summarize-overlap">
-                                    <div className="summarize">Save Features</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                    {/* </div>)} */}
-                    <div className="text">
-                        <div className="inputArea">
-                            { isClicked == 0 &&
-                                <textarea
-                                    className="text-area"
-                                    id='inputText' 
-                                    placeholder='Enter or paste your text and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
-                            { isClicked == 1 &&
-                                <textarea
-                                    className="text-area"
-                                    id='inputURL' 
-                                    placeholder='Enter or paste your URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
-                            { isClicked == 2 &&
-                                <textarea
-                                    className="text-area"
-                                    id='inputYTURL' 
-                                    placeholder='Enter or paste your Youtube URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
+                        {/* </div>)} */}
+                        <div className="text">
+                            <div className="inputArea">
+                                { isClicked == 0 &&
+                                    <textarea
+                                        className="text-area"
+                                        id='inputText' 
+                                        placeholder='Enter or paste your text and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+                                { isClicked == 1 &&
+                                    <textarea
+                                        className="text-area"
+                                        id='inputURL' 
+                                        placeholder='Enter or paste your URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+                                { isClicked == 2 &&
+                                    <textarea
+                                        className="text-area"
+                                        id='inputYTURL' 
+                                        placeholder='Enter or paste your Youtube URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
 
                             { inputContent &&
                                 (<Tooltip title="Delete" arrow>
