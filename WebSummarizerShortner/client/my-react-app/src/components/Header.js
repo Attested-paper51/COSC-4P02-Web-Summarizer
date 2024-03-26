@@ -4,15 +4,18 @@ import "./css/HeaderStyle.css";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { AuthContext } from '../context/AuthContext.js';
-import { useTheme } from './ThemeContext';
+import { useTheme } from './ThemeContext.js';
 
 const Header = () => {
   //maybe remove
   const { userEmail } = useContext(AuthContext);//for user displaying
   const storedEmail = localStorage.getItem('email');
   const storedName = localStorage.getItem('name');
+
+  const { darkMode, toggleDarkMode } = useTheme();
+
     return (
-      <section className="header-nav-container">
+      <section className={`header-nav-container ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`}>
 
         <nav className='header-nav'>
           
@@ -21,7 +24,7 @@ const Header = () => {
               <img
                 className="img"
                 alt="logo"
-                src="images/logo5.png"
+                src={`${darkMode ? "images/logo-light.png" : "images/logo-dark.png"}`}
               />
             </Link> 
             <h1 className="nav-title"><Link to="/">shortify</Link></h1>
@@ -32,16 +35,16 @@ const Header = () => {
           </div>
 
           <div className="nav-div2">
-            <Link to="/Mode">
-              <button className="darkmode"><FaMoon className="darkmode-icon" /></button>
-            </Link>
+            {/* <Link to="/Mode"> */}
+              <button className="mode" onClick={toggleDarkMode}>{darkMode ? <FaSun className={`mode-icon ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`}/> : <FaMoon className={`mode-icon ${darkMode ? 'dark-mode' : 'light-mode'}`} />}</button>
+            {/* </Link> */}
 
             {/* To display the currently logged in user, WIP*/}
             {/* Display profile icon and email if user is logged in */}
             {storedEmail !== null && storedEmail !== 'null' && (
             <>
               <Link to="/Dashboard">
-                <button className="profile"><IoPersonSharp className="profile-icon" /></button>
+                <button className="profile"><IoPersonSharp className={`profile-icon ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`} /></button>
               </Link>
               <div className="profile-email">{storedName}</div>
             </>
@@ -50,7 +53,7 @@ const Header = () => {
           {/* Display login button if user is not logged in */}
           {(storedEmail === null || storedEmail === 'null') && (
             <Link to="/Login">
-              <button className="profile"><IoPersonSharp className="profile-icon" /></button>
+              <button className="profile"><IoPersonSharp className={`profile-icon ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`} /></button>
             </Link>
           )}
           </div>
