@@ -37,7 +37,7 @@ export default function NumberInputBasic() {
       value={value}
       onChange={(event, val) => setValue(val)}
     />
-    );
+  );
 }
 
 export function QuantityInput() {

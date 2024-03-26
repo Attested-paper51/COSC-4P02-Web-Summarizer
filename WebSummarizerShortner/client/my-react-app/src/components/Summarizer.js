@@ -44,8 +44,14 @@ const Summarizer = () => {
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
 
-    function valuetext(value) {
-        return `${value}°C`;
+    const [sliderValue, setSliderValue] = useState(1);
+
+    const valuetext = (value) => {
+        return `${value}`;
+    }
+
+    const changeSliderValue = (event) => {
+        setSliderValue(event.target.value)
     }
 
     const toggleClicked = (buttonIndex) => {
@@ -178,6 +184,7 @@ const Summarizer = () => {
     const thumbsDown = () => {
         console.log("Output summary is bad.")
         setOutputContent('Bilaaaaal')
+        //alert(sliderValue)
     }
 
     const [isCopied, setCopy] = useState(false)
@@ -227,64 +234,64 @@ const Summarizer = () => {
     //     });
     // });
 
+    //--------------------------------BACKEND----------------------------------------
+    // for error handling
+    const [errorMessage, setErrorMessage] = useState('');
 
-// for error handling
-const [errorMessage, setErrorMessage] = useState('');
-
-// for showing the error
-const showError = (message) => {
-    setErrorMessage(message);
-    handleOpen();
-};
-
-
-// function for handling text summarization
-const summarizeText = () => {
-    fetch('/api/summarize', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: inputContent, type: isClicked }),
-    })
-    .then(response => response.json())
-    .then(data => {
-
-            setOutputContent(data.summary); // This line updates the output area
-    })
-    .catch(error => {
-        showError('An error occurred while fetching the summary.');
-    });
-};
+    // for showing the error
+    const showError = (message) => {
+        setErrorMessage(message);
+        handleOpen();
+    };
 
 
-//export button handling, for downloading json file
-const exportJSON = () => {
-// Create a JSON object with the input and summarized text
-const data = {
-    input: inputContent, // Assuming you have the original input stored in inputContent
-    summary: outputContent
-};
+    // function for handling text summarization
+    const summarizeText = () => {
+        fetch('/api/summarize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: inputContent, type: isClicked }),
+        })
+        .then(response => response.json())
+        .then(data => {
+
+                setOutputContent(data.summary); // This line updates the output area
+        })
+        .catch(error => {
+            showError('An error occurred while fetching the summary.');
+        });
+    };
 
 
-// Convert the JSON object to a string
-const jsonString = JSON.stringify(data);
+    //export button handling, for downloading json file
+    const exportJSON = () => {
+        // Create a JSON object with the input and summarized text
+        const data = {
+            input: inputContent, // Assuming you have the original input stored in inputContent
+            summary: outputContent
+        };
 
-// Create a Blob from the JSON string
-const blob = new Blob([jsonString], { type: 'application/json' });
 
-// Create a URL for the blob
-const url = URL.createObjectURL(blob);
+        // Convert the JSON object to a string
+        const jsonString = JSON.stringify(data);
 
-// Create a temporary anchor element and trigger a download
-const a = document.createElement('a');
-a.href = url;
-a.download = 'summary.json'; // Filename for the downloaded file
-document.body.appendChild(a); // Append the anchor to the document
-a.click(); // Trigger the download
-document.body.removeChild(a); // Clean up
+        // Create a Blob from the JSON string
+        const blob = new Blob([jsonString], { type: 'application/json' });
 
-}
+        // Create a URL for the blob
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element and trigger a download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'summary.json'; // Filename for the downloaded file
+        document.body.appendChild(a); // Append the anchor to the document
+        a.click(); // Trigger the download
+        document.body.removeChild(a); // Clean up
+
+    }
 
     
 
@@ -356,14 +363,16 @@ document.body.removeChild(a); // Clean up
                                             <Box sx={{ width: 100 }} className="slider">
                                                 <Slider
                                                     aria-label="Temperature"
-                                                    defaultValue={10}
+                                                    value={sliderValue}
+                                                    onChange={changeSliderValue}
+                                                    defaultValue={value}
                                                     getAriaValueText={valuetext}
                                                     // valueLabelDisplay="auto"
                                                     shiftStep={0}
-                                                    step={10}
+                                                    step={1}
                                                     marks
-                                                    min={10}
-                                                    max={40}
+                                                    min={1}
+                                                    max={3}
                                                     color="primary"
                                                 />
                                             </Box>
