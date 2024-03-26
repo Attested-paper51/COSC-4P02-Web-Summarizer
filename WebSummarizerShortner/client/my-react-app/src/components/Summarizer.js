@@ -351,9 +351,12 @@ const Summarizer = () => {
                                             <div className="end">
                                                 End Time:
                                                 <div className="end-time">
-                                                    <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    <NumberInputBasic/>
                                                     :
-                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                                    <QuantityInput/>
+                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                                 </div>
                                             </div>
                                         </div>
