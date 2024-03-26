@@ -26,7 +26,7 @@ class Authentication:
     def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password, name) VALUES (%s, %s, %s, %s)", (username, email, password, name))
+        cursor.execute("INSERT INTO users (username, email, password, name, login_method) VALUES (%s, %s, %s, %s, %s)", (username, email, password, name, "manual"))
         self.conn.commit()
 
     def checkIfAlreadyRegistered(self,email):
@@ -126,7 +126,11 @@ class Authentication:
 
         return 0
 
-
+    def loginGoogle(self,email,name):
+        username = hashlib.md5(email.encode()).hexdigest()[:6]
+        cursor = self.conn.cursor()
+        cursor.execute("INSERT INTO users (username, email, name, login_method) VALUES (%s, %s, %s, %s)", (username, email, name, "google"))
+        self.conn.commit()
 
     #Template Logic
     def createTemplateRows(self,email):
@@ -309,9 +313,20 @@ def deleteAccount():
     email = data.get('email')
     userMgr = Authentication()
     userMgr.deleteAccount(email)
-    userMgr.deleteTemplates(email)
+    #userMgr.deleteTemplates(email)
     return jsonify({'message':'Account deleted.'})
 
+
+@appA.route('/logingoogle',methods=['POST'])
+def loginGoogle():
+    data = request.get_json()
+    email = data.get('emailGoogle')
+    name = data.get('name')
+    userMgr = Authentication()
+    if (userMgr.checkIfAlreadyRegistered(email)):
+        return jsonify({'message':'Already registered. Logging in.'})
+    userMgr.loginGoogle(email,name)
+    return jsonify({'message':'Registered with Google.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
