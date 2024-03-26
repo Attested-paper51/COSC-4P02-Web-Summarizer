@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const URLShortener = () => {
 
     const [isPremium, setPremium] = useState(true);
+    const [username, setUsername] = useState('testusername');
 
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
@@ -80,7 +81,7 @@ const URLShortener = () => {
                             type="text" 
                             required
                             onChange={(e) => setURL(e.target.value)}
-                            placeholder='shortify.com' 
+                            placeholder={`shortify.com/${username}`}
                             readOnly
                         />
                         {/* <div className='custom-div1'> */}
