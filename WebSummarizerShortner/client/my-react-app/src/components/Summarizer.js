@@ -363,7 +363,7 @@ const Summarizer = () => {
                             <div className="save-custom-info">
                                 <button className='summarize-btn'>
                                     <div className="summarize-overlap">
-                                        <div className="summarize">Save Features</div>
+                                        <div className="summarize">Save settings as a template</div>
                                     </div>
                                 </button>
                             </div>
