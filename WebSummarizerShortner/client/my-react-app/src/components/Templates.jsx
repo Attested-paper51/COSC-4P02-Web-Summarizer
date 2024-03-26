@@ -8,6 +8,9 @@ const Templates = () => {
     <div className="templates-wrapper">
         
         <h1>Templates</h1>
+        <div>
+          
+        </div>
     
     </div>
 
