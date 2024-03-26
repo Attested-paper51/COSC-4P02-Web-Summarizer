@@ -4,10 +4,15 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
+import { GoogleLogin } from 'react-google-login';
+import {jwtDecode} from 'jwt-decode';
+import {useEffect} from 'react';
 
 
 const LogIn = () => {
 
+  const clientId = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
+  
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
 
@@ -41,6 +46,7 @@ const LogIn = () => {
             localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
+            localStorage.setItem('loginMethod',"manual");
             console.log('Email being logged in: ',localStorage.getItem('email'));
             console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             navigate('/Dashboard');
@@ -73,18 +79,74 @@ const LogIn = () => {
   const handlePassChange = (e) => {
     setPassError('');
     setPass(e.target.value);
+  };
+
+  function handleCallbackResponse(response) {
+    console.log("Encoded JWT Token: " + response.credential);
+    var userObj = jwtDecode(response.credential);
+    console.log(userObj);
+    
+    (async () => {
+      var emailGoogle = userObj.email;
+      //if the email is in the database already - pop up saying "account already there"
+      var name = userObj.name;
+      try {
+
+        // Make a POST request to the Flask backend
+        const response = await fetch('http://localhost:5001/logingoogle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ emailGoogle, name}),
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          //add some handling here 
+          localStorage.setItem('email',emailGoogle);
+          localStorage.setItem('loginMethod',"google");
+          localStorage.setItem('name',name);//should be taken from what the db has
+        }
+  
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    
+    
+    
+    navigate('/Dashboard');
+    })();
+
   }
 
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleCallbackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("gmail-login"),
+      { theme: "outline", size: "large" }
+    );
+  }, []);
+  
+
   return (
+    
     <div className="login-box">
       <div className="form">
         <div className="form-title">Log in</div>
-        <button className="gmail-btn">
+        <div id="gmail-login"></div>
+        { /*<button className="gmail-btn">
           <div className="gmail-overlap">
             <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
             <div className="login-social">Continue with Gmail</div>
           </div>
-        </button>
+  </button> */}
         <button className="fb-btn">
           <div className="fb-overlap">
             <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
