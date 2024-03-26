@@ -1,6 +1,6 @@
 
   .header-nav-container{
-    background-color:#f4f9fa;
+    /* background-color:#f4f9fa; */
     padding: 1.4em 1em 1em;
     border-bottom: 1px solid #edf7f9;
     box-shadow: 0 0.5px 3px #b5d3da;
@@ -42,10 +42,11 @@
 
   .img {
     max-height: clamp(3rem, 4vw, 10rem);
-    margin-right: 0.5em;
+    margin-right: 1em;
+    margin-left: 0.5em;
   }
 
-  .darkmode-icon {
+  .mode-icon {
     font-size: clamp(0.5vw, 7vh, 2vw);
   }
 
@@ -53,7 +54,7 @@
     font-size: clamp(0.7vw, 7vh, 2.2vw);
   }
 
-  .darkmode {
+  .mode {
     padding-right: 1em;
     background: none;
     border: none;
@@ -84,7 +85,7 @@
       font-size: clamp(1rem, 2.5vw, 4rem);
     }
 
-    .darkmode-icon {
+    .mode-icon {
       font-size: clamp(4vw, 8vh, 4.6vw);
     }
   
@@ -99,7 +100,7 @@
       flex-direction: column;
     }
 
-    .darkmode-icon {
+    .mode-icon {
       font-size: clamp(4vw, 8vh, 6vw);
     }
   

@@ -10,9 +10,9 @@
 
 :root{
   /* --font-primary: "DM Sans", sans-serif; */
-  --font-primary: "Poppins", sans-serif;
-  --clr-background: #edf7f9;
-  --font-color: #1C2A50;
+  /* --font-primary: "Poppins", sans-serif; */
+  /* --clr-background: #edf7f9; */
+  /* --font-color: #1C2A50; */
 }
 
 html{
@@ -20,9 +20,9 @@ html{
 }
 
 body{
-  background: var(--clr-background);
-  font-family: var(--font-primary);
-  color: var(--font-color);
+  /* background: var(--clr-background); */
+  font-family: "Poppins", sans-serif;
+  /* color: var(--font-color); */
   font-weight: 400;
   margin: 0;
 }
@@ -37,6 +37,18 @@ a {
   display: flex;
   flex-direction: column;
 }
+
+.head-dark-mode {
+  background-color: #1C2A50;
+  color: #f4f9fa;
+}
+
+.head-light-mode {
+  background-color: #f4f9fa;
+  color: #1C2A50;
+}
+
+
 
 /* .App {
   text-align: center;
