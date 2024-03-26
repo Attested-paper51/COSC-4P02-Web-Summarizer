@@ -26,7 +26,7 @@ class Authentication:
     def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password, name) VALUES (%s, %s, %s, %s)", (username, email, password, name))
+        cursor.execute("INSERT INTO users (username, email, password, name, login_method) VALUES (%s, %s, %s, %s, %s)", (username, email, password, name, "manual"))
         self.conn.commit()
 
     def checkIfAlreadyRegistered(self,email):
@@ -37,9 +37,12 @@ class Authentication:
 
     def findEmail(self,email):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = %s",(email,))
+        cursor.execute("SELECT email FROM users WHERE email = %s",(email,))
         email = cursor.fetchone()
-        return email
+        if email:
+            return email[0]
+        else:
+            return None
 
     def loginUser(self,email,password):
         cursor = self.conn.cursor()
@@ -55,8 +58,11 @@ class Authentication:
 
     def deleteAccount(self,email):
         cursor = self.conn.cursor()
+        if self.findEmail(email) is None:
+            return None
         cursor.execute("DELETE FROM users WHERE email = %s",(email,))
         self.conn.commit()
+        return 1
 
     def changePassword(self,email,password,newPassword):
 
@@ -98,6 +104,12 @@ class Authentication:
         name = cursor.fetchone()[0]
         return name
 
+    def changeName(self,name,email):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE users SET name = %s WHERE email = %s",(name,email,))
+        self.conn.commit()
+        return 1
+
     def getUsername(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
@@ -114,7 +126,11 @@ class Authentication:
 
         return 0
 
-
+    def loginGoogle(self,email,name):
+        username = hashlib.md5(email.encode()).hexdigest()[:6]
+        cursor = self.conn.cursor()
+        cursor.execute("INSERT INTO users (username, email, name, login_method) VALUES (%s, %s, %s, %s)", (username, email, name, "google"))
+        self.conn.commit()
 
     #Template Logic
     def createTemplateRows(self,email):
@@ -233,6 +249,16 @@ def changeEmail():
     userMgr.changeEmail(email,newEmail,password)
     return jsonify({'message':'Email changed.'})
 
+
+@appA.route('/changeename',methods=['POST'])
+def changeName():
+    data = request.get_json()
+    email = data.get('email')
+    newName = data.get('newname')
+    userMgr = Authentication()
+    userMgr.changeName(newName,email)
+    return jsonify({'message':'Name changed.'})
+
 @appA.route('/register', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -242,7 +268,8 @@ def signup():
     name = data.get('name')
     
     #Add this to .env
-    api_key = 'd321a91641fa776088ed4673351eafb1625dd4b1'
+    api_key = os.getenv("EMAILVF_PW")
+    
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
 
 
@@ -286,9 +313,20 @@ def deleteAccount():
     email = data.get('email')
     userMgr = Authentication()
     userMgr.deleteAccount(email)
-    userMgr.deleteTemplates(email)
+    #userMgr.deleteTemplates(email)
     return jsonify({'message':'Account deleted.'})
 
+
+@appA.route('/logingoogle',methods=['POST'])
+def loginGoogle():
+    data = request.get_json()
+    email = data.get('emailGoogle')
+    name = data.get('name')
+    userMgr = Authentication()
+    if (userMgr.checkIfAlreadyRegistered(email)):
+        return jsonify({'message':'Already registered. Logging in.'})
+    userMgr.loginGoogle(email,name)
+    return jsonify({'message':'Registered with Google.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
