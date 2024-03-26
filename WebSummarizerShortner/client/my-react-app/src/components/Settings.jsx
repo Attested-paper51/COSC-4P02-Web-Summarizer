@@ -14,6 +14,7 @@ const Settings = () => {
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passError, setPassError] = useState('');
+  const [newname, setNewName] = useState('');
 
   const[namePopup, setNamePopup] = useState(false);
   const[emailPopup, setEmailPopup] = useState(false);
@@ -68,6 +69,30 @@ const Settings = () => {
     }
   };
 
+  const handleNameChange = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/changeename', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email, newname}),
+        });
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        if (result.message === "Name changed.") {
+          localStorage.setItem('name',newname)
+          setNamePopup(false);
+        }//no else necessary I reckon
+        
+        
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const handlePassChange = (e) => {
     setPassError('');
     setPassword(e.target.value);
@@ -91,9 +116,12 @@ const Settings = () => {
                 type="text"
                 className='textfield'
                 placeholder={username}
+                value = {newname}
+                onChange = {(e) => setNewName(e.target.value)}
+
               />
               {/* Use button below to change user's name in the database */}
-              <button className='confirm-btn'>Confirm name change</button>
+              <button className='confirm-btn' onClick={() => handleNameChange(email, newname)}>Confirm name change</button>
             </PopUp>
           </div>
 
