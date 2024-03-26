@@ -17,14 +17,14 @@ def summarize_text():
     # for Text
     elif input_type == 0:
         print("User pasted text:", input_text)
-        summarizedText = sum.summarize(input_text, "")
+        summarizedText = sum.summarize(input_text, "in point form")
 
         return jsonify({'input': input_text, 'summary': summarizedText['summary']})
     
     # for a url
     elif input_type == 1:
         print("User given URL", input_text)
-        summarizedText = sum.processURL(input_text, "")
+        summarizedText = sum.processURL(input_text, "in point form")
 
         return jsonify({'input': input_text, 'summary': summarizedText['summary']})
     
@@ -36,7 +36,7 @@ def summarize_text():
         endS = 0
 
         print("User given YouTube URL", input_text)
-        summarizedText = sum.processYouTubeURL(input_text, False, startM, startS, endM,  endS, "")
+        summarizedText = sum.processYouTubeURL(input_text, False, startM, startS, endM,  endS, "in point form")
 
         return jsonify({'input': input_text, 'summary': summarizedText['summary']})
     
