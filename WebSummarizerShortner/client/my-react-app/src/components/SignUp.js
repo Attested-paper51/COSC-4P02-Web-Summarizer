@@ -59,6 +59,7 @@ const SignUp = () => {
           } else if (result.message === 'User registered successfully.') {
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
+            localStorage.setItem('loginMethod',"manual");
             navigate('/Dashboard');
           }      
       } else {

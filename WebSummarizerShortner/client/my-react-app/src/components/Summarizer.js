@@ -227,133 +227,197 @@ const Summarizer = () => {
     //     });
     // });
 
+
+// for error handling
+const [errorMessage, setErrorMessage] = useState('');
+
+// for showing the error
+const showError = (message) => {
+    setErrorMessage(message);
+    handleOpen();
+};
+
+
+// function for handling text summarization
+const summarizeText = () => {
+    fetch('/api/summarize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: inputContent, type: isClicked }),
+    })
+    .then(response => response.json())
+    .then(data => {
+
+            setOutputContent(data.summary); // This line updates the output area
+    })
+    .catch(error => {
+        showError('An error occurred while fetching the summary.');
+    });
+};
+
+
+//export button handling, for downloading json file
+const exportJSON = () => {
+// Create a JSON object with the input and summarized text
+const data = {
+    input: inputContent, // Assuming you have the original input stored in inputContent
+    summary: outputContent
+};
+
+
+// Convert the JSON object to a string
+const jsonString = JSON.stringify(data);
+
+// Create a Blob from the JSON string
+const blob = new Blob([jsonString], { type: 'application/json' });
+
+// Create a URL for the blob
+const url = URL.createObjectURL(blob);
+
+// Create a temporary anchor element and trigger a download
+const a = document.createElement('a');
+a.href = url;
+a.download = 'summary.json'; // Filename for the downloaded file
+document.body.appendChild(a); // Append the anchor to the document
+a.click(); // Trigger the download
+document.body.removeChild(a); // Clean up
+
+}
+
+    
+
     return (
         <div className="wrapper">
-            <h2>Summarizer</h2>
-            <div className="summarizer-container">
-                <div className="centered-Div">
-                    <div class="button-container">
-                        <button 
-                            className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                            onClick={() => toggleClicked(0)}>Text</button>
-                        <button 
-                            className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                            onClick={() => toggleClicked(1)}>Website URL</button>
-                        <button 
-                            className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                            onClick={() => toggleClicked(2)}>Youtube URL</button>
-                    </div>
+        <h2>Summarizer</h2>
+        <div className="summarizer-container">
+            <div className="centered-Div">
+                <div class="button-container">
+                    <button 
+                        className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
+                        onClick={() => toggleClicked(0)}>Text</button>
+                    <button 
+                        className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
+                        onClick={() => toggleClicked(1)}>Website URL</button>
+                    <button 
+                        className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
+                        onClick={() => toggleClicked(2)}>Youtube URL</button>
+                </div>
 
-                    <div className="main-content">
-                        {/* {userEmail && ( */}
+                <div className="main-content">
+                    {/* {userEmail && ( */}
 
-                        <div className="premium-container">
-                            <div className="modes">
-                                <div className="mode">
-                                    <p>Modes:</p>
+                    <div className="premium-container">
+                        <div className="modes">
+                            <div className="mode">
+                                <p>Modes:</p>
+                            </div>
+                            <div className="dropdown-menus modes">
+                                <div className="dropdown-menu">
+                                    <Dropdown
+                                        buttonText={selectedTone}
+                                        content={<>
+                                            {
+                                                tone.map(item => 
+                                                    <DropdownItem
+                                                        key={item}
+                                                        onClick={() => handleToneChange(item)}>
+                                                            {`${item}`}
+                                                    </DropdownItem>)
+                                            }
+                                        </>} 
+                                    />
                                 </div>
-                                <div className="dropdown-menus modes">
-                                    <div className="dropdown-menu">
-                                        <Dropdown
-                                            buttonText={selectedTone}
-                                            content={<>
-                                                {
-                                                    tone.map(item => 
-                                                        <DropdownItem
-                                                            key={item}
-                                                            onClick={() => handleToneChange(item)}>
-                                                                {`${item}`}
-                                                        </DropdownItem>)
-                                                }
-                                            </>} 
-                                        />
+                                <div className="dropdown-menu">
+                                    <Dropdown
+                                        buttonText={selectedLayout}
+                                        content={<>
+                                            {
+                                                layout.map(item => 
+                                                    <DropdownItem
+                                                        key={item}
+                                                        onClick={() => handleLayoutChange(item)}>
+                                                            {`${item}`}
+                                                    </DropdownItem>)
+                                            }
+                                        </>} 
+                                    />
+                                </div>
+                                <div className="word-count-level">
+                                    <div className="slider-text">
+                                        <p>Summary Length:</p>
                                     </div>
-                                    <div className="dropdown-menu">
-                                        <Dropdown
-                                            buttonText={selectedLayout}
-                                            content={<>
-                                                {
-                                                    layout.map(item => 
-                                                        <DropdownItem
-                                                            key={item}
-                                                            onClick={() => handleLayoutChange(item)}>
-                                                                {`${item}`}
-                                                        </DropdownItem>)
-                                                }
-                                            </>} 
-                                        />
-                                    </div>
-                                    <div className="word-count-level">
+                                    <div className="slider-container">
                                         <div className="slider-text">
-                                            <p>Summary Length:</p>
+                                            <p>Short</p>
                                         </div>
-                                        <div className="slider-container">
-                                            <div className="slider-text">
-                                                <p>Short</p>
-                                            </div>
-                                            <div className="slider-wrapper">
-                                                <Box sx={{ width: 100 }} className="slider">
-                                                    <Slider
-                                                        aria-label="Temperature"
-                                                        defaultValue={10}
-                                                        getAriaValueText={valuetext}
-                                                        // valueLabelDisplay="auto"
-                                                        shiftStep={0}
-                                                        step={10}
-                                                        marks
-                                                        min={10}
-                                                        max={40}
-                                                        color="primary"
-                                                    />
-                                                </Box>
-                                            </div>
-                                            <div className="slider-text">
-                                                <p>Long</p>
-                                            </div>
+                                        <div className="slider-wrapper">
+                                            <Box sx={{ width: 100 }} className="slider">
+                                                <Slider
+                                                    aria-label="Temperature"
+                                                    defaultValue={10}
+                                                    getAriaValueText={valuetext}
+                                                    // valueLabelDisplay="auto"
+                                                    shiftStep={0}
+                                                    step={10}
+                                                    marks
+                                                    min={10}
+                                                    max={40}
+                                                    color="primary"
+                                                />
+                                            </Box>
+                                        </div>
+                                        <div className="slider-text">
+                                            <p>Long</p>
                                         </div>
                                     </div>
-                                    { isClicked == 2 &&
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedVideoSetting}
-                                                content={<>
-                                                    {
-                                                        videoSetting.map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleVideoSettingChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
-                                    }
+                                </div>
+                                { isClicked == 2 &&
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedVideoSetting}
+                                            content={<>
+                                                {
+                                                    videoSetting.map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleVideoSettingChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                }
 
-                                    { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
-                                        <div className="timestamp">
-                                            <div className="start">
-                                                Start Time:
-                                                <div className="start-time">
-                                                    {/* <textarea 
-                                                        className="timestamp-textarea" 
-                                                        id="startM" 
-                                                        name="startM" 
-                                                        placeholder='Minutes'>
-                                                    </textarea> */}
-                                                    <NumberInputBasic/>
-                                                    :
-                                                    <QuantityInput/>
-                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
-                                                </div>
+                                { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                                    <div className="timestamp">
+                                        <div className="start">
+                                            Start Time:
+                                            <div className="start-time">
+                                                {/* <textarea 
+                                                    className="timestamp-textarea" 
+                                                    id="startM" 
+                                                    name="startM" 
+                                                    placeholder='Minutes'>
+                                                </textarea> */}
+                                                <NumberInputBasic/>
+                                                :
+                                                <QuantityInput/>
+                                                {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                             </div>
+                                        </div>
 
                                             <div className="end">
                                                 End Time:
                                                 <div className="end-time">
-                                                    <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    <NumberInputBasic/>
                                                     :
-                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                                    <QuantityInput/>
+                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -402,109 +466,109 @@ const Summarizer = () => {
                                     </textarea>
                                 }
 
-                                { inputContent &&
-                                    (<Tooltip title="Delete" arrow>
-                                        <button className='delete-button' 
-                                            onClick={handleOpen}><FaRegTrashCan size={18} />
-                                        </button>
-                                    </Tooltip>)
-                                }
-                                <div className='bottom-div1'>
-                                    <div className="word-count">
-                                        { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                            (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                                <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                            </Tooltip>) : wordCount >= 126 && !userEmail ?
-                                            <div className="get-premium">
-                                                <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
-                                                <div>{wordCount}/125 Words</div>    
-                                            </div> : null
-                                        }
-                                    </div>
+                            { inputContent &&
+                                (<Tooltip title="Delete" arrow>
+                                    <button className='delete-button' 
+                                        onClick={handleOpen}><FaRegTrashCan size={18} />
+                                    </button>
+                                </Tooltip>)
+                            }
+                            <div className='bottom-div1'>
+                                <div className="word-count">
+                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
+                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                        </Tooltip>) : wordCount >= 126 && !userEmail ?
+                                        <div className="get-premium">
+                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                            <div>{wordCount}/125 Words</div>    
+                                        </div> : null
+                                    }
+                                </div>
 
-                                    { wordCount > 125? 
-                                        <Tooltip title="Over the word limit" arrow>
-                                            <button className='summarize-btn button-disabled'>
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Summarize</div>
-                                                </div>
-                                            </button>
-                                        </Tooltip> :
-                                        <button className='summarize-btn' onClick={checkEmptyInput}>
+                                { wordCount > 125? 
+                                    <Tooltip title="Over the word limit" arrow>
+                                        <button className='summarize-btn button-disabled' disabled>
                                             <div className="summarize-overlap">
                                                 <div className="summarize">Summarize</div>
                                             </div>
                                         </button>
-                                    }
-                                </div>
+                                    </Tooltip> :
+                                    <button className='summarize-btn' onClick={summarizeText}>
+                                        <div className="summarize-overlap">
+                                            <div className="summarize">Summarize</div>
+                                        </div>
+                                    </button>
+                                }
                             </div>
+                        </div>
 
-                            <div className="inputArea" id="OutputTextArea">
-                                {/* <div class="button-container">
-                                    
-                                </div> */}
-                                <textarea 
-                                    className="text-area"
-                                    id='output'
-                                    placeholder='Get summary here...' 
-                                    value={outputContent} 
-                                    onChange={handleOutputChange} 
-                                    required
-                                    readOnly>   
-                                </textarea>
-                                <div className='bottom-div2'>
-                                    <div className="feedback-buttons">
-                                        <Tooltip title="Like" arrow>
-                                            <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                                        </Tooltip>
-                                        <Tooltip title="Dislike" arrow>
-                                            <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
-                                        </Tooltip>
-                                    </div>
-
-                                    <div className="export-button">
-                                        <Tooltip title="Export" arrow>
-                                            <button className='feedback-up' onClick={thumbsUp}><PiExport size={19}/></button>
-                                        </Tooltip>
-                                    </div>
-                                    
-                                    { shorten &&
-                                        <Link to = "/Shortener">
-                                            <button className="summarize-btn">
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Shorten your URL</div>
-                                                </div>
-                                            </button>
-                                        </Link>
-                                    }
-                                </div>
-                                <Tooltip title="Copy" arrow>
-                                    <button className='copy-button' onClick={copySummary}>{isCopied ? <FaCopy size={17}/> : <FaRegCopy size={17}/>}</button>
-                                </Tooltip>
+                        <div className="inputArea" id="OutputTextArea">
+                            {/* <div class="button-container">
                                 
+                            </div> */}
+                            <textarea 
+                                className="text-area"
+                                id='output'
+                                placeholder='Get summary here...' 
+                                value={outputContent} 
+                                onChange={handleOutputChange} 
+                                required
+                                readOnly>   
+                            </textarea>
+                            <div className='bottom-div2'>
+                                <div className="feedback-buttons">
+                                    <Tooltip title="Like" arrow>
+                                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                    </Tooltip>
+                                    <Tooltip title="Dislike" arrow>
+                                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                    </Tooltip>
+                                </div>
+
+                                <div className="export-button">
+                                    <Tooltip title="Export" arrow>
+                                    <button className='feedback-up' onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                    </Tooltip>
+                                </div>
+                                
+                                { shorten &&
+                                    <Link to = "/Shortener">
+                                        <button className="summarize-btn">
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Shorten your URL</div>
+                                            </div>
+                                        </button>
+                                    </Link>
+                                }
                             </div>
+                            <Tooltip title="Copy" arrow>
+                                <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                            </Tooltip>
+                            
                         </div>
                     </div>
                 </div>
             </div>
-            <DialogBox 
-            open={open} 
-            onClose={handleClose}
-            title={"Delete Text"}
-            content={"You're about to delete the Original and Summarized text."}
-            confirmText={"Continue"}
-            onConfirm={handleConfirm}
-            />
-            <DialogBox 
-            open={openEmptyInput} 
-            onClose={handleEmptyClose}
-            title={"Error"}
-            content={"Please enter some text to summarize."}
-            confirmText={"Continue"}
-            onConfirm={handleEmptyConfirm}
-            />
         </div>
-    );
+        <DialogBox 
+        open={open} 
+        onClose={handleClose}
+        title={"Delete Text"}
+        content={"You're about to delete the Original and Summarized text."}
+        confirmText={"Continue"}
+        onConfirm={handleConfirm}
+        />
+        <DialogBox 
+        open={openEmptyInput} 
+        onClose={handleEmptyClose}
+        title={"Error"}
+        content={"Please enter some text to summarize."}
+        confirmText={"Continue"}
+        onConfirm={handleEmptyConfirm}
+        />
+    </div>
+);
 }
 
 export default Summarizer;

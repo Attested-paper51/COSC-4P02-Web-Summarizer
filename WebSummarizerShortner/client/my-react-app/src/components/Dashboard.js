@@ -54,9 +54,17 @@ const Dashboard = () => {
   }, []);
 
   const handleLogout = () => {
+    //uhh 
+    if (localStorage.getItem('loginMethod') === "google") {
+      localStorage.removeItem('email');
+      localStorage.removeItem('authenticated');
+      localStorage.removeItem('name');
+      localStorage.removeItem('loginMethod');
+    }
     localStorage.removeItem('email');
     localStorage.removeItem('authenticated');
     localStorage.removeItem('name');
+    localStorage.removeItem('loginMethod');
     navigate('/');
   };
 
