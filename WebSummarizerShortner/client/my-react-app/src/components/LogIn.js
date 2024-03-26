@@ -87,6 +87,9 @@ const LogIn = () => {
     console.log(userObj);
     
     (async () => {
+      var emailGoogle = userObj.email;
+      //if the email is in the database already - pop up saying "account already there"
+      var name = userObj.name;
       try {
 
         // Make a POST request to the Flask backend
@@ -95,25 +98,23 @@ const LogIn = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email}),
+            body: JSON.stringify({ emailGoogle, name}),
         });
   
         if (response.ok) {
           const result = await response.json();
           console.log(result);
+          //add some handling here 
+          localStorage.setItem('email',emailGoogle);
+          localStorage.setItem('loginMethod',"google");
+          localStorage.setItem('name',name);//should be taken from what the db has
         }
   
-      } catch {
-        
+      } catch (error) {
+        console.error('Error:', error.message);
       }
     
     
-    var email2 = userObj.email;
-    //if the email is in the database already - pop up saying "account already there"
-    var name = userObj.name;
-    localStorage.setItem('email',email2);
-    localStorage.setItem('loginMethod',"google");
-    localStorage.setItem('name',name);
     
     navigate('/Dashboard');
     })();
