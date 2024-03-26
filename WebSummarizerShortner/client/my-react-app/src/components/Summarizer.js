@@ -245,7 +245,14 @@ const summarizeText = () => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: inputContent, type: isClicked }),
+        body: JSON.stringify({ 
+            text: inputContent, 
+            type: isClicked, 
+            tone: selectedTone,
+            style: selectedLayout,
+            length: valuetext,
+            option: selectedVideoSetting
+        }),
     })
     .then(response => response.json())
     .then(data => {
