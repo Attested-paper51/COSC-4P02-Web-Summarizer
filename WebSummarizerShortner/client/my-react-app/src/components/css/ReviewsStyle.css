@@ -14,11 +14,11 @@
 }
 
 .review-container {
-    /* box-shadow: 1px 1px 5px #888888; */
+    box-shadow: 0.4vw 0.4vw 0.7vw #8ba7c2;
     /* width: clamp(460px, 3vw, 550px); */
     /* height: clamp(200px, 20vh, 450px); */
     position: relative;
-    border: 0.11vw solid black;
+    /* border: 0.11vw solid black; */
     /* border-radius: 9px; */
     box-sizing: border-box;
     /* background:linear-gradient(#d8e7f2,transparent); */
