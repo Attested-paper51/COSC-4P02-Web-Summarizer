@@ -140,7 +140,8 @@ class Authentication:
             cursor.execute("INSERT INTO templates (username, template_name) VALUES (%s, %s)", (user, f'customTemplate{i}'))
             self.conn.commit()
 
-    def addTemplate(self,email,word_count,formality,structure,num_paragraphs,template_name):
+    def addTemplate(self,email,word_count,formality,
+    structure,num_paragraphs,summType,timestamps,template_name):
         cursor = self.conn.cursor()
         user = self.getUsername(email)
 
@@ -155,12 +156,14 @@ class Authentication:
                 word_count = %s, 
                 formality = %s, 
                 structure = %s, 
-                num_paragraphs = %s 
+                num_paragraphs = %s,
+                summarization_type = %s,
+                timestamps = %s 
             WHERE 
                 username = %s 
             AND 
                 template_name = %s
-        """, (word_count, formality, structure, num_paragraphs, user, template_name))
+        """, (word_count, formality, structure, num_paragraphs, summType, timestamps,user, template_name))
         
         self.conn.commit()
 
@@ -174,7 +177,9 @@ class Authentication:
             word_count = NULL, 
             formality = NULL, 
             structure = NULL, 
-            num_paragraphs = NULL
+            num_paragraphs = NULL,
+            summarization_type = NULL,
+            timestamps = NULL
         WHERE 
             username = %s 
         AND 
@@ -334,6 +339,31 @@ def loginGoogle():
     userMgr.createTemplateRows(email)
     return jsonify({'message':'Registered with Google.'
     ,'name':name})
+
+
+@appA.route('/savetemplate',methods=['POST'])
+def saveTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    formality = data.get('formality')
+    structure = data.get('structure')
+    wordcount = data.get('wordcount')
+    summType = data.get('summ_type')
+    timestamp = data.get('timestamp')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    #Note that we need to add num paragraphs, or just drop the col.
+    userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,templateName)
+    return jsonify({'message':'Template added.'})
+
+@appA.route('/cleartemplate',methods=['POST'])
+def clearTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    userMgr.clearTemplate(email,templateName)
+    return jsonify({'message':'Template cleared.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
