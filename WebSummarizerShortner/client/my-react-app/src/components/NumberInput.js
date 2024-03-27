@@ -28,6 +28,8 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
   );
 });
 
+const value = 0;
+
 export default function NumberInputBasic() {
   const [value, setValue] = React.useState(null);
   return (

@@ -252,6 +252,8 @@ const summarizeText = () => {
             style: selectedLayout,
             length: valuetext,
             option: selectedVideoSetting
+            startTime: NumberInputBasic.value //HH:MM
+            endTime: //HH:MM
         }),
     })
     .then(response => response.json())
