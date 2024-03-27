@@ -19,7 +19,10 @@ const Settings = () => {
   const[namePopup, setNamePopup] = useState(false);
   const[emailPopup, setEmailPopup] = useState(false);
   const[deletePopup, setDeletePopup] = useState(false);
+  const[passPopup, setPassPopup] = useState(false);
   const navigate = useNavigate();
+
+  console.log(localStorage.getItem('loginMethod'));
 
   const handleDelete = async () => {
     try {
@@ -42,9 +45,6 @@ const Settings = () => {
   };
 
   const handleEmailChange = async () => {
-    if (localStorage.getItem('loginMethod') === 'google') {
-      console.log("Cannot change email address as you are logged in with Google");
-    }
 
     try {
       const response = await fetch('http://localhost:5001/changeemail', {
@@ -136,7 +136,7 @@ const Settings = () => {
             <div className='label'>Email</div> 
             <div className='text'>{email}</div>
             <button className='update' onClick={() => setEmailPopup(true)}>Update Email</button>
-            {!localStorage.getItem('loginMethod') === 'google' ?  (
+            {localStorage.getItem('loginMethod') !== 'google' ?  (
               <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
               <label className='pop-label'>Enter new email</label>
               <input 
@@ -170,7 +170,17 @@ const Settings = () => {
           <div className='profile-div'>
             <div className='label' htmlFor="password">Password</div> 
             <div className='text'>{'\u25CF'.repeat(userpass.length)}</div>
-            <Link to="/Reset"><button className='update'>Reset Password</button></Link>
+          
+            {localStorage.getItem('loginMethod') !== 'google' ? (
+              <Link to="/Reset"><button className='update'>Reset Password</button></Link>
+            ): (
+              <button className='update' onClick={() => setPassPopup(true)}>Reset Password</button>
+              
+            )}
+            <PopUp trigger={passPopup} setTrigger={setPassPopup} title='Error'>
+              <div>Cannot change password of Google/Facebook account</div>
+            </PopUp>
+            
           </div>
         </div>
 
