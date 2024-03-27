@@ -42,6 +42,10 @@ const Settings = () => {
   };
 
   const handleEmailChange = async () => {
+    if (localStorage.getItem('loginMethod') === 'google') {
+      console.log("Cannot change email address as you are logged in with Google");
+    }
+
     try {
       const response = await fetch('http://localhost:5001/changeemail', {
             method: 'POST',
@@ -70,6 +74,7 @@ const Settings = () => {
   };
 
   const handleNameChange = async () => {
+   
     try {
       const response = await fetch('http://localhost:5001/changeename', {
             method: 'POST',
@@ -84,6 +89,8 @@ const Settings = () => {
         if (result.message === "Name changed.") {
           localStorage.setItem('name',newname)
           setNamePopup(false);
+          window.location.reload();// Refresh the page so name populates everywhere
+          //this doesnt load the settings.jsx by default, maybe change?
         }//no else necessary I reckon
         
         
@@ -129,8 +136,8 @@ const Settings = () => {
             <div className='label'>Email</div> 
             <div className='text'>{email}</div>
             <button className='update' onClick={() => setEmailPopup(true)}>Update Email</button>
-
-            <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
+            {!localStorage.getItem('loginMethod') === 'google' ?  (
+              <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
               <label className='pop-label'>Enter new email</label>
               <input 
                 type="email"
@@ -139,6 +146,7 @@ const Settings = () => {
                 value ={newEmail}
                 onChange = {(e) => setNewEmail(e.target.value)}
               />
+              
               <label className='pop-label'>Enter password</label>
               <input 
                 type="password"
@@ -151,6 +159,12 @@ const Settings = () => {
               {/* Use button below to change user's email in the database  */}
               <button className='confirm-btn' onClick={() => handleEmailChange(email, newEmail, password)}>Confirm email change</button>
             </PopUp>
+            ) : (
+              <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Error'>
+              <div>Cannot change email of Google/Facebook account</div>
+            </PopUp>
+            )}
+            
           </div>
 
           <div className='profile-div'>

@@ -6,7 +6,6 @@ import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
 //import { GoogleLogin } from 'react-google-login';
 import {jwtDecode} from 'jwt-decode';
-//change
 import {useEffect} from 'react';
 
 
@@ -44,19 +43,19 @@ const LogIn = () => {
             login(email);//wip - maybe remove, authcontext maybe no good..
             //wip
             const name = result.name;
-            localStorage.setItem('authenticated',true);
+            //localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
             localStorage.setItem('loginMethod',"manual");
             console.log('Email being logged in: ',localStorage.getItem('email'));
-            console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
+            //console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             navigate('/Dashboard');
           }else if (result.message === 'User not found or password is incorrect.') {
             setPassError(result.message);
-            localStorage.setItem('authenticated',false);
+            //localStorage.setItem('authenticated',false);
             localStorage.setItem('email',null);
             console.log('Email being logged in: ',localStorage.getItem('email'));
-            console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
+            //console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             
             setPass('');
             setEmail('');
@@ -106,6 +105,7 @@ const LogIn = () => {
           const result = await response.json();
           console.log(result);
           //add some handling here 
+          name = result.name;
           localStorage.setItem('email',emailGoogle);
           localStorage.setItem('loginMethod',"google");
           localStorage.setItem('name',name);//should be taken from what the db has
