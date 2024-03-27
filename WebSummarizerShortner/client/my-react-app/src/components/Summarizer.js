@@ -25,8 +25,11 @@ import NumberInputBasic, {QuantityInput} from "./NumberInput.js";
 const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
+
     const [open, setOpen] = useState(false);
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    const [openError, setOpenError] = useState(false);
+
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
@@ -210,15 +213,27 @@ const Summarizer = () => {
         if(inputContent === '') {
             setOpenEmptyInput(true)
         }
+        else {
+            summarizeText();
+        }
     }
 
-    // for closing Dialog Box
+    // for closing Empty Error Dialog Box
     const handleEmptyClose = () => {
         setOpenEmptyInput(false)
     }
-    // empties content and closes Dialog Box
+    // closes Dialog Box
     const handleEmptyConfirm = () => {
         handleEmptyClose()
+    }
+
+    // for closing Error Dialog Box
+    const handleErrorClose = () => {
+        setOpenError(false)
+    }
+    // closes Dialog Box
+    const handleErrorConfirm = () => {
+        handleErrorClose()
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -236,13 +251,12 @@ const Summarizer = () => {
 
     //--------------------------------BACKEND----------------------------------------
     // for error handling
-    const [errorMessage, setErrorMessage] = useState('');
-
+    const [errorMessage, setErrorMessage] = useState('An error has occurred');
     // for showing the error
     const showError = (message) => {
-        setErrorMessage(message);
-        handleOpen();
-    };
+        setErrorMessage(message)
+        setOpenError(true)
+    }
 
 
     // function for handling text summarization
@@ -503,7 +517,7 @@ const Summarizer = () => {
                                             </div>
                                         </button>
                                     </Tooltip> :
-                                    <button className='summarize-btn' onClick={summarizeText}>
+                                    <button className='summarize-btn' onClick={checkEmptyInput}>
                                         <div className="summarize-overlap">
                                             <div className="summarize">Summarize</div>
                                         </div>
@@ -565,6 +579,7 @@ const Summarizer = () => {
         onClose={handleClose}
         title={"Delete Text"}
         content={"You're about to delete the Original and Summarized text."}
+        showCancelButton={true}
         confirmText={"Continue"}
         onConfirm={handleConfirm}
         />
@@ -573,8 +588,18 @@ const Summarizer = () => {
         onClose={handleEmptyClose}
         title={"Error"}
         content={"Please enter some text to summarize."}
+        showCancelButton={false}
         confirmText={"Continue"}
         onConfirm={handleEmptyConfirm}
+        />
+        <DialogBox 
+        open={openError} 
+        onClose={handleErrorClose}
+        title={"Error"}
+        content={errorMessage}
+        showCancelButton={false}
+        confirmText={"Continue"}
+        onConfirm={handleErrorConfirm}
         />
     </div>
 );
