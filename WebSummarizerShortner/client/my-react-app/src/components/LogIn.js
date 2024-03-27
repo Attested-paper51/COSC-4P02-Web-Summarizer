@@ -105,6 +105,9 @@ const LogIn = () => {
           const result = await response.json();
           console.log(result);
           //add some handling here 
+          if (result.message === '') {
+            
+          }
           name = result.name;
           localStorage.setItem('email',emailGoogle);
           localStorage.setItem('loginMethod',"google");

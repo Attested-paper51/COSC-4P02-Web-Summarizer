@@ -33,14 +33,23 @@ const Templates = () => {
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
+    const [selectedTone2, setTone2] = useState(tone[0]);
+    const [selectedTone3, setTone3] = useState(tone[0]);
 
     const layout = ["Paragraph", "Bullet Points", "Numbered List"];
     const [selectedLayout, setLayout] = useState(layout[0]);
+    const [selectedLayout2, setLayout2] = useState(layout[0]);
+    const [selectedLayout3, setLayout3] = useState(layout[0]);
 
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
+    const [selectedVideoSetting2, setVideoSetting2] = useState(videoSetting[0]);
+    const [selectedVideoSetting3, setVideoSetting3] = useState(videoSetting[0]);
 
     const [sliderValue, setSliderValue] = useState(1);
+    const [sliderValue2, setSliderValue2] = useState(1);
+    const [sliderValue3, setSliderValue3] = useState(1);
+
 
     const valuetext = (value) => {
         return `${value}`;
@@ -48,6 +57,12 @@ const Templates = () => {
 
     const changeSliderValue = (event) => {
         setSliderValue(event.target.value)
+    }
+    const changeSliderValue2 = (event) => {
+        setSliderValue2(event.target.value)
+    }
+    const changeSliderValue3 = (event) => {
+        setSliderValue3(event.target.value)
     }
 
     const toggleClicked = (buttonIndex) => {
@@ -168,12 +183,31 @@ const Templates = () => {
         setTone(item)
     }
 
+    const handleToneChange2 = (item) => {
+        setTone2(item)
+    }
+    const handleToneChange3 = (item) => {
+        setTone3(item)
+    }
+
     const handleLayoutChange = (item) => {
         setLayout(item)
+    }
+    const handleLayoutChange2 = (item) => {
+        setLayout2(item)
+    }
+    const handleLayoutChange3 = (item) => {
+        setLayout3(item)
     }
 
     const handleVideoSettingChange = (item) => {
         setVideoSetting(item)
+    }
+    const handleVideoSettingChange2 = (item) => {
+        setVideoSetting2(item)
+    }
+    const handleVideoSettingChange3 = (item) => {
+        setVideoSetting3(item)
     }
 
     const checkEmptyInput = () => {
@@ -273,6 +307,32 @@ const Templates = () => {
         a.click(); // Trigger the download
         document.body.removeChild(a); // Clean up
 
+    }
+
+    const handleClickSave  = async () => {
+        var formality = selectedTone;
+        var structure = selectedLayout;
+        const email = localStorage.getItem('email');
+        var wordcount = 0;
+        var summ_type = "";
+        var timestamp = "";
+        var templatename = "";
+
+        try {
+            const response = await fetch('http://localhost:5001/savetemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, formality, structure, 
+                wordcount, summ_type, timestamp, templatename }),
+        });
+
+
+
+        }catch {
+
+        }
     }
 
 return (
@@ -477,13 +537,13 @@ return (
                     <div className="dropdown-menus modes">
                         <div className="dropdown-menu">
                             <Dropdown
-                                buttonText={selectedTone}
+                                buttonText={selectedTone2}
                                 content={<>
                                     {
                                         tone.map(item => 
                                             <DropdownItem
                                                 key={item}
-                                                onClick={() => handleToneChange(item)}>
+                                                onClick={() => handleToneChange2(item)}>
                                                     {`${item}`}
                                             </DropdownItem>)
                                     }
@@ -492,13 +552,13 @@ return (
                         </div>
                         <div className="dropdown-menu">
                             <Dropdown
-                                buttonText={selectedLayout}
+                                buttonText={selectedLayout2}
                                 content={<>
                                     {
                                         layout.map(item => 
                                             <DropdownItem
                                                 key={item}
-                                                onClick={() => handleLayoutChange(item)}>
+                                                onClick={() => handleLayoutChange2(item)}>
                                                     {`${item}`}
                                             </DropdownItem>)
                                     }
@@ -517,8 +577,8 @@ return (
                                     <Box sx={{ width: 100 }} className="slider">
                                         <Slider
                                             aria-label="Temperature"
-                                            value={sliderValue}
-                                            onChange={changeSliderValue}
+                                            value={sliderValue2}
+                                            onChange={changeSliderValue2}
                                             defaultValue={value}
                                             getAriaValueText={valuetext}
                                             // valueLabelDisplay="auto"
@@ -539,13 +599,13 @@ return (
                         { isClicked == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
-                                    buttonText={selectedVideoSetting}
+                                    buttonText={selectedVideoSetting2}
                                     content={<>
                                         {
                                             videoSetting.map(item => 
                                                 <DropdownItem
                                                     key={item}
-                                                    onClick={() => handleVideoSettingChange(item)}>
+                                                    onClick={() => handleVideoSettingChange2(item)}>
                                                         {`${item}`}
                                                 </DropdownItem>)
                                         }
@@ -554,7 +614,7 @@ return (
                             </div>
                         }
 
-                        { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                        { isClicked ==2 && selectedVideoSetting2 == videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
                                     Start Time:
@@ -633,13 +693,13 @@ return (
                     <div className="dropdown-menus modes">
                         <div className="dropdown-menu">
                             <Dropdown
-                                buttonText={selectedTone}
+                                buttonText={selectedTone3}
                                 content={<>
                                     {
                                         tone.map(item => 
                                             <DropdownItem
                                                 key={item}
-                                                onClick={() => handleToneChange(item)}>
+                                                onClick={() => handleToneChange3(item)}>
                                                     {`${item}`}
                                             </DropdownItem>)
                                     }
@@ -648,13 +708,13 @@ return (
                         </div>
                         <div className="dropdown-menu">
                             <Dropdown
-                                buttonText={selectedLayout}
+                                buttonText={selectedLayout3}
                                 content={<>
                                     {
                                         layout.map(item => 
                                             <DropdownItem
                                                 key={item}
-                                                onClick={() => handleLayoutChange(item)}>
+                                                onClick={() => handleLayoutChange3(item)}>
                                                     {`${item}`}
                                             </DropdownItem>)
                                     }
@@ -673,8 +733,8 @@ return (
                                     <Box sx={{ width: 100 }} className="slider">
                                         <Slider
                                             aria-label="Temperature"
-                                            value={sliderValue}
-                                            onChange={changeSliderValue}
+                                            value={sliderValue3}
+                                            onChange={changeSliderValue3}
                                             defaultValue={value}
                                             getAriaValueText={valuetext}
                                             // valueLabelDisplay="auto"
@@ -695,13 +755,13 @@ return (
                         { isClicked == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
-                                    buttonText={selectedVideoSetting}
+                                    buttonText={selectedVideoSetting3}
                                     content={<>
                                         {
                                             videoSetting.map(item => 
                                                 <DropdownItem
                                                     key={item}
-                                                    onClick={() => handleVideoSettingChange(item)}>
+                                                    onClick={() => handleVideoSettingChange3(item)}>
                                                         {`${item}`}
                                                 </DropdownItem>)
                                         }
@@ -710,7 +770,7 @@ return (
                             </div>
                         }
 
-                        { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                        { isClicked ==2 && selectedVideoSetting3 == videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
                                     Start Time:

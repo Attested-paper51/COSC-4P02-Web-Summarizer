@@ -31,7 +31,7 @@ const URLShortener = () => {
     //Added code for handleSubmit
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:5000/shorten', {
+            const response = await fetch('http://localhost:5002/shorten', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
