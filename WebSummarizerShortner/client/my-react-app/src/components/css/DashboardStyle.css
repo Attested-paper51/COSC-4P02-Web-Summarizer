@@ -332,6 +332,8 @@
 .temp-heading{
     display: flex;
     margin-bottom: 1.5em;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .temp-heading h3{

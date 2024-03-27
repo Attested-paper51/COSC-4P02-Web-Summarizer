@@ -3,9 +3,9 @@
     flex-direction: row;
     text-align: center;
     justify-content: center;
-    padding: 10vh;
+    padding: 15vh;
     column-gap: clamp(3vw, 4vw, 15vw);
-    background-color: #B5CCE2;
+    /* background-color: #B5CCE2; */
 }
 
 .summarizer, .shortener {
@@ -13,14 +13,14 @@
     display: block; /* Ensure the entire block is clickable */
     /*height: 450px;
     min-width: 500px;*/
-    padding: 0.5vw;
+    padding: 0.9vw;
     border: 0.2vw solid;
     border-radius: 1vw;
-    background-color: #edf7f9;
+    /* background-color: #edf7f9; */
 } 
 
 .summarizer:hover, .shortener:hover{
-    background-color: #fcfcfc;
+    /* background-color: #fcfcfc; */
     scale: 1.05;
 }
 
@@ -37,6 +37,7 @@
     font-size: clamp(0.6rem, 1.1vw, 10rem);
     font-weight: 500;
     margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .summarizer-img {

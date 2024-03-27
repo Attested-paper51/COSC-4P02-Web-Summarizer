@@ -2,9 +2,11 @@ import { FaQuoteRight, FaStar } from 'react-icons/fa';
 import "./css/ReviewsStyle.css";
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css';
-
+import { useTheme } from './ThemeContext.js';
 
 const Reviews = () => {
+
+    const { darkMode } = useTheme();
 
     const responsive = {
         desktop: {
@@ -22,7 +24,7 @@ const Reviews = () => {
     }
 
       return (
-        <div className='reviews'>
+        <div className={`reviews ${darkMode ? 'reviews-dark' : 'reviews-light'}`}>
             
             <Carousel 
                 className="carousel" 
@@ -36,7 +38,7 @@ const Reviews = () => {
                 swipeable={true}
                 focusOnSelect={true}>
                 {data.map((d) => (
-                <div className='review-container'>
+                <div className={`review-container ${darkMode ? 'review-cont-dark' : 'review-cont-light'}`}>
                     <div className='review-wrapper'> 
                         <div className='review-div'>
                             <p className='review-text'>
