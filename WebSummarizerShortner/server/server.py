@@ -36,15 +36,22 @@ def summarize_text():
     
     # for a YouTube video url
     elif type == 2:
-        startM = 0
-        startS = 0
-        endM = 0
-        endS = 0
+        if option == "Full Video":
 
-        print("User given YouTube URL", input_text)
-        summarizedText = sum.processYouTubeURL(input_text, False, startM, startS, endM,  endS, "in point form")
 
-        return jsonify({'input': input_text, 'summary': summarizedText['summary']})
+        elif option == "Timestamp":
+
+            startM = 0
+            startS = 0
+            endM = 0
+            endS = 0
+
+            print("User given YouTube URL", input_text)
+            summarizedText = sum.processYouTubeURL(input_text, False, startM, startS, endM,  endS, "in point form")
+
+            return jsonify({'input': input_text, 'summary': summarizedText['summary']})
+        else:
+            return jsonify({"error": "Invalid option type"}), 400
     
     # error
     else:
