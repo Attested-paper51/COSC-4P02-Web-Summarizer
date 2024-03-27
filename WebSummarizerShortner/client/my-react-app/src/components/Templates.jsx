@@ -330,9 +330,27 @@ const Templates = () => {
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
         var wordcount = 0;
+        
+        if (sliderValue === 1) {
+            wordcount = 50;
+        }else if (sliderValue === 2) {
+            wordcount = 100;
+        }else {
+            wordcount = 200;
+        }
         var summ_type = "";
         var timestamp = "";
-        var templatename = "";
+        if (isClicked === 0) {
+            summ_type = "text";
+        }else if (isClicked === 1) {
+            summ_type = "website";
+        }else {
+            summ_type = "video";
+            timestamp = "{00:05,00:15}"
+        }
+        
+        
+        var templatename = "customTemplate1";
 
         try {
             const response = await fetch('http://localhost:5001/savetemplate', {
@@ -343,6 +361,10 @@ const Templates = () => {
             body: JSON.stringify({ email, formality, structure, 
                 wordcount, summ_type, timestamp, templatename }),
         });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
 
 
 
@@ -364,7 +386,8 @@ return (
                 <h3>Template 1</h3>
                 <div className='save-reset-btns'>
                     <div className="save-custom-info">
-                        <button className='summarize-btn'>
+                        {/**handle save for template 1 here */}
+                        <button className='summarize-btn' onClick={handleClickSave}>
                             <div className="summarize-overlap">
                                 <div className="summarize">Save</div>
                             </div>
