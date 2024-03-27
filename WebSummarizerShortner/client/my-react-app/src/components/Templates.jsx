@@ -471,6 +471,86 @@ const Templates = () => {
         }
     }
 
+    //for handling clearing of template 1
+    const handleClickClear  = async () => {
+        const email = localStorage.getItem('email');
+        setLayout(layout[0]);
+        setTone(tone[0]);
+        setSliderValue(1);
+        setClickedButton(0);
+        var templatename = "customTemplate1";
+        try {
+            const response = await fetch('http://localhost:5001/cleartemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
+    //for handling clearing of template 2
+    const handleClickClear2  = async () => {
+        const email = localStorage.getItem('email');
+        setLayout2(layout[0]);
+        setTone2(tone[0]);
+        setSliderValue2(1);
+        setClickedButton2(0);
+        var templatename = "customTemplate2";
+        try {
+            const response = await fetch('http://localhost:5001/cleartemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
+        //for handling clearing of template 3
+        const handleClickClear3  = async () => {
+            const email = localStorage.getItem('email');
+            setLayout3(layout[0]);
+            setTone3(tone[0]);
+            setSliderValue3(1);
+            setClickedButton3(0);
+            var templatename = "customTemplate3";
+            try {
+                const response = await fetch('http://localhost:5001/cleartemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename }),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result.message);
+            }
+    
+            }catch (error) {
+                console.error('Error:', error.message);
+            }
+        }
+    
+
+
     
 
 return (
@@ -494,7 +574,7 @@ return (
                         </button>
                     </div>
                     <div className="reset-custom-info">
-                        <button className='summarize-btn'>
+                        <button className='summarize-btn' onClick={handleClickClear}>
                             <div className="summarize-overlap">
                                 <div className="summarize">Reset</div>
                             </div>
@@ -649,7 +729,7 @@ return (
                         </button>
                     </div>
                     <div className="reset-custom-info">
-                        <button className='summarize-btn'>
+                        <button className='summarize-btn' onClick={handleClickClear2}>
                             <div className="summarize-overlap">
                                 <div className="summarize">Reset</div>
                             </div>
@@ -805,7 +885,7 @@ return (
                         </button>
                     </div>
                     <div className="reset-custom-info">
-                        <button className='summarize-btn'>
+                        <button className='summarize-btn' onClick={handleClickClear3}>
                             <div className="summarize-overlap">
                                 <div className="summarize">Reset</div>
                             </div>
