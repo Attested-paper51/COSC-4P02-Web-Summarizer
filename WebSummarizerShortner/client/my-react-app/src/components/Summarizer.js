@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
+import '../App.css'
 
 // Icons
 // import { FaTrashCan } from "react-icons/fa6";
@@ -21,8 +22,13 @@ import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
+import { useTheme } from './ThemeContext.js'
+
 
 const Summarizer = () => {
+
+    const { darkMode } = useTheme();
+
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
 
@@ -310,302 +316,304 @@ const Summarizer = () => {
     
 
     return (
-        <div className="wrapper">
-        <h2>Summarizer</h2>
-        <div className="summarizer-container">
-            <div className="centered-Div">
-                <div class="button-container">
-                    <button 
-                        className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                        onClick={() => toggleClicked(0)}>Text</button>
-                    <button 
-                        className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                        onClick={() => toggleClicked(1)}>Website URL</button>
-                    <button 
-                        className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                        onClick={() => toggleClicked(2)}>Youtube URL</button>
-                </div>
+        <div className={`wrapper ${darkMode ? 'summarizer-dark' : 'summarizer-light'}`}>
+            <div className="in-wrapper-sum">
+                <h2>Summarizer</h2>
+                <div className="summarizer-container">
+                    <div className="centered-Div">
+                        <div class="button-container">
+                            <button 
+                                className={`customSumBtn clamp-text ${isClicked === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                                onClick={() => toggleClicked(0)}>Text</button>
+                            <button 
+                                className={`customSumBtn ${isClicked === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                                onClick={() => toggleClicked(1)}>Website URL</button>
+                            <button 
+                                className={`customSumBtn ${isClicked === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
+                                onClick={() => toggleClicked(2)}>Youtube URL</button>
+                        </div>
 
-                <div className="main-content">
-                    {/* {userEmail && ( */}
+                        <div className="main-content">
+                            {/* {userEmail && ( */}
 
-                    <div className="premium-container">
-                        <div className="modes">
-                            <div className="mode">
-                                <p>Modes:</p>
-                            </div>
-                            <div className="dropdown-menus modes">
-                                <div className="dropdown-menu">
-                                    <Dropdown
-                                        buttonText={selectedTone}
-                                        content={<>
-                                            {
-                                                tone.map(item => 
-                                                    <DropdownItem
-                                                        key={item}
-                                                        onClick={() => handleToneChange(item)}>
-                                                            {`${item}`}
-                                                    </DropdownItem>)
-                                            }
-                                        </>} 
-                                    />
-                                </div>
-                                <div className="dropdown-menu">
-                                    <Dropdown
-                                        buttonText={selectedLayout}
-                                        content={<>
-                                            {
-                                                layout.map(item => 
-                                                    <DropdownItem
-                                                        key={item}
-                                                        onClick={() => handleLayoutChange(item)}>
-                                                            {`${item}`}
-                                                    </DropdownItem>)
-                                            }
-                                        </>} 
-                                    />
-                                </div>
-                                <div className="word-count-level">
-                                    <div className="slider-text">
-                                        <p>Summary Length:</p>
+                            <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
+                                <div className="modes">
+                                    <div className="mode">
+                                        <p>Modes:</p>
                                     </div>
-                                    <div className="slider-container">
-                                        <div className="slider-text">
-                                            <p>Short</p>
+                                    <div className="dropdown-menus modes">
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedTone}
+                                                content={<>
+                                                    {
+                                                        tone.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleToneChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
                                         </div>
-                                        <div className="slider-wrapper">
-                                            <Box sx={{ width: 100 }} className="slider">
-                                                <Slider
-                                                    aria-label="Temperature"
-                                                    value={sliderValue}
-                                                    onChange={changeSliderValue}
-                                                    defaultValue={value}
-                                                    getAriaValueText={valuetext}
-                                                    // valueLabelDisplay="auto"
-                                                    shiftStep={0}
-                                                    step={1}
-                                                    marks
-                                                    min={1}
-                                                    max={3}
-                                                    color="primary"
-                                                />
-                                            </Box>
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedLayout}
+                                                content={<>
+                                                    {
+                                                        layout.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleLayoutChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
                                         </div>
-                                        <div className="slider-text">
-                                            <p>Long</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                { isClicked == 2 &&
-                                    <div className="dropdown-menu">
-                                        <Dropdown
-                                            buttonText={selectedVideoSetting}
-                                            content={<>
-                                                {
-                                                    videoSetting.map(item => 
-                                                        <DropdownItem
-                                                            key={item}
-                                                            onClick={() => handleVideoSettingChange(item)}>
-                                                                {`${item}`}
-                                                        </DropdownItem>)
-                                                }
-                                            </>} 
-                                        />
-                                    </div>
-                                }
-
-                                { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
-                                    <div className="timestamp">
-                                        <div className="start">
-                                            Start Time:
-                                            <div className="start-time">
-                                                {/* <textarea 
-                                                    className="timestamp-textarea" 
-                                                    id="startM" 
-                                                    name="startM" 
-                                                    placeholder='Minutes'>
-                                                </textarea> */}
-                                                <NumberInputBasic/>
-                                                :
-                                                <QuantityInput/>
-                                                {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                        <div className="word-count-level">
+                                            <div className="slider-text">
+                                                <p>Summary Length:</p>
                                             </div>
-                                        </div>
-
-                                            <div className="end">
-                                                End Time:
-                                                <div className="end-time">
-                                                    <NumberInputBasic/>
-                                                    :
-                                                    <QuantityInput/>
-                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                                    :
-                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                            <div className="slider-container">
+                                                <div className="slider-text">
+                                                    <p>Short</p>
+                                                </div>
+                                                <div className="slider-wrapper">
+                                                    <Box sx={{ width: 100 }} className="slider">
+                                                        <Slider
+                                                            aria-label="Temperature"
+                                                            value={sliderValue}
+                                                            onChange={changeSliderValue}
+                                                            defaultValue={value}
+                                                            getAriaValueText={valuetext}
+                                                            // valueLabelDisplay="auto"
+                                                            shiftStep={0}
+                                                            step={1}
+                                                            marks
+                                                            min={1}
+                                                            max={3}
+                                                            color="primary"
+                                                        />
+                                                    </Box>
+                                                </div>
+                                                <div className="slider-text">
+                                                    <p>Long</p>
                                                 </div>
                                             </div>
                                         </div>
-                                    }
-                                </div>
-                            </div>
-                            <div className="save-custom-info">
-                                <button className='summarize-btn'>
-                                    <div className="summarize-overlap">
-                                        <div className="summarize">Save settings as a template</div>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                        {/* </div>)} */}
-                        <div className="text">
-                            <div className="inputArea">
-                                { isClicked == 0 &&
-                                    <textarea
-                                        className="text-area"
-                                        id='inputText' 
-                                        placeholder='Enter or paste your text and click "Summarize."' 
-                                        value={inputContent} 
-                                        onChange={handleInputChange} 
-                                        required>    
-                                    </textarea>
-                                }
-                                { isClicked == 1 &&
-                                    <textarea
-                                        className="text-area"
-                                        id='inputURL' 
-                                        placeholder='Enter or paste your URL and click "Summarize."' 
-                                        value={inputContent} 
-                                        onChange={handleInputChange} 
-                                        required>    
-                                    </textarea>
-                                }
-                                { isClicked == 2 &&
-                                    <textarea
-                                        className="text-area"
-                                        id='inputYTURL' 
-                                        placeholder='Enter or paste your Youtube URL and click "Summarize."' 
-                                        value={inputContent} 
-                                        onChange={handleInputChange} 
-                                        required>    
-                                    </textarea>
-                                }
+                                        { isClicked == 2 &&
+                                            <div className="dropdown-menu">
+                                                <Dropdown
+                                                    buttonText={selectedVideoSetting}
+                                                    content={<>
+                                                        {
+                                                            videoSetting.map(item => 
+                                                                <DropdownItem
+                                                                    key={item}
+                                                                    onClick={() => handleVideoSettingChange(item)}>
+                                                                        {`${item}`}
+                                                                </DropdownItem>)
+                                                        }
+                                                    </>} 
+                                                />
+                                            </div>
+                                        }
 
-                            { inputContent &&
-                                (<Tooltip title="Delete" arrow>
-                                    <button className='delete-button' 
-                                        onClick={handleOpen}><FaRegTrashCan size={18} />
-                                    </button>
-                                </Tooltip>)
-                            }
-                            <div className='bottom-div1'>
-                                <div className="word-count">
-                                    { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                        </Tooltip>) : wordCount >= 126 && !userEmail ?
-                                        <div className="get-premium">
-                                            <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
-                                            <div>{wordCount}/125 Words</div>    
-                                        </div> : 
-                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                        { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                                            <div className="timestamp">
+                                                <div className="start">
+                                                    Start Time:
+                                                    <div className="start-time">
+                                                        {/* <textarea 
+                                                            className="timestamp-textarea" 
+                                                            id="startM" 
+                                                            name="startM" 
+                                                            placeholder='Minutes'>
+                                                        </textarea> */}
+                                                        <NumberInputBasic/>
+                                                        :
+                                                        <QuantityInput/>
+                                                        {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                                    </div>
+                                                </div>
+
+                                                    <div className="end">
+                                                        End Time:
+                                                        <div className="end-time">
+                                                            <NumberInputBasic/>
+                                                            :
+                                                            <QuantityInput/>
+                                                            {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                            :
+                                                            <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="save-custom-info">
+                                        <button className='summarize-btn'>
+                                            <div className="summarize-overlap">
+                                                <div className="summarize">Save settings as a template</div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                {/* </div>)} */}
+                                <div className="text">
+                                    <div className="inputArea">
+                                        { isClicked == 0 &&
+                                            <textarea
+                                                className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                                id='inputText' 
+                                                placeholder='Enter or paste your text and click "Summarize."' 
+                                                value={inputContent} 
+                                                onChange={handleInputChange} 
+                                                required>    
+                                            </textarea>
+                                        }
+                                        { isClicked == 1 &&
+                                            <textarea
+                                                className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                                id='inputURL' 
+                                                placeholder='Enter or paste your URL and click "Summarize."' 
+                                                value={inputContent} 
+                                                onChange={handleInputChange} 
+                                                required>    
+                                            </textarea>
+                                        }
+                                        { isClicked == 2 &&
+                                            <textarea
+                                                className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                                id='inputYTURL' 
+                                                placeholder='Enter or paste your Youtube URL and click "Summarize."' 
+                                                value={inputContent} 
+                                                onChange={handleInputChange} 
+                                                required>    
+                                            </textarea>
+                                        }
+
+                                    { inputContent &&
+                                        (<Tooltip title="Delete" arrow>
+                                            <button className='delete-button' 
+                                                onClick={handleOpen}><FaRegTrashCan size={18} />
+                                            </button>
                                         </Tooltip>)
                                     }
-                                </div>
-
-                                { wordCount > 125? 
-                                    <Tooltip title="Over the word limit" arrow>
-                                        <button className='summarize-btn button-disabled' disabled>
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Summarize</div>
-                                            </div>
-                                        </button>
-                                    </Tooltip> :
-                                    <button className='summarize-btn' onClick={checkEmptyInput}>
-                                        <div className="summarize-overlap">
-                                            <div className="summarize">Summarize</div>
+                                    <div className={`bottom-div1 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
+                                        <div className="word-count">
+                                            { inputContent && wordCount >= 1 && wordCount < 126 ? 
+                                                (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                                    <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                                </Tooltip>) : wordCount >= 126 && !userEmail ?
+                                                <div className="get-premium">
+                                                    <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                                    <div>{wordCount}/125 Words</div>    
+                                                </div> : 
+                                                (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                                    <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                                </Tooltip>)
+                                            }
                                         </div>
-                                    </button>
-                                }
-                            </div>
-                        </div>
 
-                        <div className="inputArea" id="OutputTextArea">
-                            {/* <div class="button-container">
-                                
-                            </div> */}
-                            <textarea 
-                                className="text-area"
-                                id='output'
-                                placeholder='Get summary here...' 
-                                value={outputContent} 
-                                onChange={handleOutputChange} 
-                                required
-                                readOnly>   
-                            </textarea>
-                            <div className='bottom-div2'>
-                                <div className="feedback-buttons">
-                                    <Tooltip title="Like" arrow>
-                                        <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
-                                    </Tooltip>
-                                    <Tooltip title="Dislike" arrow>
-                                        <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
-                                    </Tooltip>
+                                        { wordCount > 125? 
+                                            <Tooltip title="Over the word limit" arrow>
+                                                <button className='summarize-btn button-disabled' disabled>
+                                                    <div className="summarize-overlap">
+                                                        <div className="summarize">Summarize</div>
+                                                    </div>
+                                                </button>
+                                            </Tooltip> :
+                                            <button className='summarize-btn' onClick={checkEmptyInput}>
+                                                <div className="summarize-overlap">
+                                                    <div className="summarize">Summarize</div>
+                                                </div>
+                                            </button>
+                                        }
+                                    </div>
                                 </div>
 
-                                <div className="export-button">
-                                    <Tooltip title="Export" arrow>
-                                    <button className='feedback-up' onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                <div className={`inputArea ${darkMode ? 'ota-dark' : 'ota-light'}`} id="OutputTextArea">
+                                    {/* <div class="button-container">
+                                        
+                                    </div> */}
+                                    <textarea 
+                                        className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                        id='output'
+                                        placeholder='Get summary here...' 
+                                        value={outputContent} 
+                                        onChange={handleOutputChange} 
+                                        required
+                                        readOnly>   
+                                    </textarea>
+                                    <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
+                                        <div className="feedback-buttons">
+                                            <Tooltip title="Like" arrow>
+                                                <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                            </Tooltip>
+                                            <Tooltip title="Dislike" arrow>
+                                                <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                            </Tooltip>
+                                        </div>
+
+                                        <div className="export-button">
+                                            <Tooltip title="Export" arrow>
+                                            <button className='feedback-up' onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                            </Tooltip>
+                                        </div>
+                                        
+                                        { shorten &&
+                                            <Link to = "/Shortener">
+                                                <button className="summarize-btn">
+                                                    <div className="summarize-overlap">
+                                                        <div className="summarize">Shorten your URL</div>
+                                                    </div>
+                                                </button>
+                                            </Link>
+                                        }
+                                    </div>
+                                    <Tooltip title="Copy" arrow>
+                                        <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
                                     </Tooltip>
+                                    
                                 </div>
-                                
-                                { shorten &&
-                                    <Link to = "/Shortener">
-                                        <button className="summarize-btn">
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Shorten your URL</div>
-                                            </div>
-                                        </button>
-                                    </Link>
-                                }
                             </div>
-                            <Tooltip title="Copy" arrow>
-                                <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
-                            </Tooltip>
-                            
                         </div>
                     </div>
                 </div>
+                <DialogBox 
+                open={open} 
+                onClose={handleClose}
+                title={"Delete Text"}
+                content={"You're about to delete the Original and Summarized text."}
+                showCancelButton={true}
+                confirmText={"Continue"}
+                onConfirm={handleConfirm}
+                />
+                <DialogBox 
+                open={openEmptyInput} 
+                onClose={handleEmptyClose}
+                title={"Error"}
+                content={"Please enter some text to summarize."}
+                showCancelButton={false}
+                confirmText={"Continue"}
+                onConfirm={handleEmptyConfirm}
+                />
+                <DialogBox 
+                open={openError} 
+                onClose={handleErrorClose}
+                title={"Error"}
+                content={errorMessage}
+                showCancelButton={false}
+                confirmText={"Continue"}
+                onConfirm={handleErrorConfirm}
+                />
             </div>
         </div>
-        <DialogBox 
-        open={open} 
-        onClose={handleClose}
-        title={"Delete Text"}
-        content={"You're about to delete the Original and Summarized text."}
-        showCancelButton={true}
-        confirmText={"Continue"}
-        onConfirm={handleConfirm}
-        />
-        <DialogBox 
-        open={openEmptyInput} 
-        onClose={handleEmptyClose}
-        title={"Error"}
-        content={"Please enter some text to summarize."}
-        showCancelButton={false}
-        confirmText={"Continue"}
-        onConfirm={handleEmptyConfirm}
-        />
-        <DialogBox 
-        open={openError} 
-        onClose={handleErrorClose}
-        title={"Error"}
-        content={errorMessage}
-        showCancelButton={false}
-        confirmText={"Continue"}
-        onConfirm={handleErrorConfirm}
-        />
-    </div>
-);
+    );
 }
 
 export default Summarizer;
