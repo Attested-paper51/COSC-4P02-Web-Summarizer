@@ -1,5 +1,4 @@
 footer {
-    background-color:#48587e;
     min-height: 5vh;
     padding: clamp(1rem, 1vw, 10rem);
 }
@@ -11,6 +10,7 @@ footer a{
 .footer-container {
     margin-top: auto;
     /* padding-top: 30px; */
+    /* background-color:#48587e; */
 }
 
 .footer-text {

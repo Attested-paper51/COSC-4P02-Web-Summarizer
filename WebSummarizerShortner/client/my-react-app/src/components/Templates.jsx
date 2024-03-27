@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "./css/DashboardStyle.css";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
+import { MdDeleteOutline } from "react-icons/md";
 // import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
@@ -11,151 +12,309 @@ import Slider from '@mui/material/Slider';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
-import { MdDeleteOutline } from "react-icons/md";
+
+import DialogBox from '../components/DialogBox.js';
 
 const Templates = () => {
+    const [inputContent, setInputContent] = useState('');
+    const [outputContent, setOutputContent] = useState('');
 
-  const [inputContent, setInputContent] = useState('');
-  const [outputContent, setOutputContent] = useState('');
-  const [open, setOpen] = useState(false);
-  const [openEmptyInput, setOpenEmptyInput] = useState(false);
-  const [shorten, showShorten] = useState(false);
-  const [isClicked, setClickedButton] = useState(0);
-  const [wordCount, setWordCount] = useState(0);
-  const [timeoutId, setTimeoutId] = useState(null);
-  // const [value, setValue] = useState(null);
-  // const [isPremium, setPremium] = useState(false);
-  // const userEmail = localStorage.getItem('email');
+    const [open, setOpen] = useState(false);
+    const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    const [openError, setOpenError] = useState(false);
 
-  const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
-  const [selectedTone, setTone] = useState(tone[0]);
+    const [shorten, showShorten] = useState(false);
+    const [isClicked, setClickedButton] = useState(0);
+    const [wordCount, setWordCount] = useState(0);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [value, setValue] = useState(null);
+    const [isPremium, setPremium] = useState(false);
+    const userEmail = localStorage.getItem('email');
 
-  const layout = ["Paragraph", "Bullet Points", "Numbered List"];
-  const [selectedLayout, setLayout] = useState(layout[0]);
+    const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
+    const [selectedTone, setTone] = useState(tone[0]);
 
-  const videoSetting = ["Full Video", "Timestamp"];
-  const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
+    const layout = ["Paragraph", "Bullet Points", "Numbered List"];
+    const [selectedLayout, setLayout] = useState(layout[0]);
 
+    const videoSetting = ["Full Video", "Timestamp"];
+    const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
 
-  function valuetext(value) {
-    return `${value}°C`;
-  }
+    const [sliderValue, setSliderValue] = useState(1);
 
-  const toggleClicked = (buttonIndex) => {
-      setClickedButton(buttonIndex)
-      emptyTextContent()
-      showShorten(false)
-  }
+    const valuetext = (value) => {
+        return `${value}`;
+    }
 
-  // for closing Dialog Box
-  const handleClose = () => {
-      setOpen(false)
-  }
+    const changeSliderValue = (event) => {
+        setSliderValue(event.target.value)
+    }
 
-  // counts number of words in a string
-  const countWords = (text) => {
-      text = text.trim()
-      const words = text.split(/\s+/)
-      return words.length
-  }    
+    const toggleClicked = (buttonIndex) => {
+        setClickedButton(buttonIndex)
+        emptyTextContent()
+        showShorten(false)
+    }
 
-  useEffect(() => {
-      
-      if (timeoutId) {
-          clearTimeout(timeoutId)
-      }
+    // for opening Dialog Box
+    const handleOpen = () => {
+        setOpen(true)
+    }
 
-      // set a timeout of 200 miliseconds - then update the word count
-      const id = setTimeout(() => {
-          // updates word count
-          if(inputContent.trim().length == 0) {
-              setWordCount(0)
-          }
-          else {
-              const words = countWords(inputContent)
-              setWordCount(words)
-          }
-      }, 200)
+    // for closing Dialog Box
+    const handleClose = () => {
+        setOpen(false)
+    }
 
-      setTimeoutId(id)
+    // detecting input text change
+    const handleInputChange = (event) => {
+        setInputContent(event.target.value)
+    }
 
-      return () => {
-          if (timeoutId) {
-              clearTimeout(timeoutId)
-          }
-      }
-  }, [inputContent])
+    // detecting output text change
+    const handleOutputChange = (event) => {
+        setOutputContent(event.target.value)
+    }
 
+    // counts number of words in a string
+    const countWords = (text) => {
+        text = text.trim()
+        const words = text.split(/\s+/)
+        return words.length
+    }    
 
-  /** every render: checks if output has text
-   *  if it does, then makes output editable
-   *  else, keeps it readOnly*/
-  // useEffect (() => {
-  //     // runs after every render
-  //     const output = document.getElementById("output");
-  //     if(outputContent !== '') {
-  //         output.readOnly = false
-  //     }
-  //     else {
-  //         output.readOnly = true
-  //     }
+    useEffect(() => {
+        
+        if (timeoutId) {
+            clearTimeout(timeoutId)
+        }
 
-  //     // conditions for showing the link to Url Shortener
-  //     if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
-  //         showShorten(true)
-  //     }   
-  //     else if (isClicked == 0)
-  //     {
-  //         showShorten(false)
-  //     }
-  // })
+        // set a timeout of 200 miliseconds - then update the word count
+        const id = setTimeout(() => {
+            // updates word count
+            if(inputContent.trim().length == 0) {
+                setWordCount(0)
+            }
+            else {
+                const words = countWords(inputContent)
+                setWordCount(words)
+            }
+        }, 200)
 
-  // empties input and output
-  const emptyTextContent = () => {
-      setInputContent('')
-      setOutputContent('')
-  }
+        setTimeoutId(id)
 
-  const handleToneChange = (item) => {
-      setTone(item)
-  }
-
-  const handleLayoutChange = (item) => {
-      setLayout(item)
-  }
-
-  const handleVideoSettingChange = (item) => {
-      setVideoSetting(item)
-  }
-
-  // for closing Dialog Box
-  const handleEmptyClose = () => {
-      setOpenEmptyInput(false)
-  }
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
+        }
+    }, [inputContent])
 
 
-  return (
+    /** every render: checks if output has text
+     *  if it does, then makes output editable
+     *  else, keeps it readOnly*/
+    // useEffect (() => {
+    //     // runs after every render
+    //     const output = document.getElementById("output");
+    //     if(outputContent !== '') {
+    //         output.readOnly = false
+    //     }
+    //     else {
+    //         output.readOnly = true
+    //     }
+
+    //     // conditions for showing the link to Url Shortener
+    //     if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
+    //         showShorten(true)
+    //     }   
+    //     else if (isClicked == 0)
+    //     {
+    //         showShorten(false)
+    //     }
+    // })
+
+
+    // empties input and output
+    const emptyTextContent = () => {
+        setInputContent('')
+        setOutputContent('')
+    }
+
+    // empties content and closes Dialog Box
+    const handleConfirm = () => {
+        emptyTextContent()
+        showShorten(false)
+        handleClose()
+    }
+
+    // functions can be changed accordingly
+    const thumbsUp = () => {
+        console.log("Output summary is good!")
+    }
+    const thumbsDown = () => {
+        console.log("Output summary is bad.")
+        setOutputContent('Bilaaaaal')
+        //alert(sliderValue)
+    }
+
+    const [isCopied, setCopy] = useState(false)
+    const copySummary = () => {
+        navigator.clipboard.writeText(outputContent)
+        setCopy(!isCopied)
+    }
+
+    const handleToneChange = (item) => {
+        setTone(item)
+    }
+
+    const handleLayoutChange = (item) => {
+        setLayout(item)
+    }
+
+    const handleVideoSettingChange = (item) => {
+        setVideoSetting(item)
+    }
+
+    const checkEmptyInput = () => {
+        //const input = document.getElementById("input");
+        if(inputContent === '') {
+            setOpenEmptyInput(true)
+        }
+        else {
+            summarizeText();
+        }
+    }
+
+    // for closing Empty Error Dialog Box
+    const handleEmptyClose = () => {
+        setOpenEmptyInput(false)
+    }
+    // closes Dialog Box
+    const handleEmptyConfirm = () => {
+        handleEmptyClose()
+    }
+
+    // for closing Error Dialog Box
+    const handleErrorClose = () => {
+        setOpenError(false)
+    }
+    // closes Dialog Box
+    const handleErrorConfirm = () => {
+        handleErrorClose()
+    }
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const textarea = document.getElementById('input');
+    //     const targetDiv = document.getElementById('btnDiv');
+
+    //     textarea.addEventListener('input', function() {
+    //         targetDiv.style.borderColor = '#87CEFA'; // Change border color when typing
+    //     });
+
+    //     textarea.addEventListener('blur', function() {
+    //         targetDiv.style.borderColor = '#ccc'; // Reset border color when textarea loses focus
+    //     });
+    // });
+
+    //--------------------------------BACKEND----------------------------------------
+    // for error handling
+    const [errorMessage, setErrorMessage] = useState('An error has occurred');
+    // for showing the error
+    const showError = (message) => {
+        setErrorMessage(message)
+        setOpenError(true)
+    }
+
+
+    // function for handling text summarization
+    const summarizeText = () => {
+        fetch('/api/summarize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: inputContent, type: isClicked }),
+        })
+        .then(response => response.json())
+        .then(data => {
+
+                setOutputContent(data.summary); // This line updates the output area
+        })
+        .catch(error => {
+            showError('An error occurred while fetching the summary.');
+        });
+    };
+
+
+    //export button handling, for downloading json file
+    const exportJSON = () => {
+        // Create a JSON object with the input and summarized text
+        const data = {
+            input: inputContent, // Assuming you have the original input stored in inputContent
+            summary: outputContent
+        };
+
+
+        // Convert the JSON object to a string
+        const jsonString = JSON.stringify(data);
+
+        // Create a Blob from the JSON string
+        const blob = new Blob([jsonString], { type: 'application/json' });
+
+        // Create a URL for the blob
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element and trigger a download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'summary.json'; // Filename for the downloaded file
+        document.body.appendChild(a); // Append the anchor to the document
+        a.click(); // Trigger the download
+        document.body.removeChild(a); // Clean up
+
+    }
+
+return (
 
     <div className="templates-wrapper">
         
         <h1>Templates</h1>
+
+        {/*------------------------- template one ------------------------------*/}
+
         <div className='template-div'>
-          <div className='temp-heading'>
-            <h3>Template 1</h3>
-            <button className='temp-delete'><MdDeleteOutline /></button>
-          </div>
-          <div class="button-container">
-              <button 
-                  className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(0)}>Text</button>
-              <button 
-                  className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(1)}>Website URL</button>
-              <button 
-                  className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(2)}>Youtube URL</button>
-          </div>
-          <div className="premium-container">
+            <div className='temp-heading'>
+                <h3>Template 1</h3>
+                <div className='save-reset-btns'>
+                    <div className="save-custom-info">
+                        <button className='summarize-btn'>
+                            <div className="summarize-overlap">
+                                <div className="summarize">Save</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div className="reset-custom-info">
+                        <button className='summarize-btn'>
+                            <div className="summarize-overlap">
+                                <div className="summarize">Reset</div>
+                            </div>
+                        </button>
+                    </div>       
+                </div>     
+            </div>
+            <div class="button-container">
+                <button 
+                    className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(0)}>Text</button>
+                <button 
+                    className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(1)}>Website URL</button>
+                <button 
+                    className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+            </div>
+            <div className="premium-container">
                 <div className="modes">
                     <div className="mode">
                         <p>Modes:</p>
@@ -203,14 +362,16 @@ const Templates = () => {
                                     <Box sx={{ width: 100 }} className="slider">
                                         <Slider
                                             aria-label="Temperature"
-                                            defaultValue={10}
+                                            value={sliderValue}
+                                            onChange={changeSliderValue}
+                                            defaultValue={value}
                                             getAriaValueText={valuetext}
                                             // valueLabelDisplay="auto"
                                             shiftStep={0}
-                                            step={10}
+                                            step={1}
                                             marks
-                                            min={10}
-                                            max={40}
+                                            min={1}
+                                            max={3}
                                             color="primary"
                                         />
                                     </Box>
@@ -259,35 +420,56 @@ const Templates = () => {
                                 <div className="end">
                                     End Time:
                                     <div className="end-time">
-                                        <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                        <NumberInputBasic/>
                                         :
-                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                        <QuantityInput/>
+                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                        :
+                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-            </div>
+                    
+            </div> 
         </div>
 
+        {/*------------------------- template two ------------------------------*/}
+
         <div className='template-div'>
-          <div className='temp-heading'>
-            <h3>Template 2</h3>
-            <button className='temp-delete'><MdDeleteOutline /></button>
-          </div>
-          <div class="button-container">
-              <button 
-                  className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(0)}>Text</button>
-              <button 
-                  className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(1)}>Website URL</button>
-              <button 
-                  className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(2)}>Youtube URL</button>
-          </div>
-          <div className="premium-container">
+            <div className='temp-heading'>
+                <h3>Template 2</h3>
+                <div className='save-reset-btns'>
+                    <div className="save-custom-info">
+                        <button className='summarize-btn'>
+                            <div className="summarize-overlap">
+                                <div className="summarize">Save</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div className="reset-custom-info">
+                        <button className='summarize-btn'>
+                            <div className="summarize-overlap">
+                                <div className="summarize">Reset</div>
+                            </div>
+                        </button>
+                    </div>       
+                </div>     
+            </div>
+            <div class="button-container">
+                <button 
+                    className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(0)}>Text</button>
+                <button 
+                    className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(1)}>Website URL</button>
+                <button 
+                    className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+            </div>
+            <div className="premium-container">
                 <div className="modes">
                     <div className="mode">
                         <p>Modes:</p>
@@ -335,14 +517,16 @@ const Templates = () => {
                                     <Box sx={{ width: 100 }} className="slider">
                                         <Slider
                                             aria-label="Temperature"
-                                            defaultValue={10}
+                                            value={sliderValue}
+                                            onChange={changeSliderValue}
+                                            defaultValue={value}
                                             getAriaValueText={valuetext}
                                             // valueLabelDisplay="auto"
                                             shiftStep={0}
-                                            step={10}
+                                            step={1}
                                             marks
-                                            min={10}
-                                            max={40}
+                                            min={1}
+                                            max={3}
                                             color="primary"
                                         />
                                     </Box>
@@ -391,35 +575,57 @@ const Templates = () => {
                                 <div className="end">
                                     End Time:
                                     <div className="end-time">
-                                        <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                        <NumberInputBasic/>
                                         :
-                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                        <QuantityInput/>
+                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                        :
+                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-            </div>
+                    
+            </div> 
         </div>
 
+        {/*------------------------- template three ------------------------------*/}
+
+
         <div className='template-div'>
-          <div className='temp-heading'>
-            <h3>Template 3</h3>
-            <button className='temp-delete'><MdDeleteOutline /></button>
-          </div>
-          <div class="button-container">
-              <button 
-                  className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(0)}>Text</button>
-              <button 
-                  className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(1)}>Website URL</button>
-              <button 
-                  className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                  onClick={() => toggleClicked(2)}>Youtube URL</button>
-          </div>
-          <div className="premium-container">
+            <div className='temp-heading'>
+                <h3>Template 3</h3>
+                <div className='save-reset-btns'>
+                    <div className="save-custom-info">
+                        <button className='summarize-btn'>
+                            <div className="summarize-overlap">
+                                <div className="summarize">Save</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div className="reset-custom-info">
+                        <button className='summarize-btn'>
+                            <div className="summarize-overlap">
+                                <div className="summarize">Reset</div>
+                            </div>
+                        </button>
+                    </div>       
+                </div>     
+            </div>
+            <div class="button-container">
+                <button 
+                    className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(0)}>Text</button>
+                <button 
+                    className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(1)}>Website URL</button>
+                <button 
+                    className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+            </div>
+            <div className="premium-container">
                 <div className="modes">
                     <div className="mode">
                         <p>Modes:</p>
@@ -467,14 +673,16 @@ const Templates = () => {
                                     <Box sx={{ width: 100 }} className="slider">
                                         <Slider
                                             aria-label="Temperature"
-                                            defaultValue={10}
+                                            value={sliderValue}
+                                            onChange={changeSliderValue}
+                                            defaultValue={value}
                                             getAriaValueText={valuetext}
                                             // valueLabelDisplay="auto"
                                             shiftStep={0}
-                                            step={10}
+                                            step={1}
                                             marks
-                                            min={10}
-                                            max={40}
+                                            min={1}
+                                            max={3}
                                             color="primary"
                                         />
                                     </Box>
@@ -523,19 +731,25 @@ const Templates = () => {
                                 <div className="end">
                                     End Time:
                                     <div className="end-time">
-                                        <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                        <NumberInputBasic/>
                                         :
-                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                        <QuantityInput/>
+                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                        :
+                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
                             </div>
                         }
                     </div>
                 </div>
-            </div>
+                    
+            </div> 
         </div>
-    
+
+
     </div>
+
 
   );
 }

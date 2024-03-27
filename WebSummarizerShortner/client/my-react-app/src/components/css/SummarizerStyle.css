@@ -311,12 +311,25 @@ h2 {
     display: flex;
     align-items: center;
     /* background-color: orange; */
-    position: relative;
+    /* position: relative; */
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.save-reset-btns{
+    display: flex;
 }
 
 .save-custom-info {
-    position: absolute;
-    right: 0;
+    /* position: absolute; */
+    /* right: 0; */
+    padding-right: 10px;
+}
+
+.reset-custom-info {
+    /* position: absolute; */
+    /* right: 10; */
+    /* left: 100; */
     padding-right: 10px;
 }
 
