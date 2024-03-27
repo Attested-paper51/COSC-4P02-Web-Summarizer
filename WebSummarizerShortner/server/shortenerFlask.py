@@ -166,7 +166,7 @@ def shorten_url():
 
 @appS.route('/<short_url>')
 def redirectToOriginal(short_url):
-    fullURL = "http://127.0.0.1:5000/"+short_url
+    fullURL = "http://127.0.0.1:5002/"+short_url
     originalURL = url_shortener.resolve_url(fullURL)
     print(originalURL)
     #Ensure the url has http in front of it.
@@ -178,7 +178,7 @@ def redirectToOriginal(short_url):
 
 
 if __name__ == "__main__":
-    appS.run(port=5000)
+    appS.run(port=5002)
     #main()
 
 

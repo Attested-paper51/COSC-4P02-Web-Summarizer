@@ -312,8 +312,9 @@ def deleteAccount():
     data = request.get_json()
     email = data.get('email')
     userMgr = Authentication()
+    userMgr.deleteTemplates(email)
     userMgr.deleteAccount(email)
-    #userMgr.deleteTemplates(email)
+    
     return jsonify({'message':'Account deleted.'})
 
 
@@ -327,8 +328,12 @@ def loginGoogle():
         dbName = userMgr.getName(email)
         return jsonify({'message':'Already registered. Logging in.'
         ,'name':dbName})
+
+    
     userMgr.loginGoogle(email,name)
-    return jsonify({'message':'Registered with Google.'})
+    userMgr.createTemplateRows(email)
+    return jsonify({'message':'Registered with Google.'
+    ,'name':name})
 
 if __name__ == '__main__':
     appA.run(port=5001)
