@@ -25,6 +25,9 @@ const Templates = () => {
 
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
+    const [isClicked2, setClickedButton2] = useState(0);
+    const [isClicked3, setClickedButton3] = useState(0);
+
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [value, setValue] = useState(null);
@@ -67,6 +70,18 @@ const Templates = () => {
 
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
+        emptyTextContent()
+        showShorten(false)
+    }
+
+    const toggleClicked2 = (buttonIndex) => {
+        setClickedButton2(buttonIndex)
+        emptyTextContent()
+        showShorten(false)
+    }
+
+    const toggleClicked3 = (buttonIndex) => {
+        setClickedButton3(buttonIndex)
         emptyTextContent()
         showShorten(false)
     }
@@ -309,6 +324,7 @@ const Templates = () => {
 
     }
 
+    //for handling saving of template 1
     const handleClickSave  = async () => {
         var formality = selectedTone;
         var structure = selectedLayout;
@@ -520,14 +536,14 @@ return (
             </div>
             <div class="button-container">
                 <button 
-                    className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                    onClick={() => toggleClicked(0)}>Text</button>
+                    className={`customSumBtn clamp-text ${isClicked2 === 0? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked2(0)}>Text</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                    onClick={() => toggleClicked(1)}>Website URL</button>
+                    className={`customSumBtn ${isClicked2 === 1? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked2(1)}>Website URL</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+                    className={`customSumBtn ${isClicked2 === 2? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked2(2)}>Youtube URL</button>
             </div>
             <div className="premium-container">
                 <div className="modes">
@@ -596,7 +612,7 @@ return (
                                 </div>
                             </div>
                         </div>
-                        { isClicked == 2 &&
+                        { isClicked2 == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
                                     buttonText={selectedVideoSetting2}
@@ -614,7 +630,7 @@ return (
                             </div>
                         }
 
-                        { isClicked ==2 && selectedVideoSetting2 == videoSetting[1] &&
+                        { isClicked2 ==2 && selectedVideoSetting2 == videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
                                     Start Time:
@@ -676,14 +692,14 @@ return (
             </div>
             <div class="button-container">
                 <button 
-                    className={`customSumBtn clamp-text ${isClicked === 0? 'clicked disabled-hover':''}`} 
-                    onClick={() => toggleClicked(0)}>Text</button>
+                    className={`customSumBtn clamp-text ${isClicked3 === 0? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked3(0)}>Text</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 1? 'clicked disabled-hover':''}`} 
-                    onClick={() => toggleClicked(1)}>Website URL</button>
+                    className={`customSumBtn ${isClicked3 === 1? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked3(1)}>Website URL</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 2? 'clicked disabled-hover':''}`} 
-                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+                    className={`customSumBtn ${isClicked3 === 2? 'clicked disabled-hover':''}`} 
+                    onClick={() => toggleClicked3(2)}>Youtube URL</button>
             </div>
             <div className="premium-container">
                 <div className="modes">
@@ -752,7 +768,7 @@ return (
                                 </div>
                             </div>
                         </div>
-                        { isClicked == 2 &&
+                        { isClicked3 == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
                                     buttonText={selectedVideoSetting3}
@@ -770,7 +786,7 @@ return (
                             </div>
                         }
 
-                        { isClicked ==2 && selectedVideoSetting3 == videoSetting[1] &&
+                        { isClicked3 ==2 && selectedVideoSetting3 == videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
                                     Start Time:
