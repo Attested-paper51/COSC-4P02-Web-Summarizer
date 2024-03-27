@@ -324,7 +324,9 @@ def loginGoogle():
     name = data.get('name')
     userMgr = Authentication()
     if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Already registered. Logging in.'})
+        dbName = userMgr.getName(email)
+        return jsonify({'message':'Already registered. Logging in.'
+        ,'name':dbName})
     userMgr.loginGoogle(email,name)
     return jsonify({'message':'Registered with Google.'})
 
