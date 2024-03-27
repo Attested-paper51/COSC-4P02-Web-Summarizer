@@ -4,14 +4,16 @@
     margin: auto;
     width: clamp(500px, 40vw, 2000px);
     padding-top: 10vh;
+    padding-bottom: 10vh;
 }
 
 .insert-url, .shorten-url {
     font-size: clamp(0.6rem, 1.4vw, 10rem);
 }
 
-.input-url, .output-url {
-    font-size: clamp(0.6rem, 0.95vw, 10rem);
+.custom-url {
+    font-size: clamp(1rem, 1.4vw, 10rem);
+    margin-bottom: 1%;
 }
 
 .url-div1, .url-div2 {
@@ -19,14 +21,28 @@
     flex-direction: row;
     height: clamp(40px, 2.5vw, 100px);
     margin-top: 1%;
-    
+}
+
+.premium-url {
+    margin-top: 7%;
+    margin-bottom: 10%;
 }
 
 .shorten, .copy-url {
-    width: clamp(100px, 10vw, 1000px);
-    border-radius: 0 10px 10px 0;
+    /* width: clamp(110px, 10vw, 1000px);  c*/
+    width: 22%;
+    border-radius: 0 0.5vw 0.5vw 0;
     border: 0;    
     background-color: #0d55a7;
+}
+
+.shorten-custom {
+    width: 18%;
+    border-radius: 0.3vw;
+    border: 0;    
+    background-color: #0d55a7;
+    padding: 0.6vw;
+    height: clamp(40px, 2.5vw, 100px);
 }
 
 .shorten-url {
@@ -34,22 +50,42 @@
 }
 
 .input-url, .output-url {
-    border-radius: 10px 0 0 10px;
+    font-size: clamp(0.6rem, 0.95vw, 10rem);
+    border-radius: 0.5vw 0 0 0.5vw;
     border: 0;
-    width: 95%;
+    width: 100%;
     padding: 0.5rem;
 }
 
-.input-url:focus, .output-url:focus {
+.shortify-url, .custom-word {
+    font-size: clamp(0.6rem, 0.95vw, 10rem);
+    border-radius: 0.5vw;
+    border: 0;
+    width: 39%;
+    padding: 0.5rem;
+    margin-right: 2%;
+    height: clamp(40px, 2.5vw, 100px);
+}
+
+.input-url:focus, .output-url:focus, .shortify-url:focus, .custom-word:focus {
     outline: none;
 }
 
-.output-url:hover {
+.output-url:hover, .shortify-url:hover {
     cursor: default;
 }
 
 .url-div1:hover, .input-url:focus {
     box-shadow: 0px 4px 15px 0px #00000033;
+}
+
+.shortify-url::-ms-input-placeholder { /* Edge 12 -18 */
+    color: black;
+}
+
+.shortify-url::placeholder {
+    color: black;
+    opacity: 1; /* Firefox */
 }
 
 .button-text {
@@ -74,7 +110,7 @@
     width: 95%;
 }
 
-.shorten:hover, .copy-url:hover, .summarize-url-content:hover {
+.shorten:hover, .copy-url:hover, .summarize-url-content:hover, .shorten-custom:hover {
     opacity: 0.8;
     cursor: pointer;
 }
@@ -100,6 +136,17 @@
     }
     .input-url, .output-url {
         font-size: clamp(0.9rem, 1vw, 10rem);
+    }
+    .shortify-url {
+        width: 100%;
+        margin-bottom: 2vw;
+    }
+    .custom-word {
+        width: 69%;
+    }
+    .shorten-custom {
+        width: 29%;
+        margin-right: 0%;
     }
 }
 

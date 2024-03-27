@@ -4,16 +4,20 @@ import Hero from '../components/Hero.js';
 import LandingPage from '../components/LandingPage.js';
 import Footer from '../components/Footer.js';
 import Reviews from '../components/Reviews.js';
+import { ThemeProvider } from '../components/ThemeContext.js';
 
 const HomePage = () => {
     return (
-        <div className='App'>
-            <Header />
-            <Hero />
-            <LandingPage />
-            <Reviews />
-            <Footer />
-        </div>
+        <ThemeProvider>
+            <div className='App'>
+                <Header />
+                <Hero />
+                <LandingPage />
+                <Reviews />
+                <Footer />
+            </div>
+        </ThemeProvider>
+        
     );
 };
 
