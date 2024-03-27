@@ -271,10 +271,10 @@ const summarizeText = () => {
             type: isClicked, 
             tone: selectedTone,
             style: selectedLayout,
-            length: valuetext,
+            length: sliderValue,
             option: selectedVideoSetting
-            startTime: NumberInputBasic.value //HH:MM
-            endTime: //HH:MM
+            //startTime: setstartTime //HH:MM
+            //endTime: setQuantity//HH:MM
         }),
     })
     .then(response => response.json())
