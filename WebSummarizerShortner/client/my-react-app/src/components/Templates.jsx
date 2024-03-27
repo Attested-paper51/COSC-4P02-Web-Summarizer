@@ -335,7 +335,7 @@ const Templates = () => {
             wordcount = 50;
         }else if (sliderValue === 2) {
             wordcount = 100;
-        }else {
+        }else if (sliderValue === 3){
             wordcount = 200;
         }
         var summ_type = "";
@@ -344,7 +344,7 @@ const Templates = () => {
             summ_type = "text";
         }else if (isClicked === 1) {
             summ_type = "website";
-        }else {
+        }else if (isClicked === 2){
             summ_type = "video";
             timestamp = "{00:05,00:15}"
         }
@@ -368,10 +368,110 @@ const Templates = () => {
 
 
 
-        }catch {
-
+        }catch (error) {
+            console.error('Error:', error.message);
         }
     }
+
+    //for handling saving of template 2
+    const handleClickSave2  = async () => {
+        var formality = selectedTone2;
+        var structure = selectedLayout2;
+        const email = localStorage.getItem('email');
+        var wordcount = 0;
+        
+        if (sliderValue2 === 1) {
+            wordcount = 50;
+        }else if (sliderValue2 === 2) {
+            wordcount = 100;
+        }else if (sliderValue2 === 3) {
+            wordcount = 200;
+        }
+        var summ_type = "";
+        var timestamp = "";
+        if (isClicked2 === 0) {
+            summ_type = "text";
+        }else if (isClicked2 === 1) {
+            summ_type = "website";
+        }else if (isClicked2 === 2) {
+            summ_type = "video";
+            timestamp = "{00:05,00:15}"
+        }
+        
+        
+        var templatename = "customTemplate2";
+
+        try {
+            const response = await fetch('http://localhost:5001/savetemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, formality, structure, 
+                wordcount, summ_type, timestamp, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
+    //for handling saving of template 3
+    const handleClickSave3  = async () => {
+        var formality = selectedTone3;
+        var structure = selectedLayout3;
+        const email = localStorage.getItem('email');
+        var wordcount = 0;
+        
+        if (sliderValue3 === 1) {
+            wordcount = 50;
+        }else if (sliderValue3 === 2) {
+            wordcount = 100;
+        }else if (sliderValue3 === 3) {
+            wordcount = 200;
+        }
+        var summ_type = "";
+        var timestamp = "";
+        if (isClicked3 === 0) {
+            summ_type = "text";
+        }else if (isClicked3 === 1) {
+            summ_type = "website";
+        }else if (isClicked3 === 2) {
+            summ_type = "video";
+            timestamp = "{00:05,00:15}"
+        }
+        
+        
+        var templatename = "customTemplate3";
+
+        try {
+            const response = await fetch('http://localhost:5001/savetemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, formality, structure, 
+                wordcount, summ_type, timestamp, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
+    
 
 return (
 
@@ -542,7 +642,7 @@ return (
                 <h3>Template 2</h3>
                 <div className='save-reset-btns'>
                     <div className="save-custom-info">
-                        <button className='summarize-btn'>
+                        <button className='summarize-btn' onClick={handleClickSave2}>
                             <div className="summarize-overlap">
                                 <div className="summarize">Save</div>
                             </div>
@@ -698,7 +798,7 @@ return (
                 <h3>Template 3</h3>
                 <div className='save-reset-btns'>
                     <div className="save-custom-info">
-                        <button className='summarize-btn'>
+                        <button className='summarize-btn' onClick={handleClickSave3}>
                             <div className="summarize-overlap">
                                 <div className="summarize">Save</div>
                             </div>
