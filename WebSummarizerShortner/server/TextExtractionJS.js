@@ -12,7 +12,6 @@ import("node-fetch").then(({ default: fetch }) => {
       'X-API-Key': 'ea8c11dc-c2ed-11ee-91a8-8a158d2e50cc'
     }
   };
-
   fetch('https://cosc.brocku.ca/~bockusd/3p94/seminartopic2.html', options)
     .then(response => response.text()) // Fetch the page content as plain text
     .then(html => {
