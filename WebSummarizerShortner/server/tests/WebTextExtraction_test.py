@@ -1,7 +1,6 @@
 import pytest
 from WebTextExtraction import app
 import time
-#import WebTextExtraction
 from unittest.mock import patch, MagicMock
 
 @pytest.fixture
@@ -37,7 +36,6 @@ def test_extract_text_from_url_with_error(client, mock_selenium, mock_bs4):
 
 def test_extract_text_from_invalid_url(client, mock_selenium, mock_bs4):
     invalid_url = 'http://www.invalid.com/'
-    #invalid_url = 'https://thisisnotavalidurl'
     mock_selenium.get.side_effect = Exception("Invalid URL")
     response = client.post('/get-text', json={'url': invalid_url})
     assert response.status_code == 400
