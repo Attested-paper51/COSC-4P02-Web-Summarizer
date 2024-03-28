@@ -240,6 +240,12 @@ a {
 .ota-dark{
   border-left: solid 2px var(--clr-dark2);
 }
+.ddi-light:hover{
+  background-color: var(--clr-accent2);
+}
+.ddi-dark:hover{
+  background-color: var(--clr-accent3);
+}
 
 @media (max-width: 935px) {
   .ota-light{

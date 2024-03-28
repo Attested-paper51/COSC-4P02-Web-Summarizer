@@ -432,9 +432,9 @@ const Summarizer = () => {
                                                             name="startM" 
                                                             placeholder='Minutes'>
                                                         </textarea> */}
-                                                        <NumberInputBasic/>
+                                                        <NumberInputBasic darkMode={darkMode}/>
                                                         :
-                                                        <QuantityInput/>
+                                                        <QuantityInput darkMode={darkMode}/>
                                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
@@ -442,9 +442,9 @@ const Summarizer = () => {
                                                     <div className="end">
                                                         End Time:
                                                         <div className="end-time">
-                                                            <NumberInputBasic/>
+                                                            <NumberInputBasic darkMode={darkMode}/>
                                                             :
-                                                            <QuantityInput/>
+                                                            <QuantityInput darkMode={darkMode}/>
                                                             {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                                             :
                                                             <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -456,8 +456,8 @@ const Summarizer = () => {
                                     </div>
                                     <div className="save-custom-info">
                                         <button className='summarize-btn'>
-                                            <div className="summarize-overlap">
-                                                <div className="summarize">Save settings as a template</div>
+                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
                                             </div>
                                         </button>
                                     </div>
@@ -498,7 +498,7 @@ const Summarizer = () => {
 
                                     { inputContent &&
                                         (<Tooltip title="Delete" arrow>
-                                            <button className='delete-button' 
+                                            <button className={`delete-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                                 onClick={handleOpen}><FaRegTrashCan size={18} />
                                             </button>
                                         </Tooltip>)
@@ -522,14 +522,14 @@ const Summarizer = () => {
                                         { wordCount > 125? 
                                             <Tooltip title="Over the word limit" arrow>
                                                 <button className='summarize-btn button-disabled' disabled>
-                                                    <div className="summarize-overlap">
-                                                        <div className="summarize">Summarize</div>
+                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                        <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Summarize</div>
                                                     </div>
                                                 </button>
                                             </Tooltip> :
                                             <button className='summarize-btn' onClick={checkEmptyInput}>
-                                                <div className="summarize-overlap">
-                                                    <div className="summarize">Summarize</div>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Summarize</div>
                                                 </div>
                                             </button>
                                         }
@@ -552,31 +552,31 @@ const Summarizer = () => {
                                     <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="feedback-buttons">
                                             <Tooltip title="Like" arrow>
-                                                <button className='feedback-up' onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19}/></button>
                                             </Tooltip>
                                             <Tooltip title="Dislike" arrow>
-                                                <button className='feedback-down' onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19}/></button>
                                             </Tooltip>
                                         </div>
 
                                         <div className="export-button">
                                             <Tooltip title="Export" arrow>
-                                            <button className='feedback-up' onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                            <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
                                             </Tooltip>
                                         </div>
                                         
                                         { shorten &&
                                             <Link to = "/Shortener">
                                                 <button className="summarize-btn">
-                                                    <div className="summarize-overlap">
-                                                        <div className="summarize">Shorten your URL</div>
+                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                        <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
                                                     </div>
                                                 </button>
                                             </Link>
                                         }
                                     </div>
                                     <Tooltip title="Copy" arrow>
-                                        <button className='copy-button' onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                                        <button className={`copy-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
                                     </Tooltip>
                                     
                                 </div>
