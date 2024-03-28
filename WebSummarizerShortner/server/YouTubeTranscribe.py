@@ -117,6 +117,9 @@ def trim_audio(input_file, start_time, end_time, output_file):
 
 def caption(video_url, transcribe_option, start_time_str, end_time_str):
 
+
+def caption(video_url, transcribe_option, start_time_str, end_time_str):
+
     video_id_match = re.search(r'v=([0-9A-Za-z_-]{11})', video_url)
     
     final_transcript = None  # Initialize the variable to store the final transcript
@@ -125,6 +128,7 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
         video_id = video_id_match.group(1)
         video_duration = get_video_duration(video_id)  # Fetch video duration for validation
         
+        
         start_seconds = None
         end_seconds = None
 
@@ -132,6 +136,7 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
             try:
                 start_seconds = convert_time_to_seconds(start_time_str)
                 end_seconds = convert_time_to_seconds(end_time_str)
+
 
                 validate_time_within_duration(start_seconds, end_seconds, video_duration)
             except ValueError as e:
@@ -173,6 +178,9 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
                 return True, "Failed to upload audio to S3."
             
 
+        # Clean up original downloaded audio if it exists and is different from the file uploaded
+        if original_audio_file and file_to_upload != original_audio_file:
+            os.remove(original_audio_file)
         # Clean up original downloaded audio if it exists and is different from the file uploaded
         if original_audio_file and file_to_upload != original_audio_file:
             os.remove(original_audio_file)
