@@ -26,7 +26,7 @@ def summarize_text():
 }
     length = length_mapping[length]
 
-    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like: Reference:\n [citation]"
+    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n [citation]"
 
     print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\n cite: {cite}")
 
