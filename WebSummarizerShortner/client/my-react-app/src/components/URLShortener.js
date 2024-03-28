@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import "./css/URLShortenerStyle.css";
 import { Link } from 'react-router-dom';
-
+import { useTheme } from './ThemeContext.js'
 
 const URLShortener = () => {
 
+    const { darkMode } = useTheme();
     const [isPremium, setPremium] = useState(true);
     const [username, setUsername] = useState('testusername');
 
@@ -54,83 +55,85 @@ const URLShortener = () => {
     const [summarize, showSummarize] = useState(false);
 
     return (
-        <div className='url'>
+        <div className={`url ${darkMode ? 'url-dark' : 'url-light'}`}>
             {/* <h1>Shorten a URL</h1>*/}
-            <h3 className='insert-url'>Insert URL to be shortened</h3> 
-            <div className='url-div1'>
-                <input className='input-url'
-                    type="text" 
-                    required
-                    value={URL}
-                    onChange={(e) => setURL(e.target.value)}
-                    placeholder='Enter URL here' 
-                />
-                { !isPremium &&
-                <button 
-                    className='shorten' 
-                    onClick={()=> { handleSubmit(); showSummarize(true); }} >
-                    <div className='button-text'>Shorten URL</div>
-                </button>
-                }
-            </div>
-            { isPremium &&
-                <div className='premium-url'>
-                    <h3 className='custom-url'>Customize your link</h3> 
-                    <div className='custom-div'>
-                        <input className='shortify-url'
-                            type="text" 
-                            required
-                            onChange={(e) => setURL(e.target.value)}
-                            placeholder={`shortify.com/${username}`}
-                            readOnly
-                        />
-                        {/* <div className='custom-div1'> */}
-                            <input className='custom-word'
-                                type="text" 
-                                required
-                                value={customWord}
-                                onChange={(e) => setCustomWord(e.target.value)}
-                                placeholder='Enter custom word' 
-                            />
-                            <button 
-                                className='shorten-custom' 
-                                onClick={()=> { handleSubmit(); showSummarize(true); }} >
-                                <div className='button-text'>Shorten URL</div>
-                            </button>
-                        {/* </div> */}
-                    </div>
-                </div>
-            }   
-            <div className='url-shorten-container'>
-                <h3 className='shorten-url'>Shortened URL</h3> 
-                <div className='url-div2'>
-                    <input className='output-url' 
+            <div className='url-wrapper'>
+                <h3 className='insert-url'>Insert URL to be shortened</h3> 
+                <div className='url-div1'>
+                    <input className={`input-url ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                         type="text" 
                         required
-                        value={shortened}
-                        onChange={(e) => setShortURL(e.target.value)}
-                        placeholder='Get Shortened URL' 
-                        readOnly
+                        value={URL}
+                        onChange={(e) => setURL(e.target.value)}
+                        placeholder='Enter URL here' 
                     />
+                    { !isPremium &&
                     <button 
-                        className='copy-url' 
-                        onClick={handleCopy}>
-                        <div className='button-text'>{CopyURL}</div>
+                        className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`}  
+                        onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                        <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                     </button>
+                    }
                 </div>
-            </div>
-              
-            { summarize &&
-                <Link to = "/Summarizer">
-                    <div className='url-div3'>
-                        <button 
-                            className='summarize-url-content'>
-                            <div className='button-text'>Summarize the URL content</div>
-                        </button> 
+                { isPremium &&
+                    <div className='premium-url'>
+                        <h3 className='custom-url'>Customize your link</h3> 
+                        <div className='custom-div'>
+                            <input className={`shortify-url ${darkMode ? 'su-dark' : 'su-light'}`}
+                                type="text" 
+                                required
+                                onChange={(e) => setURL(e.target.value)}
+                                placeholder={`shortify.com/${username}`}
+                                readOnly
+                            />
+                            {/* <div className='custom-div1'> */}
+                                <input className={`custom-word ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
+                                    type="text" 
+                                    required
+                                    value={customWord}
+                                    onChange={(e) => setCustomWord(e.target.value)}
+                                    placeholder='Enter custom word' 
+                                />
+                                <button 
+                                    className={`shorten-custom ${darkMode ? 'btn-dark' : 'btn-light'}`} 
+                                    onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                                    <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
+                                </button>
+                            {/* </div> */}
+                        </div>
                     </div>
-                </Link>
-            }
+                }   
+                <div className='url-shorten-container'>
+                    <h3 className='shorten-url'>Shortened URL</h3> 
+                    <div className='url-div2'>
+                        <input className={`output-url ${darkMode ? 'input-url-dark' : 'input-url-light'}`} 
+                            type="text" 
+                            required
+                            value={shortened}
+                            onChange={(e) => setShortURL(e.target.value)}
+                            placeholder='Get Shortened URL' 
+                            readOnly
+                        />
+                        <button 
+                            className={`copy-url ${darkMode ? 'btn-dark' : 'btn-light'}`} 
+                            onClick={handleCopy}>
+                            <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`} >{CopyURL}</div>
+                        </button>
+                    </div>
+                </div>
+                
+                { summarize &&
+                    <Link to = "/Summarizer">
+                        <div className='url-div3'>
+                            <button 
+                                className={`summarize-url-content ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Summarize the URL content</div>
+                            </button> 
+                        </div>
+                    </Link>
+                }
 
+            </div>
         </div> 
     );
   

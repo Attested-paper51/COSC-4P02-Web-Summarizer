@@ -1,10 +1,16 @@
-.url {
-    text-align: center;
+.url{
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    /* align-content: center; */
+    /* margin: 0 auto; */
+    padding: 15vh 4vh 15vh;
+    text-align: center;
+}
+
+.url-wrapper {
     margin: auto;
     width: clamp(500px, 40vw, 2000px);
-    padding-top: 10vh;
-    padding-bottom: 10vh;
 }
 
 .insert-url, .shorten-url {
@@ -33,14 +39,14 @@
     width: 22%;
     border-radius: 0 0.5vw 0.5vw 0;
     border: 0;    
-    background-color: #0d55a7;
+    /* background-color: #0d55a7; */
 }
 
 .shorten-custom {
     width: 18%;
     border-radius: 0.3vw;
     border: 0;    
-    background-color: #0d55a7;
+    /* background-color: #0d55a7; */
     padding: 0.6vw;
     height: clamp(40px, 2.5vw, 100px);
 }
@@ -49,7 +55,15 @@
     margin-top: 5vh;
 }
 
-.input-url, .output-url {
+.input-url {
+    font-size: clamp(0.6rem, 0.95vw, 10rem);
+    border-radius: 0.5vw;
+    border: 0;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.output-url{
     font-size: clamp(0.6rem, 0.95vw, 10rem);
     border-radius: 0.5vw 0 0 0.5vw;
     border: 0;
@@ -80,16 +94,16 @@
 }
 
 .shortify-url::-ms-input-placeholder { /* Edge 12 -18 */
-    color: black;
+    /* color: black; */
 }
 
 .shortify-url::placeholder {
-    color: black;
+    /* color: black; */
     opacity: 1; /* Firefox */
 }
 
 .button-text {
-    color: #ffffff;
+    /* color: #ffffff; */
     font-size: clamp(0.5rem, 1.0vw, 10rem);
     font-weight: 600;
     text-wrap: nowrap;
@@ -105,7 +119,7 @@
     border-radius: 0;
     border: 0; 
     border-radius: 9px;   
-    background-color: #0d55a7;
+    /* background-color: #0d55a7; */
     box-shadow: 0px 6px 15px 0px #00000033;
     width: 95%;
 }
@@ -125,7 +139,7 @@
 }
 
 @media (max-width: 600px) {
-    .url {
+    .url-wrapper {
         width: clamp(300px, 45vw, 2000px);
     }
     .shorten, .copy-url {
@@ -151,7 +165,7 @@
 }
 
 @media (max-width: 350px) {
-    .url {
+    .url-wrapper {
         width: clamp(270px, 45vw, 2000px);
     }
     .shorten, .copy-url {

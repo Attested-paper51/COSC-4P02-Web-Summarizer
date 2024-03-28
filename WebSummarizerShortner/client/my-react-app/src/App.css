@@ -257,6 +257,37 @@ a {
     border-top: solid 2px var(--clr-dark2);
   }
 }
+
+/* Shortener */
+.url-light{
+  background-color: var(--clr-light2);
+  color: var(--clr-accent3);
+}
+.url-dark{
+  background-color: var(--clr-dark2);
+  color: var(--clr-light2);
+}
+.input-url-light, .su-light{
+  background-color: var(--clr-accent2);
+}
+.input-url-dark, .su-dark{
+  background-color: var(--clr-accent3);
+}
+.input-url-light::placeholder{
+  color: grey;
+}
+.input-url-dark::placeholder{
+  color: rgb(182, 182, 182);
+}
+.su-light::placeholder{
+  color: black;
+}
+.su-dark::placeholder{
+  color: white;
+}
+
+
+
 /* .App {
   text-align: center;
 }
