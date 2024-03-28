@@ -114,10 +114,6 @@ def trim_audio(input_file, start_time, end_time, output_file):
     end_time_str = str(datetime.timedelta(seconds=end_time))
     subprocess.call(['ffmpeg', '-i', input_file, '-ss', start_time_str, '-to', end_time_str, '-acodec', 'copy', output_file])
 
-
-def caption(video_url, transcribe_option, start_time_str, end_time_str):
-
-
 def caption(video_url, transcribe_option, start_time_str, end_time_str):
 
     video_id_match = re.search(r'v=([0-9A-Za-z_-]{11})', video_url)

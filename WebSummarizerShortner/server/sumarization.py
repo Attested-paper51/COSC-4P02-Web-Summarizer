@@ -1,8 +1,8 @@
 from openai import OpenAI
+from dotenv import load_dotenv
 import os
 import textExtraction
 import YouTubeTranscribe as ytExtract
-from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
@@ -14,7 +14,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def summarize(text, tone, style, length):
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
             model="gpt-3.5-turbo-0125",
             messages=[
                 {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text with a {tone} tone in {style} form. give me a {length} summary"},
