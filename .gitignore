@@ -1,1 +1,6 @@
 .env
+
+WebSummarizerShortner/server/venv/
+
+node_modules
+

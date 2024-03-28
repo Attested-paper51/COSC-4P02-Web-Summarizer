@@ -16,8 +16,8 @@ def extract_text_from_url(url):
         browser.quit()
         soup = BeautifulSoup(page_source, 'html.parser')
         readable_text = soup.get_text(separator=' ', strip=True)
-        return readable_text
+        return False, readable_text
     except Exception as e:
         logging.error(f"Error: {e}")
-        return "error"
+        return True, str(e)
 

@@ -114,8 +114,9 @@ def trim_audio(input_file, start_time, end_time, output_file):
     end_time_str = str(datetime.timedelta(seconds=end_time))
     subprocess.call(['ffmpeg', '-i', input_file, '-ss', start_time_str, '-to', end_time_str, '-acodec', 'copy', output_file])
 
-if __name__ == "__main__":
-    video_url = input("Enter YouTube video URL: ")
+
+def caption(video_url, transcribe_option, start_time_str, end_time_str):
+
     video_id_match = re.search(r'v=([0-9A-Za-z_-]{11})', video_url)
     
     final_transcript = None  # Initialize the variable to store the final transcript
@@ -124,32 +125,30 @@ if __name__ == "__main__":
         video_id = video_id_match.group(1)
         video_duration = get_video_duration(video_id)  # Fetch video duration for validation
         
-        transcribe_option = input("Do you want to transcribe the full video or a specific part? Enter 'full' or 'part': ").strip().lower()
-
         start_seconds = None
         end_seconds = None
 
-        if transcribe_option == 'part':
+        if transcribe_option == 'Timestamp':
             try:
-                start_time_str = input("Enter the start time of the part to transcribe (in HH:MM): ").strip()
-                end_time_str = input("Enter the end time of the part to transcribe (in HH:MM): ").strip()
                 start_seconds = convert_time_to_seconds(start_time_str)
                 end_seconds = convert_time_to_seconds(end_time_str)
+
                 validate_time_within_duration(start_seconds, end_seconds, video_duration)
             except ValueError as e:
-                print(f"Error: {e}")
-                exit()
+                return True, str(e)
 
         original_audio_file = None  # Initialize the variable to store the downloaded audio file
 
         # Attempt to fetch an existing transcript, fallback to audio download if necessary
         try:
-            if transcribe_option == 'full':
+            if transcribe_option == 'Full Video':
                 transcript = YouTubeTranscriptApi.get_transcript(video_id)
                 final_transcript = " ".join(segment['text'] for segment in transcript)
-            elif transcribe_option == 'part':
+                return False, final_transcript
+            elif transcribe_option == 'Timestamp':
                 transcript = YouTubeTranscriptApi.get_transcript(video_id)
                 final_transcript = " ".join(segment['text'] for segment in transcript if start_seconds <= segment['start'] <= end_seconds)
+                return False, final_transcript
         except Exception as e:
             print(f"Captions not available or failed to fetch due to {e}, downloading audio...")
             original_audio_file = download_audio(video_url)
@@ -157,7 +156,7 @@ if __name__ == "__main__":
         if original_audio_file:
             file_to_upload = None
 
-            if transcribe_option == 'part' and start_seconds is not None and end_seconds is not None:
+            if transcribe_option == 'Timestamp' and start_seconds is not None and end_seconds is not None:
                 trimmed_audio_file = f"trimmed_{original_audio_file}"
                 trim_audio(original_audio_file, start_seconds, end_seconds, trimmed_audio_file)
                 file_to_upload = trimmed_audio_file
@@ -169,14 +168,16 @@ if __name__ == "__main__":
                 if final_transcript is None:
                     print("Transcription failed.")
                 os.remove(file_to_upload)  # Clean up the uploaded file
+                return False, final_transcript
             else:
-                print("Failed to upload audio to S3.")
+                return True, "Failed to upload audio to S3."
+            
 
-            # Clean up original downloaded audio if it exists and is different from the file uploaded
-            if original_audio_file and file_to_upload != original_audio_file:
-                os.remove(original_audio_file)
+        # Clean up original downloaded audio if it exists and is different from the file uploaded
+        if original_audio_file and file_to_upload != original_audio_file:
+            os.remove(original_audio_file)
     else:
-        print("Invalid YouTube URL")
+        return True, "Invalid YouTube URL"
     
     # At this point, `final_transcript` will either contain the transcript text, or None if transcription failed.
     # This is where you would typically pass `final_transcript` to the next part of your processing pipeline.
