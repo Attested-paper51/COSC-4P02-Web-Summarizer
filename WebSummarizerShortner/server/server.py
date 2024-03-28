@@ -30,7 +30,6 @@ def summarize_text():
 
     # for Text
     elif type == 0:
-    elif type == 0:
         print("User pasted text:", input_text)
 
         error, result =  sum.summarize(input_text, tone, style, length)
@@ -41,7 +40,6 @@ def summarize_text():
             return jsonify({'summary': result})
     
     # for a url
-    elif type == 1:
     elif type == 1:
         print("User given URL", input_text)
 
