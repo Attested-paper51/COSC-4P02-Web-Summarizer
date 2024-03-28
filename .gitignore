@@ -1,6 +1,3 @@
 .env
 
-WebSummarizerShortner/server/venv/
-
-node_modules
-
+/node_modules
