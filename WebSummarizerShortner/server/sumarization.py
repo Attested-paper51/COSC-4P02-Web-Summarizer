@@ -1,7 +1,7 @@
 from openai import OpenAI
 import os
 import textExtraction
-import youtubeSummarization as ytExtract
+import YouTubeTranscribe as ytExtract
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -10,32 +10,41 @@ load_dotenv()
 # Initialize OpenAI client with API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def summarize(text, extra, words=100):
+# Summarizes text content with openai
+def summarize(text, tone, style, length):
     try:
         response = client.chat.completions.create(
-            model="gpt-4-0125-preview",
+            model="gpt-3.5-turbo-0125",
             messages=[
-                {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text in {words} words or less, {extra}"},
-                {"role": "user", "content": f"\n'{text}'"}
+                {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text with a {tone} tone in {style} form. give me a {length} summary"},
+                {"role": "user", "content": text}
             ]
         )
         summary = response.choices[0].message.content
-        return {'summary': summary, 'error': None}
+        return False, summary
     except Exception as e:
-        return {'summary': None, 'error': f"Error occurred in summarize: {str(e)}"}
+        return True, f"Error occurred in summarize: {str(e)}"
 
-def processYouTubeURL(url, on, startM, startS, endM, endS, extra):
-    try:
-        extractedText = ytExtract.timeStampCaptions(on, url, startM, startS, endM, endS)
-        extra = " Youtube Video" + extra
-        return summarize(extractedText, extra)
-    except Exception as e:
-        return {'summary': None, 'error': f"Error in processing YouTube URL: {str(e)}"}
+# Extract text content from youtube url to then pass to openai to summarize
+def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
 
-def processURL(url, extra):
-    try:
-        extractedText = textExtraction.extract_text_from_url(url)
-        extra = " webpage" + extra
-        return summarize(extractedText, extra)
-    except Exception as e:
-        return {'summary': None, 'error': f"Error in processing URL: {str(e)}"}
+    error, result = ytExtract.caption(url, option, startTime, endTime)
+
+    if error:
+        return error, "error processing Youtube URL: " + result
+    else:
+        extractedText = f"YouTube video({url}): " + result
+        return summarize(extractedText, tone, style, length)
+ 
+
+# extract text content from websites to then pass to openai for summary
+def processURL(url, tone, style, length):
+
+    error, result = textExtraction.extract_text_from_url(url)
+
+    if error:
+        return error, "error processing URL: " + result
+    else:
+        extractedText = f"Webpage ({url}): " + result
+        return summarize(extractedText, tone, style, length)
+

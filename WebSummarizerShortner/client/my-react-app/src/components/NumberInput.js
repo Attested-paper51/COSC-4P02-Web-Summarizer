@@ -28,23 +28,24 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
   );
 });
 
-export default function NumberInputBasic() {
-  const [value, setValue] = React.useState(null);
+// Modified NumberInputBasic to accept props
+export default function NumberInputBasic({ value, setValue }) {
   return (
     <NumberInput
       aria-label="Demo number input"
-      placeholder="Type a number…"
+      placeholder="HH"
       value={value}
       onChange={(event, val) => setValue(val)}
     />
-    );
+  );
 }
+
 
 export function QuantityInput() {
     const formatNumber = (num) => {
         return num.toString().padStart(2, '0');
     };
-    return <NumberInput aria-label="Quantity Input" min={0} max={59} formatValue={formatNumber} />;
+    return <NumberInput aria-label="Quantity Input" placeholder="MM" min={0} max={59} formatValue={formatNumber} />;
 }
 
 const blue = {

@@ -25,8 +25,11 @@ import NumberInputBasic, {QuantityInput} from "./NumberInput.js";
 const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
+
     const [open, setOpen] = useState(false);
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    const [openError, setOpenError] = useState(false);
+
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
@@ -44,8 +47,14 @@ const Summarizer = () => {
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
 
-    function valuetext(value) {
-        return `${value}°C`;
+    const [sliderValue, setSliderValue] = useState(1);
+
+    const valuetext = (value) => {
+        return `${value}`;
+    }
+
+    const changeSliderValue = (event) => {
+        setSliderValue(event.target.value)
     }
 
     const toggleClicked = (buttonIndex) => {
@@ -178,6 +187,7 @@ const Summarizer = () => {
     const thumbsDown = () => {
         console.log("Output summary is bad.")
         setOutputContent('Bilaaaaal')
+        //alert(sliderValue)
     }
 
     const [isCopied, setCopy] = useState(false)
@@ -203,15 +213,27 @@ const Summarizer = () => {
         if(inputContent === '') {
             setOpenEmptyInput(true)
         }
+        else {
+            summarizeText();
+        }
     }
 
-    // for closing Dialog Box
+    // for closing Empty Error Dialog Box
     const handleEmptyClose = () => {
         setOpenEmptyInput(false)
     }
-    // empties content and closes Dialog Box
+    // closes Dialog Box
     const handleEmptyConfirm = () => {
         handleEmptyClose()
+    }
+
+    // for closing Error Dialog Box
+    const handleErrorClose = () => {
+        setOpenError(false)
+    }
+    // closes Dialog Box
+    const handleErrorConfirm = () => {
+        handleErrorClose()
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -227,15 +249,14 @@ const Summarizer = () => {
     //     });
     // });
 
-
-// for error handling
-const [errorMessage, setErrorMessage] = useState('');
-
-// for showing the error
-const showError = (message) => {
-    setErrorMessage(message);
-    handleOpen();
-};
+    //--------------------------------BACKEND----------------------------------------
+    // for error handling
+    const [errorMessage, setErrorMessage] = useState('An error has occurred');
+    // for showing the error
+    const showError = (message) => {
+        setErrorMessage(message)
+        setOpenError(true)
+    }
 
 
 // function for handling text summarization
@@ -245,46 +266,64 @@ const summarizeText = () => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: inputContent, type: isClicked }),
+        body: JSON.stringify({ 
+            text: inputContent, 
+            type: isClicked, 
+            tone: selectedTone,
+            style: selectedLayout,
+            length: sliderValue,
+            option: selectedVideoSetting,
+            //startTime: startTime,
+            //endTime: quantity,
+        }),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-
-            setOutputContent(data.summary); // This line updates the output area
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        setOutputContent(data.summary); // This line updates the output area
     })
     .catch(error => {
-        showError('An error occurred while fetching the summary.');
+        setErrorMessage(error.message || 'An error occurred while fetching the summary.');
+        setOpenError(true);
     });
 };
 
 
-//export button handling, for downloading json file
-const exportJSON = () => {
-// Create a JSON object with the input and summarized text
-const data = {
-    input: inputContent, // Assuming you have the original input stored in inputContent
-    summary: outputContent
-};
+
+    //export button handling, for downloading json file
+    const exportJSON = () => {
+        // Create a JSON object with the input and summarized text
+        const data = {
+            input: inputContent, // Assuming you have the original input stored in inputContent
+            summary: outputContent
+        };
 
 
-// Convert the JSON object to a string
-const jsonString = JSON.stringify(data);
+        // Convert the JSON object to a string
+        const jsonString = JSON.stringify(data);
 
-// Create a Blob from the JSON string
-const blob = new Blob([jsonString], { type: 'application/json' });
+        // Create a Blob from the JSON string
+        const blob = new Blob([jsonString], { type: 'application/json' });
 
-// Create a URL for the blob
-const url = URL.createObjectURL(blob);
+        // Create a URL for the blob
+        const url = URL.createObjectURL(blob);
 
-// Create a temporary anchor element and trigger a download
-const a = document.createElement('a');
-a.href = url;
-a.download = 'summary.json'; // Filename for the downloaded file
-document.body.appendChild(a); // Append the anchor to the document
-a.click(); // Trigger the download
-document.body.removeChild(a); // Clean up
+        // Create a temporary anchor element and trigger a download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'summary.json'; // Filename for the downloaded file
+        document.body.appendChild(a); // Append the anchor to the document
+        a.click(); // Trigger the download
+        document.body.removeChild(a); // Clean up
 
-}
+    }
 
     
 
@@ -356,14 +395,16 @@ document.body.removeChild(a); // Clean up
                                             <Box sx={{ width: 100 }} className="slider">
                                                 <Slider
                                                     aria-label="Temperature"
-                                                    defaultValue={10}
+                                                    value={sliderValue}
+                                                    onChange={changeSliderValue}
+                                                    defaultValue={value}
                                                     getAriaValueText={valuetext}
                                                     // valueLabelDisplay="auto"
                                                     shiftStep={0}
-                                                    step={10}
+                                                    step={1}
                                                     marks
-                                                    min={10}
-                                                    max={40}
+                                                    min={1}
+                                                    max={3}
                                                     color="primary"
                                                 />
                                             </Box>
@@ -409,59 +450,62 @@ document.body.removeChild(a); // Clean up
                                             </div>
                                         </div>
 
-                                        <div className="end">
-                                            End Time:
-                                            <div className="end-time">
-                                                <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                                :
-                                                <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea>
+                                            <div className="end">
+                                                End Time:
+                                                <div className="end-time">
+                                                    <NumberInputBasic/>
+                                                    :
+                                                    <QuantityInput/>
+                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                </div>
                                             </div>
                                         </div>
+                                    }
+                                </div>
+                            </div>
+                            <div className="save-custom-info">
+                                <button className='summarize-btn'>
+                                    <div className="summarize-overlap">
+                                        <div className="summarize">Save settings as a template</div>
                                     </div>
-                                }
+                                </button>
                             </div>
                         </div>
-                        <div className="save-custom-info">
-                            <button className='summarize-btn'>
-                                <div className="summarize-overlap">
-                                    <div className="summarize">Save Features</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                    {/* </div>)} */}
-                    <div className="text">
-                        <div className="inputArea">
-                            { isClicked == 0 &&
-                                <textarea
-                                    className="text-area"
-                                    id='inputText' 
-                                    placeholder='Enter or paste your text and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
-                            { isClicked == 1 &&
-                                <textarea
-                                    className="text-area"
-                                    id='inputURL' 
-                                    placeholder='Enter or paste your URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
-                            { isClicked == 2 &&
-                                <textarea
-                                    className="text-area"
-                                    id='inputYTURL' 
-                                    placeholder='Enter or paste your Youtube URL and click "Summarize."' 
-                                    value={inputContent} 
-                                    onChange={handleInputChange} 
-                                    required>    
-                                </textarea>
-                            }
+                        {/* </div>)} */}
+                        <div className="text">
+                            <div className="inputArea">
+                                { isClicked == 0 &&
+                                    <textarea
+                                        className="text-area"
+                                        id='inputText' 
+                                        placeholder='Enter or paste your text and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+                                { isClicked == 1 &&
+                                    <textarea
+                                        className="text-area"
+                                        id='inputURL' 
+                                        placeholder='Enter or paste your URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
+                                { isClicked == 2 &&
+                                    <textarea
+                                        className="text-area"
+                                        id='inputYTURL' 
+                                        placeholder='Enter or paste your Youtube URL and click "Summarize."' 
+                                        value={inputContent} 
+                                        onChange={handleInputChange} 
+                                        required>    
+                                    </textarea>
+                                }
 
                             { inputContent &&
                                 (<Tooltip title="Delete" arrow>
@@ -479,7 +523,10 @@ document.body.removeChild(a); // Clean up
                                         <div className="get-premium">
                                             <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
                                             <div>{wordCount}/125 Words</div>    
-                                        </div> : null
+                                        </div> : 
+                                        (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                            <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                        </Tooltip>)
                                     }
                                 </div>
 
@@ -491,7 +538,7 @@ document.body.removeChild(a); // Clean up
                                             </div>
                                         </button>
                                     </Tooltip> :
-                                    <button className='summarize-btn' onClick={summarizeText}>
+                                    <button className='summarize-btn' onClick={checkEmptyInput}>
                                         <div className="summarize-overlap">
                                             <div className="summarize">Summarize</div>
                                         </div>
@@ -553,6 +600,7 @@ document.body.removeChild(a); // Clean up
         onClose={handleClose}
         title={"Delete Text"}
         content={"You're about to delete the Original and Summarized text."}
+        showCancelButton={true}
         confirmText={"Continue"}
         onConfirm={handleConfirm}
         />
@@ -561,8 +609,18 @@ document.body.removeChild(a); // Clean up
         onClose={handleEmptyClose}
         title={"Error"}
         content={"Please enter some text to summarize."}
+        showCancelButton={false}
         confirmText={"Continue"}
         onConfirm={handleEmptyConfirm}
+        />
+        <DialogBox 
+        open={openError} 
+        onClose={handleErrorClose}
+        title={"Error"}
+        content={errorMessage}
+        showCancelButton={false}
+        confirmText={"Continue"}
+        onConfirm={handleErrorConfirm}
         />
     </div>
 );
