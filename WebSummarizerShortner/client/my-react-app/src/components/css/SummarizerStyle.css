@@ -376,6 +376,11 @@ h2 {
     -webkit-text-stroke: 0.3px;
 }
 
+.clicked-light {
+    box-shadow: 0px 4px 15px 0px #00000033;
+    -webkit-text-stroke: 0.3px;
+}
+
 /* .disabled-hover:hover {
     background-color: white !important;
 } */
