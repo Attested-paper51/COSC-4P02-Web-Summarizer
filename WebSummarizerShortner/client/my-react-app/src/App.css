@@ -269,9 +269,13 @@ a {
 }
 .input-url-light, .su-light{
   background-color: var(--clr-accent2);
+  border: 1px solid var(--clr-shadow-light);
+  color: black;
 }
 .input-url-dark, .su-dark{
   background-color: var(--clr-accent3);
+  border: 1px solid var(--clr-shadow-dark2);
+  color: white;
 }
 .input-url-light::placeholder{
   color: grey;
@@ -284,6 +288,24 @@ a {
 }
 .su-dark::placeholder{
   color: white;
+}
+
+/* Login */
+.login-light{
+  background-color: var(--clr-light2);
+  color: var(--clr-accent3);
+}
+.login-dark{
+  background-color: var(--clr-dark2);
+  color: var(--clr-light2);
+}
+.form-light{
+  background-color: var(--clr-accent2);
+  border: 0.1vw solid var(--clr-accent3);
+}
+.form-dark{
+  background-color: var(--clr-dark1);
+  border: 0.1vw solid var(--clr-accent4);
 }
 
 

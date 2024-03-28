@@ -5,12 +5,14 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
 //import { GoogleLogin } from 'react-google-login';
-import {jwtDecode} from 'jwt-decode';
-import {useEffect} from 'react';
-
+import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
+import { useTheme } from './ThemeContext.js'
 
 const LogIn = () => {
 
+  const { darkMode } = useTheme();
+  
   const clientId = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
   
   const [email, setEmail] = useState('');
@@ -141,16 +143,16 @@ const LogIn = () => {
 
   return (
     
-    <div className="login-box">
-      <div className="form">
+    <div className={`login-box ${darkMode ? 'login-dark' : 'login-light'}`}>
+      <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className="form-title">Log in</div>
         <div id="gmail-login"></div>
         { /*<button className="gmail-btn">
-          <div className="gmail-overlap">
-            <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
-            <div className="login-social">Continue with Gmail</div>
-          </div>
-  </button> */}
+            <div className="gmail-overlap">
+              <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
+              <div className="login-social">Continue with Gmail</div>
+            </div>
+          </button> */}
         <button className="fb-btn">
           <div className="fb-overlap">
             <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
@@ -159,7 +161,7 @@ const LogIn = () => {
         </button>
         <div className="email">
           <label className='email-text'>Your email</label> 
-          <input className='textfield'
+          <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
             type="text" 
             required
             value={email}
@@ -172,7 +174,7 @@ const LogIn = () => {
         <div className="password">
           <label className='pass-text'>Your password</label> 
           <div className='pass-container'>
-            <input className='textfield'
+            <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
               type={visible ? "text":"password"}
               required
               value={pass}
@@ -185,17 +187,14 @@ const LogIn = () => {
           </div>
           {passError && <div className="pass-error">{passError}</div>} 
         </div>
-
         
           <button className="login-btn" onClick={handleSubmit}>
-            <div className="login-overlap">
-              <div className="login">Log in</div>
+            <div className={`login-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+              <div className={`login ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Log in</div>
             </div>
           </button>
 
-        
-        
-        <Link to="/Verify">
+        <Link to="/Dashboard">
           <div className="forgot">
             Forgot your password?
           </div>
