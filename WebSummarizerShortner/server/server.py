@@ -8,13 +8,16 @@ CORS(app)
 
 @app.route('/api/summarize', methods=['POST'])
 def summarize_text():
+
+    # recieving data from frontend
     data = request.get_json()
-    input_text = data.get('text') # the input text
+    input_text = data.get('text') # the input text, this contains either text, url, or youtube url (this will be summarized)
     type = data.get('type')  # the tabs, 0 for Text, 1 for Website URL, 2 for YouTube URL
     tone = data.get('tone') # tones are "Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
-    length =  data.get('length') # word length slider
+    length =  data.get('length') # word length slider, values are 1, 2, 3
     option = data.get('option') # "Full Video", "Timestamp"
+    cite = "APA"
 
     length_mapping = {
     1: "short",
@@ -23,7 +26,10 @@ def summarize_text():
 }
     length = length_mapping[length]
 
-    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}")
+
+    cite = f"Provide a citation in {cite} format of the given URL at the end."
+
+    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\n cite: {cite}")
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
         return jsonify({"error": "Missing or empty text"})
@@ -43,7 +49,7 @@ def summarize_text():
     elif type == 1:
         print("User given URL", input_text)
 
-        error, result = sum.processURL(input_text, tone, style, length)
+        error, result = sum.processURL(input_text, tone, style, length, cite)
 
         if error:
             return jsonify({'error': result})
@@ -55,7 +61,7 @@ def summarize_text():
         
         print("User given YouTube URL", input_text)
 
-        error, result = sum.processYouTubeURL(input_text, option, tone, style, length)
+        error, result = sum.processYouTubeURL(input_text, option, tone, style, length, cite)
 
         if error:
             return jsonify({'error': result})
