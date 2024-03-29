@@ -78,8 +78,10 @@ class SimpleURLShortener:
         cursor = self.conn.cursor()
         cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
         username = cursor.fetchone()[0]
+        encodedCustomString = customString.replace('/','%2F')
 
-        shortURL = f"http://127.0.0.1:5002/{username}/{customString}"
+        shortURL = f"http://127.0.0.1:5002/{username}-{customString}"
+        #shortURL = f"http://127.0.0.1:5002/{username}/{encodedCustomString}"
 
 
         #check if the custom string is already in the database
@@ -179,9 +181,12 @@ def shorten_url():
 
 @appS.route('/<short_url>')
 def redirectToOriginal(short_url):
+    print("short_url:"+short_url)
     fullURL = "http://127.0.0.1:5002/"+short_url
+    print("Full:"+fullURL)
+    #fullURL = "http://127.0.0.1:5002/52f96f/t1"
     originalURL = url_shortener.resolve_url(fullURL)
-    print(originalURL)
+    print("Original:"+originalURL)
     #Ensure the url has http in front of it.
     pattern = re.compile(r'^(?!https?://).*$', re.IGNORECASE)
     if pattern.match(originalURL):
