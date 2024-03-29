@@ -48,7 +48,7 @@ class SimpleURLShortener:
         modURL = originalURL+uniqueIdentifier
         url_hash = hashlib.md5(modURL.encode()).hexdigest()[:6]
         # Create a link with the domain and the hash to the end
-        shortURL = "http://127.0.0.1:5000/"+url_hash[:6]
+        shortURL = "http://127.0.0.1:5002/"+url_hash[:6]
         #shortURL = url_hash[:6]
 
         #Resolve the user ID associated with the email, if exists
@@ -74,7 +74,7 @@ class SimpleURLShortener:
 
     #Method to allow users to enter a custom short URL
     def customShorten_url(self, originalURL,customString):
-        shortURL = "http://127.0.0.1:5000/"+customString
+        shortURL = "http://127.0.0.1:5002/"+customString
 
         #check if the custom string is already in the database
         cursor = self.conn.cursor()
