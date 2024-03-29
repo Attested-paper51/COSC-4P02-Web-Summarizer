@@ -23,6 +23,7 @@ const URLShortener = () => {
     }
 
     const email = localStorage.getItem('email');
+    
 
     // const handleSubmit = (e) => {
     //     const url = {URL} 
@@ -37,7 +38,7 @@ const URLShortener = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ originalURL: URL, email }),
+                body: JSON.stringify({ originalURL: URL, email, customWord }),
             });
     
             if (response.ok) {
@@ -75,7 +76,7 @@ const URLShortener = () => {
                     </button>
                     }
                 </div>
-                { isPremium &&
+                { email &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>
