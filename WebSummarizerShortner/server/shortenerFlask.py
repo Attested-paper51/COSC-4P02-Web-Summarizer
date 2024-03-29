@@ -2,7 +2,7 @@ import hashlib
 import psycopg2
 import time
 from psycopg2 import sql
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 import os
@@ -80,8 +80,8 @@ class SimpleURLShortener:
         username = cursor.fetchone()[0]
         encodedCustomString = customString.replace('/','%2F')
 
-        shortURL = f"http://127.0.0.1:5002/{username}-{customString}"
-        #shortURL = f"http://127.0.0.1:5002/{username}/{encodedCustomString}"
+        #shortURL = f"http://127.0.0.1:5002/{username}-{customString}"
+        shortURL = f"http://127.0.0.1:5002/{username}/{encodedCustomString}"
 
 
         #check if the custom string is already in the database
@@ -179,12 +179,13 @@ def shorten_url():
 
     return jsonify({'shortenedURL': shortURL})
 
-@appS.route('/<short_url>')
+@appS.route('/<path:short_url>')
 def redirectToOriginal(short_url):
     print("short_url:"+short_url)
-    fullURL = "http://127.0.0.1:5002/"+short_url
+    decodedShort = unquote(short_url)
+    #fullURL = "http://127.0.0.1:5002/"+short_url
+    fullURL = "http://127.0.0.1:5002/"+decodedShort
     print("Full:"+fullURL)
-    #fullURL = "http://127.0.0.1:5002/52f96f/t1"
     originalURL = url_shortener.resolve_url(fullURL)
     print("Original:"+originalURL)
     #Ensure the url has http in front of it.
