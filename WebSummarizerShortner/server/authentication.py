@@ -81,8 +81,12 @@ class Authentication:
     
     def resetPassword(self,email,newPassword):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword, email))
-        self.conn.commit()
+        if (self.isPasswordValid(newPassword)):
+            cursor.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword, email))
+            self.conn.commit()
+            return 1
+        return 0
+        
 
     
     def changeEmail(self,email,newEmail,password):
@@ -134,14 +138,23 @@ class Authentication:
 
     #Template Logic
     def createTemplateRows(self,email):
+        #add a way to avoid 3 rows from creating if 3 are already created
         cursor = self.conn.cursor()
+        if (self.findEmail(email) is None):
+            return 0
         user = self.getUsername(email)
         for i in range(1, 4):
             cursor.execute("INSERT INTO templates (username, template_name) VALUES (%s, %s)", (user, f'customTemplate{i}'))
             self.conn.commit()
+        return 1
+        
 
     def addTemplate(self,email,word_count,formality,
     structure,num_paragraphs,summType,timestamps,template_name):
+    #Add a way to ensure return val is 0 if template name is invalid
+        if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
+
         cursor = self.conn.cursor()
         user = self.getUsername(email)
 
@@ -166,10 +179,14 @@ class Authentication:
         """, (word_count, formality, structure, num_paragraphs, summType, timestamps,user, template_name))
         
         self.conn.commit()
+        return 1
 
     def clearTemplate(self,email,template_name):
         cursor = self.conn.cursor()
         user = self.getUsername(email)
+
+        if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
 
         cursor.execute("""
         UPDATE templates 
@@ -188,12 +205,16 @@ class Authentication:
 
         # Commit the changes
         self.conn.commit()
+        return 1
 
     def deleteTemplates(self,email):
         cursor = self.conn.cursor()
+        if (self.findEmail(email) is None):
+            return 0
         user = self.getUsername(email)
         cursor.execute("DELETE FROM templates WHERE username = %s",(user,))
         self.conn.commit()
+        return 1
 
 
 

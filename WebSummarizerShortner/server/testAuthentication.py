@@ -60,15 +60,77 @@ def testDeleteAccount():
 def testChangePassword():
     email = "test@example.com"
     email2 = "registerTest@gmail.com"
-    password = "oldpassword"
+    wrongpassword = "wrongpassword"
     newPassword = "Password1"
-    assert not auth.changePassword(email, password, "Password2")
+    assert not auth.changePassword(email, wrongpassword, "Password2")
     assert auth.changePassword(email2,"Password1",newPassword)
 
-#wip
+
 def testResetPassword():
     email = "test@example.com"
+    email2 = "registerTest@gmail.com"
     newPassword = "newpassword"
     assert not auth.resetPassword(email, newPassword)
+    assert not auth.resetPassword(email2, newPassword)
+    assert auth.resetPassword(email2,"Password2")
+    assert auth.resetPassword(email2,"Password1")
 
 
+def testChangeEmail():
+    email = "registerTest@gmail.com"
+    newEmail = "registerTest2@gmail.com"
+    password = "Password1"
+    assert not auth.changeEmail("thisDoesntExit@gmail.com",newEmail,password)
+    assert not auth.changeEmail(email,newEmail,"ThisAintThePassword2")
+    assert auth.changeEmail(email, newEmail,password)
+    assert auth.changeEmail(newEmail,email,password)
+
+def testGetName():
+    email = "registerTest@gmail.com"
+    assert auth.getName(email) == "jake"
+    assert not auth.getName(email) == "joe"
+
+def testChangeName():
+    email = "registerTest@gmail.com"
+    newName = "jake2"
+    assert auth.changeName(newName, email)
+    assert auth.changeName("jake",email)
+
+def testGetUsername():
+    email = "registerTest@gmail.com"
+    assert auth.getUsername(email) == "9e6775"
+    assert not auth.getUsername(email) == "balhdhq3"
+
+def testIsPasswordCorrect():
+    email = "registerTest@gmail.com"
+    password = "Password1"
+    assert auth.isPasswordCorrect(email, password)
+    assert not auth.isPasswordCorrect(email,"wot")
+
+def testCreateTemplateRows():
+    email = "registerTest@gmail.com"
+    assert auth.createTemplateRows(email)
+    assert not auth.createTemplateRows("doesntexist@gmail.com")
+
+def testAddTemplate():
+    email = "registerTest@gmail.com"
+    word_count = 100
+    formality = "formal"
+    structure = "structured"
+    num_paragraphs = 3
+    summ_type = "text"
+    timestamps = "timestamp"
+    template_name = "customTemplate1"
+    assert auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, template_name)
+    assert not auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, "Cheese")
+
+def testClearTemplate():
+    email = "registerTest@gmail.com"
+    template_name = "customTemplate1"
+    assert auth.clearTemplate(email, template_name)
+    assert not auth.clearTemplate(email,"cheese")
+
+def testDeleteTemplates():
+    email = "registerTest@gmail.com"
+    assert auth.deleteTemplates(email)
+    assert not auth.deleteTemplates("oop@gmail.com")
