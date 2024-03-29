@@ -386,6 +386,14 @@ def clearTemplate():
     userMgr.clearTemplate(email,templateName)
     return jsonify({'message':'Template cleared.'})
 
+@appA.route('/getusername',methods=['POST'])
+def getUsername():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    username = userMgr.getUsername(email)
+    return jsonify({'message':username})
+
 if __name__ == '__main__':
     appA.run(port=5001)
     auth = Authentication()
