@@ -8,6 +8,7 @@ from flask_cors import CORS
 import os
 import re
 from dotenv import load_dotenv
+from authentication import Authentication
 
 
 appS = Flask(__name__)
@@ -73,11 +74,16 @@ class SimpleURLShortener:
         return shortURL
 
     #Method to allow users to enter a custom short URL
-    def customShorten_url(self, originalURL,customString):
-        shortURL = "http://127.0.0.1:5002/"+customString
+    def customShorten_url(self,email,originalURL,customString):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
+        username = cursor.fetchone()[0]
+
+        shortURL = f"http://127.0.0.1:5002/{username}/{customString}"
+
 
         #check if the custom string is already in the database
-        cursor = self.conn.cursor()
+        #cursor = self.conn.cursor()
         cursor.execute('SELECT id FROM shortened_url WHERE short_url = %s', (shortURL,))
         result = cursor.fetchone()
         if result:
@@ -85,8 +91,10 @@ class SimpleURLShortener:
 
 
         #cursor = self.conn.cursor()
-        insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING")
-        cursor.execute(insert_query, (shortURL, originalURL, 0))
+        # insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING")
+        # cursor.execute(insert_query, (shortURL, originalURL, 0))
+        insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count,user_id) VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING")
+        cursor.execute(insert_query, (shortURL, originalURL, 0, username))
         self.conn.commit()
 
         return shortURL
@@ -159,8 +167,13 @@ def shorten_url():
     data = request.get_json()
     originalURL = data.get('originalURL')
     email = data.get('email')
+    customWord = data.get('customWord')
+    if not customWord:
+        shortURL = url_shortener.shorten_url(originalURL,email)
+    else:
+        shortURL = url_shortener.customShorten_url(email,originalURL,customWord)
 
-    shortURL = url_shortener.shorten_url(originalURL,email)
+    
 
     return jsonify({'shortenedURL': shortURL})
 
