@@ -91,7 +91,7 @@
     cursor: default;
 }
 
-.url-div1:hover, .input-url:focus {
+.url-div1:hover, .input-url:focus, .custom-word:focus, .custom-word:hover {
     box-shadow: 0px 4px 15px 0px #00000033;
 }
 
