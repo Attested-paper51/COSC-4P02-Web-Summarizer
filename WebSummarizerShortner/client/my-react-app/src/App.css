@@ -17,6 +17,7 @@ html{
   --clr-accent2: white;
   --clr-shadow-light: #8ba7c2;
   --clr-shadow-light2: rgba(149, 157, 165, 0.2);
+  --clr-btn-light: #0d55a7;
 
   --clr-dark1: #425689;
   --clr-dark2: #2d437a;
@@ -24,7 +25,7 @@ html{
   --clr-accent4: #111e41;
   --clr-shadow-dark: #1e3953;
   --clr-shadow-dark2: rgba(21, 30, 38, 0.2);
-
+  --clr-btn-dark: #cbe3fe;
 }
 
 body{
@@ -158,13 +159,13 @@ a {
   box-shadow: 5px 5px 5px var(--clr-shadow-dark);
 }
 .btn-light{
-  background-color: var(--clr-dark1); 
+  background-color: var(--clr-btn-light); 
 }
 .btn-text-light{
   color: var(--clr-light1)
 }
 .btn-dark{
-  background-color: var(--clr-light1); 
+  background-color: var(--clr-btn-dark); 
 }
 .btn-text-dark{
   color: var(--clr-accent3)
