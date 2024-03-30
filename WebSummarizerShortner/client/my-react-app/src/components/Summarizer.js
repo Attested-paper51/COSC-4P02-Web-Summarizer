@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
+import "./css/Dropdown.css";
+import "./css/DropdownButton.css";
 import '../App.css'
 
 // Icons
@@ -17,6 +19,7 @@ import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
+import { FaChevronUp } from "react-icons/fa6";
 // Components
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
@@ -35,6 +38,7 @@ const Summarizer = () => {
     const [open, setOpen] = useState(false);
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const [openError, setOpenError] = useState(false);
+    const [openTemplates, setOpenTemplates] = useState(false);
 
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
@@ -52,6 +56,9 @@ const Summarizer = () => {
 
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
+
+    const templates = ["Template 1", "Template 2", "Template 3"];
+    const [selectedTemplate, setTemplate] = useState(templates[0]);
 
     const [sliderValue, setSliderValue] = useState(1);
 
@@ -214,6 +221,10 @@ const Summarizer = () => {
         setVideoSetting(item)
     }
 
+    const handleTemplateChange = (item) => {
+        setTemplate(item)
+    }
+
     const checkEmptyInput = () => {
         //const input = document.getElementById("input");
         if(inputContent === '') {
@@ -240,6 +251,19 @@ const Summarizer = () => {
     // closes Dialog Box
     const handleErrorConfirm = () => {
         handleErrorClose()
+    }
+
+    // for opening Dialog Box
+    const handleOpenTemplates = () => {
+        setOpenTemplates(true)
+    }
+    // for closing Error Dialog Box
+    const handleTemplateClose = () => {
+        setOpenTemplates(false)
+    }
+    // closes Dialog Box
+    const handleTemplateConfirm = () => {
+        handleTemplateClose()
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -454,12 +478,46 @@ const Summarizer = () => {
                                             }
                                         </div>
                                     </div>
-                                    <div className="save-custom-info">
-                                        <button className='summarize-btn'>
-                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
+                                    <div className="template-config-buttons">
+                                        <div className="save-template">
+                                            <div className="dropdown-menu">
+                                                <div className="dropdown">
+                                                    <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
+                                                        Save Settings
+                                                        {/* <span className="toggle-icon"> 
+                                                            <FaChevronUp/>
+                                                        </span> */}
+                                                    </button>
+                                                </div>
+                                                {/* <button className='summarize-btn'>
+                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                        <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
+                                                    </div>
+                                                </button> */}
                                             </div>
-                                        </button>
+                                        </div>
+                                        {/* <div className="save-custom-info">
+                                            <button className='summarize-btn'>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
+                                                </div>
+                                            </button>
+                                        </div> */}
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedTemplate}
+                                                content={<>
+                                                    {
+                                                        templates.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleTemplateChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 {/* </div>)} */}
@@ -610,6 +668,33 @@ const Summarizer = () => {
                 showCancelButton={false}
                 confirmText={"Continue"}
                 onConfirm={handleErrorConfirm}
+                />
+                <DialogBox 
+                open={openTemplates} 
+                onClose={handleTemplateClose}
+                title={"Templates"}
+                content={
+                    <div className="template-buttons">
+                        <button className='summarize-btn' onClick={handleTemplateClose}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 1</div>
+                            </div>
+                        </button> 
+                        <button className='summarize-btn' onClick={handleTemplateClose}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 2</div>
+                            </div>
+                        </button> 
+                        <button className='summarize-btn' onClick={handleTemplateClose}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 3</div>
+                            </div>
+                        </button> 
+                    </div>
+                }
+                showCancelButton={false}
+                confirmText={"Continue"}
+                onConfirm={handleTemplateConfirm}
                 />
             </div>
         </div>
