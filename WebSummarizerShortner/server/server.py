@@ -28,7 +28,7 @@ def summarize_text():
 
     print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
 
-    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n [citation]"
+    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\n[Reference Term]:\n[citation]"
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
         return jsonify({"error": "Missing or empty text"})
