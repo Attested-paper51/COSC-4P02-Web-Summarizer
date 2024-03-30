@@ -47,6 +47,13 @@ a {
   flex-direction: column;
 }
 
+.app-light{
+  background-color: var(--clr-light2);
+}
+
+.app-dark{
+  background-color: var(--clr-dark2);
+}
 
 /* Header */
 .header-light {
