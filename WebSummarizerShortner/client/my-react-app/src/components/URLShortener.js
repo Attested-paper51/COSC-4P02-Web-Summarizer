@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
 import { Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext.js'
@@ -7,7 +7,7 @@ const URLShortener = () => {
 
     const { darkMode } = useTheme();
     const [isPremium, setPremium] = useState(true);
-    const [username, setUsername] = useState('testusername');
+    const [username, setUsername] = useState('');
 
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
@@ -23,7 +23,33 @@ const URLShortener = () => {
     }
 
     const email = localStorage.getItem('email');
-
+    
+    useEffect(() => {
+        const fetchUsername = async () => {
+            try {
+                const response = await fetch('http://localhost:5001/getusername', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+    
+                if (response.ok) {
+                    const result = await response.json();
+                    setUsername(result.message);
+                } else {
+                    console.error('Failed to fetch username');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        
+        if (email) {
+            fetchUsername();
+        }
+    }, [email]);
     // const handleSubmit = (e) => {
     //     const url = {URL} 
     //     console.log(url)
@@ -37,7 +63,7 @@ const URLShortener = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ originalURL: URL, email }),
+                body: JSON.stringify({ originalURL: URL, email, customWord }),
             });
     
             if (response.ok) {
@@ -75,7 +101,7 @@ const URLShortener = () => {
                     </button>
                     }
                 </div>
-                { isPremium &&
+                { email &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>

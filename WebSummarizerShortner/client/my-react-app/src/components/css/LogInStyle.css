@@ -3,9 +3,9 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    /* margin: auto; */
     width: 100%;
-    padding-top: 7vh;
+    padding: 6vh 0;
     /* height: 600px; */
     /* position: fixed; */
     /* border: 5px solid #000000; */
@@ -27,9 +27,9 @@
 
 .login-box .form{
     /*width: 550px;*/
-    border: 0.1vw solid #7e7d7d;
+    /* border: 0.1vw solid #7e7d7d; */
     border-radius: 10px 0 0 10px;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
 }
 
 .login-box .account{
@@ -42,6 +42,7 @@
 
 .login-box .form-title{
     font-size: clamp(1.1rem, 1.3vw, 10rem);
+    margin-bottom: 2.5vh;
 }
 
 .login-box .gmail-overlap, .login-box .fb-overlap{
@@ -69,20 +70,21 @@
 
 .login-box .email-text, .login-box .pass-text{
     display: block;
-    color: #757373;
+    /* color: #757373; */
 }
 
 .login-box .textfield{
     height: clamp(40px, 3.2vh, 500px);
     font-size: clamp(0.8rem, 0.65vw, 10rem);
-    border: 1px solid #b7b6b6;
+    /* border: 1px solid #b7b6b6; */
     border-radius: 8px;
     position: relative;
     width: 100%;
+    padding-left: 5px;
 }
 
 .login-box .login-overlap{
-    background-color: #0d55a7; 
+    /* background-color: #0d55a7;  */
     width: clamp(300px, 20vw, 1000px); 
     font-size: clamp(0.9rem, 0.8vw, 10rem);
 }
@@ -101,10 +103,11 @@
     all: unset;
     box-sizing: border-box;
     height: clamp(40px, 3.2vh, 500px);
+    opacity: 0.8;
 }
 
 .login-box .login-btn:hover, .login-box .create-btn:hover{
-    opacity: 0.8;
+    opacity: 1;
 } 
 
 .login-box .login-overlap, .login-box .create-overlap, .login-box .gmail-overlap, .login-box .fb-overlap{
@@ -120,7 +123,7 @@
 }
 
 .login-box .login, .login-box .create, .login-box .login-social{
-    color: #ffffff;
+    /* color: #ffffff; */
     /*font-size: 16px;*/
     font-weight: 600;
     /*left: 123px;*/
@@ -148,7 +151,7 @@
 }
 
 .login-box .forgot{
-    color: #585757;
+    /* color: #585757; */
     /*font-size: 14px;*/
     font-size: clamp(0.9rem, 0.85vw, 8rem);
     font-weight: 500;

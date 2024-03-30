@@ -55,7 +55,7 @@ h2 {
     resize: none;
     border: 0;
     font-size: 16px;
-    border-color: #bfbfbf;
+    /* border-color: #bfbfbf; */
     margin-top: 0px;
     max-height: 80vh;
     /* transition: all 0.3s ease; Add a transition for all properties with a duration of 0.3 seconds */

@@ -18,6 +18,7 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState('');
   const [passError, setPassError] = useState('');
   const [finalError, setFinalError] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
@@ -31,6 +32,10 @@ const SignUp = () => {
             console.log('Passwords do not match!');
             setPassError('Passwords do not match!');
             return;
+        }
+        if (name === '') {
+          setNameError('Name cannot be empty!');
+          return;
         }
 
         // Make a POST request to the Flask backend
@@ -73,6 +78,7 @@ const SignUp = () => {
   };
 
   const handleNameChange = (e) => {
+    setNameError('');
     setName(e.target.value);
   };
   
@@ -170,6 +176,7 @@ const SignUp = () => {
             onChange={handleNameChange}
             placeholder='Enter name here' 
           />
+          {nameError && <div className="email-error">{nameError}</div>}
         </div>
 
         <div className="email">

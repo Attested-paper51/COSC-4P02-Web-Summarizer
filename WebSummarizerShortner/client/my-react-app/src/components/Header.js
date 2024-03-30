@@ -12,7 +12,12 @@ const Header = () => {
   const storedEmail = localStorage.getItem('email');
   const storedName = localStorage.getItem('name');
 
-  const { darkMode, toggleDarkMode } = useTheme();
+  const { darkMode, setDarkMode } = useTheme();
+
+  // Function to toggle dark mode
+  const toggleDarkMode = () => {
+      setDarkMode(prevMode => !prevMode);
+  };
 
     return (
       <section className={`header-nav-container ${darkMode ? 'header-dark' : 'header-light'}`}>
