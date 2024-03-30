@@ -26,9 +26,9 @@ def summarize_text():
 }
     length = length_mapping[length]
 
-    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n [citation]"
+    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
 
-    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\n cite: {cite}")
+    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n [citation]"
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
         return jsonify({"error": "Missing or empty text"})
