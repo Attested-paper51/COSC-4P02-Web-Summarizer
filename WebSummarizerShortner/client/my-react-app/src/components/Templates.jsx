@@ -330,13 +330,17 @@ const Templates = () => {
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
         var wordcount = 0;
+        var length;
         
         if (sliderValue === 1) {
             wordcount = 50;
+            length = 'short';
         }else if (sliderValue === 2) {
             wordcount = 100;
+            length = 'medium';
         }else if (sliderValue === 3){
             wordcount = 200;
+            length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
@@ -359,7 +363,7 @@ const Templates = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, templatename }),
+                wordcount, summ_type, timestamp, length, templatename }),
         });
         if (response.ok) {
             const result = await response.json();
@@ -379,13 +383,17 @@ const Templates = () => {
         var structure = selectedLayout2;
         const email = localStorage.getItem('email');
         var wordcount = 0;
+        var length;
         
         if (sliderValue2 === 1) {
             wordcount = 50;
+            length = 'short';
         }else if (sliderValue2 === 2) {
             wordcount = 100;
+            length = 'medium';
         }else if (sliderValue2 === 3) {
             wordcount = 200;
+            length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
@@ -408,7 +416,7 @@ const Templates = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, templatename }),
+                wordcount, summ_type, timestamp, length,templatename }),
         });
         if (response.ok) {
             const result = await response.json();
@@ -428,13 +436,17 @@ const Templates = () => {
         var structure = selectedLayout3;
         const email = localStorage.getItem('email');
         var wordcount = 0;
+        var length;
         
         if (sliderValue3 === 1) {
             wordcount = 50;
+            length = 'short';
         }else if (sliderValue3 === 2) {
             wordcount = 100;
+            length = 'medium';
         }else if (sliderValue3 === 3) {
             wordcount = 200;
+            length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
@@ -457,7 +469,7 @@ const Templates = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, templatename }),
+                wordcount, summ_type, timestamp, length, templatename }),
         });
         if (response.ok) {
             const result = await response.json();

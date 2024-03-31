@@ -361,9 +361,9 @@ const Summarizer = () => {
                     setLayout(layout[0]);
                 }
 
-                if (result.length === 100) {
+                if (result.length === 'short') {
                     setSliderValue(1);
-                }else if (result.length === 200) {
+                }else if (result.length === 'medium') {
                     setSliderValue(2);
                 }else {
                     setSliderValue(3);
