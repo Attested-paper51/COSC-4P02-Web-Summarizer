@@ -378,6 +378,70 @@ const Summarizer = () => {
     
       };
 
+      //for handling saving of template 1
+    const handleClickSave  = async (templatenumber) => {
+        var formality = selectedTone;
+        var structure = selectedLayout;
+        const email = localStorage.getItem('email');
+        var wordcount = 0;
+        var length;
+        
+        if (sliderValue === 1) {
+            wordcount = 50;
+            length = 'short';
+        }else if (sliderValue === 2) {
+            wordcount = 100;
+            length = 'medium';
+        }else if (sliderValue === 3){
+            wordcount = 200;
+            length = 'long';
+        }
+        var summ_type = "";
+        var timestamp = "";
+        if (isClicked === 0) {
+            summ_type = "text";
+        }else if (isClicked === 1) {
+            summ_type = "website";
+        }else if (isClicked === 2){
+            summ_type = "video";
+            if (selectedVideoSetting === videoSetting[0]) {
+                timestamp = "full";
+            }else {
+                timestamp = "{00:05,00:15}";
+            }
+            
+        }
+        var templatename;
+        if (templatenumber === 1) {
+            templatename = "customTemplate1";
+        }else if (templatenumber === 2) {
+            templatename = "customTemplate2";
+        }else {
+            templatename = "customTemplate3";
+        }
+        
+
+        try {
+            const response = await fetch('http://localhost:5001/savetemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, formality, structure, 
+                wordcount, summ_type, timestamp, length, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
 
     //export button handling, for downloading json file
     const exportJSON = () => {
@@ -745,17 +809,17 @@ const Summarizer = () => {
                 title={"Templates"}
                 content={
                     <div className="template-buttons">
-                        <button className='summarize-btn' onClick={handleTemplateClose}>
+                        <button className='summarize-btn' onClick={() => handleClickSave(1)}>
                             <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 1</div>
                             </div>
                         </button> 
-                        <button className='summarize-btn' onClick={handleTemplateClose}>
+                        <button className='summarize-btn' onClick={() => handleClickSave(2)}>
                             <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 2</div>
                             </div>
                         </button> 
-                        <button className='summarize-btn' onClick={handleTemplateClose}>
+                        <button className='summarize-btn' onClick={() => handleClickSave(3)}>
                             <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 3</div>
                             </div>
