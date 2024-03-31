@@ -224,8 +224,8 @@ const Summarizer = () => {
     }
 
     const handleTemplateChange = (item) => {
-        setTemplate(item)
-        handleTemplateFetch();
+        setTemplate(item);
+        handleTemplateFetch(item);
     }
 
     const checkEmptyInput = () => {
@@ -312,17 +312,19 @@ const Summarizer = () => {
     };
 
     //function to pull the values stored in the database for the template
-    const handleTemplateFetch = async () => {
+    const handleTemplateFetch = async (item) => {
+        setTemplate(item);
         //do if so that u can say template 1 = customTemplate1 etc.
         var templatename;
-        if (selectedTemplate === templates[0]) {
+        if (item === templates[0]) {
             templatename = "customTemplate1";
-        }else if (selectedTemplate === templates[1]) {
+        }else if (item === templates[1]) {
             templatename = "customTemplate2";
         }else {
             templatename = "customTemplate3";
         }
         console.log("Selected template:",selectedTemplate);
+        console.log("item:",item);
         console.log("templateNameToFetch:",templatename);
         try {
     
