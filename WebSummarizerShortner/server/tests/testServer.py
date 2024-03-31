@@ -43,6 +43,18 @@ class SummarizeAPITestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('summary', response.json)
 
+    def test_invalid_url_summarization(self):
+        response = self.client.post('/api/summarize', json={
+            'text': 'gibberish',
+            'type': 1,
+            'tone': 'Formal',
+            'style': 'Bullet Points',
+            'length': 2,
+            'option': 'Full Video'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('error', response.json)
+
     def test_valid_youtube_summarization(self):
         response = self.client.post('/api/summarize', json={
             'text': 'https://www.youtube.com/watch?v=NHopJHSlVo4',
@@ -54,6 +66,18 @@ class SummarizeAPITestCase(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertIn('summary', response.json)
+
+    def test_invalid_youtube_summarization(self):
+        response = self.client.post('/api/summarize', json={
+            'text': 'gibberish',
+            'type': 2,
+            'tone': 'Causal',
+            'style': 'Numbered List',
+            'length': 3,
+            'option': 'Full Video'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('error', response.json)
 
     # Additional tests can be added for different combinations of tone, style, and length
     # to ensure that each pathway in your API is functioning as expected.
