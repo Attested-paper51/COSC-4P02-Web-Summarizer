@@ -62,6 +62,8 @@ const Summarizer = () => {
 
     const [sliderValue, setSliderValue] = useState(1);
 
+    const email = localStorage.getItem('email');
+
     const valuetext = (value) => {
         return `${value}`;
     }
@@ -223,6 +225,7 @@ const Summarizer = () => {
 
     const handleTemplateChange = (item) => {
         setTemplate(item)
+        handleTemplateFetch();
     }
 
     const checkEmptyInput = () => {
@@ -307,6 +310,71 @@ const Summarizer = () => {
             showError('An error occurred while fetching the summary.');
         });
     };
+
+    //function to pull the values stored in the database for the template
+    const handleTemplateFetch = async () => {
+        //do if so that u can say template 1 = customTemplate1 etc.
+        var templatename;
+        if (selectedTemplate === templates[0]) {
+            templatename = "customTemplate1";
+        }else if (selectedTemplate === templates[1]) {
+            templatename = "customTemplate2";
+        }else {
+            templatename = "customTemplate3";
+        }
+        console.log("Selected template:",selectedTemplate);
+        console.log("templateNameToFetch:",templatename);
+        try {
+    
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/gettemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                //result should include all the flags I want
+                if (result.summtype === 'text') {
+                    setClickedButton(0);
+                }else if (result.summtype === 'website') {
+                    setClickedButton(1);
+                }else if (result.summtype === 'video') {
+                    setClickedButton(2);
+                    //timestamp thing
+                }
+
+                if (result.formality != null) {
+                    setTone(result.formality);
+                }else {
+                    setTone(tone[0]);
+                }
+
+                if (result.structure != null) {
+                    setLayout(result.structure);
+                }else {
+                    setLayout(layout[0]);
+                }
+
+                if (result.length === 100) {
+                    setSliderValue(1);
+                }else if (result.length === 200) {
+                    setSliderValue(2);
+                }else {
+                    setSliderValue(3);
+                }
+
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    
+      };
 
 
     //export button handling, for downloading json file
