@@ -174,10 +174,12 @@ def shorten_url():
         shortURL = url_shortener.shorten_url(originalURL,email)
     else:
         shortURL = url_shortener.customShorten_url(email,originalURL,customWord)
-
+        #if the custom word is already in use
+        if shortURL == -1:
+            return jsonify({'message':'Custom word already used in another link.'})
     
 
-    return jsonify({'shortenedURL': shortURL})
+    return jsonify({'shortenedURL': shortURL,'message':'Shortened successfully.'})
 
 @appS.route('/<path:short_url>')
 def redirectToOriginal(short_url):

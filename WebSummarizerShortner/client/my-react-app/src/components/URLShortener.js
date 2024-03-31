@@ -12,6 +12,7 @@ const URLShortener = () => {
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
     const [customWord, setCustomWord] = useState('');
+    const [customWordError, setCustomWordError] = useState('');
     
     const [CopyURL, setCopyURL] = useState('Copy URL')
     const handleCopy = () => {
@@ -50,12 +51,9 @@ const URLShortener = () => {
             fetchUsername();
         }
     }, [email]);
-    // const handleSubmit = (e) => {
-    //     const url = {URL} 
-    //     console.log(url)
-    // }
 
-    //Added code for handleSubmit
+
+    //URL Shortening
     const handleSubmit = async () => {
         try {
             const response = await fetch('http://localhost:5002/shorten', {
@@ -68,7 +66,14 @@ const URLShortener = () => {
     
             if (response.ok) {
                 const result = await response.json();
-                setShortURL(result.shortenedURL);
+                //the error message here needs to be made prettier
+                if (result.message === 'Custom word already used in another link.') {
+                    setCustomWordError(result.message);
+                }else {
+                    setShortURL(result.shortenedURL);
+                }
+
+                
             } else {
                 console.error('Failed to shorten URL');
             }
@@ -77,6 +82,10 @@ const URLShortener = () => {
         }
     };
 
+    const handleCustomWordChange = (e) => {
+        setCustomWordError('');
+        setCustomWord(e.target.value);
+    };
 
     const [summarize, showSummarize] = useState(false);
 
@@ -117,7 +126,7 @@ const URLShortener = () => {
                                     type="text" 
                                     required
                                     value={customWord}
-                                    onChange={(e) => setCustomWord(e.target.value)}
+                                    onChange={handleCustomWordChange}
                                     placeholder='Enter custom word' 
                                 />
                                 <button 
@@ -127,6 +136,7 @@ const URLShortener = () => {
                                 </button>
                             {/* </div> */}
                         </div>
+                            {customWordError && <div className="pass-error">{customWordError}</div>} 
                     </div>
                 }   
                 <div className='url-shorten-container'>
