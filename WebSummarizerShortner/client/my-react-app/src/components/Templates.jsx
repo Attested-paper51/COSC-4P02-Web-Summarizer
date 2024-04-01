@@ -52,7 +52,7 @@ const Templates = () => {
     const [sliderValue, setSliderValue] = useState(1);
     const [sliderValue2, setSliderValue2] = useState(1);
     const [sliderValue3, setSliderValue3] = useState(1);
-
+    const email = localStorage.getItem('email');
 
     const valuetext = (value) => {
         return `${value}`;
@@ -328,7 +328,7 @@ const Templates = () => {
     const handleClickSave  = async () => {
         var formality = selectedTone;
         var structure = selectedLayout;
-        const email = localStorage.getItem('email');
+        
         var wordcount = 0;
         var length;
         
@@ -377,11 +377,210 @@ const Templates = () => {
         }
     }
 
+    useEffect(() => {
+        handleTemplateFetch();
+        handleTemplateFetch2();
+        handleTemplateFetch3();
+
+    },[]);
+
+    //function to pull the values stored in the database for the template
+    const handleTemplateFetch = async () => {
+        //do if so that u can say template 1 = customTemplate1 etc.
+        
+        const templatename = "customTemplate1";
+
+        //console.log("item:",item);
+        //console.log("templateNameToFetch:",templatename);
+        try {
+    
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/gettemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                //result should include all the flags I want
+                if (result.summtype === 'text') {
+                    setClickedButton(0);
+                }else if (result.summtype === 'website') {
+                    setClickedButton(1);
+                }else if (result.summtype === 'video') {
+                    setClickedButton(2);
+                    //timestamp thing
+                }else {
+                    setClickedButton(0);
+                }
+
+                if (result.formality != null) {
+                    setTone(result.formality);
+                }else {
+                    setTone(tone[0]);
+                }
+
+                if (result.structure != null) {
+                    setLayout(result.structure);
+                }else {
+                    setLayout(layout[0]);
+                }
+
+                if (result.length === 'short') {
+                    setSliderValue(1);
+                }else if (result.length === 'medium') {
+                    setSliderValue(2);
+                }else if (result.length === 'long') {
+                    setSliderValue(3);
+                }else {
+                    setSliderValue(1);
+                }
+
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    
+      };
+
+      //function to pull the values stored in the database for the template
+    const handleTemplateFetch2 = async () => {
+        //do if so that u can say template 1 = customTemplate1 etc.
+    
+        const templatename = "customTemplate2";
+
+        //console.log("item:",item);
+        //console.log("templateNameToFetch:",templatename);
+        try {
+    
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/gettemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                //result should include all the flags I want
+                if (result.summtype === 'text') {
+                    setClickedButton2(0);
+                }else if (result.summtype === 'website') {
+                    setClickedButton2(1);
+                }else if (result.summtype === 'video') {
+                    setClickedButton2(2);
+                    //timestamp thing
+                }else {
+                    setClickedButton2(0);
+                }
+
+                if (result.formality != null) {
+                    setTone2(result.formality);
+                }else {
+                    setTone2(tone[0]);
+                }
+
+                if (result.structure != null) {
+                    setLayout2(result.structure);
+                }else {
+                    setLayout2(layout[0]);
+                }
+
+                if (result.length === 'short') {
+                    setSliderValue2(1);
+                }else if (result.length === 'medium') {
+                    setSliderValue2(2);
+                }else if (result.length === 'long') {
+                    setSliderValue2(3);
+                }else {
+                    setSliderValue2(1);
+                }
+
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    
+      };
+
+      //function to pull the values stored in the database for the template
+    const handleTemplateFetch3 = async () => {
+        //do if so that u can say template 1 = customTemplate1 etc.
+        
+        const templatename = "customTemplate3";
+
+        //console.log("item:",item);
+        //console.log("templateNameToFetch:",templatename);
+        try {
+    
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/gettemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                //result should include all the flags I want
+                if (result.summtype === 'text') {
+                    setClickedButton3(0);
+                }else if (result.summtype === 'website') {
+                    setClickedButton3(1);
+                }else if (result.summtype === 'video') {
+                    setClickedButton3(2);
+                    //timestamp thing
+                }else {
+                    setClickedButton3(0);
+                }
+
+                if (result.formality != null) {
+                    setTone3(result.formality);
+                }else {
+                    setTone3(tone[0]);
+                }
+
+                if (result.structure != null) {
+                    setLayout3(result.structure);
+                }else {
+                    setLayout3(layout[0]);
+                }
+
+                if (result.length === 'short') {
+                    setSliderValue3(1);
+                }else if (result.length === 'medium') {
+                    setSliderValue3(2);
+                }else if (result.length === 'long') {
+                    setSliderValue3(3);
+                }else {
+                    setSliderValue3(1);
+                }
+
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    
+      };
+
     //for handling saving of template 2
     const handleClickSave2  = async () => {
         var formality = selectedTone2;
         var structure = selectedLayout2;
-        const email = localStorage.getItem('email');
+        
         var wordcount = 0;
         var length;
         
@@ -434,7 +633,7 @@ const Templates = () => {
     const handleClickSave3  = async () => {
         var formality = selectedTone3;
         var structure = selectedLayout3;
-        const email = localStorage.getItem('email');
+        
         var wordcount = 0;
         var length;
         
@@ -485,7 +684,7 @@ const Templates = () => {
 
     //for handling clearing of template 1
     const handleClickClear  = async () => {
-        const email = localStorage.getItem('email');
+        
         setLayout(layout[0]);
         setTone(tone[0]);
         setSliderValue(1);
@@ -511,7 +710,7 @@ const Templates = () => {
 
     //for handling clearing of template 2
     const handleClickClear2  = async () => {
-        const email = localStorage.getItem('email');
+        
         setLayout2(layout[0]);
         setTone2(tone[0]);
         setSliderValue2(1);
@@ -537,7 +736,7 @@ const Templates = () => {
 
         //for handling clearing of template 3
         const handleClickClear3  = async () => {
-            const email = localStorage.getItem('email');
+            
             setLayout3(layout[0]);
             setTone3(tone[0]);
             setSliderValue3(1);

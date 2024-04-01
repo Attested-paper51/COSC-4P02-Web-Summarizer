@@ -365,8 +365,10 @@ const Summarizer = () => {
                     setSliderValue(1);
                 }else if (result.length === 'medium') {
                     setSliderValue(2);
-                }else {
+                }else if (result.length === 'long') {
                     setSliderValue(3);
+                }else {
+                    setSliderValue(1);
                 }
 
                 
