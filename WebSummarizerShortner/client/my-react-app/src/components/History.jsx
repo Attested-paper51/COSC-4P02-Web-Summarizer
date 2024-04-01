@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./css/DashboardStyle.css";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
@@ -11,11 +11,14 @@ const History = () => {
   const [showSumSection, setShowSumSection] = useState(false); // State for Web Summarizer section
   const [showShortSection, setShowShortSection] = useState(false); // State for URL Shortener section
   const [activeButton, setActiveButton] = useState(null); // State for active button
+  const [historyData, setHistoryData] = useState([]); // State to store history data
+
 
   const handleSumButtonClick = () => {
     setShowSumSection(true);
     setShowShortSection(false);
     setActiveButton('sum');
+    fetchHistoryData();
   };
 
   const handleShortButtonClick = () => {
@@ -23,6 +26,30 @@ const History = () => {
     setShowSumSection(false);
     setActiveButton('short');
   };
+
+  // Function to fetch history data from the Flask backend
+  const fetchHistoryData = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/history', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: '42c546' }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setHistoryData(data.history);
+        console.log(data.history);
+      } else {
+        console.error('Failed to fetch history data');
+      }
+    } catch (error) {
+      console.error('Error fetching history data:', error);
+    }
+  };
+
+
 
   // Function to generate dummy data
   function generateData(numRows) {
@@ -119,7 +146,7 @@ const History = () => {
               </tr>
               </thead>
               <tbody>
-                {data.map((item) => (
+                {/* {data.map((item) => (
                   <tr key={item.id}>
                     <td>
                       <label className='custom-checkbox'>
@@ -130,7 +157,21 @@ const History = () => {
                     <td className='scrollable'>{item.input}</td>
                     <td className='scrollable'>{item.output}</td>
                   </tr>
-                ))}
+                )) */}
+                {
+                historyData.map((item) => (
+                  <tr key={item[0]}>
+                    <td>
+                      <label className='custom-checkbox'>
+                        <input type="checkbox" checked={!!selectedRows[item.id]} onChange={() => handleCheckboxChange(item.id)} />
+                        {selectedRows[item.id] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                      </label>
+                    </td>
+                    <td className='scrollable'>{item[1]}</td>
+                    <td className='scrollable'>{item[2]}</td>
+                  </tr>
+                ))
+                }
               </tbody>
             </table>
 
