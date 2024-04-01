@@ -417,7 +417,10 @@ def getUsername():
 def getTemplate():
     data = request.get_json()
     email = data.get('email')
+    
     templateName = data.get('templatename')
+    #firstly, check if user has that template saved. if not, return nothing/null
+    
     userMgr = Authentication()
     templates = userMgr.getTemplate(email,templateName)
     words = templates[0]
