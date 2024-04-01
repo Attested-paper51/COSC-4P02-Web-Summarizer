@@ -13,7 +13,6 @@ import UserDashboardPage from './pages/UserDashboardPage.js';
 import { AuthProvider } from './context/AuthContext.js';
 //import LoginButton from './components/LogIn';
 import {useEffect} from 'react';
-import { gapi } from 'gapi-script';
 import { FaGoogle } from 'react-icons/fa';
 import { useTheme, ThemeProvider } from './components/ThemeContext.js';
 
