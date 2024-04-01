@@ -121,8 +121,9 @@ def testAddTemplate():
     summ_type = "text"
     timestamps = "timestamp"
     template_name = "customTemplate1"
-    assert auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, template_name)
-    assert not auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, "Cheese")
+    length = "medium"
+    assert auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, length,template_name)
+    assert not auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, length,"Cheese")
 
 def testClearTemplate():
     email = "registerTest@gmail.com"
