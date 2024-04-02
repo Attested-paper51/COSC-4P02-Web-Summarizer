@@ -136,7 +136,7 @@ const LogIn = () => {
 
     google.accounts.id.renderButton(
       document.getElementById("gmail-login"),
-      { theme: "outline", size: "large" }
+      { theme: "outline", size: "large", shape: "circle"}
     );
   }, []);
   

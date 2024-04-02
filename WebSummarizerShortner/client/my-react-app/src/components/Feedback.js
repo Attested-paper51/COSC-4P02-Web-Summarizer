@@ -13,10 +13,34 @@ const Feedback = () => {
 
     const [thankyou, showThankyou] = useState(false);
 
-    const handleRating = (e) => {
-        console.log(rating) //number of stars stored in rating
-        const Feedback = {feedback}
-        console.log(Feedback)
+    const handleRating = async () => {
+        //console.log(rating) //number of stars stored in rating
+        //const Feedback = {feedback}
+        //console.log(Feedback)
+
+        
+        try {
+    
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/addfeedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ rating, feedback}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result.message);
+                
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+
         setRating(null)
         setFeedback('')
 
