@@ -150,7 +150,7 @@ class Authentication:
         
 
     def addTemplate(self,email,word_count,formality,
-    structure,num_paragraphs,summType,timestamps,template_name):
+    structure,num_paragraphs,summType,timestamps,length,template_name):
     #Add a way to ensure return val is 0 if template name is invalid
         if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
             return 0
@@ -171,15 +171,32 @@ class Authentication:
                 structure = %s, 
                 num_paragraphs = %s,
                 summarization_type = %s,
-                timestamps = %s 
+                timestamps = %s,
+                length = %s 
             WHERE 
                 username = %s 
             AND 
                 template_name = %s
-        """, (word_count, formality, structure, num_paragraphs, summType, timestamps,user, template_name))
+        """, (word_count, formality, structure, num_paragraphs, summType, timestamps,length,user, template_name))
         
         self.conn.commit()
         return 1
+
+    def getTemplate(self,email,templateName):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        if (templateName not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
+
+        cursor.execute("""
+        SELECT word_count, formality, structure, num_paragraphs, summarization_type, timestamps, length
+        FROM templates 
+        WHERE username = %s 
+        AND template_name = %s
+        """, (user, templateName))
+        templateVals = cursor.fetchone()
+        return templateVals
+
 
     def clearTemplate(self,email,template_name):
         cursor = self.conn.cursor()
@@ -196,7 +213,8 @@ class Authentication:
             structure = NULL, 
             num_paragraphs = NULL,
             summarization_type = NULL,
-            timestamps = NULL
+            timestamps = NULL,
+            length = NULL
         WHERE 
             username = %s 
         AND 
@@ -371,10 +389,11 @@ def saveTemplate():
     wordcount = data.get('wordcount')
     summType = data.get('summ_type')
     timestamp = data.get('timestamp')
+    length = data.get('length')
     templateName = data.get('templatename')
     userMgr = Authentication()
     #Note that we need to add num paragraphs, or just drop the col.
-    userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,templateName)
+    userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,length,templateName)
     return jsonify({'message':'Template added.'})
 
 @appA.route('/cleartemplate',methods=['POST'])
@@ -385,6 +404,33 @@ def clearTemplate():
     userMgr = Authentication()
     userMgr.clearTemplate(email,templateName)
     return jsonify({'message':'Template cleared.'})
+
+@appA.route('/getusername',methods=['POST'])
+def getUsername():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    username = userMgr.getUsername(email)
+    return jsonify({'message':username})
+
+@appA.route('/gettemplate',methods=['POST'])
+def getTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    templates = userMgr.getTemplate(email,templateName)
+    words = templates[0]
+    formality = templates[1]
+    structure = templates[2]
+    numParagraphs = templates[3]
+    summType = templates[4]
+    timestamps = templates[5]
+    length = templates[6]
+    return jsonify({'length':length, 'formality':formality,
+    'structure':structure,'numparagraphs':numParagraphs,
+    'summtype':summType,'timestamps':timestamps})
+
 
 if __name__ == '__main__':
     appA.run(port=5001)

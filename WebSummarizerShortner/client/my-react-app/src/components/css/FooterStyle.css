@@ -1,16 +1,22 @@
 footer {
+    /* bottom: 0;
+    margin-top: auto; */
     min-height: 5vh;
     padding: clamp(1rem, 1vw, 10rem);
 }
 
 footer a{
-    color: white
+    color: white;
+}
+
+.footer {
+    margin-top: auto;
 }
 
 .footer-container {
     /* margin-top: auto; */
-    /* padding-top: 30px; */
-    /* background-color:#48587e; */
+    /* padding-top: 30px;
+    background-color:#48587e; */
 }
 
 .footer-text {

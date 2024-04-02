@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
 import { Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext.js'
@@ -7,11 +7,12 @@ const URLShortener = () => {
 
     const { darkMode } = useTheme();
     const [isPremium, setPremium] = useState(true);
-    const [username, setUsername] = useState('testusername');
+    const [username, setUsername] = useState('');
 
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
     const [customWord, setCustomWord] = useState('');
+    const [customWordError, setCustomWordError] = useState('');
     
     const [CopyURL, setCopyURL] = useState('Copy URL')
     const handleCopy = () => {
@@ -23,13 +24,36 @@ const URLShortener = () => {
     }
 
     const email = localStorage.getItem('email');
+    
+    useEffect(() => {
+        const fetchUsername = async () => {
+            try {
+                const response = await fetch('http://localhost:5001/getusername', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+    
+                if (response.ok) {
+                    const result = await response.json();
+                    setUsername(result.message);
+                } else {
+                    console.error('Failed to fetch username');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        
+        if (email) {
+            fetchUsername();
+        }
+    }, [email]);
 
-    // const handleSubmit = (e) => {
-    //     const url = {URL} 
-    //     console.log(url)
-    // }
 
-    //Added code for handleSubmit
+    //URL Shortening
     const handleSubmit = async () => {
         try {
             const response = await fetch('http://localhost:5002/shorten', {
@@ -37,12 +61,19 @@ const URLShortener = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ originalURL: URL, email }),
+                body: JSON.stringify({ originalURL: URL, email, customWord }),
             });
     
             if (response.ok) {
                 const result = await response.json();
-                setShortURL(result.shortenedURL);
+                //the error message here needs to be made prettier
+                if (result.message === 'Custom word already used in another link.') {
+                    setCustomWordError(result.message);
+                }else {
+                    setShortURL(result.shortenedURL);
+                }
+
+                
             } else {
                 console.error('Failed to shorten URL');
             }
@@ -51,6 +82,10 @@ const URLShortener = () => {
         }
     };
 
+    const handleCustomWordChange = (e) => {
+        setCustomWordError('');
+        setCustomWord(e.target.value);
+    };
 
     const [summarize, showSummarize] = useState(false);
 
@@ -67,7 +102,7 @@ const URLShortener = () => {
                         onChange={(e) => setURL(e.target.value)}
                         placeholder='Enter URL here' 
                     />
-                    { !isPremium &&
+                    { !email &&
                     <button 
                         className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`}  
                         onClick={()=> { handleSubmit(); showSummarize(true); }} >
@@ -75,7 +110,7 @@ const URLShortener = () => {
                     </button>
                     }
                 </div>
-                { isPremium &&
+                { email &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>
@@ -91,7 +126,7 @@ const URLShortener = () => {
                                     type="text" 
                                     required
                                     value={customWord}
-                                    onChange={(e) => setCustomWord(e.target.value)}
+                                    onChange={handleCustomWordChange}
                                     placeholder='Enter custom word' 
                                 />
                                 <button 
@@ -101,6 +136,7 @@ const URLShortener = () => {
                                 </button>
                             {/* </div> */}
                         </div>
+                            {customWordError && <div className="pass-error">{customWordError}</div>} 
                     </div>
                 }   
                 <div className='url-shorten-container'>

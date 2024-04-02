@@ -312,7 +312,7 @@ h2 {
 
 .premium-container {
     width: 100%; /* Covering 50% of the horizontal screen space */
-    height: 100px;
+    height: 130px;
     /* background-color: white; */
     /* border-bottom: 1px solid #DEE1E3; */
     display: flex;
@@ -323,27 +323,46 @@ h2 {
     flex-direction: row;
 }
 
-.save-reset-btns{
-    display: flex;
+.template-config-buttons {
+    /* font-size: small; */
+    padding-right: 10px;
+    /* background-color: rgba(172, 121, 121, 0.5); */
 }
 
-.save-custom-info {
+.save-template {
+    padding-bottom: 10px;
+}
+
+.save-button {
     /* position: absolute; */
     /* right: 0; */
-    padding-right: 10px;
+    /* padding-right: 10px; */
+    /* background-color: blue; */
+    /* background-color: rgba(193, 255, 192, 0.5); */
+    /* display: flex;
+    justify-content: end; */
+    border: solid 0px #bfbfbf;
+    width: 10px;
 }
 
-.reset-custom-info {
-    /* position: absolute; */
-    /* right: 10; */
-    /* left: 100; */
-    padding-right: 10px;
+.save-button:hover {
+    background-color: rgba(207, 207, 207, 0.779);
+}
+
+.small-text {
+    font-size: 13px;
+}
+
+.template-buttons {
+    display: flex;
+    justify-content: space-between;
 }
 
 .modes {
     display: flex;
     justify-content:flex-start;
     align-items: center;
+    padding-right: 10px;
     /* background-color: greenyellow; */
 }
 .mode {

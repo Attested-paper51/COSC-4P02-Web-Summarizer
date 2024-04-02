@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
+import "./css/Dropdown.css";
+import "./css/DropdownButton.css";
 import '../App.css'
 
 // Icons
@@ -17,6 +19,7 @@ import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
+import { FaChevronUp } from "react-icons/fa6";
 // Components
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
@@ -35,6 +38,7 @@ const Summarizer = () => {
     const [open, setOpen] = useState(false);
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const [openError, setOpenError] = useState(false);
+    const [openTemplates, setOpenTemplates] = useState(false);
 
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
@@ -53,7 +57,12 @@ const Summarizer = () => {
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
 
+    const templates = ["Template 1", "Template 2", "Template 3"];
+    const [selectedTemplate, setTemplate] = useState(templates[0]);
+
     const [sliderValue, setSliderValue] = useState(1);
+
+    const email = localStorage.getItem('email');
 
     const valuetext = (value) => {
         return `${value}`;
@@ -214,6 +223,11 @@ const Summarizer = () => {
         setVideoSetting(item)
     }
 
+    const handleTemplateChange = (item) => {
+        setTemplate(item);
+        handleTemplateFetch(item);
+    }
+
     const checkEmptyInput = () => {
         //const input = document.getElementById("input");
         if(inputContent === '') {
@@ -240,6 +254,19 @@ const Summarizer = () => {
     // closes Dialog Box
     const handleErrorConfirm = () => {
         handleErrorClose()
+    }
+
+    // for opening Dialog Box
+    const handleOpenTemplates = () => {
+        setOpenTemplates(true)
+    }
+    // for closing Error Dialog Box
+    const handleTemplateClose = () => {
+        setOpenTemplates(false)
+    }
+    // closes Dialog Box
+    const handleTemplateConfirm = () => {
+        handleTemplateClose()
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -283,6 +310,139 @@ const Summarizer = () => {
             showError('An error occurred while fetching the summary.');
         });
     };
+
+    //function to pull the values stored in the database for the template
+    const handleTemplateFetch = async (item) => {
+        setTemplate(item);
+        //do if so that u can say template 1 = customTemplate1 etc.
+        var templatename;
+        if (item === templates[0]) {
+            templatename = "customTemplate1";
+        }else if (item === templates[1]) {
+            templatename = "customTemplate2";
+        }else {
+            templatename = "customTemplate3";
+        }
+        console.log("Selected template:",selectedTemplate);
+        console.log("item:",item);
+        console.log("templateNameToFetch:",templatename);
+        try {
+    
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/gettemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                //result should include all the flags I want
+                if (result.summtype === 'text') {
+                    setClickedButton(0);
+                }else if (result.summtype === 'website') {
+                    setClickedButton(1);
+                }else if (result.summtype === 'video') {
+                    setClickedButton(2);
+                    //timestamp thing
+                }
+
+                if (result.formality != null) {
+                    setTone(result.formality);
+                }else {
+                    setTone(tone[0]);
+                }
+
+                if (result.structure != null) {
+                    setLayout(result.structure);
+                }else {
+                    setLayout(layout[0]);
+                }
+
+                if (result.length === 'short') {
+                    setSliderValue(1);
+                }else if (result.length === 'medium') {
+                    setSliderValue(2);
+                }else if (result.length === 'long') {
+                    setSliderValue(3);
+                }else {
+                    setSliderValue(1);
+                }
+
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    
+      };
+
+      //for handling saving of template 1
+    const handleClickSave  = async (templatenumber) => {
+        var formality = selectedTone;
+        var structure = selectedLayout;
+        const email = localStorage.getItem('email');
+        var wordcount = 0;
+        var length;
+        
+        if (sliderValue === 1) {
+            wordcount = 50;
+            length = 'short';
+        }else if (sliderValue === 2) {
+            wordcount = 100;
+            length = 'medium';
+        }else if (sliderValue === 3){
+            wordcount = 200;
+            length = 'long';
+        }
+        var summ_type = "";
+        var timestamp = "";
+        if (isClicked === 0) {
+            summ_type = "text";
+        }else if (isClicked === 1) {
+            summ_type = "website";
+        }else if (isClicked === 2){
+            summ_type = "video";
+            if (selectedVideoSetting === videoSetting[0]) {
+                timestamp = "full";
+            }else {
+                timestamp = "{00:05,00:15}";
+            }
+            
+        }
+        var templatename;
+        if (templatenumber === 1) {
+            templatename = "customTemplate1";
+        }else if (templatenumber === 2) {
+            templatename = "customTemplate2";
+        }else {
+            templatename = "customTemplate3";
+        }
+        
+
+        try {
+            const response = await fetch('http://localhost:5001/savetemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, formality, structure, 
+                wordcount, summ_type, timestamp, length, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
 
 
     //export button handling, for downloading json file
@@ -454,12 +614,46 @@ const Summarizer = () => {
                                             }
                                         </div>
                                     </div>
-                                    <div className="save-custom-info">
-                                        <button className='summarize-btn'>
-                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
+                                    <div className="template-config-buttons">
+                                        <div className="save-template">
+                                            <div className="dropdown-menu">
+                                                <div className="dropdown">
+                                                    <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
+                                                        Save Settings
+                                                        {/* <span className="toggle-icon"> 
+                                                            <FaChevronUp/>
+                                                        </span> */}
+                                                    </button>
+                                                </div>
+                                                {/* <button className='summarize-btn'>
+                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                        <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
+                                                    </div>
+                                                </button> */}
                                             </div>
-                                        </button>
+                                        </div>
+                                        {/* <div className="save-custom-info">
+                                            <button className='summarize-btn'>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
+                                                </div>
+                                            </button>
+                                        </div> */}
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedTemplate}
+                                                content={<>
+                                                    {
+                                                        templates.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleTemplateChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 {/* </div>)} */}
@@ -610,6 +804,33 @@ const Summarizer = () => {
                 showCancelButton={false}
                 confirmText={"Continue"}
                 onConfirm={handleErrorConfirm}
+                />
+                <DialogBox 
+                open={openTemplates} 
+                onClose={handleTemplateClose}
+                title={"Templates"}
+                content={
+                    <div className="template-buttons">
+                        <button className='summarize-btn' onClick={() => handleClickSave(1)}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 1</div>
+                            </div>
+                        </button> 
+                        <button className='summarize-btn' onClick={() => handleClickSave(2)}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 2</div>
+                            </div>
+                        </button> 
+                        <button className='summarize-btn' onClick={() => handleClickSave(3)}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 3</div>
+                            </div>
+                        </button> 
+                    </div>
+                }
+                showCancelButton={false}
+                confirmText={"Continue"}
+                onConfirm={handleTemplateConfirm}
                 />
             </div>
         </div>
