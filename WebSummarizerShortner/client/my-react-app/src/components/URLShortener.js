@@ -102,7 +102,7 @@ const URLShortener = () => {
                         onChange={(e) => setURL(e.target.value)}
                         placeholder='Enter URL here' 
                     />
-                    { !isPremium &&
+                    { !email &&
                     <button 
                         className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`}  
                         onClick={()=> { handleSubmit(); showSummarize(true); }} >
