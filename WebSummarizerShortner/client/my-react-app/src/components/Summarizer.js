@@ -530,7 +530,7 @@ const summarizeText = () => {
                                     }
                                 </div>
 
-                                { wordCount > 125? 
+                                { wordCount > 125 && !userEmail ? 
                                     <Tooltip title="Over the word limit" arrow>
                                         <button className='summarize-btn button-disabled' disabled>
                                             <div className="summarize-overlap">
