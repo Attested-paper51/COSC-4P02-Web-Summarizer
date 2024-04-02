@@ -39,7 +39,7 @@
     width: 22%;
     border-radius: 0 0.5vw 0.5vw 0;
     border: 0;   
-    opacity: 0.8;
+    opacity: 0.9;
     /* background-color: #0d55a7; */
 }
 
@@ -50,7 +50,7 @@
     /* background-color: #0d55a7; */
     padding: 0.6vw;
     height: clamp(40px, 2.5vw, 100px);
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .shorten-url {
