@@ -235,6 +235,14 @@ class Authentication:
         return 1
 
 
+    #Feedback
+
+    def addFeedback(self,stars,text):
+        cursor = self.conn.cursor()
+        
+        cursor.execute("INSERT INTO feedback (stars, text) VALUES (%s, %s)", (stars,text))
+        self.conn.commit()
+        return 1
 
     def __del__(self):
         self.conn.close()
@@ -431,10 +439,19 @@ def getTemplate():
     'structure':structure,'numparagraphs':numParagraphs,
     'summtype':summType,'timestamps':timestamps})
 
+@appA.route('/addfeedback',methods=['POST'])
+def addFeedback():
+    data = request.get_json()
+    stars = data.get('rating')
+    text = data.get('feedback')
+    
+    userMgr = Authentication()
+    userMgr.addFeedback(stars,text)
+    return jsonify({'message':'Feedback added successfully.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
-    auth = Authentication()
+    #auth = Authentication()
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
     #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")
