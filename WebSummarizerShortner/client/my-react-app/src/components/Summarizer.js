@@ -478,7 +478,7 @@ const Summarizer = () => {
     return (
         <div className={`wrapper ${darkMode ? 'summarizer-dark' : 'summarizer-light'}`}>
             <div className="in-wrapper-sum">
-                <h2>Summarizer</h2>
+                <h2 className="section-header-sum">Summarizer</h2>
                 <div className="summarizer-container">
                     <div className="centered-Div">
                         <div class="button-container">

@@ -4,16 +4,23 @@
     justify-content: center;
     /* align-content: center; */
     /* margin: 0 auto; */
-    padding: 15vh 4vh 15vh;
+    /* padding: 8vh 4vh 8vh; */
     text-align: center;
+    /* min-height: 90vh; */
 }
 
 .url-wrapper {
     margin: auto;
+    min-height: 90vh;
     width: clamp(500px, 40vw, 2000px);
 }
 
+.section-header-short{
+    margin: 12%;
+}
+
 .insert-url, .shorten-url {
+    margin-top: 2%;
     font-size: clamp(0.6rem, 1.4vw, 10rem);
 }
 
@@ -26,7 +33,7 @@
     display: flex;
     flex-direction: row;
     height: clamp(40px, 2.5vw, 100px);
-    margin-top: 1%;
+    margin-top: 2%;
 }
 
 .premium-url {

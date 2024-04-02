@@ -93,6 +93,7 @@ const URLShortener = () => {
         <div className={`url ${darkMode ? 'url-dark' : 'url-light'}`}>
             {/* <h1>Shorten a URL</h1>*/}
             <div className='url-wrapper'>
+                <h2 className='section-header-short'>URL Shortener</h2>
                 <h3 className='insert-url'>Insert URL to be shortened</h3> 
                 <div className='url-div1'>
                     <input className={`input-url ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
