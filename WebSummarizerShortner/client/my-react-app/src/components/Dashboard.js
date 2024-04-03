@@ -10,6 +10,7 @@ import { TbCloudNetwork } from "react-icons/tb";
 import { IoPersonSharp } from "react-icons/io5";
 import { TbLogout } from "react-icons/tb";
 import { CiCircleChevLeft, CiCircleChevRight  } from "react-icons/ci";
+import Tooltip from '@mui/material/Tooltip';
 
 import History from './History.jsx';
 import Templates from './Templates.jsx';
@@ -83,9 +84,11 @@ const Dashboard = () => {
       <div className='side-panel'>
           <div className='side-panel-title-wrapper'>
             <div className='user-name'>testuser</div>
-            <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
-              <CiCircleChevLeft className='sidebar-icon'/>
-            </button>
+            <Tooltip title="Collapse Sidebar" arrow>
+              <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
+                <CiCircleChevLeft className='sidebar-icon'/>
+              </button>
+            </Tooltip>
           </div>
           <div className='user-profile-container'> 
             <IoPersonSharp className='user-profile'/>
@@ -110,19 +113,27 @@ const Dashboard = () => {
         {!open && 
         <div className='small-side-panel-container'>
         <div className='small-side-panel'>
-          <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
-            <CiCircleChevRight className='sidebar-icon' />
-          </button>
+          <Tooltip title="Open Sidebar" arrow>
+            <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
+              <CiCircleChevRight className='sidebar-icon' />
+            </button>
+          </Tooltip>
           <div className='dashboard-options'>
-              <button 
-                className={`dash-option small-icon ${activeComponent === 'History' ? 'active' : ''}`} 
-                onClick={() => handleOptionClick('History')}>
-                  <MdHistory className='dash-option-icon' />
-              </button>
+            <Tooltip title="History" arrow>
+              <button className={`dash-option small-icon ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}> <MdHistory className='dash-option-icon' /></button>
+            </Tooltip>
+            <Tooltip title="Templates" arrow>
               <button className={`dash-option small-icon ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/></button>
+            </Tooltip>
+            <Tooltip title="API Access" arrow>
               <button className={`dash-option small-icon ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' /></button>
+            </Tooltip>
+            <Tooltip title="Settings" arrow>
               <button className={`dash-option small-icon ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon'/></button>
+            </Tooltip>
+            <Tooltip title="Logout" arrow>
               <button className='dash-option small-icon logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon'/></button>
+            </Tooltip>
               {/* {storedEmail && <div>{storedEmail}</div>}  */}
               {/* Change this eventually */}
             </div>
