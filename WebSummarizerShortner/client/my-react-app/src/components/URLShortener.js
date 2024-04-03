@@ -13,6 +13,8 @@ const URLShortener = () => {
     const [shortened, setShortURL] = useState('');
     const [customWord, setCustomWord] = useState('');
     const [customWordError, setCustomWordError] = useState('');
+
+    const [URLError, setURLError] = useState('');
     
     const [CopyURL, setCopyURL] = useState('Copy URL')
     const handleCopy = () => {
@@ -109,9 +111,10 @@ const URLShortener = () => {
                         onClick={()=> { handleSubmit(); showSummarize(true); }} >
                         <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                     </button>
-                    }
+                    } 
                 </div>
-                { email &&
+                {URLError && <div className={`url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{URLError}</div>}
+                {email &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>
@@ -137,7 +140,7 @@ const URLShortener = () => {
                                 </button>
                             {/* </div> */}
                         </div>
-                            {customWordError && <div className="pass-error">{customWordError}</div>} 
+                            {customWordError && <div className={`custom-url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{customWordError}</div>}
                     </div>
                 }   
                 <div className='url-shorten-container'>

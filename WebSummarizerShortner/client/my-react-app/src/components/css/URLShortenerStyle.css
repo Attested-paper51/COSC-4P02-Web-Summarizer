@@ -19,9 +19,23 @@
     margin: 12%;
 }
 
+.section-header-short{
+    padding: 1%;
+    font-size: clamp(1.2rem, 2vw, 15rem);
+}
+
 .insert-url, .shorten-url {
     margin-top: 2%;
     font-size: clamp(0.6rem, 1.4vw, 10rem);
+}
+
+.url-error{
+    text-align: left;
+}
+
+.custom-url-error{
+    text-align: left;
+    padding-left: 41.5%;
 }
 
 .custom-url {
@@ -143,7 +157,7 @@
         font-size: clamp(1rem, 1.7vw, 10rem);
     }
     .button-text {
-        font-size: clamp(0.8rem, 1.3vw, 10rem);
+        font-size: clamp(0.8rem, 1.1vw, 10rem);
     }
 }
 
