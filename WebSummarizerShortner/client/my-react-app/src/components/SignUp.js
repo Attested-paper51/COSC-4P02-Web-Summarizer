@@ -166,14 +166,14 @@ const SignUp = () => {
   });
 
   return (
-    <div className="box">
-      <div className="form">
+    <div className={`box ${darkMode ? 'login-dark' : 'login-light'}`}>
+      <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className='form-title'>Create an account</div>
         <div className="form-subtitle">Join us to access to Tailored Summaries, Analytics, API Integration and more!</div>
 
         <div className="name">
           <label className='name-text'>Enter your name</label> 
-          <input className='textfield'
+          <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
             type="text" 
             required
             value={name}
@@ -185,7 +185,7 @@ const SignUp = () => {
 
         <div className="email">
           <label className='email-text'>Enter your email</label> 
-          <input className='textfield'
+          <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
             type="text" 
             required
             value={email}
@@ -208,7 +208,7 @@ const SignUp = () => {
           </div>
           <div className='pass-wrapper'>
             <div className='pass-container' onClick={()=> { showChecklist(true); }}>
-                <input className='textfield'
+                <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                   type={visible ? "text":"password"}
                   required
                   value={pass}
@@ -261,7 +261,7 @@ const SignUp = () => {
         <div className="password">
           <label className='pass-text'>Re-enter password</label> 
           <div className='pass-container'>
-            <input className='textfield'
+            <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 type={visible1 ? "text":"password"}
                 required
                 value={finalPass}
@@ -278,8 +278,8 @@ const SignUp = () => {
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>
-          <div className="signup-overlap">
-            <div className="signup">Create an account</div>
+          <div className={`signup-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+            <div className={`signup ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
           </div>
         </button>
         
