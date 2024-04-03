@@ -5,9 +5,11 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
-
+import { useTheme } from './ThemeContext.js'
 
 const Password = () => {
+
+  const { darkMode } = useTheme();
 
   const [pass, setPass] = useState('');
   const [finalPass, confirmPass] = useState('');
@@ -116,8 +118,8 @@ const Password = () => {
   };
 
   return (
-    <div className="pass-box">
-      <div className="form">
+    <div className={`pass-box ${darkMode ? 'login-dark' : 'login-light'}`}>
+      <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className='form-title'>Reset account password</div>
         {/* <div className="form-subtitle">Join us to access to Tailored Summaries, Analytics, API Integration and more!</div> */}
         {/* <div className="username">
@@ -136,7 +138,7 @@ const Password = () => {
           <label className='pass-text'>Enter new password</label> 
           <div className='pass-wrapper'>
             <div className='pass-container'>
-              <input className='textfield'
+              <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 type={visible ? "text":"password"}
                 required
                 value={pass}
@@ -170,13 +172,13 @@ const Password = () => {
             </div>
 
           </div>
-          {passError && <div class="pass-error">{passError}</div>}
+          {passError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{passError}</div>}
         </div>
 
         <div className="password">
           <label className='pass-text'>Re-enter new password</label> 
           <div className='pass-container'>
-            <input className='textfield'
+            <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 type={visible1 ? "text":"password"}
                 required
                 value={finalPass}
@@ -187,12 +189,12 @@ const Password = () => {
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}
               </div>
           </div>
-          {finalError && <div class="pass-error">{finalError}</div>}
+          {finalError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{finalError}</div>}
         </div>
 
         <button className="reset-btn" onClick={handleSubmit}>
-          <div className="reset-overlap">
-            <div className="reset">Reset password</div>
+          <div className={`reset-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+            <div className={`reset ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Reset password</div>
           </div>
         </button>
         
