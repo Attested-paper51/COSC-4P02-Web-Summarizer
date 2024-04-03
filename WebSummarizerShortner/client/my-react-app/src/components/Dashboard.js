@@ -9,6 +9,7 @@ import { TbTemplate } from "react-icons/tb";
 import { TbCloudNetwork } from "react-icons/tb";
 import { IoPersonSharp } from "react-icons/io5";
 import { TbLogout } from "react-icons/tb";
+import { CiCircleChevLeft, CiCircleChevRight  } from "react-icons/ci";
 
 import History from './History.jsx';
 import Templates from './Templates.jsx';
@@ -72,24 +73,63 @@ const Dashboard = () => {
   console.log('AuthContext email: ',userEmail);
   console.log('Local Storage email: ',storedEmail);
 
+  const [open, setOpen] = useState(true);
+
   return (
 
     <div className="dashboard">
-      <div className="side-panel">
-          <div className='user-profile'>
-            <IoPersonSharp size={160}/>
+
+      {open && 
+      <div className='side-panel'>
+          <div className='side-panel-title-wrapper'>
+            <div className='user-name'>testuser</div>
+            <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
+              <CiCircleChevLeft className='sidebar-icon'/>
+            </button>
           </div>
-          <div className='user-name'>{username}</div>
+          <div className='user-profile-container'> 
+            <IoPersonSharp className='user-profile'/>
+          </div>
           <div className='dashboard-options'>
-              <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory size={25} />History</button>
-              <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate size={25}/>Templates</button>
-              <button className={`dash-option ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork size={25} />API Access</button>
-              <button className={`dash-option ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline size={25}/>Settings</button>
-              <button className='dash-option logout-btn' onClick={handleLogout}><TbLogout size={25}/>Logout</button>
+              <button 
+                className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} 
+                onClick={() => handleOptionClick('History')}>
+                  <MdHistory className='dash-option-icon' />
+                  History
+              </button>
+              <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/>Templates</button>
+              <button className={`dash-option ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' />API Access</button>
+              <button className={`dash-option ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon'/>Settings</button>
+              <button className='dash-option logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon'/>Logout</button>
               {/* {storedEmail && <div>{storedEmail}</div>}  */}
               {/* Change this eventually */}
+            </div>
+            </div> }
+
+
+        {!open && 
+        <div className='small-side-panel-container'>
+        <div className='small-side-panel'>
+          <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
+            <CiCircleChevRight className='sidebar-icon' />
+          </button>
+          <div className='dashboard-options'>
+              <button 
+                className={`dash-option small-icon ${activeComponent === 'History' ? 'active' : ''}`} 
+                onClick={() => handleOptionClick('History')}>
+                  <MdHistory className='dash-option-icon' />
+              </button>
+              <button className={`dash-option small-icon ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/></button>
+              <button className={`dash-option small-icon ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' /></button>
+              <button className={`dash-option small-icon ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon'/></button>
+              <button className='dash-option small-icon logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon'/></button>
+              {/* {storedEmail && <div>{storedEmail}</div>}  */}
+              {/* Change this eventually */}
+            </div>
           </div>
-      </div>
+          </div> }
+
+          
       <div className="main-panel">
         {activeComponent === 'History' && <History />}
         {activeComponent === 'Templates' && <Templates />}
