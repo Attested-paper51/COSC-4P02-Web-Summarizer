@@ -10,6 +10,7 @@
     /* position: fixed; */
     /* border: 5px solid #000000; */
     /* background-color: rgb(248, 248, 238); */
+    min-height: 90vh;
 }
 
 .login-box .form, .login-box .account{
@@ -34,8 +35,8 @@
 
 .login-box .account{
     /*width: 550px;*/
-    background-color: #f5e4a5;
-    border: 0.1vw solid #bba048;
+    /* background-color: #f5e4a5; */
+    border: 0.1vw solid;
     border-left: 0;
     border-radius: 0px 10px 10px 0;
 }
@@ -90,7 +91,7 @@
 }
 
 .login-box .create-overlap{
-    background-color: #361e04;
+    /* background-color: #361e04; */
     width: clamp(300px, 20vw, 1000px);
     font-size: clamp(0.9rem, 0.8vw, 10rem);
 }
@@ -103,7 +104,7 @@
     all: unset;
     box-sizing: border-box;
     height: clamp(40px, 3.2vh, 500px);
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .login-box .login-btn:hover, .login-box .create-btn:hover{
@@ -174,6 +175,7 @@
     font-size: clamp(0.9rem, 1vw, 10rem);
     text-align: center;
     padding: 0em 2em 1em;
+    font-weight: 700;
 }
 
 .login-box .logo{
@@ -196,7 +198,7 @@
   
 .login-box .email-error, .login-box .pass-error{
     padding-top: 2px;
-    color: red;
+    /* color: red; */
 }
 
 .login-box .hide-pass{
@@ -233,7 +235,7 @@
     .login-box .account{
         margin-top: 0.5em;
         border-radius: 10px;
-        border: 2px solid #bba048;
+        border: 2px solid;
     }
     .login-box .gmail-icon, .login-box .fb-icon{
         padding-right: 0.3vw;
