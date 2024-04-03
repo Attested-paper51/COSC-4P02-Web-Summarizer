@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
 import { Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext.js'
+import DialogBox from '../components/DialogBox.js';
 
 const URLShortener = () => {
 
@@ -13,6 +14,8 @@ const URLShortener = () => {
     const [shortened, setShortURL] = useState('');
     const [customWord, setCustomWord] = useState('');
     const [customWordError, setCustomWordError] = useState('');
+
+    const [URLError, setURLError] = useState('');
     
     const [CopyURL, setCopyURL] = useState('Copy URL')
     const handleCopy = () => {
@@ -21,6 +24,24 @@ const URLShortener = () => {
         setTimeout(() => {
             setCopyURL('Copy URL');
         }, 3000); // Reverts back to 'Submit' after 3 seconds
+    }
+
+    const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    const checkEmptyInput = () => {
+        //const input = document.getElementById("input");
+        if(URL === '') {
+            setOpenEmptyInput(true)
+        }
+        else {
+            handleSubmit();
+        }
+    }
+    // for closing Empty Error Dialog Box
+    const handleEmptyClose = () => {
+        setOpenEmptyInput(false)
+    }
+    const handleEmptyConfirm = () => {
+        handleEmptyClose()
     }
 
     const email = localStorage.getItem('email');
@@ -71,6 +92,7 @@ const URLShortener = () => {
                     setCustomWordError(result.message);
                 }else {
                     setShortURL(result.shortenedURL);
+                    showSummarize(true);
                 }
 
                 
@@ -105,13 +127,15 @@ const URLShortener = () => {
                     />
                     { !email &&
                     <button 
-                        className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`}  
-                        onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                        className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`} 
+                        // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
+                        onClick={()=> { checkEmptyInput() }} >
                         <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                     </button>
-                    }
+                    } 
                 </div>
-                { email &&
+                {URLError && <div className={`url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{URLError}</div>}
+                {email &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>
@@ -132,12 +156,13 @@ const URLShortener = () => {
                                 />
                                 <button 
                                     className={`shorten-custom ${darkMode ? 'btn-dark' : 'btn-light'}`} 
-                                    onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                                    // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
+                                    onClick={()=> { checkEmptyInput() }} >
                                     <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                                 </button>
                             {/* </div> */}
                         </div>
-                            {customWordError && <div className="pass-error">{customWordError}</div>} 
+                            {customWordError && <div className={`custom-url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{customWordError}</div>}
                     </div>
                 }   
                 <div className='url-shorten-container'>
@@ -158,6 +183,16 @@ const URLShortener = () => {
                         </button>
                     </div>
                 </div>
+
+                <DialogBox 
+                open={openEmptyInput} 
+                onClose={handleEmptyClose}
+                title={"Error"}
+                content={"Please enter a URL to be shortened."}
+                showCancelButton={false}
+                confirmText={"Continue"}
+                onConfirm={handleEmptyConfirm}
+                />
                 
                 { summarize &&
                     <Link to = "/Summarizer">
