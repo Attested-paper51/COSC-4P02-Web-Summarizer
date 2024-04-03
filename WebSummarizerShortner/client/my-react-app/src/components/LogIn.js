@@ -194,7 +194,7 @@ const LogIn = () => {
             </div>
           </button>
 
-        <Link to="/Verify">
+        <Link to="/Dashboard">
           <div className="forgot">
             Forgot your password?
           </div>

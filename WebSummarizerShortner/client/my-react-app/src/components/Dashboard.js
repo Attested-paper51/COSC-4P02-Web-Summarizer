@@ -17,8 +17,11 @@ import Templates from './Templates.jsx';
 import Settings from './Settings.jsx';
 import APIAccess from './APIAccess.jsx';
 
+import { useTheme } from './ThemeContext.js'
+
 const Dashboard = () => {
 
+  const { darkMode } = useTheme();
 
   const navigate = useNavigate();
  // // const emailCheck = localStorage.getItem('email');
@@ -94,12 +97,7 @@ const Dashboard = () => {
             <IoPersonSharp className='user-profile'/>
           </div>
           <div className='dashboard-options'>
-              <button 
-                className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} 
-                onClick={() => handleOptionClick('History')}>
-                  <MdHistory className='dash-option-icon' />
-                  History
-              </button>
+              <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory className='dash-option-icon' />History</button>
               <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/>Templates</button>
               <button className={`dash-option ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' />API Access</button>
               <button className={`dash-option ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon'/>Settings</button>
@@ -141,7 +139,7 @@ const Dashboard = () => {
           </div> }
 
           
-      <div className="main-panel">
+      <div className={`main-panel ${darkMode ? 'main-panel-dark' : 'main-panel-light'}`}>
         {activeComponent === 'History' && <History />}
         {activeComponent === 'Templates' && <Templates />}
         {activeComponent === 'APIAccess' && <APIAccess />}

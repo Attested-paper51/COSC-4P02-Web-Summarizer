@@ -5,8 +5,12 @@ import { FaCheck } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 import PopUp from './PopUp.js';
 import Feedback from './Feedback.js'
+import { useTheme } from './ThemeContext.js'
+
 
 const Settings = () => {
+
+  const { darkMode } = useTheme();
 
   let username = localStorage.getItem('name');
   let email = localStorage.getItem('email');
@@ -115,33 +119,46 @@ const Settings = () => {
           <div className='profile-div'>
             <div className='label'>Name</div> 
             <div className='text'>{username}</div>
-            <button className='update' onClick={() => setNamePopup(true)}>Update Name</button>
+            <button className='update' onClick={() => setNamePopup(true)}>
+              <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+                Update Name
+              </div> 
+            </button>
            
             <PopUp trigger={namePopup} setTrigger={setNamePopup} title='Update Name'>
               <label className='pop-label'>Enter new name</label>
               <input 
                 type="text"
-                className='textfield'
+                className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 placeholder={username}
                 value = {newname}
                 onChange = {(e) => setNewName(e.target.value)}
 
               />
               {/* Use button below to change user's name in the database */}
-              <button className='confirm-btn' onClick={() => handleNameChange(email, newname)}>Confirm name change</button>
+              {/* <button className='confirm-btn' onClick={() => handleNameChange(email, newname)}>Confirm name change</button> */}
+              <button className='acc-delete-btn' onClick={() => handleNameChange(email, newname)}>
+                <div className={`acc-delete-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                    <div className={`acc-delete ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Confirm name change</div>
+                </div>
+              </button>
             </PopUp>
           </div>
 
           <div className='profile-div'>
             <div className='label'>Email</div> 
             <div className='text'>{email}</div>
-            <button className='update' onClick={() => setEmailPopup(true)}>Update Email</button>
+            <button className='update' onClick={() => setEmailPopup(true)}>
+              <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+                Update Email
+              </div> 
+            </button>
             {localStorage.getItem('loginMethod') !== 'google' ?  (
               <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
               <label className='pop-label'>Enter new email</label>
               <input 
                 type="email"
-                className='textfield'
+                className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 placeholder={email}
                 value ={newEmail}
                 onChange = {(e) => setNewEmail(e.target.value)}
@@ -150,19 +167,24 @@ const Settings = () => {
               <label className='pop-label'>Enter password</label>
               <input 
                 type="password"
-                className='textfield'
+                className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 placeholder={'\u25CF'.repeat(userpass.length)}
                 value={password}
                 onChange={handlePassChange}
               />
               {passError && <div className="pass-error">{passError}</div>}
               {/* Use button below to change user's email in the database  */}
-              <button className='confirm-btn' onClick={() => handleEmailChange(email, newEmail, password)}>Confirm email change</button>
+              {/* <button className='confirm-btn' onClick={() => handleEmailChange(email, newEmail, password)}>Confirm email change</button> */}
+              <button className='acc-delete-btn' onClick={() => handleEmailChange(email, newEmail, password)}>
+                <div className={`acc-delete-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                    <div className={`acc-delete ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Confirm email change</div>
+                </div>
+              </button>
             </PopUp>
             ) : (
               <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Error'>
-              <div>Cannot change email of Google/Facebook account</div>
-            </PopUp>
+                <div>Cannot change email of Google/Facebook account</div>
+              </PopUp>
             )}
             
           </div>
@@ -172,9 +194,18 @@ const Settings = () => {
             <div className='text'>{'\u25CF'.repeat(userpass.length)}</div>
           
             {localStorage.getItem('loginMethod') !== 'google' ? (
-              <Link to="/Reset"><button className='update'>Reset Password</button></Link>
+              <Link to="/Reset"><button className='update'>
+                <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+                  Reset Password
+                </div> 
+              </button></Link>
             ): (
-              <button className='update' onClick={() => setPassPopup(true)}>Reset Password</button>
+            
+            <button className='update' onClick={() => setPassPopup(true)}>
+              <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+                Reset Password
+              </div> 
+            </button>
               
             )}
             <PopUp trigger={passPopup} setTrigger={setPassPopup} title='Error'>
@@ -186,7 +217,7 @@ const Settings = () => {
 
         <div className='plan'>
           <div className='label'>Subscription Plan</div>
-          <div className='plan-text'><FaCrown size={18} /><span>Premium</span></div>
+          <div className={`plan-text ${darkMode ? 'plan-dark' : 'plan-light'}`}><FaCrown size={18} /><span>Premium</span></div>
           <div className='plan-list'>
             Features include: 
             <ul>
@@ -214,11 +245,19 @@ const Settings = () => {
         </div> */}
       
         <div className='delete'>
-          <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>Delete account</button>
+          <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>
+            <div className={`acc-delete-overlap ${darkMode ? 'acc-delete-dark' : 'acc-delete-light'}`}>
+                <div className={`acc-delete ${darkMode ? 'add-text' : 'adl-text'}`}>Delete Account</div>
+            </div>
+          </button>
           <PopUp trigger={deletePopup} setTrigger={setDeletePopup} title='Delete Account'>
             <label className='pop-label'>Are you sure you want to delete your account permanently?</label>
             {/* Use the button below to permanently remove user from database */}
-            <button className='acc-delete-btn' onClick={handleDelete}>Delete account permanently</button>
+            <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>
+              <div className={`acc-delete-overlap ${darkMode ? 'acc-delete-dark' : 'acc-delete-light'}`}>
+                  <div className={`acc-delete ${darkMode ? 'add-text' : 'adl-text'}`}>Delete Account Permanently</div>
+              </div>
+            </button>
           </PopUp>
         </div>
     </div>
