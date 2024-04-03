@@ -18,14 +18,18 @@ html{
   --clr-shadow-light: #8ba7c2;
   --clr-shadow-light2: rgba(149, 157, 165, 0.2);
   --clr-btn-light: #0d55a7;
+  --clr-btn2-light: #09386e;
+  --clr-error-light: red;
 
   --clr-dark1: #425689;
   --clr-dark2: #2d437a;
   --clr-accent3: #212f5b;
   --clr-accent4: #111e41;
-  --clr-shadow-dark: #1e3953;
+  --clr-shadow-dark: #172939;
   --clr-shadow-dark2: rgba(21, 30, 38, 0.2);
   --clr-btn-dark: #cbe3fe;
+  --clr-btn2-dark:rgb(247, 250, 255);
+  --clr-error-dark: rgb(255, 156, 156);
 }
 
 body{
@@ -66,7 +70,7 @@ a {
   background-color: var(--clr-dark2);
   color: var(--clr-light2);
   border-bottom: 1px solid var(--clr-dark2);
-  box-shadow: 0 0.5px 3px var(--clr-shadow-dark);
+  box-shadow: 0 0.5px 5px var(--clr-shadow-dark);
 }
 .header-light-icon{
   color: var(--clr-accent3);
@@ -309,11 +313,31 @@ a {
 }
 .form-light{
   background-color: var(--clr-accent2);
-  border: 0.1vw solid var(--clr-accent3);
+  border: 0.1vw solid var(--clr-dark2);
 }
 .form-dark{
   background-color: var(--clr-dark1);
-  border: 0.1vw solid var(--clr-accent4);
+  border: 0.1vw solid var(--clr-accent1);
+}
+.account-light{
+  background-color: var(--clr-accent1);
+  color: var(--clr-dark2);
+}
+.account-dark{
+  background-color: var(--clr-accent3);
+  color: var(--clr-accent1);
+}
+.btn2-light{
+  background-color: var(--clr-btn2-light);
+}
+.btn2-dark{
+  background-color: var(--clr-btn2-dark);
+}
+.error-light{
+  color: var(--clr-error-light);
+}
+.error-dark{
+  color: var(--clr-error-dark);
 }
 
 

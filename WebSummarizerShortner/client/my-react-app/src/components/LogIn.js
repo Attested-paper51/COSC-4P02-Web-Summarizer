@@ -136,7 +136,7 @@ const LogIn = () => {
 
     google.accounts.id.renderButton(
       document.getElementById("gmail-login"),
-      { theme: "outline", size: "large" }
+      { theme: "outline", size: "large", shape: "circle"}
     );
   }, []);
   
@@ -185,7 +185,7 @@ const LogIn = () => {
               {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
             </div>
           </div>
-          {passError && <div className="pass-error">{passError}</div>} 
+          {passError && <div className={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{passError}</div>} 
         </div>
         
           <button className="login-btn" onClick={handleSubmit}>
@@ -194,14 +194,14 @@ const LogIn = () => {
             </div>
           </button>
 
-        <Link to="/Dashboard">
+        <Link to="/Verify">
           <div className="forgot">
             Forgot your password?
           </div>
         </Link>
         
       </div>
-      <div className="account">
+      <div className={`account ${darkMode ? 'account-dark' : 'account-light'}`}>
           <div className="join">
             Upgrade to Pro for FREE and unlock Tailored Summaries, Analytics and API Integration!
           </div>
@@ -211,8 +211,8 @@ const LogIn = () => {
       
           <Link to="/Signup">
             <button className="create-btn">
-              <div className="create-overlap">
-                <div className="create">Create an account</div>
+              <div className={`create-overlap ${darkMode ? 'btn2-dark' : 'btn2-light'}`}>
+                <div className={`create ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
               </div>
             </button>
           </Link>

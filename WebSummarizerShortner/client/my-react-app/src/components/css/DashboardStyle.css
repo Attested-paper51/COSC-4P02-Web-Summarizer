@@ -385,7 +385,13 @@
 }
 
 .template-div{
-    margin-top: 2.5em;
+    /* margin-top: 2.5em; */
+    padding: 2em 0;
+    border-top: 1px solid #c3cee8;
+}
+
+.templates-wrapper h1{
+    padding-bottom: 1em;
 }
 
 .button-container{
@@ -418,6 +424,7 @@
     cursor: pointer;
 }
 
-@media (max-width: 700px) {
-    
+.save-custom-info, .reset-custom-info{
+    display: inline;
+    margin-right: 10px;
 }

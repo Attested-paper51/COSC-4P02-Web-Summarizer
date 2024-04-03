@@ -6,9 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '@mui/material/Tooltip';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useTheme } from './ThemeContext.js'
+
 //import { Link } from 'react-router-dom';
 
 const SignUp = () => {
+
+  const { darkMode } = useTheme();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -176,7 +180,7 @@ const SignUp = () => {
             onChange={handleNameChange}
             placeholder='Enter name here' 
           />
-          {nameError && <div className="email-error">{nameError}</div>}
+          {nameError && <div className={`email-error ${darkMode ? 'error-dark' : 'error-light'}`}>{nameError}</div>}
         </div>
 
         <div className="email">
@@ -188,7 +192,7 @@ const SignUp = () => {
             onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          {emailError && <div className="email-error">{emailError}</div>}
+          {emailError && <div className={`email-error ${darkMode ? 'error-dark' : 'error-light'}`}>{emailError}</div>}
         </div>
       
         <div className="password">
@@ -251,7 +255,7 @@ const SignUp = () => {
             </div> */}
 
           </div>
-          {passError && <div class="pass-error">{passError}</div>}
+          {passError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{passError}</div>}
         </div>
 
         <div className="password">
@@ -270,7 +274,7 @@ const SignUp = () => {
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}
               </div>
           </div>
-          {finalError && <div class="pass-error">{finalError}</div>}
+          {finalError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{finalError}</div>}
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>
