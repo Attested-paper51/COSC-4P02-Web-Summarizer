@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
 import { Link } from 'react-router-dom';
 import { useTheme } from './ThemeContext.js'
+import DialogBox from '../components/DialogBox.js';
 
 const URLShortener = () => {
 
@@ -23,6 +24,24 @@ const URLShortener = () => {
         setTimeout(() => {
             setCopyURL('Copy URL');
         }, 3000); // Reverts back to 'Submit' after 3 seconds
+    }
+
+    const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    const checkEmptyInput = () => {
+        //const input = document.getElementById("input");
+        if(URL === '') {
+            setOpenEmptyInput(true)
+        }
+        else {
+            handleSubmit();
+        }
+    }
+    // for closing Empty Error Dialog Box
+    const handleEmptyClose = () => {
+        setOpenEmptyInput(false)
+    }
+    const handleEmptyConfirm = () => {
+        handleEmptyClose()
     }
 
     const email = localStorage.getItem('email');
@@ -73,6 +92,7 @@ const URLShortener = () => {
                     setCustomWordError(result.message);
                 }else {
                     setShortURL(result.shortenedURL);
+                    showSummarize(true);
                 }
 
                 
@@ -107,8 +127,9 @@ const URLShortener = () => {
                     />
                     { !email &&
                     <button 
-                        className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`}  
-                        onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                        className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`} 
+                        // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
+                        onClick={()=> { checkEmptyInput() }} >
                         <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                     </button>
                     } 
@@ -135,7 +156,8 @@ const URLShortener = () => {
                                 />
                                 <button 
                                     className={`shorten-custom ${darkMode ? 'btn-dark' : 'btn-light'}`} 
-                                    onClick={()=> { handleSubmit(); showSummarize(true); }} >
+                                    // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
+                                    onClick={()=> { checkEmptyInput() }} >
                                     <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                                 </button>
                             {/* </div> */}
@@ -161,6 +183,16 @@ const URLShortener = () => {
                         </button>
                     </div>
                 </div>
+
+                <DialogBox 
+                open={openEmptyInput} 
+                onClose={handleEmptyClose}
+                title={"Error"}
+                content={"Please enter a URL to be shortened."}
+                showCancelButton={false}
+                confirmText={"Continue"}
+                onConfirm={handleEmptyConfirm}
+                />
                 
                 { summarize &&
                     <Link to = "/Summarizer">
