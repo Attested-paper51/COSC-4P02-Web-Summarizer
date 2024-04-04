@@ -113,7 +113,8 @@ const LogIn = () => {
           name = result.name;
           localStorage.setItem('email',emailGoogle);
           localStorage.setItem('loginMethod',"google");
-          localStorage.setItem('name',name);//should be taken from what the db has
+          localStorage.setItem('name',name);
+          navigate('/Dashboard');
         }
   
       } catch (error) {
@@ -121,8 +122,8 @@ const LogIn = () => {
       }
     
     
+  
     
-    navigate('/Dashboard');
     })();
 
   }
