@@ -671,7 +671,14 @@ const Templates = () => {
         }else if (isClicked2 === 2) {
             summ_type = "video";
             if (selectedVideoSetting2 === videoSetting[1]) {
-                timestamp = `${startHour2}:${startMin2},${endHour2}:${endMin2}`;
+                if (startHour2 === "HH" || startMin2 === "MM" || 
+                endHour2 === "HH" || endMin2 === "MM") {
+                    //display timestamp error
+                    console.log("hey, change the values dude");
+                    return;
+                }else{
+                    timestamp = `${startHour2}:${startMin2},${endHour2}:${endMin2}`;
+                }
             }else {
                 timestamp = "full"
             }
@@ -728,7 +735,15 @@ const Templates = () => {
         }else if (isClicked3 === 2) {
             summ_type = "video";
             if (selectedVideoSetting3 === videoSetting[1]) {
-                timestamp = `${startHour3}:${startMin3},${endHour3}:${endMin3}`;
+                if (startHour3 === "HH" || startMin3 === "MM" || 
+                endHour3 === "HH" || endMin3 === "MM") {
+                    //display timestamp error
+                    console.log("hey, change the values dude");
+                    return;
+                }else{
+                    timestamp = `${startHour3}:${startMin3},${endHour3}:${endMin3}`;
+                }
+                
             }else {
                 timestamp = "full"
             }
