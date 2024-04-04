@@ -376,7 +376,23 @@ const Summarizer = () => {
                     setClickedButton(1);
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
-                    //timestamp thing
+                    if (result.timestamps === 'full') {
+                        setVideoSetting(videoSetting[0]);
+                    }else {
+                        setVideoSetting(videoSetting[1]);
+                        //timestamp thing
+                        const [startTime, endTime] = result.timestamps.split(',');
+                        const [startHour, startMin] = startTime.split(':');
+                        const [endHour, endMin] = endTime.split(':');
+                        setStartHour(parseInt(startHour));
+                        setStartMin(parseInt(startMin));
+                        setEndHour(parseInt(endHour));
+                        setEndMin(parseInt(endMin));
+                        
+                    }
+                    
+                }else {
+                    setClickedButton(0);
                 }
 
                 if (result.formality != null) {
@@ -417,7 +433,7 @@ const Summarizer = () => {
         const email = localStorage.getItem('email');
         var wordcount = 0;
         var length;
-        console.log("video setting:",selectedVideoSetting);
+        
         
         if (sliderValue === 1) {
             wordcount = 50;
