@@ -16,6 +16,7 @@ import NumberInputBasic, {QuantityInput} from "./NumberInput.js";
 import DialogBox from '../components/DialogBox.js';
 
 import { useTheme } from './ThemeContext.js'
+import { dark } from '@mui/material/styles/createPalette';
 
 const Templates = () => {
 
@@ -58,6 +59,25 @@ const Templates = () => {
     const [sliderValue2, setSliderValue2] = useState(1);
     const [sliderValue3, setSliderValue3] = useState(1);
     const email = localStorage.getItem('email');
+
+    //timestamp vars
+    const [startHour, setStartHour] = useState(0);
+    const [startMin, setStartMin] = useState(0);
+    const [endHour, setEndHour] = useState(0);
+    const [endMin, setEndMin] = useState(0);
+
+     //timestamp vars - template 2
+     const [startHour2, setStartHour2] = useState(0);
+     const [startMin2, setStartMin2] = useState(0);
+     const [endHour2, setEndHour2] = useState(0);
+     const [endMin2, setEndMin2] = useState(0);
+
+      //timestamp vars - template 3
+    const [startHour3, setStartHour3] = useState(0);
+    const [startMin3, setStartMin3] = useState(0);
+    const [endHour3, setEndHour3] = useState(0);
+    const [endMin3, setEndMin3] = useState(0);
+
 
     const valuetext = (value) => {
         return `${value}`;
@@ -356,7 +376,8 @@ const Templates = () => {
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
-                timestamp = "{00:05,00:15}"
+                console.log(startHour);
+                timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
             }else {
                 timestamp = "full"
             }
@@ -425,8 +446,17 @@ const Templates = () => {
                         setVideoSetting(videoSetting[0]);
                     }else {
                         setVideoSetting(videoSetting[1]);
+                        //timestamp thing
+                        const [startTime, endTime] = result.timestamps.split(',');
+                        const [startHour, startMin] = startTime.split(':');
+                        const [endHour, endMin] = endTime.split(':');
+                        setStartHour(parseInt(startHour));
+                        setStartMin(parseInt(startMin));
+                        setEndHour(parseInt(endHour));
+                        setEndMin(parseInt(endMin));
+                        
                     }
-                    //timestamp thing
+                    
                 }else {
                     setClickedButton(0);
                 }
@@ -490,7 +520,12 @@ const Templates = () => {
                     setClickedButton2(1);
                 }else if (result.summtype === 'video') {
                     setClickedButton2(2);
-                    //timestamp thing
+                    if (result.timestamps === 'full') {
+                        setVideoSetting2(videoSetting[0]);
+                    }else {
+                        setVideoSetting2(videoSetting[1]);
+                        //timestamp thing
+                    }
                 }else {
                     setClickedButton2(0);
                 }
@@ -554,7 +589,12 @@ const Templates = () => {
                     setClickedButton3(1);
                 }else if (result.summtype === 'video') {
                     setClickedButton3(2);
-                    //timestamp thing
+                    if (result.timestamps === 'full') {
+                        setVideoSetting3(videoSetting[0]);
+                    }else {
+                        setVideoSetting3(videoSetting[1]);
+                        //timestamp thing
+                    }
                 }else {
                     setClickedButton3(0);
                 }
@@ -617,7 +657,7 @@ const Templates = () => {
         }else if (isClicked2 === 2) {
             summ_type = "video";
             if (selectedVideoSetting2 === videoSetting[1]) {
-                timestamp = "{00:05,00:15}"
+                timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
             }else {
                 timestamp = "full"
             }
@@ -674,7 +714,7 @@ const Templates = () => {
         }else if (isClicked3 === 2) {
             summ_type = "video";
             if (selectedVideoSetting3 === videoSetting[1]) {
-                timestamp = "{00:05,00:15}"
+                timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
             }else {
                 timestamp = "full"
             }
@@ -712,6 +752,8 @@ const Templates = () => {
         setTone(tone[0]);
         setSliderValue(1);
         setClickedButton(0);
+        setVideoSetting(videoSetting[0]);
+        setStartHour(0);
         var templatename = "customTemplate1";
         try {
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -738,6 +780,7 @@ const Templates = () => {
         setTone2(tone[0]);
         setSliderValue2(1);
         setClickedButton2(0);
+        setVideoSetting2(videoSetting[0]);
         var templatename = "customTemplate2";
         try {
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -764,6 +807,7 @@ const Templates = () => {
             setTone3(tone[0]);
             setSliderValue3(1);
             setClickedButton3(0);
+            setVideoSetting3(videoSetting[0]);
             var templatename = "customTemplate3";
             try {
                 const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -915,7 +959,7 @@ return (
                         { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
-                                    Start Time:
+                                    Start Time (HH:MM) :
                                     <div className="start-time">
                                         {/* <textarea 
                                             className="timestamp-textarea" 
@@ -923,9 +967,13 @@ return (
                                             name="startM" 
                                             placeholder='Minutes'>
                                         </textarea> */}
-                                        <NumberInputBasic/>
+                                        <NumberInputBasic 
+                                        value={startHour} 
+                                        placeholder = "HH"
+                                        onChange={setStartHour}
+                                        darkMode={darkMode} />
                                         :
-                                        <QuantityInput/>
+                                        <QuantityInput onChange={(value) => setStartMin(value)}/>
                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
@@ -933,9 +981,9 @@ return (
                                 <div className="end">
                                     End Time:
                                     <div className="end-time">
-                                        <NumberInputBasic/>
+                                        <NumberInputBasic onChange={(value) => setEndHour(value)}/>
                                         :
-                                        <QuantityInput/>
+                                        <QuantityInput onChange={(value) => setEndMin(value)}/>
                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                         :
                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}

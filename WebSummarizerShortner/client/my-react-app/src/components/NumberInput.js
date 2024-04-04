@@ -28,14 +28,14 @@ const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
   );
 });
 
-export default function NumberInputBasic({darkMode}) {
-  const [value, setValue] = React.useState(null);
+export default function NumberInputBasic({value, onChange, darkMode}) {
+  //const [value, setValue] = React.useState(null);
   return (
     <NumberInput
       aria-label="Demo number input"
       placeholder="HH"
       value={value}
-      onChange={(event, val) => setValue(val)}
+      onChange={(event, val) => onChange(val)}
       darkMode={darkMode} // Pass the darkMode prop to the NumberInput component
     />
   );
