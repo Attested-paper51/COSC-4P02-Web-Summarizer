@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./css/DashboardStyle.css";
+import "./css/HistoryStyle.css";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";

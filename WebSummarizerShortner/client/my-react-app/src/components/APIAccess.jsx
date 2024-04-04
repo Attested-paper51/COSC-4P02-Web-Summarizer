@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./css/DashboardStyle.css";
+import "./css/APIAccessStyle.css";
 
 const APIAccess = () => {
 
