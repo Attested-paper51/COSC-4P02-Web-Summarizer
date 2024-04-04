@@ -41,7 +41,7 @@ export default function NumberInputBasic({value, onChange, darkMode}) {
   );
 }
 
-export function QuantityInput({darkMode}) {
+export function QuantityInput({value, onChange, darkMode}) {
     const formatNumber = (num) => {
         return num.toString().padStart(2, '0');
     };
@@ -49,6 +49,8 @@ export function QuantityInput({darkMode}) {
       aria-label="Quantity Input" 
       placeholder="MM" 
       min={0} max={59} 
+      value={value}
+      onChange={(event,val) => onChange(val)}
       formatValue={formatNumber} 
       darkMode={darkMode} // Pass the darkMode prop to the NumberInput component
     />;

@@ -61,22 +61,22 @@ const Templates = () => {
     const email = localStorage.getItem('email');
 
     //timestamp vars
-    const [startHour, setStartHour] = useState(0);
-    const [startMin, setStartMin] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-    const [endMin, setEndMin] = useState(0);
+    const [startHour, setStartHour] = useState("HH");
+    const [startMin, setStartMin] = useState("MM");
+    const [endHour, setEndHour] = useState("HH");
+    const [endMin, setEndMin] = useState("MM");
 
      //timestamp vars - template 2
-     const [startHour2, setStartHour2] = useState(0);
-     const [startMin2, setStartMin2] = useState(0);
-     const [endHour2, setEndHour2] = useState(0);
-     const [endMin2, setEndMin2] = useState(0);
+     const [startHour2, setStartHour2] = useState("HH");
+     const [startMin2, setStartMin2] = useState("MM");
+     const [endHour2, setEndHour2] = useState("HH");
+     const [endMin2, setEndMin2] = useState("MM");
 
       //timestamp vars - template 3
-    const [startHour3, setStartHour3] = useState(0);
-    const [startMin3, setStartMin3] = useState(0);
-    const [endHour3, setEndHour3] = useState(0);
-    const [endMin3, setEndMin3] = useState(0);
+    const [startHour3, setStartHour3] = useState("HH");
+    const [startMin3, setStartMin3] = useState("MM");
+    const [endHour3, setEndHour3] = useState("HH");
+    const [endMin3, setEndMin3] = useState("MM");
 
 
     const valuetext = (value) => {
@@ -525,6 +525,13 @@ const Templates = () => {
                     }else {
                         setVideoSetting2(videoSetting[1]);
                         //timestamp thing
+                        const [startTime, endTime] = result.timestamps.split(',');
+                        const [startHour, startMin] = startTime.split(':');
+                        const [endHour, endMin] = endTime.split(':');
+                        setStartHour2(parseInt(startHour));
+                        setStartMin2(parseInt(startMin));
+                        setEndHour2(parseInt(endHour));
+                        setEndMin2(parseInt(endMin));
                     }
                 }else {
                     setClickedButton2(0);
@@ -594,6 +601,13 @@ const Templates = () => {
                     }else {
                         setVideoSetting3(videoSetting[1]);
                         //timestamp thing
+                        const [startTime, endTime] = result.timestamps.split(',');
+                        const [startHour, startMin] = startTime.split(':');
+                        const [endHour, endMin] = endTime.split(':');
+                        setStartHour3(parseInt(startHour));
+                        setStartMin3(parseInt(startMin));
+                        setEndHour3(parseInt(endHour));
+                        setEndMin3(parseInt(endMin));
                     }
                 }else {
                     setClickedButton3(0);
@@ -657,7 +671,7 @@ const Templates = () => {
         }else if (isClicked2 === 2) {
             summ_type = "video";
             if (selectedVideoSetting2 === videoSetting[1]) {
-                timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
+                timestamp = `${startHour2}:${startMin2},${endHour2}:${endMin2}`;
             }else {
                 timestamp = "full"
             }
@@ -714,7 +728,7 @@ const Templates = () => {
         }else if (isClicked3 === 2) {
             summ_type = "video";
             if (selectedVideoSetting3 === videoSetting[1]) {
-                timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
+                timestamp = `${startHour3}:${startMin3},${endHour3}:${endMin3}`;
             }else {
                 timestamp = "full"
             }
@@ -753,7 +767,10 @@ const Templates = () => {
         setSliderValue(1);
         setClickedButton(0);
         setVideoSetting(videoSetting[0]);
-        setStartHour(0);
+        setStartHour("HH");
+        setStartMin("MM");
+        setEndHour("HH");
+        setEndMin("MM");
         var templatename = "customTemplate1";
         try {
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -781,6 +798,10 @@ const Templates = () => {
         setSliderValue2(1);
         setClickedButton2(0);
         setVideoSetting2(videoSetting[0]);
+        setStartHour2("HH");
+        setStartMin2("MM");
+        setEndHour2("HH");
+        setEndMin2("MM");
         var templatename = "customTemplate2";
         try {
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -808,6 +829,10 @@ const Templates = () => {
             setSliderValue3(1);
             setClickedButton3(0);
             setVideoSetting3(videoSetting[0]);
+            setStartHour3("HH");
+            setStartMin3("MM");
+            setEndHour3("HH");
+            setEndMin3("MM");
             var templatename = "customTemplate3";
             try {
                 const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -959,7 +984,7 @@ return (
                         { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
-                                    Start Time (HH:MM) :
+                                    Start Time:
                                     <div className="start-time">
                                         {/* <textarea 
                                             className="timestamp-textarea" 
@@ -969,11 +994,15 @@ return (
                                         </textarea> */}
                                         <NumberInputBasic 
                                         value={startHour} 
-                                        placeholder = "HH"
+                                        //placeholder = "HH"
                                         onChange={setStartHour}
                                         darkMode={darkMode} />
                                         :
-                                        <QuantityInput onChange={(value) => setStartMin(value)}/>
+                                        <QuantityInput 
+                                        value={startMin}
+                                        //placeholder = "MM"
+                                        onChange={setStartMin}
+                                        darMode={darkMode}/>
                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
@@ -981,9 +1010,18 @@ return (
                                 <div className="end">
                                     End Time:
                                     <div className="end-time">
-                                        <NumberInputBasic onChange={(value) => setEndHour(value)}/>
+                                    <NumberInputBasic 
+                                        value={endHour} 
+                                        //placeholder = "HH"
+                                        onChange={setEndHour}
+                                        darkMode={darkMode} />
                                         :
-                                        <QuantityInput onChange={(value) => setEndMin(value)}/>
+                                        <QuantityInput 
+                                        value={endMin}
+                                        
+                                        //placeholder = "MM"
+                                        onChange={setEndMin}
+                                        darMode={darkMode}/>
                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                         :
                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -1117,34 +1155,50 @@ return (
 
                         { isClicked2 ==2 && selectedVideoSetting2 == videoSetting[1] &&
                             <div className="timestamp">
-                                <div className="start">
-                                    Start Time:
-                                    <div className="start-time">
-                                        {/* <textarea 
-                                            className="timestamp-textarea" 
-                                            id="startM" 
-                                            name="startM" 
-                                            placeholder='Minutes'>
-                                        </textarea> */}
-                                        <NumberInputBasic/>
-                                        :
-                                        <QuantityInput/>
-                                        {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
-                                    </div>
-                                </div>
-
-                                <div className="end">
-                                    End Time:
-                                    <div className="end-time">
-                                        <NumberInputBasic/>
-                                        :
-                                        <QuantityInput/>
-                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                        :
-                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
-                                    </div>
+                            <div className="start">
+                                Start Time:
+                                <div className="start-time">
+                                    {/* <textarea 
+                                        className="timestamp-textarea" 
+                                        id="startM" 
+                                        name="startM" 
+                                        placeholder='Minutes'>
+                                    </textarea> */}
+                                    <NumberInputBasic 
+                                    value={startHour2} 
+                                    //placeholder = "HH"
+                                    onChange={setStartHour2}
+                                    darkMode={darkMode} />
+                                    :
+                                    <QuantityInput 
+                                    value={startMin2}
+                                    //placeholder = "MM"
+                                    onChange={setStartMin2}
+                                    darMode={darkMode}/>
+                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                 </div>
                             </div>
+
+                            <div className="end">
+                                End Time:
+                                <div className="end-time">
+                                <NumberInputBasic 
+                                    value={endHour2} 
+                                    //placeholder = "HH"
+                                    onChange={setEndHour2}
+                                    darkMode={darkMode} />
+                                    :
+                                    <QuantityInput 
+                                    value={endMin2}
+                                    //placeholder = "MM"
+                                    onChange={setEndMin2}
+                                    darMode={darkMode}/>
+                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                    :
+                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                </div>
+                            </div>
+                        </div>
                         }
                     </div>
                 </div>
@@ -1273,34 +1327,51 @@ return (
 
                         { isClicked3 ==2 && selectedVideoSetting3 == videoSetting[1] &&
                             <div className="timestamp">
-                                <div className="start">
-                                    Start Time:
-                                    <div className="start-time">
-                                        {/* <textarea 
-                                            className="timestamp-textarea" 
-                                            id="startM" 
-                                            name="startM" 
-                                            placeholder='Minutes'>
-                                        </textarea> */}
-                                        <NumberInputBasic/>
-                                        :
-                                        <QuantityInput/>
-                                        {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
-                                    </div>
-                                </div>
-
-                                <div className="end">
-                                    End Time:
-                                    <div className="end-time">
-                                        <NumberInputBasic/>
-                                        :
-                                        <QuantityInput/>
-                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                        :
-                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
-                                    </div>
+                            <div className="start">
+                                Start Time:
+                                <div className="start-time">
+                                    {/* <textarea 
+                                        className="timestamp-textarea" 
+                                        id="startM" 
+                                        name="startM" 
+                                        placeholder='Minutes'>
+                                    </textarea> */}
+                                    <NumberInputBasic 
+                                    value={startHour3} 
+                                    //placeholder = "HH"
+                                    onChange={setStartHour3}
+                                    darkMode={darkMode} />
+                                    :
+                                    <QuantityInput 
+                                    value={startMin3}
+                                    //placeholder = "MM"
+                                    onChange={setStartMin3}
+                                    darMode={darkMode}/>
+                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                 </div>
                             </div>
+
+                            <div className="end">
+                                End Time:
+                                <div className="end-time">
+                                <NumberInputBasic 
+                                    value={endHour3} 
+                                    //placeholder = "HH"
+                                    onChange={setEndHour3}
+                                    darkMode={darkMode} />
+                                    :
+                                    <QuantityInput 
+                                    value={endMin3}
+                                    
+                                    //placeholder = "MM"
+                                    onChange={setEndMin3}
+                                    darMode={darkMode}/>
+                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                    :
+                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                </div>
+                            </div>
+                        </div>
                         }
                     </div>
                 </div>
