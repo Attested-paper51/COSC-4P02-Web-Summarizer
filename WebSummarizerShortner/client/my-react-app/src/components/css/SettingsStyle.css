@@ -146,3 +146,8 @@
     width: 250px;
     text-align: center;
 }
+
+.mode-btn:hover{
+    opacity: 1;
+    cursor: pointer;
+}
