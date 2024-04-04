@@ -3,6 +3,10 @@
     flex-direction: column;
 }
 
+.settings-wrapper h1{
+    font-size: clamp(1.5rem, 1.9vw, 10rem);
+}
+
 .settings-wrapper .profile, .plan, .app, .extra{
     border-bottom: 1px solid rgb(194, 193, 193);
     padding-bottom: 2em;
@@ -18,14 +22,14 @@
     /* color: black; */
     padding-bottom: 0.5em;
     padding-top: 1.5em;
-    font-size: 16px;
+    font-size: clamp(0.8rem, 1vw, 5rem);
     display: block;
     font-weight: 600;
 }
 
 .settings-wrapper .text{
     width: 25%;
-    font-size: 15px;
+    font-size: clamp(0.8rem, 1vw, 5rem);
     display: inline-block; 
     font-weight: 400;
 }
@@ -61,7 +65,7 @@
 
 .settings-wrapper .update, .popup-close{
     all: unset;
-    font-size: 14px;
+    font-size: clamp(0.7rem, 0.9vw, 5rem);
     /* color: #3e4ddd; */
     padding-left: 1em;
     display: inline-block;

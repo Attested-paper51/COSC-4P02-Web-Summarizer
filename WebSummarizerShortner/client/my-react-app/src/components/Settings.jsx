@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import "./css/SettingsStyle.css";
+import "./css/PopUpStyle.css";
 import { FaCheck } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 import PopUp from './PopUp.js';
@@ -133,7 +134,6 @@ const Settings = () => {
                 placeholder={username}
                 value = {newname}
                 onChange = {(e) => setNewName(e.target.value)}
-
               />
               {/* Use button below to change user's name in the database */}
               {/* <button className='confirm-btn' onClick={() => handleNameChange(email, newname)}>Confirm name change</button> */}
