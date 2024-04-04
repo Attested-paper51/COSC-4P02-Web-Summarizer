@@ -16,6 +16,20 @@
     font-weight: 500;
 }
 
+.sum-btn, .short-btn{
+    all: unset;
+    font-size: 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    /* background-color: #3b4b71; */
+    opacity: 0.8;
+    padding: 1em 2em;
+    color: white;
+    margin: 1em 0;
+    width: 250px;
+    text-align: center;
+}
+
 .sum-btn:hover, .short-btn:hover, .sum-btn.active, .short-btn.active{
     opacity: 1;
     cursor:pointer;

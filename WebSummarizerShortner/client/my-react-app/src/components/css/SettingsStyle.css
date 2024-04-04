@@ -1,0 +1,148 @@
+.settings-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-wrapper .profile, .plan, .app, .extra{
+    border-bottom: 1px solid rgb(194, 193, 193);
+    padding-bottom: 2em;
+    padding-top: 1em;
+}
+
+.settings-wrapper .profile-div{
+    font-weight: 600;
+    cursor: auto;
+}
+
+.settings-wrapper .label{
+    /* color: black; */
+    padding-bottom: 0.5em;
+    padding-top: 1.5em;
+    font-size: 16px;
+    display: block;
+    font-weight: 600;
+}
+
+.settings-wrapper .text{
+    width: 25%;
+    font-size: 15px;
+    display: inline-block; 
+    font-weight: 400;
+}
+
+.settings-wrapper .plan-list{
+    font-size: 15px;
+    padding-top: 1em;
+}
+
+.plan-text{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    /* color: #a06307; */
+}
+
+.plan-list ul{
+    font-size: 14px;
+    margin-top: 1em;
+    padding-left: 1em;
+    list-style: none;
+}
+
+.plan-list li{
+    padding-bottom: 0.2em;
+}
+
+.plan-list span{
+    font-weight: 600;
+    padding-left: 0.7em;
+    padding-right: 0.3em;
+}
+
+.settings-wrapper .update, .popup-close{
+    all: unset;
+    font-size: 14px;
+    /* color: #3e4ddd; */
+    padding-left: 1em;
+    display: inline-block;
+}
+
+.settings-wrapper .update:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.textfield{
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+    height: clamp(40px, 3.2vh, 500px);
+    font-size: clamp(0.8rem, 0.65vw, 10rem);
+    /* border: 1px solid #b7b6b6; */
+    border-radius: 8px;
+    position: relative;
+    width: 70%;
+    padding-left: 5px;
+}
+
+.review-btn{
+    border: 2px solid #95ace1;
+    background-color: #e0e9fe;
+    /* color: #2e4069; */
+    font-weight: 550;
+}
+
+.review-btn:hover{
+    border-color: black;
+    cursor: pointer;
+    color: black;
+}
+
+.acc-delete-btn{
+    all: unset;
+    box-sizing: border-box;
+    height: clamp(40px, 3.2vh, 500px);
+    text-align: center;
+    margin-top: 2.6em;
+    margin-bottom: 2em;
+}
+
+.acc-delete-overlap{
+    width: clamp(300px, 20vw, 1000px); 
+    font-size: clamp(0.9rem, 0.8vw, 10rem);
+    position: relative;
+    box-shadow: 0px 3px 4px #0000004c;
+    border-radius: 9px;
+    opacity: 0.8;
+}
+
+.acc-delete-btn:hover, .acc-delete-overlap:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.acc-delete{
+    padding: 0.7vw;
+    font-weight: 600;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+    .acc-delete{
+        padding: 1vw;
+    }
+}
+
+.mode-btn, .review-btn{
+    all: unset;
+    font-size: 14px;
+    border: 1px solid;
+    border-radius: 10px;
+    /* background-color: #3b4b71; */
+    opacity: 0.8;
+    padding: 1em 2em;
+    color: white;
+    margin: 1em 0;
+    width: 250px;
+    text-align: center;
+}
