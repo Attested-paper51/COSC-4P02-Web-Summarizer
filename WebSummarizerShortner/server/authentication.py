@@ -244,6 +244,18 @@ class Authentication:
         self.conn.commit()
         return 1
 
+
+    #Adding summarized history
+    def addSummarizedHistory(self,input,output,email):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        if (user is None):
+            return -1
+        cursor.execute("INSERT INTO summarized (input_text,summarized_text,user_id) VALUES (%s,%s,%s)",(input,output,user))
+        self.conn.commit()
+        return 1
+
+
     def __del__(self):
         self.conn.close()
 
@@ -448,6 +460,16 @@ def addFeedback():
     userMgr = Authentication()
     userMgr.addFeedback(stars,text)
     return jsonify({'message':'Feedback added successfully.'})
+
+@appA.route('/addsummarized',methods=['POST'])
+def addSummarized():
+    data = request.get_json()
+    email = data.get('email')
+    input = data.get('input')
+    output = data.get('output')
+    userMgr = Authentication()
+    userMgr.addSummarizedHistory(input,output,email)
+    return jsonify({'message':'Added to history.'})
 
 if __name__ == '__main__':
     appA.run(port=5001)
