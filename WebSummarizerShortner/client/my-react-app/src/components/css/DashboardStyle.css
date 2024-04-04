@@ -142,7 +142,7 @@
     padding-top: 1vw;
 }
 
-.settings-wrapper, .templates-wrapper, .history-wrapper, .api-wrapper{
+.settings-wrapper, .templates-wrapper, .api-wrapper{
     display: flex;
     flex-direction: column;
 }
@@ -274,7 +274,7 @@
     color: black;
 }
 
-.mode-btn, .review-btn, .acc-delete-btn, .confirm-btn, .sum-btn, .short-btn{
+.mode-btn, .review-btn, .acc-delete-btn, .confirm-btn{
     all: unset;
     font-size: 14px;
     border: 1px solid;
@@ -315,85 +315,6 @@
 .acc-delete-btn:hover{
     opacity: 1;
     cursor: pointer;
-}
-
-.hist-section{
-    display: flex;
-    gap: 2em;
-    padding-top: 2em;
-}
-
-.sum-btn, .short-btn{
-    background-color: #dbe5fa;
-    color: black;
-    border-width: 2px;
-    font-weight: 500;
-}
-
-.sum-btn:hover, .short-btn:hover, .sum-btn.active, .short-btn.active{
-    opacity: 1;
-    cursor:pointer;
-    background-color: #2e4069;
-    color: white;
-}
-
-.btn-section{
-    display: flex;
-    padding-left: 0.65em;
-}
-
-.control-btn{
-    all: unset;
-    font-size: 19px;
-    line-height: 14px;
-    padding: 10px;
-    /* border: 1px solid; */
-    border-radius: 50px;
-    /* background-color: #3b4b71; */
-    /* opacity: 0.8; */
-    /* padding: 1em 2em; */
-    color: #2e4069;
-    margin: 1em 0 0.4em;
-    /* width: 250px; */
-    text-align: center;
-}
-
-.control-btn:hover{
-    background-color: #d4d6dc;
-    cursor: pointer;
-}
-
-#summary-table, #shortener-table{
-    padding-left: 0.6em;
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-}
-
-.custom-checkbox input{
-    display: none;
-}
-
-/* #summary-table th{
-    display: none;
-} */
-
-#summary-table tr,  #shortener-table tr{
-    border-bottom: 1px solid black;
-}
-
-#summary-table td,  #shortener-table td{
-    padding: 1em;
-    /* border: 1px solid; */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#summary-table .scrollable,  #shortener-table .scrollable{
-    max-height: 300px;
-    overflow-y: auto;
-    max-width: 400px;
 }
 
 .template-div{
