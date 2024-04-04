@@ -12,11 +12,10 @@ import FeedbackPage from './pages/FeedbackPage.js';
 import UserDashboardPage from './pages/UserDashboardPage.js';
 import { AuthProvider } from './context/AuthContext.js';
 //import LoginButton from './components/LogIn';
-import {useEffect} from 'react';
-import { FaGoogle } from 'react-icons/fa';
+//import {useEffect} from 'react';
+//import { FaGoogle } from 'react-icons/fa';
 import { useTheme, ThemeProvider } from './components/ThemeContext.js';
 
-const clientId = "1045986427496-kkjk2ev7bc80fujpp6eaqsavt5e46v0r.apps.googleusercontent.com";
 
 const App = () => {
   const {darkMode} = useTheme();
