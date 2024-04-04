@@ -348,7 +348,8 @@ def login():
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
         name = userMgr.getName(email)
-        return jsonify({'message':'User found.','name':name})
+        username = userMgr.getUsername(email)
+        return jsonify({'message':'User found.','name':name, 'username':username})
     return jsonify({'message':'User not found or password is incorrect.'})
 
 @appA.route('/delete',methods=['POST'])

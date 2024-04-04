@@ -28,7 +28,7 @@ const Dashboard = () => {
   // // }, [emailCheck,navigate]);
   
 
-  let username = localStorage.getItem('name');
+  let username = localStorage.getItem('user_id');
 
   const [activeComponent, setActiveComponent] = useState('History'); // Default to Settings component
 
@@ -71,6 +71,7 @@ const Dashboard = () => {
   //console.log('Authentication state is: ',isAuthenticated);
   console.log('AuthContext email: ',userEmail);
   console.log('Local Storage email: ',storedEmail);
+  console.log('Username issssss: ', username)
 
   return (
 
