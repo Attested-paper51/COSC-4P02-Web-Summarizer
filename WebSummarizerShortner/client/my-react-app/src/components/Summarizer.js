@@ -290,6 +290,29 @@ const Summarizer = () => {
         setErrorMessage(message)
         setOpenError(true)
     }
+    
+
+    const addToHistory = async (input,output) => {
+
+        try {
+            const response = await fetch('http://localhost:5001/addsummarized', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input, output, email}),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    };
 
 
     // function for handling text summarization
@@ -305,6 +328,8 @@ const Summarizer = () => {
         .then(data => {
 
                 setOutputContent(data.summary); // This line updates the output area
+                //add to history
+                //addToHistory(inputContent,data.summary,email);  //this needs to be associated with a button to 'save to history'
         })
         .catch(error => {
             showError('An error occurred while fetching the summary.');
