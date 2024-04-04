@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
-import "./css/DashboardStyle.css";
+import "./css/SettingsStyle.css";
 import { FaCheck } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 import PopUp from './PopUp.js';

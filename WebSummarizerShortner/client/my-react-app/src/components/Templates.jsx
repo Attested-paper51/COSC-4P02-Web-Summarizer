@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from "react";
 // import { Link } from 'react-router-dom';
-import "./css/DashboardStyle.css";
+import "./css/TemplatesStyle.css";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 import { MdDeleteOutline } from "react-icons/md";

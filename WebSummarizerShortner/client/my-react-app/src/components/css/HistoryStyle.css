@@ -3,19 +3,6 @@
     flex-direction: column;
 }
 
-.hist-section{
-    display: flex;
-    gap: 2em;
-    padding-top: 2em;
-}
-
-.sum-btn, .short-btn{
-    background-color: #dbe5fa;
-    color: black;
-    border-width: 2px;
-    font-weight: 500;
-}
-
 .sum-btn, .short-btn{
     all: unset;
     font-size: 14px;
@@ -28,6 +15,19 @@
     margin: 1em 0;
     width: 250px;
     text-align: center;
+}
+
+.hist-section{
+    display: flex;
+    gap: 2em;
+    padding-top: 2em;
+}
+
+.sum-btn, .short-btn{
+    background-color: #dbe5fa;
+    color: black;
+    border-width: 2px;
+    font-weight: 500;
 }
 
 .sum-btn:hover, .short-btn:hover, .sum-btn.active, .short-btn.active{
