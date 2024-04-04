@@ -13,6 +13,10 @@ const History = () => {
   const [activeButton, setActiveButton] = useState(null); // State for active button
   const [historyData, setHistoryData] = useState([]); // State to store history data
 
+  const [data, setData] = useState(generateData(10));// number of rows is 10
+  const [selectedRows, setSelectedRows] = useState({});
+  const [selectAll, setSelectAll] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleSumButtonClick = () => {
     setShowSumSection(true);
@@ -65,17 +69,7 @@ const History = () => {
     }
     return newData;
   }
-  // Initialize dummy table data
-  const [data, setData] = useState(generateData(10));// number of rows is 10
-
-
-  // State to track if all entries are selected
-  const [selectedRows, setSelectedRows] = useState({});
-  // Track whether all entries are currently selected or not
-  const [selectAll, setSelectAll] = useState(false);
-  // Track whether entries are copied or not
-  const [copied, setCopied] = useState(false);
-
+  
 
   const handleCheckboxChange = (id) => {
     setSelectedRows(prevSelectedRows => ({
@@ -84,27 +78,56 @@ const History = () => {
     }));
   };
 
-  
+ 
   const handleSelectAll = () => {
-    if (!selectAll) {
-      const allSelected = data.reduce((acc, item) => {
-        acc[item.id] = true;
-        return acc;
-      }, {});
-      setSelectedRows(allSelected);
-    } else {
-      setSelectedRows({});
-    }
-    setSelectAll(prevSelectAll => !prevSelectAll);
-    setCopied(false);
-  };
-
-  const handleDelete = () => {
-    const newData = data.filter(item => !selectedRows[item.id]);
-    setData(newData);
+  if (!selectAll) {
+    const allSelected = historyData.reduce((acc, item) => {
+      acc[item[0]] = true;
+      return acc;
+    }, {});
+    console.log("Selecting All:", allSelected);
+    setSelectedRows(allSelected);
+    setSelectAll(true);
+  } else {
+    console.log("Clearing Selection");
     setSelectedRows({});
-    setCopied(false);
-  };
+    setSelectAll(false);
+  }
+};
+
+
+  const handleDelete = async () => {
+  // Filter out the selected ids
+  const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
+  
+  // Call the deleteHistory for each selected id
+  for (const historyID of selectedIds) {
+    try {
+      const response = await fetch('http://localhost:5001/deleteHistory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+         
+          historyID
+        }),
+      });
+      const data = await response.json();
+      console.log(data.message); // You might want to handle this more gracefully
+    } catch (error) {
+      console.error('Error deleting history entry:', error);
+    }
+  }
+
+  // Refresh the history data to reflect the deletions
+  fetchHistoryData();
+
+  // Reset selected rows and copied flag
+  setSelectedRows({});
+  setCopied(false);
+};
+
 
   const handleCopy = () => {
     const outputValues = Object.keys(selectedRows).map(id => data.find(item => item.id === parseInt(id)).output);
@@ -146,25 +169,13 @@ const History = () => {
               </tr>
               </thead>
               <tbody>
-                {/* {data.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <label className='custom-checkbox'>
-                        <input type="checkbox" checked={!!selectedRows[item.id]} onChange={() => handleCheckboxChange(item.id)} />
-                        {selectedRows[item.id] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
-                      </label>
-                    </td>
-                    <td className='scrollable'>{item.input}</td>
-                    <td className='scrollable'>{item.output}</td>
-                  </tr>
-                )) */}
                 {
                 historyData.map((item) => (
                   <tr key={item[0]}>
                     <td>
                       <label className='custom-checkbox'>
-                        <input type="checkbox" checked={!!selectedRows[item.id]} onChange={() => handleCheckboxChange(item.id)} />
-                        {selectedRows[item.id] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
+                        {selectedRows[item[0]] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
                       </label>
                     </td>
                     <td className='scrollable'>{item[1]}</td>
