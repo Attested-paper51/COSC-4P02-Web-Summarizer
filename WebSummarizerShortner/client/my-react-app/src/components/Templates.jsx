@@ -355,7 +355,11 @@ const Templates = () => {
             summ_type = "website";
         }else if (isClicked === 2){
             summ_type = "video";
-            timestamp = "{00:05,00:15}"
+            if (selectedVideoSetting === videoSetting[1]) {
+                timestamp = "{00:05,00:15}"
+            }else {
+                timestamp = "full"
+            }
         }
         
         
@@ -417,6 +421,11 @@ const Templates = () => {
                     setClickedButton(1);
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
+                    if (result.timestamps === 'full') {
+                        setVideoSetting(videoSetting[0]);
+                    }else {
+                        setVideoSetting(videoSetting[1]);
+                    }
                     //timestamp thing
                 }else {
                     setClickedButton(0);
@@ -607,7 +616,11 @@ const Templates = () => {
             summ_type = "website";
         }else if (isClicked2 === 2) {
             summ_type = "video";
-            timestamp = "{00:05,00:15}"
+            if (selectedVideoSetting2 === videoSetting[1]) {
+                timestamp = "{00:05,00:15}"
+            }else {
+                timestamp = "full"
+            }
         }
         
         
@@ -660,7 +673,12 @@ const Templates = () => {
             summ_type = "website";
         }else if (isClicked3 === 2) {
             summ_type = "video";
-            timestamp = "{00:05,00:15}"
+            if (selectedVideoSetting3 === videoSetting[1]) {
+                timestamp = "{00:05,00:15}"
+            }else {
+                timestamp = "full"
+            }
+            
         }
         
         
@@ -955,14 +973,14 @@ return (
             </div>
             <div class="button-container">
                 <button 
-                    className={`customSumBtn clamp-text ${isClicked === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
-                    onClick={() => toggleClicked(0)}>Text</button>
+                    className={`customSumBtn clamp-text ${isClicked2 === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                    onClick={() => toggleClicked2(0)}>Text</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
-                    onClick={() => toggleClicked(1)}>Website URL</button>
+                    className={`customSumBtn ${isClicked2 === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                    onClick={() => toggleClicked2(1)}>Website URL</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
-                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+                    className={`customSumBtn ${isClicked2 === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
+                    onClick={() => toggleClicked2(2)}>Youtube URL</button>
             </div>
             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                 <div className="modes">
@@ -1111,14 +1129,14 @@ return (
             </div>
             <div class="button-container">
                 <button 
-                    className={`customSumBtn clamp-text ${isClicked === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
-                    onClick={() => toggleClicked(0)}>Text</button>
+                    className={`customSumBtn clamp-text ${isClicked3 === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                    onClick={() => toggleClicked3(0)}>Text</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
-                    onClick={() => toggleClicked(1)}>Website URL</button>
+                    className={`customSumBtn ${isClicked3 === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                    onClick={() => toggleClicked3(1)}>Website URL</button>
                 <button 
-                    className={`customSumBtn ${isClicked === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
-                    onClick={() => toggleClicked(2)}>Youtube URL</button>
+                    className={`customSumBtn ${isClicked3 === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
+                    onClick={() => toggleClicked3(2)}>Youtube URL</button>
             </div>
             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                 <div className="modes">
