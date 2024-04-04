@@ -17,7 +17,8 @@ const History = () => {
   const [selectedRows, setSelectedRows] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [copied, setCopied] = useState(false);
-
+  let user = localStorage.getItem('user_id');
+  console.log(user);
   const handleSumButtonClick = () => {
     setShowSumSection(true);
     setShowShortSection(false);
@@ -34,12 +35,12 @@ const History = () => {
   // Function to fetch history data from the Flask backend
   const fetchHistoryData = async () => {
     try {
-      const response = await fetch('http://localhost:5001/history', {
+      const response = await fetch('http://localhost:5005/history', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: '42c546' }),
+        body: JSON.stringify({ username: user }),
       });
       if (response.ok) {
         const data = await response.json();
@@ -103,7 +104,7 @@ const History = () => {
   // Call the deleteHistory for each selected id
   for (const historyID of selectedIds) {
     try {
-      const response = await fetch('http://localhost:5001/deleteHistory', {
+      const response = await fetch('http://localhost:5005/deleteHistory', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -129,4 +129,4 @@ def deleteHistoryHandler():
     return jsonify({'status': status, 'message': message})
 
 if __name__ == '__main__':
-    appHDB.run(port=5001)
+    appHDB.run(port=5005)
