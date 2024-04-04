@@ -44,6 +44,11 @@ const URLShortener = () => {
         handleEmptyClose()
     }
 
+    const handleChangeInput = (e) => {
+        setURL(e.target.value);
+        setURLError('');
+    }
+
     const email = localStorage.getItem('email');
     
     useEffect(() => {
@@ -76,6 +81,14 @@ const URLShortener = () => {
 
     //URL Shortening
     const handleSubmit = async () => {
+
+        const urlRegEx = /^(http:\/\/|https:\/\/|www\.)\w+/;
+
+        if (!urlRegEx.test(URL)) {
+            setURLError('URL invalid, enter a valid URL starting with http://, https://, or www.');
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:5002/shorten', {
                 method: 'POST',
@@ -122,10 +135,10 @@ const URLShortener = () => {
                         type="text" 
                         required
                         value={URL}
-                        onChange={(e) => setURL(e.target.value)}
+                        onChange={handleChangeInput}
                         placeholder='Enter URL here' 
                     />
-                    { !email &&
+                    { email === null || email === "null" &&
                     <button 
                         className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`} 
                         // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
@@ -134,8 +147,9 @@ const URLShortener = () => {
                     </button>
                     } 
                 </div>
+                
                 {URLError && <div className={`url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{URLError}</div>}
-                {email &&
+                {email != null || email != "null" &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>

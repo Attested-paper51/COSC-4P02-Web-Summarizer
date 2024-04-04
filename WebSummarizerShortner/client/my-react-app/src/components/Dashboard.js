@@ -86,7 +86,7 @@ const Dashboard = () => {
       {open && 
       <div className='side-panel'>
           <div className='side-panel-title-wrapper'>
-            <div className='user-name'>testuser</div>
+            <div className='user-name'>{username}</div>
             <Tooltip title="Collapse Sidebar" arrow>
               <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
                 <CiCircleChevLeft className='sidebar-icon'/>
