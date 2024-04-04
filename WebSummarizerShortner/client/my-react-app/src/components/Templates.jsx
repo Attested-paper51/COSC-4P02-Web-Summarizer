@@ -376,8 +376,21 @@ const Templates = () => {
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
-                console.log(startHour);
-                timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
+                if (startHour === "HH" || startMin === "MM" || 
+                endHour === "HH" || endMin === "MM") {
+                    //display timestamp error
+                    console.log("hey, change the values dude");
+                    return;
+                }else{
+                    var start = (startHour*60)+startMin;
+                    var end = (endHour*60)+endMin;
+                    if (end < start ) {
+                        //display invalid timestamp error
+                        console.log("how can u end before u start, dummy");
+                        return;
+                    }
+                    timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
+                }
             }else {
                 timestamp = "full"
             }
@@ -677,6 +690,13 @@ const Templates = () => {
                     console.log("hey, change the values dude");
                     return;
                 }else{
+                    var start = (startHour2*60)+startMin2;
+                    var end = (endHour2*60)+endMin2;
+                    if (end < start ) {
+                        //display invalid timestamp error
+                        console.log("how can u end before u start, dummy");
+                        return;
+                    }
                     timestamp = `${startHour2}:${startMin2},${endHour2}:${endMin2}`;
                 }
             }else {
@@ -741,6 +761,13 @@ const Templates = () => {
                     console.log("hey, change the values dude");
                     return;
                 }else{
+                    var start = (startHour3*60)+startMin3;
+                    var end = (endHour3*60)+endMin3;
+                    if (end < start ) {
+                        //display invalid timestamp error
+                        console.log("how can u end before u start, dummy");
+                        return;
+                    }
                     timestamp = `${startHour3}:${startMin3},${endHour3}:${endMin3}`;
                 }
                 
