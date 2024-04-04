@@ -5,12 +5,15 @@ import { MdCheckBox } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
+import { useTheme } from './ThemeContext.js'
 
 const History = () => {
 
-  const [showSumSection, setShowSumSection] = useState(false); // State for Web Summarizer section
+  const { darkMode } = useTheme();
+
+  const [showSumSection, setShowSumSection] = useState(true); // State for Web Summarizer section
   const [showShortSection, setShowShortSection] = useState(false); // State for URL Shortener section
-  const [activeButton, setActiveButton] = useState(null); // State for active button
+  const [activeButton, setActiveButton] = useState('sum'); // State for active button
 
   const handleSumButtonClick = () => {
     setShowSumSection(true);

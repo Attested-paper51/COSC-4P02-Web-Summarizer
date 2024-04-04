@@ -197,6 +197,10 @@ a {
 .clicked-dark, .bd-dark, .ta-dark{
   background-color: var(--clr-accent3);
 }
+.clicked-light, .clicked-dark{
+  /* box-shadow: 0px 4px 15px 0px #00000033; */
+  -webkit-text-stroke: 0.3px;
+}
 .not-clicked-light, .not-clicked-dark{
   background-color: transparent;
 }
@@ -340,6 +344,51 @@ a {
   color: var(--clr-error-dark);
 }
 
+/* Dashboard */
+.main-panel-light{
+  background-color: var(--clr-light2);
+  color: var(--clr-accent3);
+}
+.main-panel-dark{
+  background-color: var(--clr-dark2);
+  color: var(--clr-light2);
+}
+/* .side-panel-light{
+
+}
+.side-panel-dark{
+
+} */
+.settings-wrapper .update-btn-light{
+  color: #3e4ddd;
+}
+.settings-wrapper .update-btn-dark{
+  color: #cbbfff;
+}
+.plan-light{
+  color: #a06307;
+}
+.plan-dark{
+  color: #d9a04b;
+}
+.acc-delete-light{
+  background-color: #6b0606;
+}
+.acc-delete-dark{
+  background-color: #ffc5c5;
+}
+.adl-text{
+  color: #ffc5c5;
+}
+.add-text{
+  color: #6b0606;
+}
+.popup-light{
+  background-color: var(--clr-accent2);
+}
+.popup-dark{
+  background-color: var(--clr-accent4);
+}
 
 
 /* .App {

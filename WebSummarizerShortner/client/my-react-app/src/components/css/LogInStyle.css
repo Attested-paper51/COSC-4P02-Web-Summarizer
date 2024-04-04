@@ -109,6 +109,7 @@
 
 .login-box .login-btn:hover, .login-box .create-btn:hover{
     opacity: 1;
+    cursor: pointer;
 } 
 
 .login-box .login-overlap, .login-box .create-overlap, .login-box .gmail-overlap, .login-box .fb-overlap{
