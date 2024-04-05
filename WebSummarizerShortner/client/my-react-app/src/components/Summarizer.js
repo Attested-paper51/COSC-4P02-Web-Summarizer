@@ -680,7 +680,7 @@ const Summarizer = () => {
                                                         value={startMin}
                                                         //placeholder = "MM"
                                                         onChange={setStartMin}
-                                                        darMode={darkMode}/>
+                                                        darkMode={darkMode}/>
                                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
@@ -699,7 +699,7 @@ const Summarizer = () => {
                                                             
                                                             //placeholder = "MM"
                                                             onChange={setEndMin}
-                                                            darMode={darkMode}/>
+                                                            darkMode={darkMode}/>
                                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                                         :
                                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
