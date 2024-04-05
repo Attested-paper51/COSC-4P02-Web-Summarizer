@@ -13,7 +13,7 @@ const PopUp = (props) => {
             <div className={`popup-inner ${darkMode ? 'popup-dark' : 'popup-light'}`}>
                 <div className='popup-title'>
                     <h3>{props.title}</h3>
-                    <button className='popup-close' onClick={() => props.setTrigger(false)}><IoMdClose /></button>
+                    <button className='popup-close' onClick={() => props.setTrigger(false)}><IoMdClose className='popup-close-icon' /></button>
                 </div>
                 <div className='popup-content'>{props.children}</div>
             </div>
