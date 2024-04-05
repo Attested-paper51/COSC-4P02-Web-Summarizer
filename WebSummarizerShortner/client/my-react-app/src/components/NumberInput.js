@@ -129,10 +129,10 @@ const StyledInputElement = styled('input')(
   background: inherit;
   border: none;
   border-radius: inherit;
-  padding: 8px 12px;
+  //padding: 8px 12px;
   outline: 0;
   //background-color: yellow;
-  width: 50px;
+  width: 30px;
   text-align: center;
   ::placeholder {
     color: inherit
