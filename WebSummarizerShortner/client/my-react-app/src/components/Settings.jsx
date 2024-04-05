@@ -121,12 +121,12 @@ const Settings = () => {
             <div className='label'>Name</div> 
             <div className='text'>{username}</div>
             <button className='update' onClick={() => setNamePopup(true)}>
-              <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+              <div className={`update-div ${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
                 Update Name
               </div> 
             </button>
            
-            <PopUp trigger={namePopup} setTrigger={setNamePopup} title='Update Name'>
+            <PopUp className='change-name-popup' trigger={namePopup} setTrigger={setNamePopup} title='Update Name'>
               <label className='pop-label'>Enter new name</label>
               <input 
                 type="text"
@@ -138,7 +138,7 @@ const Settings = () => {
               {/* Use button below to change user's name in the database */}
               {/* <button className='confirm-btn' onClick={() => handleNameChange(email, newname)}>Confirm name change</button> */}
               <button className='acc-delete-btn' onClick={() => handleNameChange(email, newname)}>
-                <div className={`acc-delete-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                <div className={`acc-delete-overlap popup-btn ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                     <div className={`acc-delete ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Confirm name change</div>
                 </div>
               </button>
@@ -149,7 +149,7 @@ const Settings = () => {
             <div className='label'>Email</div> 
             <div className='text'>{email}</div>
             <button className='update' onClick={() => setEmailPopup(true)}>
-              <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+              <div className={`update-div ${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
                 Update Email
               </div> 
             </button>
@@ -172,18 +172,18 @@ const Settings = () => {
                 value={password}
                 onChange={handlePassChange}
               />
-              {passError && <div className="pass-error">{passError}</div>}
+              {passError && <div className={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{passError}</div>} 
               {/* Use button below to change user's email in the database  */}
               {/* <button className='confirm-btn' onClick={() => handleEmailChange(email, newEmail, password)}>Confirm email change</button> */}
               <button className='acc-delete-btn' onClick={() => handleEmailChange(email, newEmail, password)}>
-                <div className={`acc-delete-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                <div className={`acc-delete-overlap popup-btn ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                     <div className={`acc-delete ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Confirm email change</div>
                 </div>
               </button>
             </PopUp>
             ) : (
               <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Error'>
-                <div>Cannot change email of Google/Facebook account</div>
+                <div className='google-fb-error'>Cannot change email of Google/Facebook account</div>
               </PopUp>
             )}
             
@@ -195,7 +195,7 @@ const Settings = () => {
           
             {localStorage.getItem('loginMethod') !== 'google' ? (
               <Link to="/Reset"><button className='update'>
-                <div className={`${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
+                <div className={`update-div ${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
                   Reset Password
                 </div> 
               </button></Link>
@@ -209,7 +209,7 @@ const Settings = () => {
               
             )}
             <PopUp trigger={passPopup} setTrigger={setPassPopup} title='Error'>
-              <div>Cannot change password of Google/Facebook account</div>
+              <div className='google-fb-error'>Cannot change password of Google/Facebook account</div>
             </PopUp>
             
           </div>
@@ -217,7 +217,7 @@ const Settings = () => {
 
         <div className='plan'>
           <div className='label'>Subscription Plan</div>
-          <div className={`plan-text ${darkMode ? 'plan-dark' : 'plan-light'}`}><FaCrown size={18} /><span>Premium</span></div>
+          <div className={`plan-text ${darkMode ? 'plan-dark' : 'plan-light'}`}><FaCrown className='premium-icon' /><span>Premium</span></div>
           <div className='plan-list'>
             Features include: 
             <ul>
@@ -254,7 +254,7 @@ const Settings = () => {
             <label className='pop-label'>Are you sure you want to delete your account permanently?</label>
             {/* Use the button below to permanently remove user from database */}
             <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>
-              <div className={`acc-delete-overlap ${darkMode ? 'acc-delete-dark' : 'acc-delete-light'}`}>
+              <div className={`acc-delete-overlap popup-btn ${darkMode ? 'acc-delete-dark' : 'acc-delete-light'}`}>
                   <div className={`acc-delete ${darkMode ? 'add-text' : 'adl-text'}`}>Delete Account Permanently</div>
               </div>
             </button>

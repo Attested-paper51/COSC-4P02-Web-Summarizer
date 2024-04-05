@@ -149,6 +149,30 @@
     color: black;
 }
 
+@media (max-width: 1000px) {
+    .side-panel{
+        width: 250px;
+    }
+}
+
+@media (max-width: 670px) {
+    .side-panel{
+        min-width: 30%;
+    }
+}
+
+@media (max-width: 570px) {
+    .side-panel{
+        min-width: 37%;
+    }
+}
+
+@media (max-width: 460px) {
+    .side-panel{
+        min-width: 45%;
+    }
+}
+
 /* #summary-table th{
     display: none;
 } */
