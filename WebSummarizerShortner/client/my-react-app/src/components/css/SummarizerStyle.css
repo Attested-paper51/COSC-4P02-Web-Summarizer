@@ -333,6 +333,9 @@
 .template-config-buttons {
     /* font-size: small; */
     padding-right: 10px;
+    display: grid;
+    justify-content: space-between;
+    gap: 10px;
     /* background-color: rgba(172, 121, 121, 0.5); */
 }
 
@@ -380,6 +383,7 @@
 
 .dropdown-menu {
     padding-right: 10px;
+    font-size: 15px;
 }
 
 .customSumBtn {

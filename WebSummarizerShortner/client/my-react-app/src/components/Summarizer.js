@@ -57,8 +57,12 @@ const Summarizer = () => {
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
 
-    const templates = ["Template 1", "Template 2", "Template 3"];
+    const templates = ["Load Template", "Template 1", "Template 2", "Template 3"];
     const [selectedTemplate, setTemplate] = useState(templates[0]);
+
+    const saveTemplates = ["Save Template", "Template 1", "Template 2", "Template 3"];
+    const [selectedSaveTemplate, setSaveTemplate] = useState(saveTemplates[0]);
+
 
     const [sliderValue, setSliderValue] = useState(1);
 
@@ -234,6 +238,11 @@ const Summarizer = () => {
     const handleTemplateChange = (item) => {
         setTemplate(item);
         handleTemplateFetch(item);
+    }
+
+    const handleSaveTemplateChange = (item) => {
+        setSaveTemplate(item);
+        //handleTemplateFetch(item);
     }
 
     const checkEmptyInput = () => {
@@ -650,74 +659,89 @@ const Summarizer = () => {
                                             </div>
                                         }
 
-                                        { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                                        { isClicked == 2 && selectedVideoSetting == videoSetting[1] &&
                                             <div className="timestamp">
-                                            <div className="start">
-                                                Start Time:
-                                                <div className="start-time">
-                                                    {/* <textarea 
-                                                        className="timestamp-textarea" 
-                                                        id="startM" 
-                                                        name="startM" 
-                                                        placeholder='Minutes'>
-                                                    </textarea> */}
-                                                    <NumberInputBasic 
-                                                    value={startHour} 
-                                                    //placeholder = "HH"
-                                                    onChange={setStartHour}
-                                                    darkMode={darkMode} />
-                                                    :
-                                                    <QuantityInput 
-                                                    value={startMin}
-                                                    //placeholder = "MM"
-                                                    onChange={setStartMin}
-                                                    darMode={darkMode}/>
-                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                                <div className="start">
+                                                    Start Time:
+                                                    <div className="start-time">
+                                                        {/* <textarea 
+                                                            className="timestamp-textarea" 
+                                                            id="startM" 
+                                                            name="startM" 
+                                                            placeholder='Minutes'>
+                                                        </textarea> */}
+                                                        <NumberInputBasic 
+                                                        value={startHour} 
+                                                        //placeholder = "HH"
+                                                        onChange={setStartHour}
+                                                        darkMode={darkMode} />
+                                                        :
+                                                        <QuantityInput 
+                                                        value={startMin}
+                                                        //placeholder = "MM"
+                                                        onChange={setStartMin}
+                                                        darMode={darkMode}/>
+                                                        {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                                    </div>
                                                 </div>
-                                            </div>
             
-                                            <div className="end">
-                                                End Time:
-                                                <div className="end-time">
-                                                <NumberInputBasic 
-                                                    value={endHour} 
-                                                    //placeholder = "HH"
-                                                    onChange={setEndHour}
-                                                    darkMode={darkMode} />
-                                                    :
-                                                    <QuantityInput 
-                                                    value={endMin}
-                                                    
-                                                    //placeholder = "MM"
-                                                    onChange={setEndMin}
-                                                    darMode={darkMode}/>
-                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                                    :
-                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                <div className="end">
+                                                    End Time:
+                                                    <div className="end-time">
+                                                        <NumberInputBasic 
+                                                            value={endHour} 
+                                                            //placeholder = "HH"
+                                                            onChange={setEndHour}
+                                                            darkMode={darkMode} />
+                                                            :
+                                                            <QuantityInput 
+                                                            value={endMin}
+                                                            
+                                                            //placeholder = "MM"
+                                                            onChange={setEndMin}
+                                                            darMode={darkMode}/>
+                                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                        :
+                                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                            }
+                                        }
                                         </div>
                                     </div>
                                     <div className="template-config-buttons">
-                                        <div className="save-template">
+                                        <div className="dropdown-menu">
+                                            <Dropdown
+                                                buttonText={selectedSaveTemplate}
+                                                content={<>
+                                                    {
+                                                        saveTemplates.slice(1).map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleSaveTemplateChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
+                                        {/* <div className="save-template">
                                             <div className="dropdown-menu">
                                                 <div className="dropdown">
                                                     <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
-                                                        Save Settings
+                                                        Save Settings */}
                                                         {/* <span className="toggle-icon"> 
                                                             <FaChevronUp/>
                                                         </span> */}
-                                                    </button>
-                                                </div>
+                                                    {/* </button>
+                                                </div> */}
                                                 {/* <button className='summarize-btn'>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                         <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
                                                     </div>
                                                 </button> */}
-                                            </div>
-                                        </div>
+                                            {/* </div>
+                                        </div> */}
                                         {/* <div className="save-custom-info">
                                             <button className='summarize-btn'>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
@@ -730,7 +754,7 @@ const Summarizer = () => {
                                                 buttonText={selectedTemplate}
                                                 content={<>
                                                     {
-                                                        templates.map(item => 
+                                                        templates.slice(1).map(item => 
                                                             <DropdownItem
                                                                 key={item}
                                                                 onClick={() => handleTemplateChange(item)}>
