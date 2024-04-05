@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
@@ -68,6 +68,8 @@ const Summarizer = () => {
     const [endMin, setEndMin] = useState("MM");
 
     const email = localStorage.getItem('email');
+
+    const navigate = useNavigate();
 
     const valuetext = (value) => {
         return `${value}`;
@@ -207,6 +209,7 @@ const Summarizer = () => {
     const thumbsDown = () => {
         console.log("Output summary is bad.")
         setOutputContent('Bilaaaaal')
+        navigate("/Shortener", {state: { inputContent: inputContent }});
         //alert(sliderValue)
     }
 

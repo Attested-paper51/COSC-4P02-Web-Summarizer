@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from './ThemeContext.js'
 import DialogBox from '../components/DialogBox.js';
 
@@ -9,6 +9,10 @@ const URLShortener = () => {
     const { darkMode } = useTheme();
     const [isPremium, setPremium] = useState(true);
     const [username, setUsername] = useState('');
+
+    const {state} = useLocation();
+    const { inputContent } = state || {};
+    const [inputState, setInputState] = useState(inputContent);
 
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
@@ -50,6 +54,50 @@ const URLShortener = () => {
     }
 
     const email = localStorage.getItem('email');
+
+
+    useEffect(() => {
+        if (inputState) {
+            //localStorage.setItem('URL', inputState);
+            setURL(inputState);
+            console.log("URL: " + URL)
+            console.log("inputState4: " + inputState)
+        }
+    }, [inputState]);
+
+    // Clear localStorage and reset URL state
+    useEffect(() => {
+        //setInputState('hiiii');
+        return () => {
+            console.log("Type of setInputContent:", typeof setInputState);
+            console.log("inputState1: " + inputState)
+            //setInputState("undefined");
+            console.log("inputState2: " + inputState)
+            console.log("inputState3: " + inputState)
+            localStorage.removeItem('URL');
+        };
+    }, []);
+
+
+    const [refreshed, setRefreshed] = useState(false);
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.setItem('pageRefreshed', 'true');
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        const isPageRefreshed = localStorage.getItem('pageRefreshed');
+        if (isPageRefreshed) {
+            setRefreshed(true);
+        }
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+    
     
     useEffect(() => {
         const fetchUsername = async () => {
