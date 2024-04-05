@@ -209,7 +209,7 @@ const Summarizer = () => {
     const thumbsDown = () => {
         console.log("Output summary is bad.")
         setOutputContent('Bilaaaaal')
-        navigate("/Shortener", {state: { inputContent: inputContent }});
+        //navigate("/Shortener", {state: { inputContent: inputContent }});
         //alert(sliderValue)
     }
 
@@ -275,6 +275,10 @@ const Summarizer = () => {
     // closes Dialog Box
     const handleTemplateConfirm = () => {
         handleTemplateClose()
+    }
+
+    const transferLink = () => {
+        navigate("/Shortener", {state: { inputContent: inputContent }});
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -842,13 +846,11 @@ const Summarizer = () => {
                                         </div>
                                         
                                         { shorten &&
-                                            <Link to = "/Shortener">
-                                                <button className="summarize-btn">
-                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                        <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
-                                                    </div>
-                                                </button>
-                                            </Link>
+                                            <button className="summarize-btn" onClick={transferLink}>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
+                                                </div>
+                                            </button>
                                         }
                                     </div>
                                     <Tooltip title="Copy" arrow>
