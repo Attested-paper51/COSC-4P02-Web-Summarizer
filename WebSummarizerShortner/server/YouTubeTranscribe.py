@@ -124,7 +124,6 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
         video_id = video_id_match.group(1)
         video_duration = get_video_duration(video_id)  # Fetch video duration for validation
         
-        
         start_seconds = None
         end_seconds = None
 
@@ -133,10 +132,9 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
                 start_seconds = convert_time_to_seconds(start_time_str)
                 end_seconds = convert_time_to_seconds(end_time_str)
 
-
                 validate_time_within_duration(start_seconds, end_seconds, video_duration)
             except ValueError as e:
-                return True, str(e)
+                return True, "error validating time"
 
         original_audio_file = None  # Initialize the variable to store the downloaded audio file
 
