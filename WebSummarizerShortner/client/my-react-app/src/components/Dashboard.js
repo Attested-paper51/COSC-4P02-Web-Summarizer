@@ -29,6 +29,7 @@ const Dashboard = () => {
   
 
   let username = localStorage.getItem('user_id');
+  let name = localStorage.getItem('name')
 
   const [activeComponent, setActiveComponent] = useState('History'); // Default to Settings component
 
@@ -80,7 +81,7 @@ const Dashboard = () => {
           <div className='user-profile'>
             <IoPersonSharp size={160}/>
           </div>
-          <div className='user-name'>{username}</div>
+          <div className='user-name'>{name}</div>
           <div className='dashboard-options'>
               <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory size={25} />History</button>
               <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate size={25}/>Templates</button>
