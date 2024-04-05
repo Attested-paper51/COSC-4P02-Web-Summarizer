@@ -272,7 +272,7 @@ const summarizeText = () => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            text: inputContent, 
+            input: inputContent, 
             type: isClicked, 
             tone: selectedTone,
             style: selectedLayout,

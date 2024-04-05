@@ -14,7 +14,7 @@ def summarize_text():
 
     # recieving data from frontend
     data = request.get_json()
-    input_text = data.get('text') # the input text, this contains either text, url, or youtube url (this will be summarized)
+    input_text = data.get('input') # the input text, this contains either text, url, or youtube url (this will be summarized)
     type = data.get('type')  # the tabs, 0 for Text, 1 for Website URL, 2 for YouTube URL
     tone = data.get('tone') # tones are "Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
