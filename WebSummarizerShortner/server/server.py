@@ -32,8 +32,6 @@ def summarize_text():
 
     print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
 
-    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n[citation]"
-
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
         return jsonify({"error": "Missing or empty text"})
@@ -52,6 +50,8 @@ def summarize_text():
     # for a url
     elif type == 1:
         print("User given URL", input_text)
+
+        cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n[citation]"
 
         error, result = sum.processURL(input_text, tone, style, length, cite)
 
