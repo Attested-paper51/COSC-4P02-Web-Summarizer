@@ -259,25 +259,31 @@ const Summarizer = () => {
     }
 
 
-// function for handling text summarization
+// State to manage loading dialog visibility
+const [isLoading, setIsLoading] = useState(false);
+
 const summarizeText = () => {
+    // Show loading dialog
+    setIsLoading(true);
+
     fetch('/api/summarize', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             text: inputContent, 
             type: isClicked, 
             tone: selectedTone,
             style: selectedLayout,
             length: sliderValue,
             option: selectedVideoSetting,
-            //startTime: startTime,
-            //endTime: quantity,
         }),
     })
     .then(response => {
+        // Hide loading dialog
+        setIsLoading(false);
+        
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -287,13 +293,15 @@ const summarizeText = () => {
         if (data.error) {
             throw new Error(data.error);
         }
-        setOutputContent(data.summary); // This line updates the output area
+        setOutputContent(data.summary);
     })
     .catch(error => {
+        setIsLoading(false); // Ensure loading dialog is hidden on error
         setErrorMessage(error.message || 'An error occurred while fetching the summary.');
         setOpenError(true);
     });
 };
+
 
 
 
@@ -622,7 +630,18 @@ const summarizeText = () => {
         confirmText={"Continue"}
         onConfirm={handleErrorConfirm}
         />
+        <DialogBox 
+        open={isLoading} 
+        onClose={() => {}} // Prevent closing on user interaction
+        title={"Loading..."}
+        content={"Please wait while we process your request."}
+        showCancelButton={false}
+        // No confirm button shown, making the dialog purely informational
+/>
+
     </div>
+
+    
 );
 }
 
