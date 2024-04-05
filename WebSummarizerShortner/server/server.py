@@ -9,6 +9,9 @@ CORS(app)
 @app.route('/api/summarize', methods=['POST'])
 def summarize_text():
 
+    # API handling
+    #api_key = request.headers.get('X-API-KEY')
+
     # recieving data from frontend
     data = request.get_json()
     input_text = data.get('text') # the input text, this contains either text, url, or youtube url (this will be summarized)
