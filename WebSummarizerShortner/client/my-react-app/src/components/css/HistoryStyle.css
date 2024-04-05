@@ -3,31 +3,32 @@
     flex-direction: column;
 }
 
+.history-wrapper h1{
+    font-size: clamp(1.5rem, 1.9vw, 10rem);
+}
+
 .sum-btn, .short-btn{
     all: unset;
-    font-size: 14px;
+    font-size: clamp(0.8rem, 0.9vw, 5rem);
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 0.5vw;
     /* background-color: #3b4b71; */
     opacity: 0.8;
     padding: 1em 2em;
     color: white;
     margin: 1em 0;
-    width: 250px;
+    width: clamp(120px, 15vw, 1000px); 
     text-align: center;
+    background-color: #dbe5fa;
+    color: black;
+    border-width: 0.15vw;
+    font-weight: 500;
 }
 
 .hist-section{
     display: flex;
     gap: 2em;
     padding-top: 2em;
-}
-
-.sum-btn, .short-btn{
-    background-color: #dbe5fa;
-    color: black;
-    border-width: 2px;
-    font-weight: 500;
 }
 
 .sum-btn:hover, .short-btn:hover, .sum-btn.active, .short-btn.active{
@@ -37,28 +38,14 @@
     color: white;
 }
 
-.sum-btn, .short-btn{
-    all: unset;
-    font-size: 14px;
-    border: 1px solid;
-    border-radius: 10px;
-    background-color: #3b4b71;
-    opacity: 0.8;
-    padding: 1em 2em;
-    color: white;
-    margin: 1em 0;
-    width: 250px;
-    text-align: center;
-}
-
 .btn-section{
     display: flex;
     padding-left: 0.65em;
+    padding-bottom: 1vw;
 }
 
 .control-btn{
     all: unset;
-    font-size: 19px;
     line-height: 14px;
     padding: 10px;
     /* border: 1px solid; */
@@ -75,6 +62,10 @@
 .control-btn:hover{
     background-color: #d4d6dc;
     cursor: pointer;
+}
+
+.checkbox-icon, .delete-icon, .copy-icon{
+    font-size: clamp(18px, 2.5vh, 4vw);
 }
 
 #summary-table, #shortener-table{
@@ -96,12 +87,17 @@
     border-bottom: 1px solid black;
 }
 
+#summary-table th,  #shortener-table th{
+    font-size: clamp(1rem, 1.2vw, 5rem);
+}
+
 #summary-table td,  #shortener-table td{
     padding: 1em;
     /* border: 1px solid; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: clamp(0.9rem, 1.1vw, 5rem);
 }
 
 #summary-table .scrollable,  #shortener-table .scrollable{
@@ -116,7 +112,7 @@
     width: 20px;
     font-size: 19px;
     line-height: 14px;
-    padding: 10px;
+    padding: 1vw;
     border-radius: 52px;
     /* background-color: #3b4b71; */
     /* opacity: 0.8; */
