@@ -26,7 +26,7 @@ def summarize(text, tone, style, length, cite=None):
         return True, f"Error occurred in summarize: {str(e)}"
 
 # Extract text content from youtube url to then pass to openai to summarize
-def processYouTubeURL(url, option, tone, style, length, cite, startTime=0, endTime=0):
+def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
 
     error, result = ytExtract.caption(url, option, startTime, endTime)
 
@@ -34,7 +34,7 @@ def processYouTubeURL(url, option, tone, style, length, cite, startTime=0, endTi
         return error, result
     else:
         extractedText = result + f"\n\nYouTube video: {url}"
-        return summarize(extractedText, tone, style, length, cite)
+        return summarize(extractedText, tone, style, length)
  
 
 # extract text content from websites to then pass to openai for summary

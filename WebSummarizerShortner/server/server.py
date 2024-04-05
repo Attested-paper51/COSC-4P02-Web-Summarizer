@@ -65,7 +65,7 @@ def summarize_text():
         
         print("User given YouTube URL", input_text)
 
-        error, result = sum.processYouTubeURL(input_text, option, tone, style, length, cite)
+        error, result = sum.processYouTubeURL(input_text, option, tone, style, length)
 
         if error:
             return jsonify({'error': result})
