@@ -25,7 +25,7 @@ def extract_text_from_url(url):
         return readable_text
     except Exception as e:
         logging.error(f"Error: {e}")
-        return None
+        return True, "issue with extraction"
 
 @app.route('/get-text', methods=['POST'])
 def get_url():

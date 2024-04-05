@@ -31,7 +31,7 @@ def processYouTubeURL(url, option, tone, style, length, cite, startTime=0, endTi
     error, result = ytExtract.caption(url, option, startTime, endTime)
 
     if error:
-        return error, "error processing Youtube URL"
+        return error, result
     else:
         extractedText = result + f"\n\nYouTube video: {url}"
         return summarize(extractedText, tone, style, length, cite)
@@ -43,7 +43,7 @@ def processURL(url, tone, style, length, cite):
     error, result = textExtraction.extract_text_from_url(url)
 
     if error:
-        return error, "error processing URL"
+        return error, result
     else:
         extractedText = result + f"\n\nWebpage url: {url}"
         return summarize(extractedText, tone, style, length, cite)
