@@ -113,10 +113,14 @@ class SimpleURLShortener:
         cursor = self.conn.cursor()
         cursor.execute('SELECT original_url FROM shortened_url WHERE short_url = %s', (shortURL,))
         result = cursor.fetchone()
-        cursor.execute('UPDATE shortened_url SET click_count = click_count + 1 WHERE short_url = %s RETURNING click_count', (shortURL,))
-        self.conn.commit()
-        print(result)
-        return result[0]
+        
+        if result is not None:
+            # Update the click count
+            cursor.execute('UPDATE shortened_url SET click_count = click_count + 1 WHERE short_url = %s RETURNING click_count', (shortURL,))
+            self.conn.commit()
+            return result[0]  # Return the original URL
+        else:
+            return -1  # Return -1 if no result is found
 
 
     def __del__(self):
@@ -202,21 +206,39 @@ def shorten_url_api():
     
     return jsonify({'message':result})
 
+@appS.route('/apiresolve',methods=['POST'])
+def resolveOriginal():
+    data = request.get_json()
+    key = data.get('key')
+    auth = Authentication()
+    #check if api key valid
+    if auth.checkAPIKey(key) == -1:
+        return jsonify({'message':'API Key not valid.'})
+
+    shortURL = data.get('shortURL')
+    print(shortURL)
+    #
+    result = url_shortener.resolve_url(shortURL)
+    if result == -1:
+        return jsonify({'message':'Short URL incorrect'})
+    #
+    return jsonify({'message':result})
+
 
 @appS.route('/<path:short_url>')
 def redirectToOriginal(short_url):
-    print("short_url:"+short_url)
+    #print("short_url:"+short_url)
     decodedShort = unquote(short_url)
     #fullURL = "http://127.0.0.1:5002/"+short_url
     fullURL = "http://127.0.0.1:5002/"+decodedShort
-    print("Full:"+fullURL)
+    #print("Full:"+fullURL)
     originalURL = url_shortener.resolve_url(fullURL)
-    print("Original:"+originalURL)
+    #print("Original:"+originalURL)
     #Ensure the url has http in front of it.
     pattern = re.compile(r'^(?!https?://).*$', re.IGNORECASE)
     if pattern.match(originalURL):
         originalURL = 'http://'+originalURL
-    print(originalURL)
+    #print(originalURL)
     return redirect(originalURL)
 
 
