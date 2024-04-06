@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import "./css/DashboardStyle.css";
+import "./css/HistoryStyle.css";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
+import { useTheme } from './ThemeContext.js'
 
 const History = () => {
 
-  const [showSumSection, setShowSumSection] = useState(false); // State for Web Summarizer section
+  const { darkMode } = useTheme();
+
+  const [showSumSection, setShowSumSection] = useState(true); // State for Web Summarizer section
   const [showShortSection, setShowShortSection] = useState(false); // State for URL Shortener section
-  const [activeButton, setActiveButton] = useState(null); // State for active button
+  const [activeButton, setActiveButton] = useState('sum'); // State for active button
 
   const handleSumButtonClick = () => {
     setShowSumSection(true);
@@ -39,7 +42,7 @@ const History = () => {
     return newData;
   }
   // Initialize dummy table data
-  const [data, setData] = useState(generateData(10));// number of rows is 10
+  const [data, setData] = useState(generateData(5));// number of rows is 10
 
 
   // State to track if all entries are selected
@@ -101,11 +104,11 @@ const History = () => {
 
             {/* Content for Web Summarizer section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}</button>
+              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy size={15} /> : <FaRegCopy size={15} />}</button>
+                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
                 </>
               )}
             </div>
@@ -124,7 +127,7 @@ const History = () => {
                     <td>
                       <label className='custom-checkbox'>
                         <input type="checkbox" checked={!!selectedRows[item.id]} onChange={() => handleCheckboxChange(item.id)} />
-                        {selectedRows[item.id] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        {selectedRows[item.id] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
                     <td className='scrollable'>{item.input}</td>
@@ -141,11 +144,11 @@ const History = () => {
           <div className='short-section'>
             {/* Content for URL Shortener section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}</button>
+              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy size={15} /> : <FaRegCopy size={15} />}</button>
+                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
                 </>
               )}
             </div>
@@ -165,7 +168,7 @@ const History = () => {
                     <td>
                       <label className='custom-checkbox'>
                         <input type="checkbox" checked={!!selectedRows[item.id]} onChange={() => handleCheckboxChange(item.id)} />
-                        {selectedRows[item.id] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        {selectedRows[item.id] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
                     <td className='scrollable'>{item.original}</td>

@@ -6,6 +6,7 @@ from flask_cors import CORS
 import re
 import hashlib
 import requests
+import time
 
 appA = Flask(__name__)
 CORS(appA)
@@ -25,8 +26,10 @@ class Authentication:
 
     def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
+        apiKey = self.createAPIKey(username)
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password, name, login_method) VALUES (%s, %s, %s, %s, %s)", (username, email, password, name, "manual"))
+        
+        cursor.execute("INSERT INTO users (username, email, password, name, login_method, api_key) VALUES (%s, %s, %s, %s, %s, %s)", (username, email, password, name, "manual",apiKey))
         self.conn.commit()
 
     def checkIfAlreadyRegistered(self,email):
@@ -81,8 +84,12 @@ class Authentication:
     
     def resetPassword(self,email,newPassword):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword, email))
-        self.conn.commit()
+        if (self.isPasswordValid(newPassword)):
+            cursor.execute("UPDATE users SET password = %s WHERE email = %s", (newPassword, email))
+            self.conn.commit()
+            return 1
+        return 0
+        
 
     
     def changeEmail(self,email,newEmail,password):
@@ -128,19 +135,63 @@ class Authentication:
 
     def loginGoogle(self,email,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
+        apiKey = self.createAPIKey(username)
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, name, login_method) VALUES (%s, %s, %s, %s)", (username, email, name, "google"))
+        cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "google",apiKey))
         self.conn.commit()
+
+    def createAPIKey(self,username):
+
+
+        # Concatenate username with current timestamp
+        data = f"{username}{time.time()}"
+    
+        # Hash the concatenated string
+        hashed_data = hashlib.sha256(data.encode()).hexdigest()
+    
+        # Truncate the hash to get a 32-character API key
+        apiKey = hashed_data[:32]
+        return apiKey
+    
+    def getAPIKey(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT api_key FROM users WHERE email = %s",(email,))
+        apiKey = cursor.fetchone()[0]
+        return apiKey
+
+    def checkAPIKey(self,apiKey):
+        cursor = self.conn.cursor()
+        #print(apiKey)
+        cursor.execute("SELECT COUNT(*) FROM users WHERE api_key = %s", (apiKey,))
+        result = cursor.fetchone()[0]
+        if result > 0:
+            return 1  # API key found
+        else:
+            return -1  # API key not found
+
+
+    
+
 
     #Template Logic
     def createTemplateRows(self,email):
+        #add a way to avoid 3 rows from creating if 3 are already created
         cursor = self.conn.cursor()
+        if (self.findEmail(email) is None):
+            return 0
         user = self.getUsername(email)
         for i in range(1, 4):
             cursor.execute("INSERT INTO templates (username, template_name) VALUES (%s, %s)", (user, f'customTemplate{i}'))
             self.conn.commit()
+        return 1
+        
 
-    def addTemplate(self,email,word_count,formality,structure,num_paragraphs,template_name):
+    def addTemplate(self,email,word_count,formality,
+    structure,num_paragraphs,summType,timestamps,length,template_name):
+    #Add a way to ensure return val is 0 if template name is invalid
+        if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
+
         cursor = self.conn.cursor()
         user = self.getUsername(email)
 
@@ -155,18 +206,41 @@ class Authentication:
                 word_count = %s, 
                 formality = %s, 
                 structure = %s, 
-                num_paragraphs = %s 
+                num_paragraphs = %s,
+                summarization_type = %s,
+                timestamps = %s,
+                length = %s 
             WHERE 
                 username = %s 
             AND 
                 template_name = %s
-        """, (word_count, formality, structure, num_paragraphs, user, template_name))
+        """, (word_count, formality, structure, num_paragraphs, summType, timestamps,length,user, template_name))
         
         self.conn.commit()
+        return 1
+
+    def getTemplate(self,email,templateName):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        if (templateName not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
+
+        cursor.execute("""
+        SELECT word_count, formality, structure, num_paragraphs, summarization_type, timestamps, length
+        FROM templates 
+        WHERE username = %s 
+        AND template_name = %s
+        """, (user, templateName))
+        templateVals = cursor.fetchone()
+        return templateVals
+
 
     def clearTemplate(self,email,template_name):
         cursor = self.conn.cursor()
         user = self.getUsername(email)
+
+        if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
 
         cursor.execute("""
         UPDATE templates 
@@ -174,7 +248,10 @@ class Authentication:
             word_count = NULL, 
             formality = NULL, 
             structure = NULL, 
-            num_paragraphs = NULL
+            num_paragraphs = NULL,
+            summarization_type = NULL,
+            timestamps = NULL,
+            length = NULL
         WHERE 
             username = %s 
         AND 
@@ -183,13 +260,39 @@ class Authentication:
 
         # Commit the changes
         self.conn.commit()
+        return 1
 
     def deleteTemplates(self,email):
         cursor = self.conn.cursor()
+        if (self.findEmail(email) is None):
+            return 0
         user = self.getUsername(email)
         cursor.execute("DELETE FROM templates WHERE username = %s",(user,))
         self.conn.commit()
+        return 1
 
+
+    #Feedback
+
+    def addFeedback(self,stars,text):
+        cursor = self.conn.cursor()
+        
+        cursor.execute("INSERT INTO feedback (stars, text) VALUES (%s, %s)", (stars,text))
+        self.conn.commit()
+        return 1
+
+
+    #Adding summarized history
+    def addSummarizedHistory(self,input,output,email):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        if (user is None):
+            return -1
+        cursor.execute("INSERT INTO summarized (input_text,summarized_text,user_id) VALUES (%s,%s,%s)",(input,output,user))
+        self.conn.commit()
+        return 1
+
+    
 
 
     def __del__(self):
@@ -236,6 +339,7 @@ def changePW():
     else:
         return jsonify({'message':'Current password incorrect.'})
 
+
 @appA.route('/changeemail',methods=['POST'])
 def changeEmail():
     data = request.get_json()
@@ -267,13 +371,14 @@ def signup():
     password = data.get('pass')
     name = data.get('name')
     
+    
     #Add this to .env
     api_key = os.getenv("EMAILVF_PW")
     
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
 
-
     #commented out for now, testing.
+    
 
     #response = requests.get(url)
     #result = response.json()
@@ -312,8 +417,9 @@ def deleteAccount():
     data = request.get_json()
     email = data.get('email')
     userMgr = Authentication()
+    userMgr.deleteTemplates(email)
     userMgr.deleteAccount(email)
-    #userMgr.deleteTemplates(email)
+    
     return jsonify({'message':'Account deleted.'})
 
 
@@ -324,13 +430,102 @@ def loginGoogle():
     name = data.get('name')
     userMgr = Authentication()
     if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Already registered. Logging in.'})
+        dbName = userMgr.getName(email)
+        return jsonify({'message':'Already registered. Logging in.'
+        ,'name':dbName})
+
+    
     userMgr.loginGoogle(email,name)
-    return jsonify({'message':'Registered with Google.'})
+    userMgr.createTemplateRows(email)
+    return jsonify({'message':'Registered with Google.'
+    ,'name':name})
+
+
+@appA.route('/savetemplate',methods=['POST'])
+def saveTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    formality = data.get('formality')
+    structure = data.get('structure')
+    wordcount = data.get('wordcount')
+    summType = data.get('summ_type')
+    timestamp = data.get('timestamp')
+    length = data.get('length')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    #Note that we need to add num paragraphs, or just drop the col.
+    if userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,length,templateName):
+        return jsonify({'message':'Template added.'})
+    return jsonify({'message':'Not added.'})
+    
+
+@appA.route('/cleartemplate',methods=['POST'])
+def clearTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    userMgr.clearTemplate(email,templateName)
+    return jsonify({'message':'Template cleared.'})
+
+@appA.route('/getusername',methods=['POST'])
+def getUsername():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    username = userMgr.getUsername(email)
+    return jsonify({'message':username})
+
+@appA.route('/gettemplate',methods=['POST'])
+def getTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    templates = userMgr.getTemplate(email,templateName)
+    words = templates[0]
+    formality = templates[1]
+    structure = templates[2]
+    numParagraphs = templates[3]
+    summType = templates[4]
+    timestamps = templates[5]
+    length = templates[6]
+    return jsonify({'length':length, 'formality':formality,
+    'structure':structure,'numparagraphs':numParagraphs,
+    'summtype':summType,'timestamps':timestamps})
+
+@appA.route('/addfeedback',methods=['POST'])
+def addFeedback():
+    data = request.get_json()
+    stars = data.get('rating')
+    text = data.get('feedback')
+    
+    userMgr = Authentication()
+    userMgr.addFeedback(stars,text)
+    return jsonify({'message':'Feedback added successfully.'})
+
+@appA.route('/addsummarized',methods=['POST'])
+def addSummarized():
+    data = request.get_json()
+    email = data.get('email')
+    input = data.get('input')
+    output = data.get('output')
+    userMgr = Authentication()
+    userMgr.addSummarizedHistory(input,output,email)
+    return jsonify({'message':'Added to history.'})
+
+@appA.route('/getapikey',methods=['POST'])
+def getAPIKey():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    key = userMgr.getAPIKey(email)
+    return jsonify({'key':key})
 
 if __name__ == '__main__':
     appA.run(port=5001)
-    auth = Authentication()
+    
+   
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
     #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")

@@ -2,6 +2,7 @@
     padding: 7vw;
     /*justify-content: center;*/
     place-items: center;
+    /* background-color: #edf7f9; */
 }
 
 .carousel {
@@ -14,7 +15,7 @@
 }
 
 .review-container {
-    box-shadow: 0.4vw 0.4vw 0.7vw #8ba7c2;
+    /* box-shadow: 0.4vw 0.4vw 0.7vw #8ba7c2; */
     /* width: clamp(460px, 3vw, 550px); */
     /* height: clamp(200px, 20vh, 450px); */
     position: relative;
@@ -22,7 +23,7 @@
     /* border-radius: 9px; */
     box-sizing: border-box;
     /* background:linear-gradient(#d8e7f2,transparent); */
-    background-color:white;
+    /* background-color:white; */
     padding: 1.5vw 3vw 2vw 3vw;
     border-radius: 1vw;
     margin: 2vw;
@@ -35,7 +36,7 @@
 }
 
 .review-text {
-    font-size: clamp(1.1rem, 1.2vw, 3rem);
+    font-size: clamp(0.9rem, 1.2vw, 3rem);
     padding: 0.5rem;
 }
 

@@ -12,10 +12,15 @@ const Header = () => {
   const storedEmail = localStorage.getItem('email');
   const storedName = localStorage.getItem('name');
 
-  const { darkMode, toggleDarkMode } = useTheme();
+  const { darkMode, setDarkMode } = useTheme();
+
+  // Function to toggle dark mode
+  const toggleDarkMode = () => {
+      setDarkMode(prevMode => !prevMode);
+  };
 
     return (
-      <section className={`header-nav-container ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`}>
+      <section className={`header-nav-container ${darkMode ? 'header-dark' : 'header-light'}`}>
 
         <nav className='header-nav'>
           
@@ -36,7 +41,7 @@ const Header = () => {
 
           <div className="nav-div2">
             {/* <Link to="/Mode"> */}
-              <button className="mode" onClick={toggleDarkMode}>{darkMode ? <FaSun className={`mode-icon ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`}/> : <FaMoon className={`mode-icon ${darkMode ? 'dark-mode' : 'light-mode'}`} />}</button>
+              <button className="mode" onClick={toggleDarkMode}>{darkMode ? <FaSun className={`mode-icon ${darkMode ? 'header-dark-icon' : 'header-light-icon'}`}/> : <FaMoon className={`mode-icon ${darkMode ? 'dark-mode' : 'light-mode'}`} />}</button>
             {/* </Link> */}
 
             {/* To display the currently logged in user, WIP*/}
@@ -44,7 +49,7 @@ const Header = () => {
             {storedEmail !== null && storedEmail !== 'null' && (
             <>
               <Link to="/Dashboard">
-                <button className="profile"><IoPersonSharp className={`profile-icon ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`} /></button>
+                <button className="profile"><IoPersonSharp className={`profile-icon ${darkMode ? 'header-dark-icon' : 'header-light-icon'}`} /></button>
               </Link>
               <div className="profile-email">{storedName}</div>
             </>
@@ -53,7 +58,7 @@ const Header = () => {
           {/* Display login button if user is not logged in */}
           {(storedEmail === null || storedEmail === 'null') && (
             <Link to="/Login">
-              <button className="profile"><IoPersonSharp className={`profile-icon ${darkMode ? 'head-dark-mode' : 'head-light-mode'}`} /></button>
+              <button className="profile"><IoPersonSharp className={`profile-icon ${darkMode ? 'header-dark-icon' : 'header-light-icon'}`} /></button>
             </Link>
           )}
           </div>

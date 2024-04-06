@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   padding: clamp(2rem, 3%, 10rem) clamp(1rem, 6%, 10rem);
+  /* background-color: #edf7f9; */
   /* padding-bottom: clamp(1rem, 3%, 10rem); */
 }
 
@@ -50,10 +51,11 @@
   height: clamp(4vw, 4.5vw, 14vw);
   margin-top: clamp(0rem, 0.8vw, 10rem);
   margin-bottom: 2em;
+  width: clamp(3vw, 12vw, 42vw);
 }
 
 .try-overlap{
-  background-color: #576896; 
+  /* background-color: #576896;  */
   /* width: 150px;  */
   width: clamp(3vw, 12vw, 42vw);
   height: clamp(4vw, 4.5vw, 14vw);
@@ -61,16 +63,12 @@
   margin-top: clamp(1.2rem, 1.4vw, 20rem);
   box-shadow: 0px 3px 4px #0000004c;
   border-radius: clamp(1.2rem, 2.3vw, 20rem);
-  color: #ffffff;
-}
-
-.try-overlap:hover{
-  background-color: #082353; 
+  /* color: #ffffff; */
 }
 
 .try{
   font-size: clamp(0.3rem, 1.1vw, 10rem);
-  font-weight: 600;
+  font-weight: 700;
   left: 123px;
   letter-spacing: 0;
   line-height: clamp(0.6rem, 2.2vw, 20rem);

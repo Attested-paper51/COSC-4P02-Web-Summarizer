@@ -1,12 +1,15 @@
 import React from 'react';
 import "./css/LandingPageStyle.css";
 import { Link } from 'react-router-dom';
+import { useTheme } from './ThemeContext.js';
 
 const LandingPage = () => 
 {
+  const { darkMode } = useTheme();
+
   return (
-    <div className='main'>
-      <Link to="/Summarizer" className="summarizer">
+    <div className={`main ${darkMode ? 'landing-dark' : 'landing-light'}`}>
+      <Link to="/Summarizer" className={`summarizer ${darkMode ? 'sumshort-dark' : 'sumshort-light'}`}>
         <div className='main-summarizer'>
           <img 
             className="summarizer-img"
@@ -15,13 +18,13 @@ const LandingPage = () =>
           />
           <h1 className='title'>Summarizer</h1>
           <p className='para'>
-            <b>Experience the power of instant clarity with our Summarizer!</b> <br></br><br></br>
+            <b>Experience instant clarity with our Summarizer tool!</b> <br></br><br></br>
             Sign up now to access pro Summarizer features like customizable summarization levels, API Access and more! 
           </p>
         </div> 
       </Link>
     
-      <Link to="/Shortener" className="shortener">
+      <Link to="/Shortener" className={`shortener ${darkMode ? 'sumshort-dark' : 'sumshort-light'}`}>
         <div className='main-shortener'>
           <img 
             className="shortener-img"
@@ -30,9 +33,8 @@ const LandingPage = () =>
           />
           <h1 className='title'>URL Shortener</h1>
           <p className='para'>
-            <b>Amplify your impact with our URL Shortener!</b> <br></br><br></br> 
-            Perfect for social media posts or sharing resources with colleagues, 
-            our tool ensures your content gets noticed without cluttering your message. 
+            <b>Amplify your impact with our URL Shortener tool!</b> <br></br><br></br> 
+            Perfect for social media posts, our tool ensures your content gets noticed without cluttering your message. 
           </p>
         </div>
       </Link> 
