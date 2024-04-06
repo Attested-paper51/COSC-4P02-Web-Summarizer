@@ -1,36 +1,38 @@
 import React, { Component } from 'react';
 import "./css/HeroStyle.css";
 import { Link } from 'react-router-dom';
+import { useTheme } from './ThemeContext.js';
 
-class Hero extends Component 
-{
-  render() {
-    return(
-      <div className="hero">
-        <div className="hero-div1">
-          <div className="hero-title">
-            <p className="hero-heading">
-              Your shortcut to simplicity.
-            </p>
-            <p className="hero-subheading">
-              Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
-            </p>
+const Hero = () => {
+  
+  const { darkMode } = useTheme();
+
+  return(
+    <div className={`hero ${darkMode ? 'hero-dark' : 'hero-light'}`}>
+      <div className="hero-div1">
+        <div className="hero-title">
+          <p className="hero-heading">
+            Your shortcut to simplicity.
+          </p>
+          <p className="hero-subheading">
+            Say goodbye to lengthy URLs and information overload — discover the power of simplicity with our intuitive platform.
+          </p>
+            <button className="try-btn">
             <Link to="/Summarizer">
-              <button className="try-btn">
-                <div className="try-overlap">
-                  <div className="try">Try it now!</div>
-                </div>
-              </button>
-            </Link>
-          </div> 
-        </div>
-        <div className="hero-div2">
-          <img className="logo" alt="Logo" src="images/img3.png" />
-        </div>
+              <div className={`try-overlap ${darkMode ? 'hero-try-dark' : 'hero-try-light'}`}>
+                <div className="try">Try it now!</div>
+              </div>
+              </Link>
+            </button>
+        </div> 
       </div>
-    );
-  };
-}
+      <div className="hero-div2">
+        <img className="logo" alt="Logo" src="images/hero-light-wbg.png" />
+      </div>
+    </div>
+  );
+};
+
 
 export default Hero;
 

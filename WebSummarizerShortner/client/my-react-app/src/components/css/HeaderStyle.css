@@ -2,8 +2,8 @@
   .header-nav-container{
     /* background-color:#f4f9fa; */
     padding: 1.4em 1em 1em;
-    border-bottom: 1px solid #edf7f9;
-    box-shadow: 0 0.5px 3px #b5d3da;
+    /* border-bottom: 1px solid #edf7f9; */
+    /* box-shadow: 0 0.5px 3px #b5d3da; */
     top: 0;
     position: sticky;
     z-index: 100;
@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 5vh;
+    min-height: 10vh;
   }
 
   .nav-div1, .nav-div2{

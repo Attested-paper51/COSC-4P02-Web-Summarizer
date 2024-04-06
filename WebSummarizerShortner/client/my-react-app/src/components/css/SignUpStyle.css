@@ -5,24 +5,25 @@
     align-items: center;
     width: 100%;
     margin: auto;
-    padding-top: 7vh;
-    padding-bottom: 7vh;
-    color: #757373;
+    padding: 7vh 0;
+    /* color: #757373; */
     /* background-color: rgb(248, 248, 238); */
+    min-height: 90vh;
 }
 
-.form{
+.box .form{
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 0.15vw solid #7e7d7d;
-    border-radius: 1vw;
-    background-color: #ffffff;
-    padding-top: 3vh;
-    padding-bottom: 3vh;
-    width: clamp(330px, 32vw, 1100px);
+    border: 0.1vw solid;
+    /* border-radius: 1vw; */
+    border-radius: 10px;
+    /* background-color: #ffffff; */
+    margin: 2.5em 0;
+    width: clamp(340px, 32vw, 1100px);
+    height: clamp(740px, 70vh, 3600px);
 }
 
 .form-title{
@@ -34,7 +35,7 @@
 
 .form-subtitle{
     text-align: center;
-    padding: 1.5vw 1vw;
+    margin: 2.5vh;
     font-size: clamp(0.8rem, 0.7vw, 10rem);
 }
 
@@ -44,14 +45,14 @@
     margin-bottom: 1em;
 }
 
-.name-text, .email-text, .pass-text{
+.box .name-text, .box .email-text, .box .pass-text{
     display: block;
     padding-bottom: 5px;
-    color: #757373;
+    /* color: #757373; */
 }
 
-.textfield{
-    border: 0.1vw solid #b7b6b6;
+.box .textfield{
+    border: 0.1vw solid;
     border-radius: 8px;
     position: relative;
     width: 100%;
@@ -148,11 +149,11 @@
     margin-top: 1em;
     box-shadow: 0px 3px 4px #0000004c;
     border-radius: 9px;
-    background-color: #0d55a7; 
+    /* background-color: #0d55a7;  */
 }
 
 .signup{
-    color: #ffffff;
+    /* color: #ffffff; */
     font-weight: 600;
     letter-spacing: 0;
     /* position: absolute; */
@@ -165,7 +166,7 @@
 .box .pass-error, .box .email-error{
     font-size: clamp(0.8rem, 0.7vw, 10rem);
     padding-top: 2px;
-    color: red;
+    /* color: red; */
 }
 
 /*@media (max-width: 1140px) {

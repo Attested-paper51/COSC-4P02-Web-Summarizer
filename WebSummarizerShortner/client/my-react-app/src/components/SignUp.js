@@ -6,9 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '@mui/material/Tooltip';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useTheme } from './ThemeContext.js'
+
 //import { Link } from 'react-router-dom';
 
 const SignUp = () => {
+
+  const { darkMode } = useTheme();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,6 +22,7 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState('');
   const [passError, setPassError] = useState('');
   const [finalError, setFinalError] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
@@ -31,6 +36,10 @@ const SignUp = () => {
             console.log('Passwords do not match!');
             setPassError('Passwords do not match!');
             return;
+        }
+        if (name === '') {
+          setNameError('Name cannot be empty!');
+          return;
         }
 
         // Make a POST request to the Flask backend
@@ -73,6 +82,7 @@ const SignUp = () => {
   };
 
   const handleNameChange = (e) => {
+    setNameError('');
     setName(e.target.value);
   };
   
@@ -156,32 +166,33 @@ const SignUp = () => {
   });
 
   return (
-    <div className="box">
-      <div className="form">
+    <div className={`box ${darkMode ? 'login-dark' : 'login-light'}`}>
+      <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className='form-title'>Create an account</div>
         <div className="form-subtitle">Join us to access to Tailored Summaries, Analytics, API Integration and more!</div>
 
         <div className="name">
           <label className='name-text'>Enter your name</label> 
-          <input className='textfield'
+          <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
             type="text" 
             required
             value={name}
             onChange={handleNameChange}
             placeholder='Enter name here' 
           />
+          {nameError && <div className={`email-error ${darkMode ? 'error-dark' : 'error-light'}`}>{nameError}</div>}
         </div>
 
         <div className="email">
           <label className='email-text'>Enter your email</label> 
-          <input className='textfield'
+          <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
             type="text" 
             required
             value={email}
             onChange={handleEmailChange}
             placeholder='Enter email here' 
           />
-          {emailError && <div className="email-error">{emailError}</div>}
+          {emailError && <div className={`email-error ${darkMode ? 'error-dark' : 'error-light'}`}>{emailError}</div>}
         </div>
       
         <div className="password">
@@ -197,7 +208,7 @@ const SignUp = () => {
           </div>
           <div className='pass-wrapper'>
             <div className='pass-container' onClick={()=> { showChecklist(true); }}>
-                <input className='textfield'
+                <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                   type={visible ? "text":"password"}
                   required
                   value={pass}
@@ -244,13 +255,13 @@ const SignUp = () => {
             </div> */}
 
           </div>
-          {passError && <div class="pass-error">{passError}</div>}
+          {passError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{passError}</div>}
         </div>
 
         <div className="password">
           <label className='pass-text'>Re-enter password</label> 
           <div className='pass-container'>
-            <input className='textfield'
+            <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                 type={visible1 ? "text":"password"}
                 required
                 value={finalPass}
@@ -263,12 +274,12 @@ const SignUp = () => {
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}
               </div>
           </div>
-          {finalError && <div class="pass-error">{finalError}</div>}
+          {finalError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{finalError}</div>}
         </div>
 
         <button className="signup-btn" onClick={handleSubmit}>
-          <div className="signup-overlap">
-            <div className="signup">Create an account</div>
+          <div className={`signup-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+            <div className={`signup ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
           </div>
         </button>
         

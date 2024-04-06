@@ -3,10 +3,9 @@
     align-items: center;
     width: fit-content;
     padding: 1rem;
-    background-color: white;
+    /* background-color: white; */
     border-radius: 0.5rem;
-    box-shadow: rgba(149, 157, 165, 0.2)
-    0px 8px 24px;
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
     cursor: pointer;
 }
 
@@ -20,5 +19,5 @@
 
 .button-open {
     /* border: rgb(147, 197, 253) 2px solid; */
-    background-color: rgba(207, 207, 207, 0.779);
+    /* background-color: rgba(207, 207, 207, 0.779); */
 }
