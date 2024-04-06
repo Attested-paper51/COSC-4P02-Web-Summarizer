@@ -8,4 +8,6 @@ mineral-weaver-414516-c19a1aadc808.json
 =======
 >>>>>>> 17aaec9fd6de30891662b1261f449214315e694e
 
+__pycache__/
 
+.pytest_cache/
