@@ -64,8 +64,12 @@
     cursor: pointer;
 }
 
-.checkbox-icon, .delete-icon, .copy-icon{
+.checkbox-icon, .delete-icon{
     font-size: clamp(18px, 2.5vh, 4vw);
+}
+
+.copy-icon{
+    font-size: clamp(16px, 2vh, 3.5vw);
 }
 
 #summary-table, #shortener-table{
@@ -103,7 +107,7 @@
 #summary-table .scrollable,  #shortener-table .scrollable{
     max-height: 300px;
     overflow-y: auto;
-    max-width: 400px;
+    max-width: 1px;
 }
 
 .control-btn{
@@ -128,4 +132,15 @@
     /* background-color: #d4d6dc; */
     cursor: pointer;
     opacity: 1;
+}
+
+@media (max-width: 540px) {
+    .hist-section{
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+    .sum-btn, .short-btn{
+        width: clamp(160px, 10vw, 1000px); 
+    }
 }
