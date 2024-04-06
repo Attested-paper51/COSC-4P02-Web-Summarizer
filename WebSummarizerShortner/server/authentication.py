@@ -6,6 +6,7 @@ from flask_cors import CORS
 import re
 import hashlib
 import requests
+import time
 
 appA = Flask(__name__)
 CORS(appA)
@@ -25,8 +26,10 @@ class Authentication:
 
     def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
+        apiKey = self.createAPIKey(username)
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password, name, login_method) VALUES (%s, %s, %s, %s, %s)", (username, email, password, name, "manual"))
+        
+        cursor.execute("INSERT INTO users (username, email, password, name, login_method, api_key) VALUES (%s, %s, %s, %s, %s, %s)", (username, email, password, name, "manual",apiKey))
         self.conn.commit()
 
     def checkIfAlreadyRegistered(self,email):
@@ -132,9 +135,30 @@ class Authentication:
 
     def loginGoogle(self,email,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
+        apiKey = self.createAPIKey(username)
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, name, login_method) VALUES (%s, %s, %s, %s)", (username, email, name, "google"))
+        cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "google",apiKey))
         self.conn.commit()
+
+    def createAPIKey(self,username):
+
+
+        # Concatenate username with current timestamp
+        data = f"{username}{time.time()}"
+    
+        # Hash the concatenated string
+        hashed_data = hashlib.sha256(data.encode()).hexdigest()
+    
+        # Truncate the hash to get a 32-character API key
+        apiKey = hashed_data[:32]
+        return apiKey
+    
+    def getAPIKey(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT api_key FROM users WHERE email = %s",(email,))
+        apiKey = cursor.fetchone()[0]
+        return apiKey
+
 
     #Template Logic
     def createTemplateRows(self,email):
@@ -254,6 +278,8 @@ class Authentication:
         cursor.execute("INSERT INTO summarized (input_text,summarized_text,user_id) VALUES (%s,%s,%s)",(input,output,user))
         self.conn.commit()
         return 1
+
+    
 
 
     def __del__(self):
@@ -414,8 +440,10 @@ def saveTemplate():
     templateName = data.get('templatename')
     userMgr = Authentication()
     #Note that we need to add num paragraphs, or just drop the col.
-    userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,length,templateName)
-    return jsonify({'message':'Template added.'})
+    if userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,length,templateName):
+        return jsonify({'message':'Template added.'})
+    return jsonify({'message':'Not added.'})
+    
 
 @appA.route('/cleartemplate',methods=['POST'])
 def clearTemplate():
@@ -472,9 +500,18 @@ def addSummarized():
     userMgr.addSummarizedHistory(input,output,email)
     return jsonify({'message':'Added to history.'})
 
+@appA.route('/getapikey',methods=['POST'])
+def getAPIKey():
+    data = request.get_json()
+    email = data.get('email')
+    userMgr = Authentication()
+    key = userMgr.getAPIKey(email)
+    return jsonify({'key':key})
+
 if __name__ == '__main__':
     appA.run(port=5001)
-    #auth = Authentication()
+    
+   
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
     #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")
