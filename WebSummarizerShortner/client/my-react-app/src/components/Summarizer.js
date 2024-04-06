@@ -521,13 +521,15 @@ const summarizeText = () => {
             
         }
         var templatename;
-        if (templatenumber === 1) {
+        if (templatenumber === templates[1]) {
             templatename = "customTemplate1";
-        }else if (templatenumber === 2) {
+        }else if (templatenumber === templates[2]) {
             templatename = "customTemplate2";
-        }else {
+        }else if (templatenumber === templates[3]) {
             templatename = "customTemplate3";
         }
+
+        console.log("templatename saving: ",templatename);
         
 
         try {
