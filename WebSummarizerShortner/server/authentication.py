@@ -300,6 +300,7 @@ def changePW():
     else:
         return jsonify({'message':'Current password incorrect.'})
 
+
 @appA.route('/changeemail',methods=['POST'])
 def changeEmail():
     data = request.get_json()
