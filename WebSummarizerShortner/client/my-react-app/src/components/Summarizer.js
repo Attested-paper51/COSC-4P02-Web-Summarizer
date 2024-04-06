@@ -397,9 +397,9 @@ const summarizeText = () => {
         }else if (item === templates[3]) {
             templatename = "customTemplate3";
         }
-        console.log("Selected template:",selectedTemplate);
-        console.log("item:",item);
-        console.log("templateNameToFetch:",templatename);
+        //console.log("Selected template:",selectedTemplate);
+        //console.log("item:",item);
+        //console.log("templateNameToFetch:",templatename);
         try {
     
             // Make a POST request to the Flask backend
@@ -477,7 +477,7 @@ const summarizeText = () => {
         const email = localStorage.getItem('email');
         var wordcount = 0;
         var length;
-        console.log("template to save: ",templatenumber);
+        //console.log("template to save: ",templatenumber);
         
         
         if (sliderValue === 1) {
@@ -529,7 +529,7 @@ const summarizeText = () => {
             templatename = "customTemplate3";
         }
 
-        console.log("templatename saving: ",templatename);
+        //console.log("templatename saving: ",templatename);
         
 
         try {
