@@ -100,6 +100,7 @@ const URLShortener = () => {
     
     
     useEffect(() => {
+        console.log(email);
         const fetchUsername = async () => {
             try {
                 const response = await fetch('http://localhost:5001/getusername', {
@@ -186,7 +187,7 @@ const URLShortener = () => {
                         onChange={handleChangeInput}
                         placeholder='Enter URL here' 
                     />
-                    { email === null || email === "null" &&
+                    { !email &&
                     <button 
                         className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`} 
                         // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
@@ -197,7 +198,7 @@ const URLShortener = () => {
                 </div>
                 
                 {URLError && <div className={`url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{URLError}</div>}
-                {email != null || email != "null" &&
+                {email &&
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>
