@@ -237,7 +237,9 @@ const Summarizer = () => {
     }
 
     const handleTemplateChange = (item) => {
+        console.log("item: ",item);
         setTemplate(item);
+
         handleTemplateFetch(item);
     }
 
@@ -388,11 +390,11 @@ const summarizeText = () => {
         setTemplate(item);
         //do if so that u can say template 1 = customTemplate1 etc.
         var templatename;
-        if (item === templates[0]) {
+        if (item === templates[1]) {
             templatename = "customTemplate1";
-        }else if (item === templates[1]) {
+        }else if (item === templates[2]) {
             templatename = "customTemplate2";
-        }else {
+        }else if (item === templates[3]) {
             templatename = "customTemplate3";
         }
         console.log("Selected template:",selectedTemplate);
@@ -475,6 +477,7 @@ const summarizeText = () => {
         const email = localStorage.getItem('email');
         var wordcount = 0;
         var length;
+        console.log("template to save: ",templatenumber);
         
         
         if (sliderValue === 1) {
@@ -744,7 +747,7 @@ const summarizeText = () => {
                                                         saveTemplates.slice(1).map(item => 
                                                             <DropdownItem
                                                                 key={item}
-                                                                onClick={() => handleSaveTemplateChange(item)}>
+                                                                onClick={() => handleClickSave(item)}>
                                                                     {`${item}`}
                                                             </DropdownItem>)
                                                     }
