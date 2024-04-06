@@ -6,6 +6,7 @@ import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
 import { useTheme } from './ThemeContext.js'
+import Tooltip from '@mui/material/Tooltip';
 
 const History = () => {
 
@@ -104,11 +105,17 @@ const History = () => {
 
             {/* Content for Web Summarizer section */}
             <div className='btn-section'>
+            <Tooltip title="Select All" arrow>
               <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
+              </Tooltip>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
+                  <Tooltip title="Delete" arrow>
+                    <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+                  </Tooltip>
+                  <Tooltip title="Copy" arrow>
+                    <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
+                  </Tooltip>
                 </>
               )}
             </div>
@@ -144,11 +151,17 @@ const History = () => {
           <div className='short-section'>
             {/* Content for URL Shortener section */}
             <div className='btn-section'>
+              <Tooltip title="Select All" arrow>
               <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
+              </Tooltip>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
+                  <Tooltip title="Delete" arrow>
+                    <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+                  </Tooltip>
+                  <Tooltip title="Copy" arrow>
+                    <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
+                  </Tooltip>
                 </>
               )}
             </div>
