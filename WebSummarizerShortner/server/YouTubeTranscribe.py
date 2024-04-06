@@ -27,9 +27,9 @@ def convert_time_to_seconds(time_str):
 def validate_time_within_duration(start_seconds, end_seconds, duration_seconds):
     """Checks if start times are within the video duration and in correct order."""
     if start_seconds >= end_seconds:
-        raise ValueError("Start time must be less than end time.")
+        return True, "Start time must be less than end time."
     if start_seconds > duration_seconds or end_seconds > duration_seconds:
-        raise ValueError("Start or end time exceeds video duration.")
+        return True, "Start or end time exceeds video duration."
 
 def get_video_duration(video_id):
     """Fetches the video duration in seconds."""
@@ -124,7 +124,6 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
         video_id = video_id_match.group(1)
         video_duration = get_video_duration(video_id)  # Fetch video duration for validation
         
-        
         start_seconds = None
         end_seconds = None
 
@@ -133,10 +132,9 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
                 start_seconds = convert_time_to_seconds(start_time_str)
                 end_seconds = convert_time_to_seconds(end_time_str)
 
-
                 validate_time_within_duration(start_seconds, end_seconds, video_duration)
             except ValueError as e:
-                return True, str(e)
+                return True, "error validating time"
 
         original_audio_file = None  # Initialize the variable to store the downloaded audio file
 

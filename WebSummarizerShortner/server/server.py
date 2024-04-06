@@ -11,13 +11,17 @@ def summarize_text():
 
     # recieving data from frontend
     data = request.get_json()
-    input_text = data.get('text') # the input text, this contains either text, url, or youtube url (this will be summarized)
+    key = data.get('key') # key for front end
+    input_text = data.get('input') # the input text, this contains either text, url, or youtube url (this will be summarized)
     type = data.get('type')  # the tabs, 0 for Text, 1 for Website URL, 2 for YouTube URL
     tone = data.get('tone') # tones are "Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
     length =  data.get('length') # word length slider, values are 1, 2, 3
     option = data.get('option') # "Full Video", "Timestamp"
     cite = "APA"
+
+    if key != 'frontend':
+        return
 
     length_mapping = {
     1: "short",
@@ -28,7 +32,6 @@ def summarize_text():
 
     print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
 
-    cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n[citation]"
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
         return jsonify({"error": "Missing or empty text"})
@@ -48,6 +51,8 @@ def summarize_text():
     elif type == 1:
         print("User given URL", input_text)
 
+        cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n[citation]"
+
         error, result = sum.processURL(input_text, tone, style, length, cite)
 
         if error:
@@ -60,7 +65,7 @@ def summarize_text():
         
         print("User given YouTube URL", input_text)
 
-        error, result = sum.processYouTubeURL(input_text, option, tone, style, length, cite)
+        error, result = sum.processYouTubeURL(input_text, option, tone, style, length)
 
         if error:
             return jsonify({'error': result})
