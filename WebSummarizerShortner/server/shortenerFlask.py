@@ -181,6 +181,28 @@ def shorten_url():
 
     return jsonify({'shortenedURL': shortURL,'message':'Shortened successfully.'})
 
+
+#Route to shorten a link using the API
+@appS.route('/apishorten',methods=['POST'])
+def shorten_url_api():
+    data = request.get_json()
+
+    key = data.get('key')
+    auth = Authentication()
+    #check if api key valid
+    if auth.checkAPIKey(key) == -1:
+        return jsonify({'message':'API Key not valid.'})
+    
+    
+    originalURL = data.get('originalURL')
+    if not originalURL.startswith(('http://', 'https://', 'www.')):
+        return jsonify({'message': 'Original URL not valid.'})
+    
+    result = url_shortener.shorten_url(originalURL,None)
+    
+    return jsonify({'message':result})
+
+
 @appS.route('/<path:short_url>')
 def redirectToOriginal(short_url):
     print("short_url:"+short_url)

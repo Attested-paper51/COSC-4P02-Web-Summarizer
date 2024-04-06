@@ -159,6 +159,19 @@ class Authentication:
         apiKey = cursor.fetchone()[0]
         return apiKey
 
+    def checkAPIKey(self,apiKey):
+        cursor = self.conn.cursor()
+        #print(apiKey)
+        cursor.execute("SELECT COUNT(*) FROM users WHERE api_key = %s", (apiKey,))
+        result = cursor.fetchone()[0]
+        if result > 0:
+            return 1  # API key found
+        else:
+            return -1  # API key not found
+
+
+    
+
 
     #Template Logic
     def createTemplateRows(self,email):
@@ -358,13 +371,14 @@ def signup():
     password = data.get('pass')
     name = data.get('name')
     
+    
     #Add this to .env
     api_key = os.getenv("EMAILVF_PW")
     
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
 
-
     #commented out for now, testing.
+    
 
     #response = requests.get(url)
     #result = response.json()
