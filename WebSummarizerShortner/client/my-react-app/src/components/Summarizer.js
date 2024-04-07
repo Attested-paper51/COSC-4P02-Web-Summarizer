@@ -386,8 +386,9 @@ const Summarizer = () => {
     };
 
 
-    // State to manage loading dialog visibility
+// State to manage loading dialog visibility
 const [isLoading, setIsLoading] = useState(false);
+
 const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
@@ -407,6 +408,8 @@ const summarizeText = () => {
             length: sliderValue,
             citation: selectedCitationType,
             option: selectedVideoSetting,
+            startTime: 0,
+            endTime: 0
         }),
     })
     .then(response => {
