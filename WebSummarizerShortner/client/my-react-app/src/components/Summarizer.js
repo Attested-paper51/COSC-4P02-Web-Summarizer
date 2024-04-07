@@ -57,7 +57,7 @@ const Summarizer = () => {
     const layout = ["Paragraph", "Bullet Points", "Numbered List"];
     const [selectedLayout, setLayout] = useState(layout[0]);
 
-    const citationType = ["No Citation", "MLA Citation", "APA Citation"];
+    const citationType = ["No Citation", "MLA Citation", "APA Citation", "Chicago Citation"];
     const [selectedCitationType, setCitationType] = useState(citationType[0]);
 
     const videoSetting = ["Full Video", "Timestamp"];
