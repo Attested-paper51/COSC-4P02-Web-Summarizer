@@ -46,9 +46,9 @@ const Summarizer = () => {
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [value, setValue] = useState(null);
-    const [isPremium, setPremium] = useState(false);
+    //const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
-    var confirmed = false;
+    
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -362,7 +362,7 @@ const Summarizer = () => {
     }
     
 
-    const addToHistory = async (input,output) => {
+    const addToHistory = async () => {
 
         try {
             const response = await fetch('http://localhost:5001/addsummarized', {
@@ -370,7 +370,7 @@ const Summarizer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input, output, email}),
+                body: JSON.stringify({ input: inputContent, output: outputContent, email}),
             });
 
             if (response.ok) {
@@ -385,26 +385,49 @@ const Summarizer = () => {
     };
 
 
-    // function for handling text summarization
-    const summarizeText = () => {
-        fetch('/api/summarize', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text: inputContent, type: isClicked }),
-        })
-        .then(response => response.json())
-        .then(data => {
+    // State to manage loading dialog visibility
+const [isLoading, setIsLoading] = useState(false);
+const summarizeText = () => {
+    // Show loading dialog
+    setIsLoading(true);
 
-                setOutputContent(data.summary); // This line updates the output area
-                //add to history
-                //addToHistory(inputContent,data.summary,email);  //this needs to be associated with a button to 'save to history'
-        })
-        .catch(error => {
-            showError('An error occurred while fetching the summary.');
-        });
-    };
+    //fetch('/api/summarize', {
+    fetch('http://127.0.0.1:5000/api/summarize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            key: 'frontend',
+            input: inputContent, 
+            type: isClicked, 
+            tone: selectedTone,
+            style: selectedLayout,
+            length: sliderValue,
+            option: selectedVideoSetting,
+        }),
+    })
+    .then(response => {
+        // Hide loading dialog
+        setIsLoading(false);
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        setOutputContent(data.summary);
+    })
+    .catch(error => {
+        setIsLoading(false); // Ensure loading dialog is hidden on error
+        setErrorMessage(error.message || 'An error occurred while fetching the summary.');
+        setOpenError(true);
+    });
+};
 
     //function to pull the values stored in the database for the template
     const handleTemplateFetch = async (item) => {
@@ -931,7 +954,7 @@ const Summarizer = () => {
                                             }
                                         </div>
 
-                                        { wordCount > 125? 
+                                        { !email && wordCount > 125? 
                                             <Tooltip title="Over the word limit" arrow>
                                                 <button className='summarize-btn button-disabled' disabled>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
@@ -986,7 +1009,7 @@ const Summarizer = () => {
                                         }
 
                                         { userEmail &&
-                                            <button className="summarize-btn">
+                                            <button className="summarize-btn" onClick={addToHistory}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
                                                 </div>
@@ -1039,6 +1062,15 @@ const Summarizer = () => {
                 //wanna add a parameter to say which template to save
                 onConfirm={handleFullTemplateAlertConfirm}
                 />
+                 <DialogBox 
+                open={isLoading} 
+                onClose={() => {}} // Prevent closing on user interaction
+                title={"Loading..."}
+                content={"Please wait while we process your request."}
+                showCancelButton={false}
+                // No confirm button shown, making the dialog purely informational
+                />
+
                 <DialogBox 
                 open={openTemplates} 
                 onClose={handleTemplateClose}
