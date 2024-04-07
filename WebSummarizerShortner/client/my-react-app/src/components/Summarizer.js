@@ -72,10 +72,10 @@ const Summarizer = () => {
 
     const [sliderValue, setSliderValue] = useState(1);
 
-    const [startHour, setStartHour] = useState("HH");
-    const [startMin, setStartMin] = useState("MM");
-    const [endHour, setEndHour] = useState("HH");
-    const [endMin, setEndMin] = useState("MM");
+    const [startHour, setStartHour] = useState(0);
+    const [startMin, setStartMin] = useState(0);
+    const [endHour, setEndHour] = useState(0);
+    const [endMin, setEndMin] = useState(0);
 
     const email = localStorage.getItem('email');
 
@@ -470,6 +470,8 @@ const summarizeText = () => {
                         setCitationType(citationType[1]);
                     }else if (result.citation === 'apa') {
                         setCitationType(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType(citationType[3]);
                     }
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
@@ -565,6 +567,8 @@ const summarizeText = () => {
                 citation = "mla";
             }else if (selectedCitationType === citationType[2]) {
                 citation = "apa";
+            }else if (selectedCitationType === citationType[3]) {
+                citation = "chicago";
             }
         }else if (isClicked === 2){
             summ_type = "video";

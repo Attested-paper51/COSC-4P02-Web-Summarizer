@@ -61,28 +61,28 @@ const Templates = () => {
     const email = localStorage.getItem('email');
 
     //citation vars
-    const citationType = ["No Citation", "MLA Citation", "APA Citation"];
+    const citationType = ["No Citation", "MLA Citation", "APA Citation", "Chicago Citation"];
     const [selectedCitationType, setCitationType] = useState(citationType[0]);
     const [selectedCitationType2, setCitationType2] = useState(citationType[0]);
     const [selectedCitationType3, setCitationType3] = useState(citationType[0]);
 
     //timestamp vars
-    const [startHour, setStartHour] = useState("HH");
-    const [startMin, setStartMin] = useState("MM");
-    const [endHour, setEndHour] = useState("HH");
-    const [endMin, setEndMin] = useState("MM");
+    const [startHour, setStartHour] = useState(0);
+    const [startMin, setStartMin] = useState(0);
+    const [endHour, setEndHour] = useState(0);
+    const [endMin, setEndMin] = useState(0);
 
      //timestamp vars - template 2
-     const [startHour2, setStartHour2] = useState("HH");
-     const [startMin2, setStartMin2] = useState("MM");
-     const [endHour2, setEndHour2] = useState("HH");
-     const [endMin2, setEndMin2] = useState("MM");
+     const [startHour2, setStartHour2] = useState(0);
+     const [startMin2, setStartMin2] = useState(0);
+     const [endHour2, setEndHour2] = useState(0);
+     const [endMin2, setEndMin2] = useState(0);
 
       //timestamp vars - template 3
-    const [startHour3, setStartHour3] = useState("HH");
-    const [startMin3, setStartMin3] = useState("MM");
-    const [endHour3, setEndHour3] = useState("HH");
-    const [endMin3, setEndMin3] = useState("MM");
+    const [startHour3, setStartHour3] = useState(0);
+    const [startMin3, setStartMin3] = useState(0);
+    const [endHour3, setEndHour3] = useState(0);
+    const [endMin3, setEndMin3] = useState(0);
 
 
     const valuetext = (value) => {
@@ -396,6 +396,8 @@ const Templates = () => {
                 citation = "mla";
             }else if (selectedCitationType === citationType[2]) {
                 citation = "apa";
+            }else if (selectedCitationType === citationType[3]) {
+                citation = "chicago";
             }
         }else if (isClicked === 2){
             summ_type = "video";
@@ -483,6 +485,8 @@ const Templates = () => {
                         setCitationType(citationType[1]);
                     }else if (result.citation === 'apa') {
                         setCitationType(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType(citationType[3]);
                     }
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
@@ -568,6 +572,8 @@ const Templates = () => {
                         setCitationType2(citationType[1]);
                     }else if (result.citation === 'apa') {
                         setCitationType2(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType2(citationType[3]);
                     }
                 }else if (result.summtype === 'video') {
                     setClickedButton2(2);
@@ -651,6 +657,8 @@ const Templates = () => {
                         setCitationType3(citationType[1]);
                     }else if (result.citation === 'apa') {
                         setCitationType3(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType3(citationType[3]);
                     }
                 }else if (result.summtype === 'video') {
                     setClickedButton3(2);
@@ -733,6 +741,8 @@ const Templates = () => {
                 citation = "mla";
             }else if (selectedCitationType2 === citationType[2]) {
                 citation = "apa";
+            }else if (selectedCitationType2 === citationType[3]) {
+                citation = "chicago";
             }
         }else if (isClicked2 === 2) {
             summ_type = "video";
@@ -810,6 +820,8 @@ const Templates = () => {
                 citation = "mla";
             }else if (selectedCitationType3 === citationType[2]) {
                 citation = "apa";
+            }else if (selectedCitationType3 === citationType[3]) {
+                citation = "chicago";
             }
         }else if (isClicked3 === 2) {
             summ_type = "video";
@@ -868,6 +880,7 @@ const Templates = () => {
         setSliderValue(1);
         setClickedButton(0);
         setVideoSetting(videoSetting[0]);
+        setCitationType(citationType[0]);
         setStartHour("HH");
         setStartMin("MM");
         setEndHour("HH");
@@ -899,6 +912,7 @@ const Templates = () => {
         setSliderValue2(1);
         setClickedButton2(0);
         setVideoSetting2(videoSetting[0]);
+        setCitationType2(citationType[0]);
         setStartHour2("HH");
         setStartMin2("MM");
         setEndHour2("HH");
@@ -930,6 +944,7 @@ const Templates = () => {
             setSliderValue3(1);
             setClickedButton3(0);
             setVideoSetting3(videoSetting[0]);
+            setCitationType3(citationType[0]);
             setStartHour3("HH");
             setStartMin3("MM");
             setEndHour3("HH");
@@ -1120,7 +1135,7 @@ return (
                                         value={startMin}
                                         //placeholder = "MM"
                                         onChange={setStartMin}
-                                        darMode={darkMode}/>
+                                        darkMode={darkMode}/>
                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
@@ -1139,7 +1154,7 @@ return (
                                         
                                         //placeholder = "MM"
                                         onChange={setEndMin}
-                                        darMode={darkMode}/>
+                                        darkMode={darkMode}/>
                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                         :
                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -1309,7 +1324,7 @@ return (
                                     value={startMin2}
                                     //placeholder = "MM"
                                     onChange={setStartMin2}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                 </div>
                             </div>
@@ -1327,7 +1342,7 @@ return (
                                     value={endMin2}
                                     //placeholder = "MM"
                                     onChange={setEndMin2}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                     :
                                     <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -1498,7 +1513,7 @@ return (
                                     value={startMin3}
                                     //placeholder = "MM"
                                     onChange={setStartMin3}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                 </div>
                             </div>
@@ -1517,7 +1532,7 @@ return (
                                     
                                     //placeholder = "MM"
                                     onChange={setEndMin3}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                     :
                                     <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
