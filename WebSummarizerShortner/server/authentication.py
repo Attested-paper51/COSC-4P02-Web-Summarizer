@@ -195,10 +195,6 @@ class Authentication:
         cursor = self.conn.cursor()
         user = self.getUsername(email)
 
-        #if username not in database, add 3 rows with custom template names
-        #cursor.execute("SELECT * FROM templates WHERE username = %s",(email,))
-        #exists = cursor.fetchone()
-        #print(exists)
 
         cursor.execute("""
             UPDATE templates 
@@ -261,6 +257,29 @@ class Authentication:
         # Commit the changes
         self.conn.commit()
         return 1
+
+    def checkTemplateInUse(self,email,templateName):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+
+        if (templateName not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
+
+        cursor.execute("""
+        SELECT length 
+        FROM templates 
+        WHERE username = %s 
+        AND template_name = %s
+        """, (user, templateName))
+    
+        length = cursor.fetchone()[0]
+    
+        if length is not None:
+            return 1  # Template is in use
+        else:
+            return 0  # Template is not in use
+
+        
 
     def deleteTemplates(self,email):
         cursor = self.conn.cursor()
@@ -521,6 +540,19 @@ def getAPIKey():
     userMgr = Authentication()
     key = userMgr.getAPIKey(email)
     return jsonify({'key':key})
+
+@appA.route('/checktemplate',methods=['POST'])
+def checkTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    if userMgr.checkTemplateInUse(email,templateName):
+        return jsonify({'message':'Template in use.'})
+        
+    return jsonify({'message':'Template not in use.'})
+
+
 
 if __name__ == '__main__':
     appA.run(port=5001)
