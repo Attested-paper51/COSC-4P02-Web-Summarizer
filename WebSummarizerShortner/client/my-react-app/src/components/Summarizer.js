@@ -405,6 +405,7 @@ const summarizeText = () => {
             tone: selectedTone,
             style: selectedLayout,
             length: sliderValue,
+            citation: selectedCitationType,
             option: selectedVideoSetting,
         }),
     })
