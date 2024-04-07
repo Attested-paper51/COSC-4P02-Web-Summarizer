@@ -18,7 +18,7 @@ def summarize_text():
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
     length =  data.get('length') # word length slider, values are 1, 2, 3
     option = data.get('option') # "Full Video", "Timestamp"
-    cite = "APA"
+    cite = data.get('citation')
 
     if key != 'frontend':
         return

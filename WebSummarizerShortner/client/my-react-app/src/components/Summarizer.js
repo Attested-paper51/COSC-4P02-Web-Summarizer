@@ -26,6 +26,7 @@ import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
 import { useTheme } from './ThemeContext.js'
+import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 
 const Summarizer = () => {
@@ -46,8 +47,9 @@ const Summarizer = () => {
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [value, setValue] = useState(null);
-    const [isPremium, setPremium] = useState(false);
+    //const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
+    
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -252,16 +254,39 @@ const Summarizer = () => {
         handleTemplateFetch(item)
     }
 
-    const handleSaveTemplateChange = (item) => {
-        //checkIfTemplateSlotEmpty(item)
-        if(false) {
-            handleClickSave(item)
+    const handleSaveTemplateChange = async (item) => {
+        setSaveTemplate(item);
+        //console.log("item in handleSavTemplate",item);
+        //console.log("selectedSaveTemp:",selectedSaveTemplate);
+        
+        const isEmpty = await checkIfTemplateSlotEmpty(item);
+        //if it is taken
+        if (isEmpty) {
+            //console.log("so then result.length is not null.");
+            setOpenFullTemplateAlert(true);
+        }else {
+            handleClickSave(item);
         }
-        else {
-            setOpenFullTemplateAlert(true)
-        }
+        
         //setSaveTemplate(item);
         //handleTemplateFetch(item);
+    }
+
+    // for closing Error Dialog Box
+    const handleFullTemplateAlertClose = () => {
+        //confirmed = false;
+        setSaveTemplate(saveTemplates[0]);
+        setOpenFullTemplateAlert(false);
+    }
+    // closes Dialog Box
+    const handleFullTemplateAlertConfirm = () => {
+        //console.log("template to save: " + selectedSaveTemplate);
+
+        //save the selected template
+        handleClickSave(selectedSaveTemplate);
+        //close the dialog box
+        handleFullTemplateAlertClose();
+        //
     }
 
     const checkEmptyInput = () => {
@@ -292,16 +317,7 @@ const Summarizer = () => {
         handleErrorClose()
     }
 
-    // for closing Error Dialog Box
-    const handleFullTemplateAlertClose = () => {
-        setOpenFullTemplateAlert(false)
-    }
-    // closes Dialog Box
-    const handleFullTemplateAlertConfirm = () => {
-        console.log("template to be saved is: " + selectedSaveTemplate)
-        handleFullTemplateAlertClose()
-        //
-    }
+    
 
     // for opening Dialog Box
     const handleOpenTemplates = () => {
@@ -347,7 +363,7 @@ const Summarizer = () => {
     }
     
 
-    const addToHistory = async (input,output) => {
+    const addToHistory = async () => {
 
         try {
             const response = await fetch('http://localhost:5001/addsummarized', {
@@ -355,7 +371,7 @@ const Summarizer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input, output, email}),
+                body: JSON.stringify({ input: inputContent, output: outputContent, email}),
             });
 
             if (response.ok) {
@@ -370,26 +386,50 @@ const Summarizer = () => {
     };
 
 
-    // function for handling text summarization
-    const summarizeText = () => {
-        fetch('/api/summarize', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text: inputContent, type: isClicked }),
-        })
-        .then(response => response.json())
-        .then(data => {
+    // State to manage loading dialog visibility
+const [isLoading, setIsLoading] = useState(false);
+const summarizeText = () => {
+    // Show loading dialog
+    setIsLoading(true);
 
-                setOutputContent(data.summary); // This line updates the output area
-                //add to history
-                //addToHistory(inputContent,data.summary,email);  //this needs to be associated with a button to 'save to history'
-        })
-        .catch(error => {
-            showError('An error occurred while fetching the summary.');
-        });
-    };
+    //fetch('/api/summarize', {
+    fetch('http://127.0.0.1:5000/api/summarize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            key: 'frontend',
+            input: inputContent, 
+            type: isClicked, 
+            tone: selectedTone,
+            style: selectedLayout,
+            length: sliderValue,
+            citation: selectedCitationType,
+            option: selectedVideoSetting,
+        }),
+    })
+    .then(response => {
+        // Hide loading dialog
+        setIsLoading(false);
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        setOutputContent(data.summary);
+    })
+    .catch(error => {
+        setIsLoading(false); // Ensure loading dialog is hidden on error
+        setErrorMessage(error.message || 'An error occurred while fetching the summary.');
+        setOpenError(true);
+    });
+};
 
     //function to pull the values stored in the database for the template
     const handleTemplateFetch = async (item) => {
@@ -403,9 +443,9 @@ const Summarizer = () => {
         }else {
             templatename = "customTemplate3";
         }
-        console.log("Selected template:",selectedTemplate);
-        console.log("item:",item);
-        console.log("templateNameToFetch:",templatename);
+        //console.log("Selected template:",selectedTemplate);
+        //console.log("item:",item);
+        //console.log("templateNameToFetch:",templatename);
         try {
     
             // Make a POST request to the Flask backend
@@ -424,6 +464,13 @@ const Summarizer = () => {
                     setClickedButton(0);
                 }else if (result.summtype === 'website') {
                     setClickedButton(1);
+                    if (result.citation === 'none') {
+                        setCitationType(citationType[0]);
+                    }else if (result.citation === 'mla') {
+                        setCitationType(citationType[1]);
+                    }else if (result.citation === 'apa') {
+                        setCitationType(citationType[2]);
+                    }
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
                     if (result.timestamps === 'full') {
@@ -450,7 +497,6 @@ const Summarizer = () => {
                 }else {
                     setTone(tone[0]);
                 }
-
                 if (result.structure != null) {
                     setLayout(result.structure);
                 }else {
@@ -479,26 +525,47 @@ const Summarizer = () => {
         var formality = selectedTone;
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
-        var wordcount = 0;
+        //var wordcount = 0;
         var length;
+        var templatename;
+        if (item === templates[1]) {
+            templatename = "customTemplate1";
+        }else if (item === templates[2]) {
+            templatename = "customTemplate2";
+        }else if(item === templates[3]){
+            templatename = "customTemplate3";
+        }
+        //if (checkIfTemplateSlotEmpty(item)) {
+        //    setOpenFullTemplateAlert(true);
+        //}
+
+    
         
         
         if (sliderValue === 1) {
-            wordcount = 50;
+            //wordcount = 50;
             length = 'short';
         }else if (sliderValue === 2) {
-            wordcount = 100;
+            //wordcount = 100;
             length = 'medium';
         }else if (sliderValue === 3){
-            wordcount = 200;
+            //wordcount = 200;
             length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
+        var citation = "";
         if (isClicked === 0) {
             summ_type = "text";
         }else if (isClicked === 1) {
             summ_type = "website";
+            if (selectedCitationType === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType === citationType[2]) {
+                citation = "apa";
+            }
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
@@ -523,14 +590,6 @@ const Summarizer = () => {
             }
             
         }
-        var templatename;
-        if (item === templates[0]) {
-            templatename = "customTemplate1";
-        }else if (item === templates[1]) {
-            templatename = "customTemplate2";
-        }else {
-            templatename = "customTemplate3";
-        }
         
 
         try {
@@ -540,7 +599,7 @@ const Summarizer = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, formality, structure, 
-                    wordcount, summ_type, timestamp, length, templatename }),
+                     summ_type, timestamp, length, citation, templatename }),
             });
             if (response.ok) {
                 const result = await response.json();
@@ -560,9 +619,9 @@ const Summarizer = () => {
         }else {
             templatename = "customTemplate3";
         }
-        console.log("Selected template:",selectedTemplate);
-        console.log("item:",item);
-        console.log("templateNameToFetch:",templatename);
+        //console.log("Selected template:",selectedTemplate);
+        console.log("item to check if empty:",item);
+        //console.log("templateNameToFetch:",templatename);
         try {
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
@@ -575,15 +634,16 @@ const Summarizer = () => {
     
             if (response.ok) {
                 const result = await response.json();
-
-                // constitute a template as having at least a formality, structure, and length - none should be null
-                if (result.formality && result.structure && result.length) {
-                    // template slot is NOT empty
-                    return true
+                console.log("Result.length:",result.length);
+                // if result.length is null, the template slot is empty
+                if (result.length === null) {
+                    //console.log("result.length is null");
+                    // template slot is empty
+                    return false;
                 }
             }
 
-            return false
+            return true
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -803,6 +863,7 @@ const Summarizer = () => {
                                                         saveTemplates.slice(1).map(item => 
                                                             <DropdownItem
                                                                 key={item}
+                                                                //onClick = {()=> }
                                                                 onClick={() => handleSaveTemplateChange(item)}>
                                                                     {`${item}`}
                                                             </DropdownItem>)
@@ -908,7 +969,7 @@ const Summarizer = () => {
                                             }
                                         </div>
 
-                                        { wordCount > 125? 
+                                        { !email && wordCount > 125? 
                                             <Tooltip title="Over the word limit" arrow>
                                                 <button className='summarize-btn button-disabled' disabled>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
@@ -963,7 +1024,7 @@ const Summarizer = () => {
                                         }
 
                                         { userEmail &&
-                                            <button className="summarize-btn">
+                                            <button className="summarize-btn" onClick={addToHistory}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
                                                 </div>
@@ -1013,8 +1074,18 @@ const Summarizer = () => {
                 content={"Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?"}
                 showCancelButton={true}
                 confirmText={"Continue"}
+                //wanna add a parameter to say which template to save
                 onConfirm={handleFullTemplateAlertConfirm}
                 />
+                 <DialogBox 
+                open={isLoading} 
+                onClose={() => {}} // Prevent closing on user interaction
+                title={"Loading..."}
+                content={"Please wait while we process your request."}
+                showCancelButton={false}
+                // No confirm button shown, making the dialog purely informational
+                />
+
                 <DialogBox 
                 open={openTemplates} 
                 onClose={handleTemplateClose}
