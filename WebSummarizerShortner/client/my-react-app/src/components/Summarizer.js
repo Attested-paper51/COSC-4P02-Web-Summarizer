@@ -316,8 +316,7 @@ const Summarizer = () => {
     const handleErrorConfirm = () => {
         handleErrorClose()
     }
-
-    
+   
 
     // for opening Dialog Box
     const handleOpenTemplates = () => {
@@ -1046,6 +1045,7 @@ const summarizeText = () => {
                 title={"Delete Text"}
                 content={"You're about to delete the Original and Summarized text."}
                 showCancelButton={true}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleConfirm}
                 />
@@ -1055,6 +1055,7 @@ const summarizeText = () => {
                 title={"Error"}
                 content={"Please enter some text to summarize."}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleEmptyConfirm}
                 />
@@ -1064,6 +1065,7 @@ const summarizeText = () => {
                 title={"Error"}
                 content={errorMessage}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleErrorConfirm}
                 />
@@ -1073,16 +1075,18 @@ const summarizeText = () => {
                 title={"Warning"}
                 content={"Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?"}
                 showCancelButton={true}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 //wanna add a parameter to say which template to save
                 onConfirm={handleFullTemplateAlertConfirm}
                 />
-                 <DialogBox 
+                <DialogBox 
                 open={isLoading} 
                 onClose={() => {}} // Prevent closing on user interaction
                 title={"Loading..."}
                 content={"Please wait while we process your request."}
                 showCancelButton={false}
+                showConfirmButton={false}
                 // No confirm button shown, making the dialog purely informational
                 />
 

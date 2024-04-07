@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-const DialogBox = ({ open, onClose, title, content, showCancelButton, confirmText, onConfirm }) => {
+const DialogBox = ({ open, onClose, title, content, showCancelButton, showConfirmButton, confirmText, onConfirm }) => {
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs" aria-labelledby="dialog-title">
       <DialogTitle id="dialog-title">{title}</DialogTitle>
@@ -9,8 +9,8 @@ const DialogBox = ({ open, onClose, title, content, showCancelButton, confirmTex
         <p>{content}</p>
       </DialogContent>
       <DialogActions>
-        { showCancelButton && <Button onClick={onClose} color="primary">Cancel</Button>}
-        <Button onClick={onConfirm} color="primary" variant="contained">{confirmText}</Button>
+        { showCancelButton && <Button onClick={onClose} color="primary">Cancel</Button> }
+        { showConfirmButton && <Button onClick={onConfirm} color="primary" variant="contained">{confirmText}</Button> }
       </DialogActions>
     </Dialog>
   );
