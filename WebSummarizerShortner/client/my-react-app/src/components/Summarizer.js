@@ -316,8 +316,7 @@ const Summarizer = () => {
     const handleErrorConfirm = () => {
         handleErrorClose()
     }
-
-    
+   
 
     // for opening Dialog Box
     const handleOpenTemplates = () => {
@@ -386,8 +385,9 @@ const Summarizer = () => {
     };
 
 
-    // State to manage loading dialog visibility
+// State to manage loading dialog visibility
 const [isLoading, setIsLoading] = useState(false);
+
 const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
@@ -407,6 +407,8 @@ const summarizeText = () => {
             length: sliderValue,
             citation: selectedCitationType,
             option: selectedVideoSetting,
+            startTime: 0,
+            endTime: 0
         }),
     })
     .then(response => {
@@ -1050,6 +1052,7 @@ const summarizeText = () => {
                 title={"Delete Text"}
                 content={"You're about to delete the Original and Summarized text."}
                 showCancelButton={true}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleConfirm}
                 />
@@ -1059,6 +1062,7 @@ const summarizeText = () => {
                 title={"Error"}
                 content={"Please enter some text to summarize."}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleEmptyConfirm}
                 />
@@ -1068,6 +1072,7 @@ const summarizeText = () => {
                 title={"Error"}
                 content={errorMessage}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleErrorConfirm}
                 />
@@ -1077,16 +1082,18 @@ const summarizeText = () => {
                 title={"Warning"}
                 content={"Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?"}
                 showCancelButton={true}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 //wanna add a parameter to say which template to save
                 onConfirm={handleFullTemplateAlertConfirm}
                 />
-                 <DialogBox 
+                <DialogBox 
                 open={isLoading} 
                 onClose={() => {}} // Prevent closing on user interaction
                 title={"Loading..."}
                 content={"Please wait while we process your request."}
                 showCancelButton={false}
+                showConfirmButton={false}
                 // No confirm button shown, making the dialog purely informational
                 />
 

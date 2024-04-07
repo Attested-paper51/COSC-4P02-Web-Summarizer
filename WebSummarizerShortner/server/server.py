@@ -5,6 +5,19 @@ import sumarization as sum
 app = Flask(__name__)
 CORS(app)
 
+length_mapping = {
+    1: "short",
+    2: "medium",
+    3: "long"
+    }
+
+cite_mapping = {
+    "No Citation": None,
+    "MLA Citation": "MLA",
+    "APA Citation": "APA",
+    "Chicago Citation" : "Chicago"
+    }
+
 
 @app.route('/api/summarize', methods=['POST'])
 def summarize_text():
@@ -18,17 +31,17 @@ def summarize_text():
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
     length =  data.get('length') # word length slider, values are 1, 2, 3
     option = data.get('option') # "Full Video", "Timestamp"
-    cite = data.get('citation')
+    cite = data.get('citation') # citations are 'none', 'apa', or 'mla'
+    startTime = data.get('startTime') 
+    endTime = data.get('endTime')
 
     if key != 'frontend':
         return
 
-    length_mapping = {
-    1: "short",
-    2: "medium",
-    3: "long"
-}
+
     length = length_mapping[length]
+
+    cite = cite_mapping[cite]
 
     print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
 
@@ -50,8 +63,6 @@ def summarize_text():
     # for a url
     elif type == 1:
         print("User given URL", input_text)
-
-        cite = f"Provide a citation in {cite} format of the given URL at the end. Have it look like:\n\nReference:\n[citation]"
 
         error, result = sum.processURL(input_text, tone, style, length, cite)
 
