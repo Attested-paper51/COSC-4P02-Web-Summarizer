@@ -48,6 +48,7 @@ const Summarizer = () => {
     const [value, setValue] = useState(null);
     const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
+    var confirmed = false;
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -252,16 +253,39 @@ const Summarizer = () => {
         handleTemplateFetch(item)
     }
 
-    const handleSaveTemplateChange = (item) => {
-        //checkIfTemplateSlotEmpty(item)
-        if(false) {
-            handleClickSave(item)
+    const handleSaveTemplateChange = async (item) => {
+        setSaveTemplate(item);
+        //console.log("item in handleSavTemplate",item);
+        //console.log("selectedSaveTemp:",selectedSaveTemplate);
+        
+        const isEmpty = await checkIfTemplateSlotEmpty(item);
+        //if it is taken
+        if (isEmpty) {
+            //console.log("so then result.length is not null.");
+            setOpenFullTemplateAlert(true);
+        }else {
+            handleClickSave(item);
         }
-        else {
-            setOpenFullTemplateAlert(true)
-        }
+        
         //setSaveTemplate(item);
         //handleTemplateFetch(item);
+    }
+
+    // for closing Error Dialog Box
+    const handleFullTemplateAlertClose = () => {
+        //confirmed = false;
+        setSaveTemplate(saveTemplates[0]);
+        setOpenFullTemplateAlert(false);
+    }
+    // closes Dialog Box
+    const handleFullTemplateAlertConfirm = () => {
+        //console.log("template to save: " + selectedSaveTemplate);
+
+        //save the selected template
+        handleClickSave(selectedSaveTemplate);
+        //close the dialog box
+        handleFullTemplateAlertClose();
+        //
     }
 
     const checkEmptyInput = () => {
@@ -292,16 +316,7 @@ const Summarizer = () => {
         handleErrorClose()
     }
 
-    // for closing Error Dialog Box
-    const handleFullTemplateAlertClose = () => {
-        setOpenFullTemplateAlert(false)
-    }
-    // closes Dialog Box
-    const handleFullTemplateAlertConfirm = () => {
-        console.log("template to be saved is: " + selectedSaveTemplate)
-        handleFullTemplateAlertClose()
-        //
-    }
+    
 
     // for opening Dialog Box
     const handleOpenTemplates = () => {
@@ -403,9 +418,9 @@ const Summarizer = () => {
         }else {
             templatename = "customTemplate3";
         }
-        console.log("Selected template:",selectedTemplate);
-        console.log("item:",item);
-        console.log("templateNameToFetch:",templatename);
+        //console.log("Selected template:",selectedTemplate);
+        //console.log("item:",item);
+        //console.log("templateNameToFetch:",templatename);
         try {
     
             // Make a POST request to the Flask backend
@@ -481,6 +496,19 @@ const Summarizer = () => {
         const email = localStorage.getItem('email');
         var wordcount = 0;
         var length;
+        var templatename;
+        if (item === templates[1]) {
+            templatename = "customTemplate1";
+        }else if (item === templates[2]) {
+            templatename = "customTemplate2";
+        }else if(item === templates[3]){
+            templatename = "customTemplate3";
+        }
+        //if (checkIfTemplateSlotEmpty(item)) {
+        //    setOpenFullTemplateAlert(true);
+        //}
+
+    
         
         
         if (sliderValue === 1) {
@@ -523,14 +551,7 @@ const Summarizer = () => {
             }
             
         }
-        var templatename;
-        if (item === templates[0]) {
-            templatename = "customTemplate1";
-        }else if (item === templates[1]) {
-            templatename = "customTemplate2";
-        }else {
-            templatename = "customTemplate3";
-        }
+        
         
 
         try {
@@ -560,9 +581,9 @@ const Summarizer = () => {
         }else {
             templatename = "customTemplate3";
         }
-        console.log("Selected template:",selectedTemplate);
-        console.log("item:",item);
-        console.log("templateNameToFetch:",templatename);
+        //console.log("Selected template:",selectedTemplate);
+        console.log("item to check if empty:",item);
+        //console.log("templateNameToFetch:",templatename);
         try {
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
@@ -575,15 +596,16 @@ const Summarizer = () => {
     
             if (response.ok) {
                 const result = await response.json();
-
-                // constitute a template as having at least a formality, structure, and length - none should be null
-                if (result.formality && result.structure && result.length) {
-                    // template slot is NOT empty
-                    return true
+                console.log("Result.length:",result.length);
+                // if result.length is null, the template slot is empty
+                if (result.length === null) {
+                    console.log("result.length is null");
+                    // template slot is empty
+                    return false;
                 }
             }
 
-            return false
+            return true
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -803,6 +825,7 @@ const Summarizer = () => {
                                                         saveTemplates.slice(1).map(item => 
                                                             <DropdownItem
                                                                 key={item}
+                                                                //onClick = {()=> }
                                                                 onClick={() => handleSaveTemplateChange(item)}>
                                                                     {`${item}`}
                                                             </DropdownItem>)
@@ -1013,6 +1036,7 @@ const Summarizer = () => {
                 content={"Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?"}
                 showCancelButton={true}
                 confirmText={"Continue"}
+                //wanna add a parameter to say which template to save
                 onConfirm={handleFullTemplateAlertConfirm}
                 />
                 <DialogBox 
