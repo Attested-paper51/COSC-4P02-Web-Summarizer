@@ -26,6 +26,7 @@ import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
 import { useTheme } from './ThemeContext.js'
+import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 
 const Summarizer = () => {
@@ -56,7 +57,7 @@ const Summarizer = () => {
     const layout = ["Paragraph", "Bullet Points", "Numbered List"];
     const [selectedLayout, setLayout] = useState(layout[0]);
 
-    const citationType = ["No Citation", "MLA Citation"];
+    const citationType = ["No Citation", "MLA Citation", "APA Citation"];
     const [selectedCitationType, setCitationType] = useState(citationType[0]);
 
     const videoSetting = ["Full Video", "Timestamp"];
@@ -462,6 +463,13 @@ const summarizeText = () => {
                     setClickedButton(0);
                 }else if (result.summtype === 'website') {
                     setClickedButton(1);
+                    if (result.citation === 'none') {
+                        setCitationType(citationType[0]);
+                    }else if (result.citation === 'mla') {
+                        setCitationType(citationType[1]);
+                    }else if (result.citation === 'apa') {
+                        setCitationType(citationType[2]);
+                    }
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
                     if (result.timestamps === 'full') {
@@ -488,7 +496,6 @@ const summarizeText = () => {
                 }else {
                     setTone(tone[0]);
                 }
-
                 if (result.structure != null) {
                     setLayout(result.structure);
                 }else {
@@ -517,7 +524,7 @@ const summarizeText = () => {
         var formality = selectedTone;
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
-        var wordcount = 0;
+        //var wordcount = 0;
         var length;
         var templatename;
         if (item === templates[1]) {
@@ -535,21 +542,29 @@ const summarizeText = () => {
         
         
         if (sliderValue === 1) {
-            wordcount = 50;
+            //wordcount = 50;
             length = 'short';
         }else if (sliderValue === 2) {
-            wordcount = 100;
+            //wordcount = 100;
             length = 'medium';
         }else if (sliderValue === 3){
-            wordcount = 200;
+            //wordcount = 200;
             length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
+        var citation = "";
         if (isClicked === 0) {
             summ_type = "text";
         }else if (isClicked === 1) {
             summ_type = "website";
+            if (selectedCitationType === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType === citationType[2]) {
+                citation = "apa";
+            }
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
@@ -575,7 +590,6 @@ const summarizeText = () => {
             
         }
         
-        
 
         try {
             const response = await fetch('http://localhost:5001/savetemplate', {
@@ -584,7 +598,7 @@ const summarizeText = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, formality, structure, 
-                    wordcount, summ_type, timestamp, length, templatename }),
+                     summ_type, timestamp, length, citation, templatename }),
             });
             if (response.ok) {
                 const result = await response.json();
@@ -622,7 +636,7 @@ const summarizeText = () => {
                 console.log("Result.length:",result.length);
                 // if result.length is null, the template slot is empty
                 if (result.length === null) {
-                    console.log("result.length is null");
+                    //console.log("result.length is null");
                     // template slot is empty
                     return false;
                 }
