@@ -28,11 +28,30 @@
 }
 
 .settings-wrapper .text{
-    width: 25%;
+    width: 40%;
     font-size: clamp(0.8rem, 1vw, 5rem);
     display: inline-block; 
     font-weight: 400;
 }
+
+@media (max-width: 1000px) {
+    .settings-wrapper .text{
+        width: 55%;
+    }
+}
+
+@media (max-width: 770px) {
+    .settings-wrapper .text{
+        width: 65%;
+    }
+}
+
+@media (max-width: 600px) {
+    .settings-wrapper .text{
+        width: 100%;
+    }
+}
+
 
 .premium-icon{
     font-size: clamp(18px, 3vh, 1vw);
@@ -81,11 +100,11 @@
     cursor: pointer;
 }
 
-@media (max-width: 680px) {
+/* @media (max-width: 680px) {
     .update-div{
         padding-left: 7vw;
     }
-}
+} */
 
 .textfield{
     margin-bottom: 1em;
