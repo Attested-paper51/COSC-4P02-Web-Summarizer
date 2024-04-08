@@ -60,23 +60,29 @@ const Templates = () => {
     const [sliderValue3, setSliderValue3] = useState(1);
     const email = localStorage.getItem('email');
 
+    //citation vars
+    const citationType = ["No Citation", "MLA Citation", "APA Citation", "Chicago Citation"];
+    const [selectedCitationType, setCitationType] = useState(citationType[0]);
+    const [selectedCitationType2, setCitationType2] = useState(citationType[0]);
+    const [selectedCitationType3, setCitationType3] = useState(citationType[0]);
+
     //timestamp vars
-    const [startHour, setStartHour] = useState("HH");
-    const [startMin, setStartMin] = useState("MM");
-    const [endHour, setEndHour] = useState("HH");
-    const [endMin, setEndMin] = useState("MM");
+    const [startHour, setStartHour] = useState(0);
+    const [startMin, setStartMin] = useState(0);
+    const [endHour, setEndHour] = useState(0);
+    const [endMin, setEndMin] = useState(0);
 
      //timestamp vars - template 2
-     const [startHour2, setStartHour2] = useState("HH");
-     const [startMin2, setStartMin2] = useState("MM");
-     const [endHour2, setEndHour2] = useState("HH");
-     const [endMin2, setEndMin2] = useState("MM");
+     const [startHour2, setStartHour2] = useState(0);
+     const [startMin2, setStartMin2] = useState(0);
+     const [endHour2, setEndHour2] = useState(0);
+     const [endMin2, setEndMin2] = useState(0);
 
       //timestamp vars - template 3
-    const [startHour3, setStartHour3] = useState("HH");
-    const [startMin3, setStartMin3] = useState("MM");
-    const [endHour3, setEndHour3] = useState("HH");
-    const [endMin3, setEndMin3] = useState("MM");
+    const [startHour3, setStartHour3] = useState(0);
+    const [startMin3, setStartMin3] = useState(0);
+    const [endHour3, setEndHour3] = useState(0);
+    const [endMin3, setEndMin3] = useState(0);
 
 
     const valuetext = (value) => {
@@ -250,15 +256,15 @@ const Templates = () => {
         setVideoSetting3(item)
     }
 
-    const checkEmptyInput = () => {
-        //const input = document.getElementById("input");
-        if(inputContent === '') {
-            setOpenEmptyInput(true)
-        }
-        else {
-            summarizeText();
-        }
-    }
+    // const checkEmptyInput = () => {
+    //     //const input = document.getElementById("input");
+    //     if(inputContent === '') {
+    //         setOpenEmptyInput(true)
+    //     }
+    //     else {
+    //         summarizeText();
+    //     }
+    // }
 
     // for closing Empty Error Dialog Box
     const handleEmptyClose = () => {
@@ -276,6 +282,16 @@ const Templates = () => {
     // closes Dialog Box
     const handleErrorConfirm = () => {
         handleErrorClose()
+    }
+
+    const handleCitationChange = (item) => {
+        setCitationType(item)
+    }
+    const handleCitationChange2 = (item) => {
+        setCitationType2(item)
+    }
+    const handleCitationChange3 = (item) => {
+        setCitationType3(item)
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -301,24 +317,24 @@ const Templates = () => {
     }
 
 
-    // function for handling text summarization
-    const summarizeText = () => {
-        fetch('/api/summarize', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text: inputContent, type: isClicked }),
-        })
-        .then(response => response.json())
-        .then(data => {
+    // // function for handling text summarization
+    // const summarizeText = () => {
+    //     fetch('/api/summarize', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ text: inputContent, type: isClicked }),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
 
-                setOutputContent(data.summary); // This line updates the output area
-        })
-        .catch(error => {
-            showError('An error occurred while fetching the summary.');
-        });
-    };
+    //             setOutputContent(data.summary); // This line updates the output area
+    //     })
+    //     .catch(error => {
+    //         showError('An error occurred while fetching the summary.');
+    //     });
+    // };
 
 
     //export button handling, for downloading json file
@@ -354,25 +370,35 @@ const Templates = () => {
         var formality = selectedTone;
         var structure = selectedLayout;
         
-        var wordcount = 0;
+        
         var length;
         
         if (sliderValue === 1) {
-            wordcount = 50;
+            
             length = 'short';
         }else if (sliderValue === 2) {
-            wordcount = 100;
+            
             length = 'medium';
         }else if (sliderValue === 3){
-            wordcount = 200;
+            
             length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
+        var citation = "";
         if (isClicked === 0) {
             summ_type = "text";
         }else if (isClicked === 1) {
             summ_type = "website";
+            if (selectedCitationType === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType === citationType[2]) {
+                citation = "apa";
+            }else if (selectedCitationType === citationType[3]) {
+                citation = "chicago";
+            }
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
@@ -406,7 +432,7 @@ const Templates = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, length, templatename }),
+                 summ_type, timestamp, length, citation, templatename }),
         });
         if (response.ok) {
             const result = await response.json();
@@ -453,6 +479,15 @@ const Templates = () => {
                     setClickedButton(0);
                 }else if (result.summtype === 'website') {
                     setClickedButton(1);
+                    if (result.citation === 'none') {
+                        setCitationType(citationType[0]);
+                    }else if (result.citation === 'mla') {
+                        setCitationType(citationType[1]);
+                    }else if (result.citation === 'apa') {
+                        setCitationType(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType(citationType[3]);
+                    }
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
                     if (result.timestamps === 'full') {
@@ -531,6 +566,15 @@ const Templates = () => {
                     setClickedButton2(0);
                 }else if (result.summtype === 'website') {
                     setClickedButton2(1);
+                    if (result.citation === 'none') {
+                        setCitationType2(citationType[0]);
+                    }else if (result.citation === 'mla') {
+                        setCitationType2(citationType[1]);
+                    }else if (result.citation === 'apa') {
+                        setCitationType2(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType2(citationType[3]);
+                    }
                 }else if (result.summtype === 'video') {
                     setClickedButton2(2);
                     if (result.timestamps === 'full') {
@@ -607,6 +651,15 @@ const Templates = () => {
                     setClickedButton3(0);
                 }else if (result.summtype === 'website') {
                     setClickedButton3(1);
+                    if (result.citation === 'none') {
+                        setCitationType3(citationType[0]);
+                    }else if (result.citation === 'mla') {
+                        setCitationType3(citationType[1]);
+                    }else if (result.citation === 'apa') {
+                        setCitationType3(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType3(citationType[3]);
+                    }
                 }else if (result.summtype === 'video') {
                     setClickedButton3(2);
                     if (result.timestamps === 'full') {
@@ -662,25 +715,35 @@ const Templates = () => {
         var formality = selectedTone2;
         var structure = selectedLayout2;
         
-        var wordcount = 0;
+        //var wordcount = 0;
         var length;
         
         if (sliderValue2 === 1) {
-            wordcount = 50;
+            
             length = 'short';
         }else if (sliderValue2 === 2) {
-            wordcount = 100;
+            
             length = 'medium';
         }else if (sliderValue2 === 3) {
-            wordcount = 200;
+            
             length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
+        var citation = "";
         if (isClicked2 === 0) {
             summ_type = "text";
         }else if (isClicked2 === 1) {
             summ_type = "website";
+            if (selectedCitationType2 === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType2 === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType2 === citationType[2]) {
+                citation = "apa";
+            }else if (selectedCitationType2 === citationType[3]) {
+                citation = "chicago";
+            }
         }else if (isClicked2 === 2) {
             summ_type = "video";
             if (selectedVideoSetting2 === videoSetting[1]) {
@@ -703,8 +766,6 @@ const Templates = () => {
                 timestamp = "full"
             }
         }
-        
-        
         var templatename = "customTemplate2";
 
         try {
@@ -714,7 +775,7 @@ const Templates = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, length,templatename }),
+                 summ_type, timestamp, length, citation, templatename }),
         });
         if (response.ok) {
             const result = await response.json();
@@ -733,25 +794,35 @@ const Templates = () => {
         var formality = selectedTone3;
         var structure = selectedLayout3;
         
-        var wordcount = 0;
+        //var wordcount = 0;
         var length;
         
         if (sliderValue3 === 1) {
-            wordcount = 50;
+            
             length = 'short';
         }else if (sliderValue3 === 2) {
-            wordcount = 100;
+            
             length = 'medium';
         }else if (sliderValue3 === 3) {
-            wordcount = 200;
+            
             length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
+        var citation = "";
         if (isClicked3 === 0) {
             summ_type = "text";
         }else if (isClicked3 === 1) {
             summ_type = "website";
+            if (selectedCitationType3 === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType3 === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType3 === citationType[2]) {
+                citation = "apa";
+            }else if (selectedCitationType3 === citationType[3]) {
+                citation = "chicago";
+            }
         }else if (isClicked3 === 2) {
             summ_type = "video";
             if (selectedVideoSetting3 === videoSetting[1]) {
@@ -787,7 +858,7 @@ const Templates = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, length, templatename }),
+                 summ_type, timestamp, length, citation, templatename }),
         });
         if (response.ok) {
             const result = await response.json();
@@ -809,6 +880,7 @@ const Templates = () => {
         setSliderValue(1);
         setClickedButton(0);
         setVideoSetting(videoSetting[0]);
+        setCitationType(citationType[0]);
         setStartHour("HH");
         setStartMin("MM");
         setEndHour("HH");
@@ -840,6 +912,7 @@ const Templates = () => {
         setSliderValue2(1);
         setClickedButton2(0);
         setVideoSetting2(videoSetting[0]);
+        setCitationType2(citationType[0]);
         setStartHour2("HH");
         setStartMin2("MM");
         setEndHour2("HH");
@@ -871,6 +944,7 @@ const Templates = () => {
             setSliderValue3(1);
             setClickedButton3(0);
             setVideoSetting3(videoSetting[0]);
+            setCitationType3(citationType[0]);
             setStartHour3("HH");
             setStartMin3("MM");
             setEndHour3("HH");
@@ -1005,6 +1079,23 @@ return (
                                 </div>
                             </div>
                         </div>
+                        { isClicked == 1 &&
+                                            <div className="dropdown-menu">
+                                                <Dropdown
+                                                    buttonText={selectedCitationType}
+                                                    content={<>
+                                                        {
+                                                            citationType.map(item => 
+                                                                <DropdownItem
+                                                                    key={item}
+                                                                    onClick={() => handleCitationChange(item)}>
+                                                                        {`${item}`}
+                                                                </DropdownItem>)
+                                                        }
+                                                    </>} 
+                                                />
+                                            </div>
+                                        }
                         { isClicked == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
@@ -1044,7 +1135,7 @@ return (
                                         value={startMin}
                                         //placeholder = "MM"
                                         onChange={setStartMin}
-                                        darMode={darkMode}/>
+                                        darkMode={darkMode}/>
                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                     </div>
                                 </div>
@@ -1063,7 +1154,7 @@ return (
                                         
                                         //placeholder = "MM"
                                         onChange={setEndMin}
-                                        darMode={darkMode}/>
+                                        darkMode={darkMode}/>
                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                         :
                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -1177,6 +1268,23 @@ return (
                                 </div>
                             </div>
                         </div>
+                        { isClicked2 == 1 &&
+                                            <div className="dropdown-menu">
+                                                <Dropdown
+                                                    buttonText={selectedCitationType2}
+                                                    content={<>
+                                                        {
+                                                            citationType.map(item => 
+                                                                <DropdownItem
+                                                                    key={item}
+                                                                    onClick={() => handleCitationChange2(item)}>
+                                                                        {`${item}`}
+                                                                </DropdownItem>)
+                                                        }
+                                                    </>} 
+                                                />
+                                            </div>
+                                        }
                         { isClicked2 == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
@@ -1216,7 +1324,7 @@ return (
                                     value={startMin2}
                                     //placeholder = "MM"
                                     onChange={setStartMin2}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                 </div>
                             </div>
@@ -1234,7 +1342,7 @@ return (
                                     value={endMin2}
                                     //placeholder = "MM"
                                     onChange={setEndMin2}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                     :
                                     <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -1349,6 +1457,23 @@ return (
                                 </div>
                             </div>
                         </div>
+                        { isClicked3 == 1 &&
+                                            <div className="dropdown-menu">
+                                                <Dropdown
+                                                    buttonText={selectedCitationType3}
+                                                    content={<>
+                                                        {
+                                                            citationType.map(item => 
+                                                                <DropdownItem
+                                                                    key={item}
+                                                                    onClick={() => handleCitationChange3(item)}>
+                                                                        {`${item}`}
+                                                                </DropdownItem>)
+                                                        }
+                                                    </>} 
+                                                />
+                                            </div>
+                                        }
                         { isClicked3 == 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
@@ -1388,7 +1513,7 @@ return (
                                     value={startMin3}
                                     //placeholder = "MM"
                                     onChange={setStartMin3}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                 </div>
                             </div>
@@ -1407,7 +1532,7 @@ return (
                                     
                                     //placeholder = "MM"
                                     onChange={setEndMin3}
-                                    darMode={darkMode}/>
+                                    darkMode={darkMode}/>
                                     {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                     :
                                     <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}

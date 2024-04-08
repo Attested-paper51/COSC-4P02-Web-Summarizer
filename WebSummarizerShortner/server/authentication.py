@@ -186,8 +186,8 @@ class Authentication:
         return 1
         
 
-    def addTemplate(self,email,word_count,formality,
-    structure,num_paragraphs,summType,timestamps,length,template_name):
+    def addTemplate(self,email,formality,
+    structure,summType,timestamps,length,citation,template_name):
     #Add a way to ensure return val is 0 if template name is invalid
         if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
             return 0
@@ -195,26 +195,21 @@ class Authentication:
         cursor = self.conn.cursor()
         user = self.getUsername(email)
 
-        #if username not in database, add 3 rows with custom template names
-        #cursor.execute("SELECT * FROM templates WHERE username = %s",(email,))
-        #exists = cursor.fetchone()
-        #print(exists)
 
         cursor.execute("""
             UPDATE templates 
             SET 
-                word_count = %s, 
                 formality = %s, 
                 structure = %s, 
-                num_paragraphs = %s,
                 summarization_type = %s,
                 timestamps = %s,
-                length = %s 
+                length = %s,
+                citation = %s 
             WHERE 
                 username = %s 
             AND 
                 template_name = %s
-        """, (word_count, formality, structure, num_paragraphs, summType, timestamps,length,user, template_name))
+        """, (formality, structure, summType, timestamps,length,citation,user,template_name))
         
         self.conn.commit()
         return 1
@@ -226,7 +221,7 @@ class Authentication:
             return 0
 
         cursor.execute("""
-        SELECT word_count, formality, structure, num_paragraphs, summarization_type, timestamps, length
+        SELECT formality, structure, summarization_type, timestamps, length, citation
         FROM templates 
         WHERE username = %s 
         AND template_name = %s
@@ -245,13 +240,12 @@ class Authentication:
         cursor.execute("""
         UPDATE templates 
         SET 
-            word_count = NULL, 
             formality = NULL, 
             structure = NULL, 
-            num_paragraphs = NULL,
             summarization_type = NULL,
             timestamps = NULL,
-            length = NULL
+            length = NULL,
+            citation = NULL
         WHERE 
             username = %s 
         AND 
@@ -261,6 +255,29 @@ class Authentication:
         # Commit the changes
         self.conn.commit()
         return 1
+
+    def checkTemplateInUse(self,email,templateName):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+
+        if (templateName not in ["customTemplate1","customTemplate2","customTemplate3"]):
+            return 0
+
+        cursor.execute("""
+        SELECT length 
+        FROM templates 
+        WHERE username = %s 
+        AND template_name = %s
+        """, (user, templateName))
+    
+        length = cursor.fetchone()[0]
+    
+        if length is not None:
+            return 1  # Template is in use
+        else:
+            return 0  # Template is not in use
+
+        
 
     def deleteTemplates(self,email):
         cursor = self.conn.cursor()
@@ -447,14 +464,14 @@ def saveTemplate():
     email = data.get('email')
     formality = data.get('formality')
     structure = data.get('structure')
-    wordcount = data.get('wordcount')
     summType = data.get('summ_type')
     timestamp = data.get('timestamp')
     length = data.get('length')
+    citation = data.get('citation')
     templateName = data.get('templatename')
     userMgr = Authentication()
     #Note that we need to add num paragraphs, or just drop the col.
-    if userMgr.addTemplate(email,wordcount,formality,structure,0,summType,timestamp,length,templateName):
+    if userMgr.addTemplate(email,formality,structure,summType,timestamp,length,citation,templateName):
         return jsonify({'message':'Template added.'})
     return jsonify({'message':'Not added.'})
     
@@ -483,15 +500,14 @@ def getTemplate():
     templateName = data.get('templatename')
     userMgr = Authentication()
     templates = userMgr.getTemplate(email,templateName)
-    words = templates[0]
-    formality = templates[1]
-    structure = templates[2]
-    numParagraphs = templates[3]
-    summType = templates[4]
-    timestamps = templates[5]
-    length = templates[6]
+    formality = templates[0]
+    structure = templates[1]
+    summType = templates[2]
+    timestamps = templates[3]
+    length = templates[4]
+    citation = templates[5]
     return jsonify({'length':length, 'formality':formality,
-    'structure':structure,'numparagraphs':numParagraphs,
+    'structure':structure,'citation':citation,
     'summtype':summType,'timestamps':timestamps})
 
 @appA.route('/addfeedback',methods=['POST'])
@@ -521,6 +537,19 @@ def getAPIKey():
     userMgr = Authentication()
     key = userMgr.getAPIKey(email)
     return jsonify({'key':key})
+
+@appA.route('/checktemplate',methods=['POST'])
+def checkTemplate():
+    data = request.get_json()
+    email = data.get('email')
+    templateName = data.get('templatename')
+    userMgr = Authentication()
+    if userMgr.checkTemplateInUse(email,templateName):
+        return jsonify({'message':'Template in use.'})
+        
+    return jsonify({'message':'Template not in use.'})
+
+
 
 if __name__ == '__main__':
     appA.run(port=5001)

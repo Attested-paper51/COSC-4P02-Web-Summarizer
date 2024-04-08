@@ -26,7 +26,7 @@ import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
 import { useTheme } from './ThemeContext.js'
-
+import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 
 const Summarizer = () => {
@@ -40,20 +40,25 @@ const Summarizer = () => {
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const [openError, setOpenError] = useState(false);
     const [openTemplates, setOpenTemplates] = useState(false);
+    const [openFullTemplateAlert, setOpenFullTemplateAlert] = useState(false);
 
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [value, setValue] = useState(null);
-    const [isPremium, setPremium] = useState(false);
+    //const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
+    
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
 
     const layout = ["Paragraph", "Bullet Points", "Numbered List"];
     const [selectedLayout, setLayout] = useState(layout[0]);
+
+    const citationType = ["No Citation", "MLA Citation", "APA Citation", "Chicago Citation"];
+    const [selectedCitationType, setCitationType] = useState(citationType[0]);
 
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
@@ -67,10 +72,10 @@ const Summarizer = () => {
 
     const [sliderValue, setSliderValue] = useState(1);
 
-    const [startHour, setStartHour] = useState("HH");
-    const [startMin, setStartMin] = useState("MM");
-    const [endHour, setEndHour] = useState("HH");
-    const [endMin, setEndMin] = useState("MM");
+    const [startHour, setStartHour] = useState(0);
+    const [startMin, setStartMin] = useState(0);
+    const [endHour, setEndHour] = useState(0);
+    const [endMin, setEndMin] = useState(0);
 
     const email = localStorage.getItem('email');
 
@@ -85,9 +90,13 @@ const Summarizer = () => {
     }
 
     const toggleClicked = (buttonIndex) => {
-        setClickedButton(buttonIndex)
-        emptyTextContent()
-        showShorten(false)
+        if(isClicked != buttonIndex)
+        {
+            setClickedButton(buttonIndex)
+            emptyTextContent()
+            showShorten(false)
+            setTemplate(templates[0])
+        }
     }
 
     // for opening Dialog Box
@@ -232,20 +241,52 @@ const Summarizer = () => {
         setLayout(item)
     }
 
+    const handleCitationChange = (item) => {
+        setCitationType(item)
+    }
+
     const handleVideoSettingChange = (item) => {
         setVideoSetting(item)
     }
 
     const handleTemplateChange = (item) => {
-        console.log("item: ",item);
-        setTemplate(item);
-
-        handleTemplateFetch(item);
+        setTemplate(item)
+        handleTemplateFetch(item)
     }
 
-    const handleSaveTemplateChange = (item) => {
+    const handleSaveTemplateChange = async (item) => {
         setSaveTemplate(item);
+        //console.log("item in handleSavTemplate",item);
+        //console.log("selectedSaveTemp:",selectedSaveTemplate);
+        
+        const isEmpty = await checkIfTemplateSlotEmpty(item);
+        //if it is taken
+        if (isEmpty) {
+            //console.log("so then result.length is not null.");
+            setOpenFullTemplateAlert(true);
+        }else {
+            handleClickSave(item);
+        }
+        
+        //setSaveTemplate(item);
         //handleTemplateFetch(item);
+    }
+
+    // for closing Error Dialog Box
+    const handleFullTemplateAlertClose = () => {
+        //confirmed = false;
+        setSaveTemplate(saveTemplates[0]);
+        setOpenFullTemplateAlert(false);
+    }
+    // closes Dialog Box
+    const handleFullTemplateAlertConfirm = () => {
+        //console.log("template to save: " + selectedSaveTemplate);
+
+        //save the selected template
+        handleClickSave(selectedSaveTemplate);
+        //close the dialog box
+        handleFullTemplateAlertClose();
+        //
     }
 
     const checkEmptyInput = () => {
@@ -275,6 +316,7 @@ const Summarizer = () => {
     const handleErrorConfirm = () => {
         handleErrorClose()
     }
+   
 
     // for opening Dialog Box
     const handleOpenTemplates = () => {
@@ -291,6 +333,10 @@ const Summarizer = () => {
 
     const transferLink = () => {
         navigate("/Shortener", {state: { inputContent: inputContent }});
+    }
+
+    const openDialog = (open, onClose, title, content, showCancelButton, confirmText, onConfirm) => {
+
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -316,7 +362,7 @@ const Summarizer = () => {
     }
     
 
-    const addToHistory = async (input,output) => {
+    const addToHistory = async () => {
 
         try {
             const response = await fetch('http://localhost:5001/addsummarized', {
@@ -324,7 +370,7 @@ const Summarizer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input, output, email}),
+                body: JSON.stringify({ input: inputContent, output: outputContent, email}),
             });
 
             if (response.ok) {
@@ -346,6 +392,7 @@ const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
 
+    //fetch('/api/summarize', {
     fetch('http://127.0.0.1:5000/api/summarize', {
         method: 'POST',
         headers: {
@@ -358,7 +405,10 @@ const summarizeText = () => {
             tone: selectedTone,
             style: selectedLayout,
             length: sliderValue,
+            citation: selectedCitationType,
             option: selectedVideoSetting,
+            startTime: 0,
+            endTime: 0
         }),
     })
     .then(response => {
@@ -375,8 +425,6 @@ const summarizeText = () => {
             throw new Error(data.error);
         }
         setOutputContent(data.summary);
-                //add to history
-                //addToHistory(inputContent,data.summary,email);  //this needs to be associated with a button to 'save to history'
     })
     .catch(error => {
         setIsLoading(false); // Ensure loading dialog is hidden on error
@@ -394,7 +442,7 @@ const summarizeText = () => {
             templatename = "customTemplate1";
         }else if (item === templates[2]) {
             templatename = "customTemplate2";
-        }else if (item === templates[3]) {
+        }else {
             templatename = "customTemplate3";
         }
         //console.log("Selected template:",selectedTemplate);
@@ -418,6 +466,15 @@ const summarizeText = () => {
                     setClickedButton(0);
                 }else if (result.summtype === 'website') {
                     setClickedButton(1);
+                    if (result.citation === 'none') {
+                        setCitationType(citationType[0]);
+                    }else if (result.citation === 'mla') {
+                        setCitationType(citationType[1]);
+                    }else if (result.citation === 'apa') {
+                        setCitationType(citationType[2]);
+                    }else if (result.citation === 'chicago') {
+                        setCitationType(citationType[3]);
+                    }
                 }else if (result.summtype === 'video') {
                     setClickedButton(2);
                     if (result.timestamps === 'full') {
@@ -444,7 +501,6 @@ const summarizeText = () => {
                 }else {
                     setTone(tone[0]);
                 }
-
                 if (result.structure != null) {
                     setLayout(result.structure);
                 }else {
@@ -459,43 +515,63 @@ const summarizeText = () => {
                     setSliderValue(3);
                 }else {
                     setSliderValue(1);
-                }
-
-                
+                }       
 
             }
         } catch (error) {
             console.error('Error:', error.message);
         }
     
-      };
+    };
 
-      //for handling saving of any template
-    const handleClickSave  = async (templatenumber) => {
+    //for handling saving of any template
+    const handleClickSave  = async (item) => {
         var formality = selectedTone;
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
-        var wordcount = 0;
+        //var wordcount = 0;
         var length;
-        //console.log("template to save: ",templatenumber);
+        var templatename;
+        if (item === templates[1]) {
+            templatename = "customTemplate1";
+        }else if (item === templates[2]) {
+            templatename = "customTemplate2";
+        }else if(item === templates[3]){
+            templatename = "customTemplate3";
+        }
+        //if (checkIfTemplateSlotEmpty(item)) {
+        //    setOpenFullTemplateAlert(true);
+        //}
+
+    
         
         
         if (sliderValue === 1) {
-            wordcount = 50;
+            //wordcount = 50;
             length = 'short';
         }else if (sliderValue === 2) {
-            wordcount = 100;
+            //wordcount = 100;
             length = 'medium';
         }else if (sliderValue === 3){
-            wordcount = 200;
+            //wordcount = 200;
             length = 'long';
         }
         var summ_type = "";
         var timestamp = "";
+        var citation = "";
         if (isClicked === 0) {
             summ_type = "text";
         }else if (isClicked === 1) {
             summ_type = "website";
+            if (selectedCitationType === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType === citationType[2]) {
+                citation = "apa";
+            }else if (selectedCitationType === citationType[3]) {
+                citation = "chicago";
+            }
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
@@ -520,35 +596,61 @@ const summarizeText = () => {
             }
             
         }
-        var templatename;
-        if (templatenumber === templates[1]) {
-            templatename = "customTemplate1";
-        }else if (templatenumber === templates[2]) {
-            templatename = "customTemplate2";
-        }else if (templatenumber === templates[3]) {
-            templatename = "customTemplate3";
-        }
-
-        //console.log("templatename saving: ",templatename);
         
 
         try {
             const response = await fetch('http://localhost:5001/savetemplate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, length, templatename }),
-        });
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result.message);
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, formality, structure, 
+                     summ_type, timestamp, length, citation, templatename }),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
         }
+    }
 
+    const checkIfTemplateSlotEmpty = async (item) => {
+        var templatename;
+        if (item === templates[1]) {
+            templatename = "customTemplate1";
+        }else if (item === templates[2]) {
+            templatename = "customTemplate2";
+        }else {
+            templatename = "customTemplate3";
+        }
+        //console.log("Selected template:",selectedTemplate);
+        console.log("item to check if empty:",item);
+        //console.log("templateNameToFetch:",templatename);
+        try {
+            // Make a POST request to the Flask backend
+            const response = await fetch('http://localhost:5001/gettemplate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, templatename}),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Result.length:",result.length);
+                // if result.length is null, the template slot is empty
+                if (result.length === null) {
+                    //console.log("result.length is null");
+                    // template slot is empty
+                    return false;
+                }
+            }
 
-
-        }catch (error) {
+            return true
+        } catch (error) {
             console.error('Error:', error.message);
         }
     }
@@ -672,6 +774,23 @@ const summarizeText = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        { isClicked == 1 &&
+                                            <div className="dropdown-menu">
+                                                <Dropdown
+                                                    buttonText={selectedCitationType}
+                                                    content={<>
+                                                        {
+                                                            citationType.map(item => 
+                                                                <DropdownItem
+                                                                    key={item}
+                                                                    onClick={() => handleCitationChange(item)}>
+                                                                        {`${item}`}
+                                                                </DropdownItem>)
+                                                        }
+                                                    </>} 
+                                                />
+                                            </div>
+                                        }
                                         { isClicked == 2 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
@@ -740,6 +859,7 @@ const summarizeText = () => {
                                         }
                                         </div>
                                     </div>
+
                                     <div className="template-config-buttons">
                                         <div className="dropdown-menu">
                                             <Dropdown
@@ -749,7 +869,8 @@ const summarizeText = () => {
                                                         saveTemplates.slice(1).map(item => 
                                                             <DropdownItem
                                                                 key={item}
-                                                                onClick={() => handleClickSave(item)}>
+                                                                //onClick = {()=> }
+                                                                onClick={() => handleSaveTemplateChange(item)}>
                                                                     {`${item}`}
                                                             </DropdownItem>)
                                                     }
@@ -854,7 +975,7 @@ const summarizeText = () => {
                                             }
                                         </div>
 
-                                        { wordCount > 125? 
+                                        { !email && wordCount > 125? 
                                             <Tooltip title="Over the word limit" arrow>
                                                 <button className='summarize-btn button-disabled' disabled>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
@@ -909,7 +1030,7 @@ const summarizeText = () => {
                                         }
 
                                         { userEmail &&
-                                            <button className="summarize-btn" onClick={transferLink}>
+                                            <button className="summarize-btn" onClick={addToHistory}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
                                                 </div>
@@ -931,6 +1052,7 @@ const summarizeText = () => {
                 title={"Delete Text"}
                 content={"You're about to delete the Original and Summarized text."}
                 showCancelButton={true}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleConfirm}
                 />
@@ -940,6 +1062,7 @@ const summarizeText = () => {
                 title={"Error"}
                 content={"Please enter some text to summarize."}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleEmptyConfirm}
                 />
@@ -949,9 +1072,31 @@ const summarizeText = () => {
                 title={"Error"}
                 content={errorMessage}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleErrorConfirm}
                 />
+                <DialogBox 
+                open={openFullTemplateAlert} 
+                onClose={handleFullTemplateAlertClose}
+                title={"Warning"}
+                content={"Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?"}
+                showCancelButton={true}
+                showConfirmButton={true}
+                confirmText={"Continue"}
+                //wanna add a parameter to say which template to save
+                onConfirm={handleFullTemplateAlertConfirm}
+                />
+                <DialogBox 
+                open={isLoading} 
+                onClose={() => {}} // Prevent closing on user interaction
+                title={"Loading..."}
+                content={"Please wait while we process your request."}
+                showCancelButton={false}
+                showConfirmButton={false}
+                // No confirm button shown, making the dialog purely informational
+                />
+
                 <DialogBox 
                 open={openTemplates} 
                 onClose={handleTemplateClose}
