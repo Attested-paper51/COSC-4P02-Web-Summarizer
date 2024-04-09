@@ -194,7 +194,7 @@ def shorten_url_api():
     key = data.get('key')
     auth = Authentication()
     #check if api key valid
-    if auth.checkAPIKey(key) == -1:
+    if auth.checkAPIKey(key) == False:
         return jsonify({'message':'API Key not valid.'})
     
     
@@ -212,7 +212,7 @@ def resolveOriginal():
     key = data.get('key')
     auth = Authentication()
     #check if api key valid
-    if auth.checkAPIKey(key) == -1:
+    if auth.checkAPIKey(key) == False:
         return jsonify({'message':'API Key not valid.'})
 
     shortURL = data.get('shortURL')
