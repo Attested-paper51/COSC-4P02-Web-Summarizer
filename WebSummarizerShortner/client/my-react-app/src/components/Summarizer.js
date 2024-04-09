@@ -407,8 +407,8 @@ const summarizeText = () => {
             length: sliderValue,
             citation: selectedCitationType,
             option: selectedVideoSetting,
-            startTime: startHour + startMin,
-            endTime: endHour + endTime
+            startTime: `${startHour}:${startMin}`,
+            endTime: `${endHour}:${endMin}`
         }),
     })
     .then(response => {

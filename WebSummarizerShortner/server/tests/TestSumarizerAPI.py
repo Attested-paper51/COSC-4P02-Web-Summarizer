@@ -22,7 +22,7 @@ data = {
     'length': 1,
 }
 
-print(key)
+print(f"\n\nthe key: {key}")
 
 # Making a POST request to the API
 response = requests.post(url, json=data)

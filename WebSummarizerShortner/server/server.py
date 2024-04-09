@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sumarization as sum
-import authentication as aut
+from authentication import Authentication
 
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +13,7 @@ length_mapping = {
     }
 
 cite_mapping = {
+    None : None,
     "No Citation": None,
     "MLA Citation": "MLA",
     "APA Citation": "APA",
@@ -22,6 +23,8 @@ cite_mapping = {
 
 @app.route('/api/summarize', methods=['POST'])
 def summarize_text():
+
+    aut = Authentication()
 
     # recieving data from frontend
     data = request.get_json()
@@ -36,17 +39,13 @@ def summarize_text():
     startTime = data.get('startTime') 
     endTime = data.get('endTime')
 
-    if key != 'frontend':
-        return jsonify({"error": "Not frontend"})
-    elif aut.checkAPIKey(key) == False:
-        return jsonify({"error": "Invalid API key"})
-
+    if key != 'frontend' and not aut.checkAPIKey(key):
+        return jsonify({"error": "Invalid key"})
 
     length = length_mapping[length]
-
     cite = cite_mapping[cite]
 
-    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
+    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\nstartTime: {startTime}\nendTime: {endTime}\noption: {option}\ncite: {cite}\n")
 
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
@@ -79,7 +78,7 @@ def summarize_text():
         
         print("User given YouTube URL", input_text)
 
-        error, result = sum.processYouTubeURL(input_text, option, tone, style, length)
+        error, result = sum.processYouTubeURL(input_text, option, tone, style, length, startTime, endTime)
 
         if error:
             return jsonify({'error': result})
