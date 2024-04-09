@@ -90,7 +90,7 @@ const Summarizer = () => {
     }
 
     const toggleClicked = (buttonIndex) => {
-        if(isClicked != buttonIndex)
+        if(isClicked !== buttonIndex)
         {
             setClickedButton(buttonIndex)
             emptyTextContent()
@@ -135,7 +135,7 @@ const Summarizer = () => {
         // set a timeout of 200 miliseconds - then update the word count
         const id = setTimeout(() => {
             // updates word count
-            if(inputContent.trim().length == 0) {
+            if(inputContent.trim().length === 0) {
                 setWordCount(0)
             }
             else {
@@ -171,7 +171,7 @@ const Summarizer = () => {
         if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
             showShorten(true)
         }   
-        else if (isClicked == 0)
+        else if (isClicked === 0)
         {
             showShorten(false)
         }
@@ -774,7 +774,7 @@ const summarizeText = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        { isClicked == 1 &&
+                                        { isClicked === 1 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
                                                     buttonText={selectedCitationType}
@@ -791,7 +791,7 @@ const summarizeText = () => {
                                                 />
                                             </div>
                                         }
-                                        { isClicked == 2 &&
+                                        { isClicked === 2 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
                                                     buttonText={selectedVideoSetting}
@@ -809,7 +809,7 @@ const summarizeText = () => {
                                             </div>
                                         }
 
-                                        { isClicked == 2 && selectedVideoSetting == videoSetting[1] &&
+                                        { isClicked === 2 && selectedVideoSetting === videoSetting[1] &&
                                             <div className="timestamp">
                                                 <div className="start">
                                                     Start Time:
@@ -921,7 +921,7 @@ const summarizeText = () => {
                                 {/* </div>)} */}
                                 <div className="text">
                                     <div className="inputArea">
-                                        { isClicked == 0 &&
+                                        { isClicked === 0 &&
                                             <textarea
                                                 className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
                                                 id='inputText' 
@@ -931,7 +931,7 @@ const summarizeText = () => {
                                                 required>    
                                             </textarea>
                                         }
-                                        { isClicked == 1 &&
+                                        { isClicked === 1 &&
                                             <textarea
                                                 className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
                                                 id='inputURL' 
@@ -941,7 +941,7 @@ const summarizeText = () => {
                                                 required>    
                                             </textarea>
                                         }
-                                        { isClicked == 2 &&
+                                        { isClicked === 2 &&
                                             <textarea
                                                 className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
                                                 id='inputYTURL' 
@@ -962,15 +962,15 @@ const summarizeText = () => {
                                     <div className={`bottom-div1 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="word-count">
                                             { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                                (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                                    <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                                (<Tooltip title={inputContent.length === 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                                    <div className="word-cnt-div">{wordCount === 1? `${wordCount} Word`: `${wordCount} Words`}</div>
                                                 </Tooltip>) : wordCount >= 126 && !userEmail ?
                                                 <div className="get-premium">
                                                     <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
                                                     <div>{wordCount}/125 Words</div>    
                                                 </div> : 
-                                                (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                                    <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                                (<Tooltip title={inputContent.length === 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
+                                                    <div className="word-cnt-div">{wordCount === 1? `${wordCount} Word`: `${wordCount} Words`}</div>
                                                 </Tooltip>)
                                             }
                                         </div>
