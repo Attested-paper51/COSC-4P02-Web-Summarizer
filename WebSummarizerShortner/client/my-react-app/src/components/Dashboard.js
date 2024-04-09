@@ -140,7 +140,7 @@ const Dashboard = () => {
           </Tooltip>
           <div className='dashboard-options'>
             <Tooltip title="History" arrow>
-              <button className={`dash-option small-icon ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}> <MdHistory className='dash-option-icon' /></button>
+              <button className={`dash-option small-icon history ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}> <MdHistory className='dash-option-icon' /></button>
             </Tooltip>
             <Tooltip title="Templates" arrow>
               <button className={`dash-option small-icon ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/></button>
