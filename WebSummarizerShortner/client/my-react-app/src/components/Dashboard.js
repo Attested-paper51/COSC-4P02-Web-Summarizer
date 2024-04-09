@@ -107,7 +107,7 @@ const Dashboard = () => {
       {open && 
       <div className='side-panel'>
           <div className='side-panel-title-wrapper'>
-            <div className='user-name'>{username}</div>
+            
             <Tooltip title="Collapse Sidebar" arrow>
               <button className='sidebar-icon-container' onClick={handleToggleSidebar}>
                 <CiCircleChevLeft className='sidebar-icon'/>
@@ -117,6 +117,7 @@ const Dashboard = () => {
           <div className='user-profile-container'> 
             <IoPersonSharp className='user-profile'/>
           </div>
+          <div className='user-name'>{username}</div>
           <div className='dashboard-options'>
               <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory className='dash-option-icon' />History</button>
               <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/>Templates</button>
@@ -139,7 +140,7 @@ const Dashboard = () => {
           </Tooltip>
           <div className='dashboard-options'>
             <Tooltip title="History" arrow>
-              <button className={`dash-option small-icon ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}> <MdHistory className='dash-option-icon' /></button>
+              <button className={`dash-option small-icon history ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}> <MdHistory className='dash-option-icon' /></button>
             </Tooltip>
             <Tooltip title="Templates" arrow>
               <button className={`dash-option small-icon ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon'/></button>

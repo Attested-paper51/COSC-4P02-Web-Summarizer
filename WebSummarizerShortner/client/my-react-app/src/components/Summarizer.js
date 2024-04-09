@@ -407,8 +407,8 @@ const summarizeText = () => {
             length: sliderValue,
             citation: selectedCitationType,
             option: selectedVideoSetting,
-            startTime: startHour + startMin,
-            endTime: endHour + endMin
+            startTime: `${startHour}:${startMin}`,
+            endTime: `${endHour}:${endMin}`
         }),
     })
     .then(response => {
@@ -659,11 +659,36 @@ const summarizeText = () => {
     //export button handling, for downloading json file
     const exportJSON = () => {
         // Create a JSON object with the input and summarized text
-        const data = {
-            input: inputContent, // Assuming you have the original input stored in inputContent
-            summary: outputContent
-        };
 
+        let data; // Declare data outside to widen its scope
+
+        if (isClicked === 0) {
+            data = {
+                input: inputContent, // Assuming you have the original input stored in inputContent
+                summary: outputContent
+            };
+        }
+        
+        if (isClicked === 1) {
+            data = {
+                input: inputContent, // Assuming you have the original input stored in inputContent
+                summary: outputContent,
+                citation_style: selectedCitationType
+            };
+        }
+        
+        if (isClicked === 2) {
+            data = {
+                input: inputContent, // Assuming you have the original input stored in inputContent
+                summary: outputContent,
+                option: selectedVideoSetting,
+                startTime: `${startHour}:${startMin}`,
+                endTime: `${endHour}:${endMin}`
+            };
+        }
+        
+        // Now you can use `data` here, as it's been declared in an outer scope
+        
 
         // Convert the JSON object to a string
         const jsonString = JSON.stringify(data);

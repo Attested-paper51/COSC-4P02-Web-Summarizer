@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sumarization as sum
+<<<<<<< HEAD
+=======
+from authentication import Authentication
+>>>>>>> 035903eb18d49ef1e88a1d2d97fee58d7fb887be
 
 app = Flask(__name__)
 CORS(app)
@@ -12,6 +16,7 @@ length_mapping = {
     }
 
 cite_mapping = {
+    None : None,
     "No Citation": None,
     "MLA Citation": "MLA",
     "APA Citation": "APA",
@@ -22,10 +27,12 @@ cite_mapping = {
 @app.route('/api/summarize', methods=['POST'])
 def summarize_text():
 
+    aut = Authentication()
+
     # recieving data from frontend
     data = request.get_json()
     key = data.get('key') # key for front end or api
-    input_text = data.get('input') # the input text, this contains either text, url, or youtube url (this will be summarized)
+    input = data.get('input') # the input text, this contains either text, url, or youtube url (this will be summarized)
     type = data.get('type')  # the tabs, 0 for Text, 1 for Website URL, 2 for YouTube URL
     tone = data.get('tone') # tones are "Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
@@ -35,15 +42,19 @@ def summarize_text():
     startTime = data.get('startTime') 
     endTime = data.get('endTime')
 
+<<<<<<< HEAD
     if key != 'frontend':
         return
 
+=======
+    if key != 'frontend' and not aut.checkAPIKey(key):
+        return jsonify({"error": "Invalid key"})
+>>>>>>> 035903eb18d49ef1e88a1d2d97fee58d7fb887be
 
     length = length_mapping[length]
-
     cite = cite_mapping[cite]
 
-    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\noption: {option}\ncite: {cite}\n")
+    print(f"tone: {tone}\nstyle: {style}\nlength: {length}\nstartTime: {startTime}\nendTime: {endTime}\noption: {option}\ncite: {cite}\n")
 
 
     if not input_text:  # This checks for both None and empty string (""), as well as other falsy values like 0, [], etc.
@@ -51,9 +62,9 @@ def summarize_text():
 
     # for Text
     elif type == 0:
-        print("User pasted text:", input_text)
+        print("User pasted text:", input)
 
-        error, result =  sum.summarize(input_text, tone, style, length)
+        error, result =  sum.summarize(input, tone, style, length)
 
         if error:
             return jsonify({'error': result})
@@ -62,9 +73,9 @@ def summarize_text():
     
     # for a url
     elif type == 1:
-        print("User given URL", input_text)
+        print("User given URL", input)
 
-        error, result = sum.processURL(input_text, tone, style, length, cite)
+        error, result = sum.processURL(input, tone, style, length, cite)
 
         if error:
             return jsonify({'error': result})
@@ -74,9 +85,9 @@ def summarize_text():
     # for a YouTube video url
     elif type == 2:
         
-        print("User given YouTube URL", input_text)
+        print("User given YouTube URL", input)
 
-        error, result = sum.processYouTubeURL(input_text, option, tone, style, length)
+        error, result = sum.processYouTubeURL(input, option, tone, style, length, startTime, endTime)
 
         if error:
             return jsonify({'error': result})

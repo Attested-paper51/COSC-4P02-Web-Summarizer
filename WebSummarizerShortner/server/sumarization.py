@@ -33,22 +33,25 @@ def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
     if error:
         return error, result
     else:
-        extractedText = f"YouTube video: {url}\n\n" + result
+        extractedText = result
         return summarize(extractedText, tone, style, length)
  
 
 # extract text content from websites to then pass to openai for summary
 def processURL(url, tone, style, length, cite=None):
 
-
     error, result = textExtraction.extract_text_from_url(url)
 
     if error:
         return error, result
     else:
-        if cite:
-            cite = f"Please conclude the summary with a citation in {cite} style on a new line, using the term 'reference list' for APA, 'works cited' for MLA, or 'bibliography' for Chicago."
-        print(cite)
-        extractedText = f"Webpage url: {url}\n\n" + result
+        if cite == 'APA':
+            cite = f"After the summary, add a citation on a new line using APA style. Use the term 'Reference' for the citation. Ensure the citation is accurately formatted according to APA guidelines. The URL to be cited is {url}."
+        elif cite == 'MLA':
+            cite = f"After the summary, add a citation on a new line using MLA style. Use the term 'Citation' for the citation. Ensure the citation is accurately formatted according to MLA guidelines. The URL to be cited is {url}."
+        elif cite == 'Chicago':
+            cite = f"After the summary, add a citation on a new line using Chicago style. Use the term 'Bibliography' for the citation. Ensure the citation is accurately formatted according to Chicago style guidelines. The URL to be cited is {url}."
+
+        extractedText = result
         return summarize(extractedText, tone, style, length, cite)
 
