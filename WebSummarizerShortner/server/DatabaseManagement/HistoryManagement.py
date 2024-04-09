@@ -96,7 +96,7 @@ class UserHistoryManagement:
     def __del__(self):
         self.conn.close()
 
-@appHDB.route('/verify', methods=['POST'])
+@appHDB.route('/saveSummary', methods=['POST'])
 def insertHistoryHandler():
     data = request.get_json()
     
@@ -129,4 +129,4 @@ def deleteHistoryHandler():
     return jsonify({'status': status, 'message': message})
 
 if __name__ == '__main__':
-    appHDB.run(port=5001)
+    appHDB.run(port=5005)

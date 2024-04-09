@@ -53,7 +53,7 @@
                 summarizedT: document.getElementById('summarizedText').value,
             };
 
-            fetch('http://127.0.0.1:5001/verify', {
+            fetch('http://127.0.0.1:5005/saveSummary', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@
         function retrieveHistory() {
             const username = document.getElementById('retrieveUsername').value;
 
-            fetch('http://127.0.0.1:5001/history', {
+            fetch('http://127.0.0.1:5005/history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -106,7 +106,7 @@
             historyID: document.getElementById('deleteHistoryID').value
         };
 
-        fetch('http://127.0.0.1:5001/deleteHistory', {
+        fetch('http://127.0.0.1:5005/deleteHistory', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -47,6 +47,8 @@ const Summarizer = () => {
     const [value, setValue] = useState(null);
     const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
+    const username = localStorage.getItem('user_id')
+    console.log(`this is the username: ${username}`)
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -290,6 +292,43 @@ const Summarizer = () => {
         navigate("/Shortener", {state: { inputContent: inputContent }});
     }
 
+    const saveSummary = async () => {
+
+        if (!inputContent || !outputContent || !username) {
+            
+            console.log('Missing required fields.');
+            return;
+        }
+
+        else{
+            const url = 'http://localhost:5005/saveSummary'; 
+            const data = {
+                username: username,
+                inputT: inputContent,
+                summarizedT: outputContent,
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const responseData = await response.json();
+                console.log(responseData); // Logging the response for debugging purposes
+                // You can set some state here to show a success message to the user
+            } catch (error) {
+                console.error('Error saving summary:', error);
+                // You can set some state here to show an error message to the user
+            }
+        }
+    }
+
+    
+
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
     //     const targetDiv = document.getElementById('btnDiv');
@@ -338,7 +377,7 @@ const Summarizer = () => {
 
     // function for handling text summarization
     const summarizeText = () => {
-        fetch('/api/summarize', {
+        fetch('http://localhost:5000/api/summarize', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -877,7 +916,7 @@ const Summarizer = () => {
                                             </button>
                                         }
 
-                                        <button className="summarize-btn" onClick={transferLink}>
+                                        <button className="summarize-btn" onClick={saveSummary}>
                                             <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
                                             </div>
