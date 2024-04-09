@@ -153,7 +153,7 @@ const Settings = () => {
                 Update Email
               </div> 
             </button>
-            {localStorage.getItem('loginMethod') !== 'google' ?  (
+            {(localStorage.getItem('loginMethod') !== 'google' && localStorage.getItem('loginMethod') !== 'facebook')?  (
               <PopUp trigger={emailPopup} setTrigger={setEmailPopup} title='Update Email'>
               <label className='pop-label'>Enter new email</label>
               <input 
@@ -193,7 +193,7 @@ const Settings = () => {
             <div className='label' htmlFor="password">Password</div> 
             <div className='text'>{'\u25CF'.repeat(userpass.length)}</div>
           
-            {localStorage.getItem('loginMethod') !== 'google' ? (
+            {(localStorage.getItem('loginMethod') !== 'google' && localStorage.getItem('loginMethod') !== 'facebook') ? (
               <Link to="/Reset"><button className='update'>
                 <div className={`update-div ${darkMode ? 'update-btn-dark' : 'update-btn-light'}`}>
                   Reset Password

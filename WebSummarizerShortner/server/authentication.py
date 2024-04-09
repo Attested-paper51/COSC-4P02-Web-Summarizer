@@ -165,9 +165,9 @@ class Authentication:
         cursor.execute("SELECT COUNT(*) FROM users WHERE api_key = %s", (apiKey,))
         result = cursor.fetchone()[0]
         if result > 0:
-            return 1  # API key found
+            return True  # API key found
         else:
-            return -1  # API key not found
+            return False  # API key not found
 
 
     
