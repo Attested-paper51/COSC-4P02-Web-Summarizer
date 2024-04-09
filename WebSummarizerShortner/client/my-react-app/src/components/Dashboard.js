@@ -34,6 +34,8 @@ const Dashboard = () => {
   
 
   let username = localStorage.getItem('name');
+  let uuname = localStorage.getItem('user_id');
+  console.log('This is username: ' + uuname)
 
   const [activeComponent, setActiveComponent] = useState('History'); // Default to Settings component
 
