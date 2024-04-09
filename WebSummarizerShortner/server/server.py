@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sumarization as sum
-import authentication as aut
 
 app = Flask(__name__)
 CORS(app)
@@ -37,9 +36,7 @@ def summarize_text():
     endTime = data.get('endTime')
 
     if key != 'frontend':
-        return jsonify({"error": "Not frontend"})
-    elif aut.checkAPIKey(key) == False:
-        return jsonify({"error": "Invalid API key"})
+        return
 
 
     length = length_mapping[length]

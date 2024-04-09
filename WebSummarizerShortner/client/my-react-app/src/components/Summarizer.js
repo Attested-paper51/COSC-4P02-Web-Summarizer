@@ -408,7 +408,7 @@ const summarizeText = () => {
             citation: selectedCitationType,
             option: selectedVideoSetting,
             startTime: startHour + startMin,
-            endTime: endHour + endTime
+            endTime: endHour + endMin
         }),
     })
     .then(response => {
