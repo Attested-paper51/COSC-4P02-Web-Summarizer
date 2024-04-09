@@ -22,14 +22,14 @@ def convert_time_to_seconds(time_str):
             raise ValueError("Invalid minute value. Must be between 00 and 59.")
         return hours * 3600 + minutes * 60
     else:
-        raise ValueError("Invalid time format. Please use HH:MM.")
+        raise ValueError("Invalid time format. Please use HH:MM")
 
 def validate_time_within_duration(start_seconds, end_seconds, duration_seconds):
     """Checks if start times are within the video duration and in correct order."""
     if start_seconds >= end_seconds:
-        return True, "Start time must be less than end time."
+        raise ValueError("Start time must be less than end time.")
     if start_seconds > duration_seconds or end_seconds > duration_seconds:
-        return True, "Start or end time exceeds video duration."
+        raise ValueError("Start or end time exceeds video duration.")
 
 def get_video_duration(video_id):
     """Fetches the video duration in seconds."""
@@ -134,7 +134,7 @@ def caption(video_url, transcribe_option, start_time_str, end_time_str):
 
                 validate_time_within_duration(start_seconds, end_seconds, video_duration)
             except ValueError as e:
-                return True, "error validating time"
+                return True, str(e)
 
         original_audio_file = None  # Initialize the variable to store the downloaded audio file
 
