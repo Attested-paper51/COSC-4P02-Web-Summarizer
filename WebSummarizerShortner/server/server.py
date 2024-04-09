@@ -29,7 +29,7 @@ def summarize_text():
     # recieving data from frontend
     data = request.get_json()
     key = data.get('key') # key for front end or api
-    input_text = data.get('input') # the input text, this contains either text, url, or youtube url (this will be summarized)
+    input = data.get('input') # the input text, this contains either text, url, or youtube url (this will be summarized)
     type = data.get('type')  # the tabs, 0 for Text, 1 for Website URL, 2 for YouTube URL
     tone = data.get('tone') # tones are "Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"
     style = data.get('style') # styles are "Paragraph", "Bullet Points", "Numbered List"
@@ -53,9 +53,9 @@ def summarize_text():
 
     # for Text
     elif type == 0:
-        print("User pasted text:", input_text)
+        print("User pasted text:", input)
 
-        error, result =  sum.summarize(input_text, tone, style, length)
+        error, result =  sum.summarize(input, tone, style, length)
 
         if error:
             return jsonify({'error': result})
@@ -64,9 +64,9 @@ def summarize_text():
     
     # for a url
     elif type == 1:
-        print("User given URL", input_text)
+        print("User given URL", input)
 
-        error, result = sum.processURL(input_text, tone, style, length, cite)
+        error, result = sum.processURL(input, tone, style, length, cite)
 
         if error:
             return jsonify({'error': result})
@@ -76,9 +76,9 @@ def summarize_text():
     # for a YouTube video url
     elif type == 2:
         
-        print("User given YouTube URL", input_text)
+        print("User given YouTube URL", input)
 
-        error, result = sum.processYouTubeURL(input_text, option, tone, style, length, startTime, endTime)
+        error, result = sum.processYouTubeURL(input, option, tone, style, length, startTime, endTime)
 
         if error:
             return jsonify({'error': result})
