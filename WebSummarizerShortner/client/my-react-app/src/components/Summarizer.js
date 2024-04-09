@@ -719,7 +719,7 @@ const Summarizer = () => {
                                                         value={startMin}
                                                         //placeholder = "MM"
                                                         onChange={setStartMin}
-                                                        darMode={darkMode}/>
+                                                        darkMode={darkMode}/>
                                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
@@ -738,7 +738,7 @@ const Summarizer = () => {
                                                             
                                                             //placeholder = "MM"
                                                             onChange={setEndMin}
-                                                            darMode={darkMode}/>
+                                                            darkMode={darkMode}/>
                                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                                         :
                                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -916,11 +916,13 @@ const Summarizer = () => {
                                             </button>
                                         }
 
-                                        <button className="summarize-btn" onClick={saveSummary}>
-                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
-                                            </div>
-                                        </button>
+                                        { userEmail &&
+                                            <button className="summarize-btn" onClick={saveSummary}>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
+                                                </div>
+                                            </button>
+                                        }
                                     </div>
                                     <Tooltip title="Copy" arrow>
                                         <button className={`copy-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
