@@ -368,7 +368,8 @@ def login():
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
         name = userMgr.getName(email)
-        return jsonify({'message':'User found.','name':name})
+        username = userMgr.getUsername(email)
+        return jsonify({'message':'User found.','name':name, 'username':username})
     return jsonify({'message':'User not found or password is incorrect.'})
 
 @appA.route('/delete',methods=['POST'])
@@ -437,7 +438,10 @@ def getUsername():
 def getTemplate():
     data = request.get_json()
     email = data.get('email')
+    
     templateName = data.get('templatename')
+    #firstly, check if user has that template saved. if not, return nothing/null
+    
     userMgr = Authentication()
     templates = userMgr.getTemplate(email,templateName)
     words = templates[0]

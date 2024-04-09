@@ -45,11 +45,11 @@ const LogIn = () => {
             login(email);//wip - maybe remove, authcontext maybe no good..
             //wip
             const name = result.name;
-            const user_id = result.username;
+            const user_id = result.username
             //localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
-            localStorage.setItem('username', user_id)
+            localStorage.setItem('user_id', user_id)
             localStorage.setItem('loginMethod',"manual");
             console.log('Email being logged in: ',localStorage.getItem('email'));
             //console.log('Autentication state stored: ',localStorage.getItem('authenticated'));

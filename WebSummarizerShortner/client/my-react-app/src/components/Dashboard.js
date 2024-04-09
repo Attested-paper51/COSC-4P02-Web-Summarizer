@@ -33,9 +33,8 @@ const Dashboard = () => {
   // // }, [emailCheck,navigate]);
   
 
-  let username = localStorage.getItem('name');
-  let uuname = localStorage.getItem('user_id');
-  console.log('This is username: ' + uuname)
+  let username = localStorage.getItem('user_id');
+  let name = localStorage.getItem('name')
 
   const [activeComponent, setActiveComponent] = useState('History'); // Default to Settings component
 
@@ -81,27 +80,6 @@ const Dashboard = () => {
 
   const [open, setOpen] = useState(true);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 670) {
-        setOpen(false); // Automatically set open state to false for small screen sizes
-      } else {
-        setOpen(true);
-      }
-    };
-
-    // Call handleResize initially and add event listener for window resize
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    // Remove event listener on component unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleToggleSidebar = () => {
-    setOpen(!open);
-  };
-
   return (
 
     <div className="dashboard">
@@ -111,7 +89,7 @@ const Dashboard = () => {
           <div className='side-panel-title-wrapper'>
             <div className='user-name'>{username}</div>
             <Tooltip title="Collapse Sidebar" arrow>
-              <button className='sidebar-icon-container' onClick={handleToggleSidebar}>
+              <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
                 <CiCircleChevLeft className='sidebar-icon'/>
               </button>
             </Tooltip>
@@ -135,7 +113,7 @@ const Dashboard = () => {
         <div className='small-side-panel-container'>
         <div className='small-side-panel'>
           <Tooltip title="Open Sidebar" arrow>
-            <button className='sidebar-icon-container small-sidebar-icon' onClick={handleToggleSidebar}>
+            <button className='sidebar-icon-container' onClick={() => setOpen(!open)}>
               <CiCircleChevRight className='sidebar-icon' />
             </button>
           </Tooltip>
