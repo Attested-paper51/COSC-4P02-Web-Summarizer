@@ -364,6 +364,16 @@ const Summarizer = () => {
 
     const addToHistory = async () => {
 
+        if (inputContent === '') {
+            setErrorMessage('Input field is blank, please add something to summarize.');
+            setOpenError(true);
+            return;
+        }else if (outputContent === '') {
+            setErrorMessage('Click summarize to receive a summary, then you can save it.');
+            setOpenError(true);
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:5001/addsummarized', {
                 method: 'POST',
@@ -1053,8 +1063,8 @@ const summarizeText = () => {
                                                 </div>
                                             </button>
                                         }
-
-                                        { userEmail &&
+                                        {/**Added outputContent != '' so you cant save summary if theres nothing there */}
+                                        { userEmail && outputContent != '' &&
                                             <button className="summarize-btn" onClick={addToHistory}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
