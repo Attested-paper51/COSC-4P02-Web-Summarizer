@@ -6,11 +6,13 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Form for Flask App</title>
 </head>
+
 <body>
     <h2>Submit History</h2>
     <form id="submitForm">
@@ -45,6 +47,29 @@
     <h2>Delete Status</h2>
     <div id="deleteStatus"></div>
 
+    <h2>Retrieve Shortened URL History</h2>
+    <form id="retrieveFormShort">
+        <label for="retrieveUsernameShort">Username:</label><br>
+        <input type="text" id="retrieveUsernameShort" name="username"><br>
+        <button type="button" onclick="retrieveShortenedURLHistory()">Retrieve History</button>
+    </form>
+
+    <h2>Shortened URL History Content</h2>
+    <div id="historyContentShort"></div>
+
+    <h2>Delete Shortened URL</h2>
+    <form id="deleteURLForm">
+        <label for="deleteUsername">Username:</label><br>
+        <input type="text" id="deleteUsername" name="username" required><br>
+        <label for="deleteURLID">URL ID:</label><br>
+        <input type="text" id="deleteURLID" name="urlID" required><br>
+        <button type="button" onclick="deleteShortenedURL()">Delete URL</button>
+    </form>
+    
+    <div id="deleteResult"></div>
+
+
+
     <script>
         function submitHistory() {
             const formData = {
@@ -53,81 +78,139 @@
                 summarizedT: document.getElementById('summarizedText').value,
             };
 
-            fetch('http://127.0.0.1:5001/verify', {
+            fetch('http://127.0.0.1:5005/saveSummary', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message); // Display submission success message
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Error submitting history!');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message); // Display submission success message
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Error submitting history!');
+                });
         }
 
         function retrieveHistory() {
             const username = document.getElementById('retrieveUsername').value;
 
-            fetch('http://127.0.0.1:5001/history', {
+            fetch('http://127.0.0.1:5005/history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ username: username }),
             })
-            .then(response => response.json())
-            .then(data => {
-                let historyContent = document.getElementById('historyContent');
-                historyContent.innerHTML = ''; // Clear previous content
-                if (data.history && data.history.length > 0) {
-                    data.history.forEach(item => {
-                        let para = document.createElement("p");
-                        para.innerHTML = `History ID: ${item[0]}<br>Input: ${item[1]}<br>Summarized: ${item[2]}`;
-                        historyContent.appendChild(para);
-                    });
-                } else {
-                    historyContent.innerHTML = 'No history found for the user.';
-                }
-            })
-            .catch((error) => {
-                console.error('Error fetching history:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    let historyContent = document.getElementById('historyContent');
+                    historyContent.innerHTML = ''; // Clear previous content
+                    if (data.history && data.history.length > 0) {
+                        data.history.forEach(item => {
+                            let para = document.createElement("p");
+                            para.innerHTML = `History ID: ${item[0]}<br>Input: ${item[1]}<br>Summarized: ${item[2]}`;
+                            historyContent.appendChild(para);
+                        });
+                    } else {
+                        historyContent.innerHTML = 'No history found for the user.';
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching history:', error);
+                });
         }
 
-        
+
         function deleteHistory() {
-        const formData = {
-            username: document.getElementById('deleteHistoryUsername').value,
-            historyID: document.getElementById('deleteHistoryID').value
-        };
+            const formData = {
+                username: document.getElementById('deleteHistoryUsername').value,
+                historyID: document.getElementById('deleteHistoryID').value
+            };
 
-        fetch('http://127.0.0.1:5001/deleteHistory', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(response => response.json())
-        .then(data => {
-            let deleteStatusContent = document.getElementById('deleteStatus'); // Ensure this element exists in your HTML
-            if (data.status === "success") {
-                deleteStatusContent.innerHTML = `<p>${data.message}</p>`; // Display the success message
-            } else {
-                deleteStatusContent.innerHTML = `<p>${data.message}</p>`; // Display the failure message
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            document.getElementById('deleteStatus').innerHTML = 'Error processing your request.';
-        });
+            fetch('http://127.0.0.1:5005/deleteHistory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let deleteStatusContent = document.getElementById('deleteStatus'); // Ensure this element exists in your HTML
+                    if (data.status === "success") {
+                        deleteStatusContent.innerHTML = `<p>${data.message}</p>`; // Display the success message
+                    } else {
+                        deleteStatusContent.innerHTML = `<p>${data.message}</p>`; // Display the failure message
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    document.getElementById('deleteStatus').innerHTML = 'Error processing your request.';
+                });
         }
+        function retrieveShortenedURLHistory() {
+                const username = document.getElementById('retrieveUsernameShort').value; // Corrected ID
+
+                fetch('http://127.0.0.1:5005/shortenedHistory', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username: username }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        let historyContentShort = document.getElementById('historyContentShort'); // Corrected ID for the display element
+                        historyContentShort.innerHTML = ''; // Clear previous content
+                        if (data.shortenedURLs && data.shortenedURLs.length > 0) {
+                            data.shortenedURLs.forEach(item => {
+                                let para = document.createElement("p");
+                                para.innerHTML = `ID: ${item[0]}<br>Original URL: ${item[1]}<br>Short URL: ${item[2]}<br>Click Count: ${item[3]}`;
+                                historyContentShort.appendChild(para); // Corrected variable for appending children
+                            });
+                        } else {
+                            historyContentShort.innerHTML = 'No shortened URL history found for the user.'; // Corrected ID for innerHTML update
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching shortened URL history:', error);
+                    });
+            }
+
+
+            function deleteShortenedURL() {
+                    const username = document.getElementById('deleteUsername').value;
+                    const urlID = document.getElementById('deleteURLID').value;
+
+                    fetch('http://127.0.0.1:5005/deleteURL', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username: username, urlID: urlID }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            const resultElement = document.getElementById('deleteResult');
+                            if (data.status === 'success') {
+                                resultElement.innerHTML = `<p style="color: green;">${data.message}</p>`;
+                            } else {
+                                resultElement.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            document.getElementById('deleteResult').innerHTML = `<p style="color: red;">Error processing your request.</p>`;
+                        });
+                }
+
+
 
     </script>
 </body>
+
 </html>

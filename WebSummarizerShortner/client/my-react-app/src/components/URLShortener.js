@@ -54,6 +54,7 @@ const URLShortener = () => {
     }
 
     const email = localStorage.getItem('email');
+    //const username = localStorage.getItem('user_id');
 
 
     useEffect(() => {
@@ -114,6 +115,7 @@ const URLShortener = () => {
                 if (response.ok) {
                     const result = await response.json();
                     setUsername(result.message);
+                    console.log(username);
                 } else {
                     console.error('Failed to fetch username');
                 }

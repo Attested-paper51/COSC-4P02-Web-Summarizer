@@ -24,7 +24,7 @@ import { FaChevronUp } from "react-icons/fa6";
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
-import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
+import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
 import { useTheme } from './ThemeContext.js'
 import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
@@ -50,6 +50,8 @@ const Summarizer = () => {
     //const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
     
+    //const username = localStorage.getItem('user_id')
+    //console.log(`this is the username: ${username}`)
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -77,6 +79,7 @@ const Summarizer = () => {
     const [endMin, setEndMin] = useState(0);
 
     const email = localStorage.getItem('email');
+    const [username, setUsername] = useState('');
 
     const navigate = useNavigate();
 
@@ -136,10 +139,10 @@ const Summarizer = () => {
         text = text.trim()
         const words = text.split(/\s+/)
         return words.length
-    }    
+    }
 
     useEffect(() => {
-        
+
         if (timeoutId) {
             clearTimeout(timeoutId)
         }
@@ -169,10 +172,10 @@ const Summarizer = () => {
     /** every render: checks if output has text
      *  if it does, then makes output editable
      *  else, keeps it readOnly*/
-    useEffect (() => {
+    useEffect(() => {
         // runs after every render
         const output = document.getElementById("output");
-        if(outputContent !== '') {
+        if (outputContent !== '') {
             output.readOnly = false
         }
         else {
@@ -180,7 +183,7 @@ const Summarizer = () => {
         }
 
         // conditions for showing the link to Url Shortener
-        if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
+        if ((isClicked === 1 || isClicked === 2) && outputContent !== '') {
             showShorten(true)
         }   
         else if (isClicked === 0)
@@ -190,8 +193,7 @@ const Summarizer = () => {
     })
 
 
-    const componentDidMount = () =>
-    {
+    const componentDidMount = () => {
         // // This is called after the component has been mounted to the DOM
         // const inputArea = document.querySelector("textarea");
         // const outputArea = document.getElementById("output"); 
@@ -333,6 +335,43 @@ const Summarizer = () => {
         navigate("/Shortener", {state: { inputContent }});
     }
 
+    const saveSummary = async () => {
+
+        if (!inputContent || !outputContent || !username) {
+
+            console.log('Missing required fields.');
+            return;
+        }
+
+        else {
+            const url = 'http://localhost:5005/saveSummary';
+            const data = {
+                username: username,
+                inputT: inputContent,
+                summarizedT: outputContent,
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const responseData = await response.json();
+                console.log(responseData); // Logging the response for debugging purposes
+                // You can set some state here to show a success message to the user
+            } catch (error) {
+                console.error('Error saving summary:', error);
+                // You can set some state here to show an error message to the user
+            }
+        }
+    }
+
+
+
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
     //     const targetDiv = document.getElementById('btnDiv');
@@ -443,29 +482,29 @@ const summarizeText = () => {
             templatename = "customTemplate1";
         }else if (item === templates[2]) {
             templatename = "customTemplate2";
-        }else {
+        } else {
             templatename = "customTemplate3";
         }
         //console.log("Selected template:",selectedTemplate);
         //console.log("item:",item);
         //console.log("templateNameToFetch:",templatename);
         try {
-    
+
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, templatename}),
+                body: JSON.stringify({ email, templatename }),
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
                 //result should include all the flags I want
                 if (result.summtype === 'text') {
                     setClickedButton(0);
-                }else if (result.summtype === 'website') {
+                } else if (result.summtype === 'website') {
                     setClickedButton(1);
                     if (result.citation === 'none') {
                         setCitationType(citationType[0]);
@@ -480,7 +519,7 @@ const summarizeText = () => {
                     setClickedButton(2);
                     if (result.timestamps === 'full') {
                         setVideoSetting(videoSetting[0]);
-                    }else {
+                    } else {
                         setVideoSetting(videoSetting[1]);
                         //timestamp thing
                         const [startTime, endTime] = result.timestamps.split(',');
@@ -490,31 +529,31 @@ const summarizeText = () => {
                         setStartMin(parseInt(startMin));
                         setEndHour(parseInt(endHour));
                         setEndMin(parseInt(endMin));
-                        
+
                     }
-                    
-                }else {
+
+                } else {
                     setClickedButton(0);
                 }
 
                 if (result.formality != null) {
                     setTone(result.formality);
-                }else {
+                } else {
                     setTone(tone[0]);
                 }
                 if (result.structure != null) {
                     setLayout(result.structure);
-                }else {
+                } else {
                     setLayout(layout[0]);
                 }
 
                 if (result.length === 'short') {
                     setSliderValue(1);
-                }else if (result.length === 'medium') {
+                } else if (result.length === 'medium') {
                     setSliderValue(2);
-                }else if (result.length === 'long') {
+                } else if (result.length === 'long') {
                     setSliderValue(3);
-                }else {
+                } else {
                     setSliderValue(1);
                 }       
 
@@ -557,7 +596,7 @@ const summarizeText = () => {
         var citation = "";
         if (isClicked === 0) {
             summ_type = "text";
-        }else if (isClicked === 1) {
+        } else if (isClicked === 1) {
             summ_type = "website";
             if (selectedCitationType === citationType[0]){
                 citation = "none";
@@ -571,17 +610,17 @@ const summarizeText = () => {
         }else if (isClicked === 2){
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
-                if (startHour === "HH" || startMin === "MM" || 
-                endHour === "HH" || endMin === "MM") {
+                if (startHour === "HH" || startMin === "MM" ||
+                    endHour === "HH" || endMin === "MM") {
                     //display timestamp error
                     //console.log("hey, change the values dude");
                     setErrorMessage('Please convert the timestamp values to numerical format.');
                     setOpenError(true);
                     return;
-                }else{
-                    var start = (startHour*60)+startMin;
-                    var end = (endHour*60)+endMin;
-                    if (end < start ) {
+                } else {
+                    var start = (startHour * 60) + startMin;
+                    var end = (endHour * 60) + endMin;
+                    if (end < start) {
                         //display invalid timestamp error
                         //console.log("how can u end before u start, dummy");
                         setErrorMessage('End time cannot occur before start time.');
@@ -590,11 +629,11 @@ const summarizeText = () => {
                     }
                     timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
                 }
-                
-            }else {
+
+            } else {
                 timestamp = "full"
             }
-            
+
         }
         
 
@@ -709,7 +748,7 @@ const summarizeText = () => {
 
     }
 
-    
+
 
     return (
         <div className={`wrapper ${darkMode ? 'summarizer-dark' : 'summarizer-light'}`}>
@@ -718,14 +757,14 @@ const summarizeText = () => {
                 <div className="summarizer-container">
                     <div className="centered-Div">
                         <div class="button-container">
-                            <button 
-                                className={`customSumBtn clamp-text ${isClicked === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                            <button
+                                className={`customSumBtn clamp-text ${isClicked === 0 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(0)}>Text</button>
-                            <button 
-                                className={`customSumBtn ${isClicked === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                            <button
+                                className={`customSumBtn ${isClicked === 1 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(1)}>Website URL</button>
-                            <button 
-                                className={`customSumBtn ${isClicked === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
+                            <button
+                                className={`customSumBtn ${isClicked === 2 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(2)}>Youtube URL</button>
                         </div>
 
@@ -743,14 +782,14 @@ const summarizeText = () => {
                                                 buttonText={selectedTone}
                                                 content={<>
                                                     {
-                                                        tone.map(item => 
+                                                        tone.map(item =>
                                                             <DropdownItem
                                                                 key={item}
                                                                 onClick={() => handleToneChange(item)}>
-                                                                    {`${item}`}
+                                                                {`${item}`}
                                                             </DropdownItem>)
                                                     }
-                                                </>} 
+                                                </>}
                                             />
                                         </div>
                                         <div className="dropdown-menu">
@@ -758,14 +797,14 @@ const summarizeText = () => {
                                                 buttonText={selectedLayout}
                                                 content={<>
                                                     {
-                                                        layout.map(item => 
+                                                        layout.map(item =>
                                                             <DropdownItem
                                                                 key={item}
                                                                 onClick={() => handleLayoutChange(item)}>
-                                                                    {`${item}`}
+                                                                {`${item}`}
                                                             </DropdownItem>)
                                                     }
-                                                </>} 
+                                                </>}
                                             />
                                         </div>
                                         <div className="word-count-level">
@@ -822,14 +861,14 @@ const summarizeText = () => {
                                                     buttonText={selectedVideoSetting}
                                                     content={<>
                                                         {
-                                                            videoSetting.map(item => 
+                                                            videoSetting.map(item =>
                                                                 <DropdownItem
                                                                     key={item}
                                                                     onClick={() => handleVideoSettingChange(item)}>
-                                                                        {`${item}`}
+                                                                    {`${item}`}
                                                                 </DropdownItem>)
                                                         }
-                                                    </>} 
+                                                    </>}
                                                 />
                                             </div>
                                         }
@@ -845,36 +884,36 @@ const summarizeText = () => {
                                                             name="startM" 
                                                             placeholder='Minutes'>
                                                         </textarea> */}
-                                                        <NumberInputBasic 
-                                                        value={startHour} 
-                                                        //placeholder = "HH"
-                                                        onChange={setStartHour}
-                                                        darkMode={darkMode} />
+                                                        <NumberInputBasic
+                                                            value={startHour}
+                                                            //placeholder = "HH"
+                                                            onChange={setStartHour}
+                                                            darkMode={darkMode} />
                                                         :
-                                                        <QuantityInput 
-                                                        value={startMin}
-                                                        //placeholder = "MM"
-                                                        onChange={setStartMin}
-                                                        darkMode={darkMode}/>
+                                                        <QuantityInput
+                                                            value={startMin}
+                                                            //placeholder = "MM"
+                                                            onChange={setStartMin}
+                                                            darkMode={darkMode} />
                                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
-            
+
                                                 <div className="end">
                                                     End Time:
                                                     <div className="end-time">
-                                                        <NumberInputBasic 
-                                                            value={endHour} 
+                                                        <NumberInputBasic
+                                                            value={endHour}
                                                             //placeholder = "HH"
                                                             onChange={setEndHour}
                                                             darkMode={darkMode} />
-                                                            :
-                                                            <QuantityInput 
+                                                        :
+                                                        <QuantityInput
                                                             value={endMin}
-                                                            
+
                                                             //placeholder = "MM"
                                                             onChange={setEndMin}
-                                                            darkMode={darkMode}/>
+                                                            darkMode={darkMode} />
                                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                                         :
                                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -907,19 +946,19 @@ const summarizeText = () => {
                                                 <div className="dropdown">
                                                     <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
                                                         Save Settings */}
-                                                        {/* <span className="toggle-icon"> 
+                                    {/* <span className="toggle-icon"> 
                                                             <FaChevronUp/>
                                                         </span> */}
-                                                    {/* </button>
+                                    {/* </button>
                                                 </div> */}
-                                                {/* <button className='summarize-btn'>
+                                    {/* <button className='summarize-btn'>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                         <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
                                                     </div>
                                                 </button> */}
-                                            {/* </div>
+                                    {/* </div>
                                         </div> */}
-                                        {/* <div className="save-custom-info">
+                                    {/* <div className="save-custom-info">
                                             <button className='summarize-btn'>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
@@ -977,7 +1016,7 @@ const summarizeText = () => {
                                             </textarea>
                                         }
 
-                                    { inputContent &&
+                                    {inputContent &&
                                         (<Tooltip title="Delete" arrow>
                                             <button className={`delete-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                             onClick={ () => {
@@ -1032,32 +1071,32 @@ const summarizeText = () => {
                                     {/* <div class="button-container">
                                         
                                     </div> */}
-                                    <textarea 
+                                    <textarea
                                         className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
                                         id='output'
-                                        placeholder='Get summary here...' 
-                                        value={outputContent} 
-                                        onChange={handleOutputChange} 
+                                        placeholder='Get summary here...'
+                                        value={outputContent}
+                                        onChange={handleOutputChange}
                                         required
-                                        readOnly>   
+                                        readOnly>
                                     </textarea>
                                     <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="feedback-buttons">
                                             <Tooltip title="Like" arrow>
-                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19} /></button>
                                             </Tooltip>
                                             <Tooltip title="Dislike" arrow>
-                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19} /></button>
                                             </Tooltip>
                                         </div>
 
                                         <div className="export-button">
                                             <Tooltip title="Export" arrow>
-                                            <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={exportJSON} disabled={!outputContent}><PiExport size={19} /></button>
                                             </Tooltip>
                                         </div>
-                                        
-                                        { shorten &&
+
+                                        {shorten &&
                                             <button className="summarize-btn" onClick={transferLink}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
@@ -1074,9 +1113,9 @@ const summarizeText = () => {
                                         }
                                     </div>
                                     <Tooltip title="Copy" arrow>
-                                        <button className={`copy-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                                        <button className={`copy-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={copySummary}>{isCopied ? <IoClipboard size={17} /> : <IoClipboardOutline size={17} />}</button>
                                     </Tooltip>
-                                    
+
                                 </div>
                             </div>
                         </div>
