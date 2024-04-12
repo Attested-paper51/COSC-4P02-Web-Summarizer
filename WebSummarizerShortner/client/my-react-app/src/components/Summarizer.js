@@ -574,14 +574,18 @@ const summarizeText = () => {
                 if (startHour === "HH" || startMin === "MM" || 
                 endHour === "HH" || endMin === "MM") {
                     //display timestamp error
-                    console.log("hey, change the values dude");
+                    //console.log("hey, change the values dude");
+                    setErrorMessage('Please convert the timestamp values to numerical format.');
+                    setOpenError(true);
                     return;
                 }else{
                     var start = (startHour*60)+startMin;
                     var end = (endHour*60)+endMin;
                     if (end < start ) {
                         //display invalid timestamp error
-                        console.log("how can u end before u start, dummy");
+                        //console.log("how can u end before u start, dummy");
+                        setErrorMessage('End time cannot occur before start time.');
+                        setOpenError(true);
                         return;
                     }
                     timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
