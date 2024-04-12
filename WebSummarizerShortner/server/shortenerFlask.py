@@ -105,6 +105,8 @@ class SimpleURLShortener:
         cursor = self.conn.cursor()
         cursor.execute('SELECT click_count FROM shortened_url WHERE short_url = %s',(shortURL,))
         count = cursor.fetchone()
+        if count is None:
+            return -1
         return count[0]
 
     def resolve_url(self, shortURL):
@@ -216,13 +218,32 @@ def resolveOriginal():
         return jsonify({'message':'API Key not valid.'})
 
     shortURL = data.get('shortURL')
-    print(shortURL)
-    #
+    #get original url
     result = url_shortener.resolve_url(shortURL)
+    #if the short url is incorrect
     if result == -1:
         return jsonify({'message':'Short URL incorrect'})
-    #
+    #return original url
     return jsonify({'message':result})
+
+@appS.route('/apiclicks',methods=['GET'])
+def getClicks():
+    data = request.get_json()
+    key = data.get('key')
+    auth = Authentication()
+    #check if API key valid
+    if auth.checkAPIKey(key) == False:
+        return jsonify({'message':'API Key not valid.'})
+
+    shortURL = data.get('shortURL')
+    clicks = url_shortener.getClickCount(shortURL)
+    if clicks == -1:
+        return jsonify({'message':'Short URL incorrect'})
+
+    return jsonify({'message':clicks})
+
+    
+
 
 
 @appS.route('/<path:short_url>')

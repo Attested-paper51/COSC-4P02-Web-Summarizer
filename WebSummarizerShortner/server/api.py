@@ -29,17 +29,30 @@ class API:
         response = requests.post(url,json=data)
         return response.json()['message']
 
+    def testGetClicks(self,apiKey,shortURL):
+        url = 'http://localhost:5002/apiclicks'
+        data = {
+            'key':apiKey,
+            'shortURL': shortURL,
+        }
+        response = requests.get(url,json=data)
+        return response.json()['message']
+
+
 
 if __name__ == '__main__':
     api = API()
     #response = api.changePW('blahblahblackgoat@gmail.com','Password1','Password1')
-    # response = api.testShortenURL('notanapikey','https://www.diffchecker.com/text-compare/')
+    #response = api.testShortenURL('fa227506d5e324468e3313a9f474d43c','https://www.diffchecker.com/text-compare/')
     # print(response)
     # response = api.testShortenURL('6aff035d57bbbc5a9ccfbc83449b3b9c','raathisisntalinklol')
     # print(response)
     # response = api.testShortenURL('6aff035d57bbbc5a9ccfbc83449b3b9c','https://www.diffchecker.com/text-compare/')
     # print(response)
+    #response = api.testResolveURL('6aff035d57bbbc5a9ccfbc83449b3b9c',"htafejf")
+    #print(response)
 
-
-    response = api.testResolveURL('6aff035d57bbbc5a9ccfbc83449b3b9c',"htafejf")
+    response = api.testGetClicks('6aff035d57bbbc5a9ccfbc83449b3b9c',"rahdhahfd")
+    print(response)
+    response = api.testGetClicks('6aff035d57bbbc5a9ccfbc83449b3b9c',"http://127.0.0.1:5002/ad4b56")
     print(response)
