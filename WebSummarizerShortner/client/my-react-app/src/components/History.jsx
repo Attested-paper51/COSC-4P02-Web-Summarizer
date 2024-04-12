@@ -164,8 +164,8 @@ const History = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-         
-          historyID
+          username: username,
+          historyID,
         }),
       });
       const data = await response.json();
