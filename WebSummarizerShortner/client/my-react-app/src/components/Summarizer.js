@@ -271,9 +271,9 @@ const Summarizer = () => {
         //console.log("item in handleSavTemplate",item);
         //console.log("selectedSaveTemp:",selectedSaveTemplate);
         
-        const isEmpty = await checkIfTemplateSlotEmpty(item);
+        const isTaken = await checkIfTemplateSlotTaken(item);
         //if it is taken
-        if (!isEmpty) {
+        if (isTaken) {
             //console.log("so then result.length is not null.");
             //setOpenFullTemplateAlert(true);
             openDialog({
@@ -351,6 +351,8 @@ const Summarizer = () => {
     const [errorMessage, setErrorMessage] = useState('An error has occurred');
     // for showing the error
     
+
+    //adding a summary and input content to history
     const addToHistory = async () => {
 
         if (inputContent === '') {
@@ -610,7 +612,7 @@ const summarizeText = () => {
         }
     }
 
-    const checkIfTemplateSlotEmpty = async (item) => {
+    const checkIfTemplateSlotTaken = async (item) => {
         var templatename;
         if (item === templates[1]) {
             templatename = "customTemplate1";
@@ -637,7 +639,7 @@ const summarizeText = () => {
                 console.log("Result.length:",result.length);
                 // if result.length is null, the template slot is empty
                 if (result.length === null) {
-                    //console.log("result.length is null");
+                    console.log("result.length is null");
                     // template slot is empty
                     return false;
                 }
