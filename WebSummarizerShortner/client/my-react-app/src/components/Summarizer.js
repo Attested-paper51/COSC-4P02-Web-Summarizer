@@ -24,7 +24,7 @@ import { FaChevronUp } from "react-icons/fa6";
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
-import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
+import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
 import { useTheme } from './ThemeContext.js'
 
 
@@ -47,8 +47,8 @@ const Summarizer = () => {
     const [value, setValue] = useState(null);
     const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
-    const username = localStorage.getItem('user_id')
-    console.log(`this is the username: ${username}`)
+    //const username = localStorage.getItem('user_id')
+    //console.log(`this is the username: ${username}`)
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -74,8 +74,38 @@ const Summarizer = () => {
     const [endMin, setEndMin] = useState("MM");
 
     const email = localStorage.getItem('email');
+    const [username, setUsername] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(email);
+        const fetchUsername = async () => {
+            try {
+                const response = await fetch('http://localhost:5001/getusername', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setUsername(result.message);
+                    console.log(username);
+                } else {
+                    console.error('Failed to fetch username');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        if (email) {
+            fetchUsername();
+        }
+    }, [email]);
 
     const valuetext = (value) => {
         return `${value}`;
@@ -116,10 +146,10 @@ const Summarizer = () => {
         text = text.trim()
         const words = text.split(/\s+/)
         return words.length
-    }    
+    }
 
     useEffect(() => {
-        
+
         if (timeoutId) {
             clearTimeout(timeoutId)
         }
@@ -127,7 +157,7 @@ const Summarizer = () => {
         // set a timeout of 200 miliseconds - then update the word count
         const id = setTimeout(() => {
             // updates word count
-            if(inputContent.trim().length == 0) {
+            if (inputContent.trim().length == 0) {
                 setWordCount(0)
             }
             else {
@@ -149,10 +179,10 @@ const Summarizer = () => {
     /** every render: checks if output has text
      *  if it does, then makes output editable
      *  else, keeps it readOnly*/
-    useEffect (() => {
+    useEffect(() => {
         // runs after every render
         const output = document.getElementById("output");
-        if(outputContent !== '') {
+        if (outputContent !== '') {
             output.readOnly = false
         }
         else {
@@ -160,18 +190,16 @@ const Summarizer = () => {
         }
 
         // conditions for showing the link to Url Shortener
-        if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
+        if ((isClicked === 1 || isClicked === 2) && outputContent !== '') {
             showShorten(true)
-        }   
-        else if (isClicked == 0)
-        {
+        }
+        else if (isClicked == 0) {
             showShorten(false)
         }
     })
 
 
-    const componentDidMount = () =>
-    {
+    const componentDidMount = () => {
         // // This is called after the component has been mounted to the DOM
         // const inputArea = document.querySelector("textarea");
         // const outputArea = document.getElementById("output"); 
@@ -249,7 +277,7 @@ const Summarizer = () => {
 
     const checkEmptyInput = () => {
         //const input = document.getElementById("input");
-        if(inputContent === '') {
+        if (inputContent === '') {
             setOpenEmptyInput(true)
         }
         else {
@@ -289,19 +317,19 @@ const Summarizer = () => {
     }
 
     const transferLink = () => {
-        navigate("/Shortener", {state: { inputContent: inputContent }});
+        navigate("/Shortener", { state: { inputContent: inputContent } });
     }
 
     const saveSummary = async () => {
 
         if (!inputContent || !outputContent || !username) {
-            
+
             console.log('Missing required fields.');
             return;
         }
 
-        else{
-            const url = 'http://localhost:5005/saveSummary'; 
+        else {
+            const url = 'http://localhost:5005/saveSummary';
             const data = {
                 username: username,
                 inputT: inputContent,
@@ -327,7 +355,7 @@ const Summarizer = () => {
         }
     }
 
-    
+
 
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
@@ -350,9 +378,9 @@ const Summarizer = () => {
         setErrorMessage(message)
         setOpenError(true)
     }
-    
 
-    const addToHistory = async (input,output) => {
+
+    const addToHistory = async (input, output) => {
 
         try {
             const response = await fetch('http://localhost:5001/addsummarized', {
@@ -360,7 +388,7 @@ const Summarizer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input, output, email}),
+                body: JSON.stringify({ input, output, email }),
             });
 
             if (response.ok) {
@@ -384,16 +412,16 @@ const Summarizer = () => {
             },
             body: JSON.stringify({ text: inputContent, type: isClicked }),
         })
-        .then(response => response.json())
-        .then(data => {
+            .then(response => response.json())
+            .then(data => {
 
                 setOutputContent(data.summary); // This line updates the output area
                 //add to history
                 //addToHistory(inputContent,data.summary,email);  //this needs to be associated with a button to 'save to history'
-        })
-        .catch(error => {
-            showError('An error occurred while fetching the summary.');
-        });
+            })
+            .catch(error => {
+                showError('An error occurred while fetching the summary.');
+            });
     };
 
     //function to pull the values stored in the database for the template
@@ -403,37 +431,37 @@ const Summarizer = () => {
         var templatename;
         if (item === templates[0]) {
             templatename = "customTemplate1";
-        }else if (item === templates[1]) {
+        } else if (item === templates[1]) {
             templatename = "customTemplate2";
-        }else {
+        } else {
             templatename = "customTemplate3";
         }
-        console.log("Selected template:",selectedTemplate);
-        console.log("item:",item);
-        console.log("templateNameToFetch:",templatename);
+        console.log("Selected template:", selectedTemplate);
+        console.log("item:", item);
+        console.log("templateNameToFetch:", templatename);
         try {
-    
+
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, templatename}),
+                body: JSON.stringify({ email, templatename }),
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
                 //result should include all the flags I want
                 if (result.summtype === 'text') {
                     setClickedButton(0);
-                }else if (result.summtype === 'website') {
+                } else if (result.summtype === 'website') {
                     setClickedButton(1);
-                }else if (result.summtype === 'video') {
+                } else if (result.summtype === 'video') {
                     setClickedButton(2);
                     if (result.timestamps === 'full') {
                         setVideoSetting(videoSetting[0]);
-                    }else {
+                    } else {
                         setVideoSetting(videoSetting[1]);
                         //timestamp thing
                         const [startTime, endTime] = result.timestamps.split(',');
@@ -443,60 +471,60 @@ const Summarizer = () => {
                         setStartMin(parseInt(startMin));
                         setEndHour(parseInt(endHour));
                         setEndMin(parseInt(endMin));
-                        
+
                     }
-                    
-                }else {
+
+                } else {
                     setClickedButton(0);
                 }
 
                 if (result.formality != null) {
                     setTone(result.formality);
-                }else {
+                } else {
                     setTone(tone[0]);
                 }
 
                 if (result.structure != null) {
                     setLayout(result.structure);
-                }else {
+                } else {
                     setLayout(layout[0]);
                 }
 
                 if (result.length === 'short') {
                     setSliderValue(1);
-                }else if (result.length === 'medium') {
+                } else if (result.length === 'medium') {
                     setSliderValue(2);
-                }else if (result.length === 'long') {
+                } else if (result.length === 'long') {
                     setSliderValue(3);
-                }else {
+                } else {
                     setSliderValue(1);
                 }
 
-                
+
 
             }
         } catch (error) {
             console.error('Error:', error.message);
         }
-    
-      };
 
-      //for handling saving of any template
-    const handleClickSave  = async (templatenumber) => {
+    };
+
+    //for handling saving of any template
+    const handleClickSave = async (templatenumber) => {
         var formality = selectedTone;
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
         var wordcount = 0;
         var length;
-        
-        
+
+
         if (sliderValue === 1) {
             wordcount = 50;
             length = 'short';
-        }else if (sliderValue === 2) {
+        } else if (sliderValue === 2) {
             wordcount = 100;
             length = 'medium';
-        }else if (sliderValue === 3){
+        } else if (sliderValue === 3) {
             wordcount = 200;
             length = 'long';
         }
@@ -504,59 +532,61 @@ const Summarizer = () => {
         var timestamp = "";
         if (isClicked === 0) {
             summ_type = "text";
-        }else if (isClicked === 1) {
+        } else if (isClicked === 1) {
             summ_type = "website";
-        }else if (isClicked === 2){
+        } else if (isClicked === 2) {
             summ_type = "video";
             if (selectedVideoSetting === videoSetting[1]) {
-                if (startHour === "HH" || startMin === "MM" || 
-                endHour === "HH" || endMin === "MM") {
+                if (startHour === "HH" || startMin === "MM" ||
+                    endHour === "HH" || endMin === "MM") {
                     //display timestamp error
                     console.log("hey, change the values dude");
                     return;
-                }else{
-                    var start = (startHour*60)+startMin;
-                    var end = (endHour*60)+endMin;
-                    if (end < start ) {
+                } else {
+                    var start = (startHour * 60) + startMin;
+                    var end = (endHour * 60) + endMin;
+                    if (end < start) {
                         //display invalid timestamp error
                         console.log("how can u end before u start, dummy");
                         return;
                     }
                     timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
                 }
-                
-            }else {
+
+            } else {
                 timestamp = "full"
             }
-            
+
         }
         var templatename;
         if (templatenumber === 1) {
             templatename = "customTemplate1";
-        }else if (templatenumber === 2) {
+        } else if (templatenumber === 2) {
             templatename = "customTemplate2";
-        }else {
+        } else {
             templatename = "customTemplate3";
         }
-        
+
 
         try {
             const response = await fetch('http://localhost:5001/savetemplate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, formality, structure, 
-                wordcount, summ_type, timestamp, length, templatename }),
-        });
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result.message);
-        }
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email, formality, structure,
+                    wordcount, summ_type, timestamp, length, templatename
+                }),
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result.message);
+            }
 
 
 
-        }catch (error) {
+        } catch (error) {
             console.error('Error:', error.message);
         }
     }
@@ -590,7 +620,7 @@ const Summarizer = () => {
 
     }
 
-    
+
 
     return (
         <div className={`wrapper ${darkMode ? 'summarizer-dark' : 'summarizer-light'}`}>
@@ -599,14 +629,14 @@ const Summarizer = () => {
                 <div className="summarizer-container">
                     <div className="centered-Div">
                         <div class="button-container">
-                            <button 
-                                className={`customSumBtn clamp-text ${isClicked === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                            <button
+                                className={`customSumBtn clamp-text ${isClicked === 0 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(0)}>Text</button>
-                            <button 
-                                className={`customSumBtn ${isClicked === 1? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
+                            <button
+                                className={`customSumBtn ${isClicked === 1 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(1)}>Website URL</button>
-                            <button 
-                                className={`customSumBtn ${isClicked === 2? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}  
+                            <button
+                                className={`customSumBtn ${isClicked === 2 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(2)}>Youtube URL</button>
                         </div>
 
@@ -624,14 +654,14 @@ const Summarizer = () => {
                                                 buttonText={selectedTone}
                                                 content={<>
                                                     {
-                                                        tone.map(item => 
+                                                        tone.map(item =>
                                                             <DropdownItem
                                                                 key={item}
                                                                 onClick={() => handleToneChange(item)}>
-                                                                    {`${item}`}
+                                                                {`${item}`}
                                                             </DropdownItem>)
                                                     }
-                                                </>} 
+                                                </>}
                                             />
                                         </div>
                                         <div className="dropdown-menu">
@@ -639,14 +669,14 @@ const Summarizer = () => {
                                                 buttonText={selectedLayout}
                                                 content={<>
                                                     {
-                                                        layout.map(item => 
+                                                        layout.map(item =>
                                                             <DropdownItem
                                                                 key={item}
                                                                 onClick={() => handleLayoutChange(item)}>
-                                                                    {`${item}`}
+                                                                {`${item}`}
                                                             </DropdownItem>)
                                                     }
-                                                </>} 
+                                                </>}
                                             />
                                         </div>
                                         <div className="word-count-level">
@@ -680,25 +710,25 @@ const Summarizer = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        { isClicked == 2 &&
+                                        {isClicked == 2 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
                                                     buttonText={selectedVideoSetting}
                                                     content={<>
                                                         {
-                                                            videoSetting.map(item => 
+                                                            videoSetting.map(item =>
                                                                 <DropdownItem
                                                                     key={item}
                                                                     onClick={() => handleVideoSettingChange(item)}>
-                                                                        {`${item}`}
+                                                                    {`${item}`}
                                                                 </DropdownItem>)
                                                         }
-                                                    </>} 
+                                                    </>}
                                                 />
                                             </div>
                                         }
 
-                                        { isClicked == 2 && selectedVideoSetting == videoSetting[1] &&
+                                        {isClicked == 2 && selectedVideoSetting == videoSetting[1] &&
                                             <div className="timestamp">
                                                 <div className="start">
                                                     Start Time:
@@ -709,36 +739,36 @@ const Summarizer = () => {
                                                             name="startM" 
                                                             placeholder='Minutes'>
                                                         </textarea> */}
-                                                        <NumberInputBasic 
-                                                        value={startHour} 
-                                                        //placeholder = "HH"
-                                                        onChange={setStartHour}
-                                                        darkMode={darkMode} />
+                                                        <NumberInputBasic
+                                                            value={startHour}
+                                                            //placeholder = "HH"
+                                                            onChange={setStartHour}
+                                                            darkMode={darkMode} />
                                                         :
-                                                        <QuantityInput 
-                                                        value={startMin}
-                                                        //placeholder = "MM"
-                                                        onChange={setStartMin}
-                                                        darkMode={darkMode}/>
+                                                        <QuantityInput
+                                                            value={startMin}
+                                                            //placeholder = "MM"
+                                                            onChange={setStartMin}
+                                                            darkMode={darkMode} />
                                                         {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
-            
+
                                                 <div className="end">
                                                     End Time:
                                                     <div className="end-time">
-                                                        <NumberInputBasic 
-                                                            value={endHour} 
+                                                        <NumberInputBasic
+                                                            value={endHour}
                                                             //placeholder = "HH"
                                                             onChange={setEndHour}
                                                             darkMode={darkMode} />
-                                                            :
-                                                            <QuantityInput 
+                                                        :
+                                                        <QuantityInput
                                                             value={endMin}
-                                                            
+
                                                             //placeholder = "MM"
                                                             onChange={setEndMin}
-                                                            darkMode={darkMode}/>
+                                                            darkMode={darkMode} />
                                                         {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
                                                         :
                                                         <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
@@ -746,100 +776,100 @@ const Summarizer = () => {
                                                 </div>
                                             </div>
                                         }
-                                        </div>
                                     </div>
-                                    <div className="template-config-buttons">
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedSaveTemplate}
-                                                content={<>
-                                                    {
-                                                        saveTemplates.slice(1).map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleSaveTemplateChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
-                                        {/* <div className="save-template">
+                                </div>
+                                <div className="template-config-buttons">
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedSaveTemplate}
+                                            content={<>
+                                                {
+                                                    saveTemplates.slice(1).map(item =>
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleSaveTemplateChange(item)}>
+                                                            {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>}
+                                        />
+                                    </div>
+                                    {/* <div className="save-template">
                                             <div className="dropdown-menu">
                                                 <div className="dropdown">
                                                     <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
                                                         Save Settings */}
-                                                        {/* <span className="toggle-icon"> 
+                                    {/* <span className="toggle-icon"> 
                                                             <FaChevronUp/>
                                                         </span> */}
-                                                    {/* </button>
+                                    {/* </button>
                                                 </div> */}
-                                                {/* <button className='summarize-btn'>
+                                    {/* <button className='summarize-btn'>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                         <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
                                                     </div>
                                                 </button> */}
-                                            {/* </div>
+                                    {/* </div>
                                         </div> */}
-                                        {/* <div className="save-custom-info">
+                                    {/* <div className="save-custom-info">
                                             <button className='summarize-btn'>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
                                                 </div>
                                             </button>
                                         </div> */}
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedTemplate}
-                                                content={<>
-                                                    {
-                                                        templates.slice(1).map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleTemplateChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedTemplate}
+                                            content={<>
+                                                {
+                                                    templates.slice(1).map(item =>
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleTemplateChange(item)}>
+                                                            {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>}
+                                        />
                                     </div>
                                 </div>
-                                {/* </div>)} */}
-                                <div className="text">
-                                    <div className="inputArea">
-                                        { isClicked == 0 &&
-                                            <textarea
-                                                className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
-                                                id='inputText' 
-                                                placeholder='Enter or paste your text and click "Summarize."' 
-                                                value={inputContent} 
-                                                onChange={handleInputChange} 
-                                                required>    
-                                            </textarea>
-                                        }
-                                        { isClicked == 1 &&
-                                            <textarea
-                                                className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
-                                                id='inputURL' 
-                                                placeholder='Enter or paste your URL and click "Summarize."' 
-                                                value={inputContent} 
-                                                onChange={handleInputChange} 
-                                                required>    
-                                            </textarea>
-                                        }
-                                        { isClicked == 2 &&
-                                            <textarea
-                                                className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
-                                                id='inputYTURL' 
-                                                placeholder='Enter or paste your Youtube URL and click "Summarize."' 
-                                                value={inputContent} 
-                                                onChange={handleInputChange} 
-                                                required>    
-                                            </textarea>
-                                        }
+                            </div>
+                            {/* </div>)} */}
+                            <div className="text">
+                                <div className="inputArea">
+                                    {isClicked == 0 &&
+                                        <textarea
+                                            className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                            id='inputText'
+                                            placeholder='Enter or paste your text and click "Summarize."'
+                                            value={inputContent}
+                                            onChange={handleInputChange}
+                                            required>
+                                        </textarea>
+                                    }
+                                    {isClicked == 1 &&
+                                        <textarea
+                                            className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                            id='inputURL'
+                                            placeholder='Enter or paste your URL and click "Summarize."'
+                                            value={inputContent}
+                                            onChange={handleInputChange}
+                                            required>
+                                        </textarea>
+                                    }
+                                    {isClicked == 2 &&
+                                        <textarea
+                                            className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
+                                            id='inputYTURL'
+                                            placeholder='Enter or paste your Youtube URL and click "Summarize."'
+                                            value={inputContent}
+                                            onChange={handleInputChange}
+                                            required>
+                                        </textarea>
+                                    }
 
-                                    { inputContent &&
+                                    {inputContent &&
                                         (<Tooltip title="Delete" arrow>
                                             <button className={`delete-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                                 onClick={handleOpen}><FaRegTrashCan size={18} />
@@ -848,21 +878,21 @@ const Summarizer = () => {
                                     }
                                     <div className={`bottom-div1 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="word-count">
-                                            { inputContent && wordCount >= 1 && wordCount < 126 ? 
-                                                (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                                    <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
+                                            {inputContent && wordCount >= 1 && wordCount < 126 ?
+                                                (<Tooltip title={inputContent.length == 1 ? `${inputContent.length} Character` : `${inputContent.length} Characters`} arrow>
+                                                    <div className="word-cnt-div">{wordCount == 1 ? `${wordCount} Word` : `${wordCount} Words`}</div>
                                                 </Tooltip>) : wordCount >= 126 && !userEmail ?
-                                                <div className="get-premium">
-                                                    <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
-                                                    <div>{wordCount}/125 Words</div>    
-                                                </div> : 
-                                                (<Tooltip title={inputContent.length == 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
-                                                    <div className="word-cnt-div">{wordCount == 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                                </Tooltip>)
+                                                    <div className="get-premium">
+                                                        <div><Link to="/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
+                                                        <div>{wordCount}/125 Words</div>
+                                                    </div> :
+                                                    (<Tooltip title={inputContent.length == 1 ? `${inputContent.length} Character` : `${inputContent.length} Characters`} arrow>
+                                                        <div className="word-cnt-div">{wordCount == 1 ? `${wordCount} Word` : `${wordCount} Words`}</div>
+                                                    </Tooltip>)
                                             }
                                         </div>
 
-                                        { wordCount > 125? 
+                                        {wordCount > 125 ?
                                             <Tooltip title="Over the word limit" arrow>
                                                 <button className='summarize-btn button-disabled' disabled>
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
@@ -883,32 +913,32 @@ const Summarizer = () => {
                                     {/* <div class="button-container">
                                         
                                     </div> */}
-                                    <textarea 
+                                    <textarea
                                         className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
                                         id='output'
-                                        placeholder='Get summary here...' 
-                                        value={outputContent} 
-                                        onChange={handleOutputChange} 
+                                        placeholder='Get summary here...'
+                                        value={outputContent}
+                                        onChange={handleOutputChange}
                                         required
-                                        readOnly>   
+                                        readOnly>
                                     </textarea>
                                     <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="feedback-buttons">
                                             <Tooltip title="Like" arrow>
-                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19}/></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19} /></button>
                                             </Tooltip>
                                             <Tooltip title="Dislike" arrow>
-                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19}/></button>
+                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19} /></button>
                                             </Tooltip>
                                         </div>
 
                                         <div className="export-button">
                                             <Tooltip title="Export" arrow>
-                                            <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={exportJSON} disabled={!outputContent}><PiExport size={19}/></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={exportJSON} disabled={!outputContent}><PiExport size={19} /></button>
                                             </Tooltip>
                                         </div>
-                                        
-                                        { shorten &&
+
+                                        {shorten &&
                                             <button className="summarize-btn" onClick={transferLink}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
@@ -916,7 +946,7 @@ const Summarizer = () => {
                                             </button>
                                         }
 
-                                        { userEmail &&
+                                        {userEmail &&
                                             <button className="summarize-btn" onClick={saveSummary}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
@@ -925,67 +955,67 @@ const Summarizer = () => {
                                         }
                                     </div>
                                     <Tooltip title="Copy" arrow>
-                                        <button className={`copy-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={copySummary}>{isCopied ? <IoClipboard size={17}/> : <IoClipboardOutline size={17}/>}</button>
+                                        <button className={`copy-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={copySummary}>{isCopied ? <IoClipboard size={17} /> : <IoClipboardOutline size={17} />}</button>
                                     </Tooltip>
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <DialogBox 
-                open={open} 
-                onClose={handleClose}
-                title={"Delete Text"}
-                content={"You're about to delete the Original and Summarized text."}
-                showCancelButton={true}
-                confirmText={"Continue"}
-                onConfirm={handleConfirm}
+                <DialogBox
+                    open={open}
+                    onClose={handleClose}
+                    title={"Delete Text"}
+                    content={"You're about to delete the Original and Summarized text."}
+                    showCancelButton={true}
+                    confirmText={"Continue"}
+                    onConfirm={handleConfirm}
                 />
-                <DialogBox 
-                open={openEmptyInput} 
-                onClose={handleEmptyClose}
-                title={"Error"}
-                content={"Please enter some text to summarize."}
-                showCancelButton={false}
-                confirmText={"Continue"}
-                onConfirm={handleEmptyConfirm}
+                <DialogBox
+                    open={openEmptyInput}
+                    onClose={handleEmptyClose}
+                    title={"Error"}
+                    content={"Please enter some text to summarize."}
+                    showCancelButton={false}
+                    confirmText={"Continue"}
+                    onConfirm={handleEmptyConfirm}
                 />
-                <DialogBox 
-                open={openError} 
-                onClose={handleErrorClose}
-                title={"Error"}
-                content={errorMessage}
-                showCancelButton={false}
-                confirmText={"Continue"}
-                onConfirm={handleErrorConfirm}
+                <DialogBox
+                    open={openError}
+                    onClose={handleErrorClose}
+                    title={"Error"}
+                    content={errorMessage}
+                    showCancelButton={false}
+                    confirmText={"Continue"}
+                    onConfirm={handleErrorConfirm}
                 />
-                <DialogBox 
-                open={openTemplates} 
-                onClose={handleTemplateClose}
-                title={"Templates"}
-                content={
-                    <div className="template-buttons">
-                        <button className='summarize-btn' onClick={() => handleClickSave(1)}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 1</div>
-                            </div>
-                        </button> 
-                        <button className='summarize-btn' onClick={() => handleClickSave(2)}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 2</div>
-                            </div>
-                        </button> 
-                        <button className='summarize-btn' onClick={() => handleClickSave(3)}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 3</div>
-                            </div>
-                        </button> 
-                    </div>
-                }
-                showCancelButton={false}
-                confirmText={"Continue"}
-                onConfirm={handleTemplateConfirm}
+                <DialogBox
+                    open={openTemplates}
+                    onClose={handleTemplateClose}
+                    title={"Templates"}
+                    content={
+                        <div className="template-buttons">
+                            <button className='summarize-btn' onClick={() => handleClickSave(1)}>
+                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 1</div>
+                                </div>
+                            </button>
+                            <button className='summarize-btn' onClick={() => handleClickSave(2)}>
+                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 2</div>
+                                </div>
+                            </button>
+                            <button className='summarize-btn' onClick={() => handleClickSave(3)}>
+                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 3</div>
+                                </div>
+                            </button>
+                        </div>
+                    }
+                    showCancelButton={false}
+                    confirmText={"Continue"}
+                    onConfirm={handleTemplateConfirm}
                 />
             </div>
         </div>
