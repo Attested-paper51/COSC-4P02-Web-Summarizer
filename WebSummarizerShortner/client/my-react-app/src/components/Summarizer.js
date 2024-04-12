@@ -69,7 +69,6 @@ const Summarizer = () => {
     const saveTemplates = ["Save Template", "Template 1", "Template 2", "Template 3"];
     const [selectedSaveTemplate, setSaveTemplate] = useState(saveTemplates[0]);
 
-
     const [sliderValue, setSliderValue] = useState(1);
 
     const [startHour, setStartHour] = useState(0);
@@ -81,8 +80,31 @@ const Summarizer = () => {
 
     const navigate = useNavigate();
 
+    const [dialogConfig, setDialogConfig] = useState({
+        open: false,
+        onClose: null,
+        title: "",
+        content: "",
+        showCancelButton: false,
+        showConfirmButton: false,
+        confirmText: "",
+        onConfirm: null,
+    });
+
+    const openDialog = (config) => {
+        setDialogConfig({ ...config, open: true })
+    }
+
+    const handleClose = () => {
+        setDialogConfig(prevState => ({ ...prevState, open: false }))
+    }
+
+    const defaultConfirm = () => {
+        handleClose()
+    }
+
     const valuetext = (value) => {
-        return `${value}`;
+        return `${value}`
     }
 
     const changeSliderValue = (event) => {
@@ -97,16 +119,6 @@ const Summarizer = () => {
             showShorten(false)
             setTemplate(templates[0])
         }
-    }
-
-    // for opening Dialog Box
-    const handleOpen = () => {
-        setOpen(true)
-    }
-
-    // for closing Dialog Box
-    const handleClose = () => {
-        setOpen(false)
     }
 
     // detecting input text change
@@ -210,7 +222,7 @@ const Summarizer = () => {
     }
 
     // empties content and closes Dialog Box
-    const handleConfirm = () => {
+    const handleDeleteConfirm = () => {
         emptyTextContent()
         showShorten(false)
         handleClose()
@@ -255,88 +267,70 @@ const Summarizer = () => {
     }
 
     const handleSaveTemplateChange = async (item) => {
-        setSaveTemplate(item);
+        //setSaveTemplate(item);
         //console.log("item in handleSavTemplate",item);
         //console.log("selectedSaveTemp:",selectedSaveTemplate);
         
         const isEmpty = await checkIfTemplateSlotEmpty(item);
         //if it is taken
-        if (isEmpty) {
+        if (!isEmpty) {
             //console.log("so then result.length is not null.");
-            setOpenFullTemplateAlert(true);
+            //setOpenFullTemplateAlert(true);
+            openDialog({
+                title: "Warning!",
+                content: "Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?",
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmText: "Continue",
+                onClose: handleClose,
+                onConfirm: handleFullTemplateAlertConfirm
+            })
         }else {
             handleClickSave(item);
         }
-        
-        //setSaveTemplate(item);
-        //handleTemplateFetch(item);
     }
 
-    // for closing Error Dialog Box
-    const handleFullTemplateAlertClose = () => {
-        //confirmed = false;
-        setSaveTemplate(saveTemplates[0]);
-        setOpenFullTemplateAlert(false);
-    }
-    // closes Dialog Box
+    // Confirm function for template Dialog Box
     const handleFullTemplateAlertConfirm = () => {
         //console.log("template to save: " + selectedSaveTemplate);
 
         //save the selected template
-        handleClickSave(selectedSaveTemplate);
+        handleClickSave(selectedSaveTemplate)
         //close the dialog box
-        handleFullTemplateAlertClose();
+        handleClose()
+        //handleFullTemplateAlertClose();
         //
     }
 
+    // For closing Multiple Error Dialog Box
+    const handleErrorClose = () => {
+        setOpenError(false)
+    }
+    // Confirm function for Multiple Error Dialog Box
+    const handleErrorConfirm = () => {
+        handleErrorClose()
+    }
+
     const checkEmptyInput = () => {
-        //const input = document.getElementById("input");
         if(inputContent === '') {
-            setOpenEmptyInput(true)
+            //setOpenEmptyInput(true)
+            openDialog({
+                title: "Error",
+                content: "Please enter some text to summarize.",
+                showCancelButton: false,
+                showConfirmButton: true,
+                confirmText: "Continue",
+                onClose: handleClose,
+                onConfirm: defaultConfirm,
+            })
         }
         else {
             summarizeText();
         }
     }
 
-    // for closing Empty Error Dialog Box
-    const handleEmptyClose = () => {
-        setOpenEmptyInput(false)
-    }
-    // closes Dialog Box
-    const handleEmptyConfirm = () => {
-        handleEmptyClose()
-    }
-
-    // for closing Error Dialog Box
-    const handleErrorClose = () => {
-        setOpenError(false)
-    }
-    // closes Dialog Box
-    const handleErrorConfirm = () => {
-        handleErrorClose()
-    }
-   
-
-    // for opening Dialog Box
-    const handleOpenTemplates = () => {
-        setOpenTemplates(true)
-    }
-    // for closing Error Dialog Box
-    const handleTemplateClose = () => {
-        setOpenTemplates(false)
-    }
-    // closes Dialog Box
-    const handleTemplateConfirm = () => {
-        handleTemplateClose()
-    }
-
     const transferLink = () => {
-        navigate("/Shortener", {state: { inputContent: inputContent }});
-    }
-
-    const openDialog = (open, onClose, title, content, showCancelButton, confirmText, onConfirm) => {
-
+        navigate("/Shortener", {state: { inputContent }});
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -356,20 +350,15 @@ const Summarizer = () => {
     // for error handling
     const [errorMessage, setErrorMessage] = useState('An error has occurred');
     // for showing the error
-    const showError = (message) => {
-        setErrorMessage(message)
-        setOpenError(true)
-    }
     
-
     const addToHistory = async () => {
 
         if (inputContent === '') {
-            setErrorMessage('Input field is blank, please add something to summarize.');
+            setErrorMessage('The input field is blank; please input something to generate a summary.');
             setOpenError(true);
             return;
         }else if (outputContent === '') {
-            setErrorMessage('Click summarize to receive a summary, then you can save it.');
+            setErrorMessage('Click "Summarize" to obtain a summary, which you can then save.');
             setOpenError(true);
             return;
         }
@@ -549,11 +538,6 @@ const summarizeText = () => {
         }else if(item === templates[3]){
             templatename = "customTemplate3";
         }
-        //if (checkIfTemplateSlotEmpty(item)) {
-        //    setOpenFullTemplateAlert(true);
-        //}
-
-    
         
         
         if (sliderValue === 1) {
@@ -990,7 +974,18 @@ const summarizeText = () => {
                                     { inputContent &&
                                         (<Tooltip title="Delete" arrow>
                                             <button className={`delete-button ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
-                                                onClick={handleOpen}><FaRegTrashCan size={18} />
+                                            onClick={ () => {
+                                                openDialog({
+                                                    title: "Delete Text",
+                                                    content: "You're about to delete the Original and Summarized text.",
+                                                    showCancelButton: true,
+                                                    showConfirmButton: true,
+                                                    confirmText: "Continue",
+                                                    onClose: handleClose,
+                                                    onConfirm: handleDeleteConfirm,
+                                                })
+                                            }}>
+                                                <FaRegTrashCan size={18} />
                                             </button>
                                         </Tooltip>)
                                     }
@@ -1081,26 +1076,8 @@ const summarizeText = () => {
                         </div>
                     </div>
                 </div>
-                <DialogBox 
-                open={open} 
-                onClose={handleClose}
-                title={"Delete Text"}
-                content={"You're about to delete the Original and Summarized text."}
-                showCancelButton={true}
-                showConfirmButton={true}
-                confirmText={"Continue"}
-                onConfirm={handleConfirm}
-                />
-                <DialogBox 
-                open={openEmptyInput} 
-                onClose={handleEmptyClose}
-                title={"Error"}
-                content={"Please enter some text to summarize."}
-                showCancelButton={false}
-                showConfirmButton={true}
-                confirmText={"Continue"}
-                onConfirm={handleEmptyConfirm}
-                />
+                
+                
                 <DialogBox 
                 open={openError} 
                 onClose={handleErrorClose}
@@ -1111,17 +1088,7 @@ const summarizeText = () => {
                 confirmText={"Continue"}
                 onConfirm={handleErrorConfirm}
                 />
-                <DialogBox 
-                open={openFullTemplateAlert} 
-                onClose={handleFullTemplateAlertClose}
-                title={"Warning"}
-                content={"Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?"}
-                showCancelButton={true}
-                showConfirmButton={true}
-                confirmText={"Continue"}
-                //wanna add a parameter to say which template to save
-                onConfirm={handleFullTemplateAlertConfirm}
-                />
+            
                 <DialogBox 
                 open={isLoading} 
                 onClose={() => {}} // Prevent closing on user interaction
@@ -1133,6 +1100,17 @@ const summarizeText = () => {
                 />
 
                 <DialogBox 
+                open={dialogConfig.open} 
+                onClose={dialogConfig.onClose}
+                title={dialogConfig.title}
+                content={dialogConfig.content}
+                showCancelButton={dialogConfig.showCancelButton}
+                showConfirmButton={dialogConfig.showConfirmButton}
+                confirmText={dialogConfig.confirmText}
+                onConfirm={dialogConfig.onConfirm}
+                />
+
+                {/* <DialogBox 
                 open={openTemplates} 
                 onClose={handleTemplateClose}
                 title={"Templates"}
@@ -1158,7 +1136,8 @@ const summarizeText = () => {
                 showCancelButton={false}
                 confirmText={"Continue"}
                 onConfirm={handleTemplateConfirm}
-                />
+                /> */}
+
             </div>
         </div>
     );
