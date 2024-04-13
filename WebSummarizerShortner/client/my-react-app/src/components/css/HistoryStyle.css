@@ -98,9 +98,9 @@
 #summary-table td,  #shortener-table td{
     padding: 1em;
     /* border: 1px solid; */
-    white-space: nowrap;
+   /* white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;*/
     font-size: clamp(0.9rem, 1.1vw, 5rem);
 }
 

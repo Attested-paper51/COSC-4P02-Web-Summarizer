@@ -57,7 +57,7 @@ class UserHistoryManagement:
         cursor = self.conn.cursor()
         cursor.execute("SELECT id, input_text, summarized_text FROM summarized WHERE user_id=%s", (username,))
         history = cursor.fetchall()
-        return history 
+        return history
     
     
     def deleteHistory(self, username, historyID):
@@ -65,38 +65,67 @@ class UserHistoryManagement:
         status = "failed"
         
         try:
-
-            if historyID:
-
-                historyID_int = int(historyID)
-                cursor.execute("DELETE FROM summarized WHERE id = %s", (historyID_int,))
-                deleted_individual_row = cursor.rowcount
-            elif username:
-
-                cursor.execute("DELETE FROM summarized WHERE user_id = %s", (username,))
-                deleted_individual_row = cursor.rowcount
-            else:
-                return status
+            # Convert historyID to integer to prevent SQL injection and ensure proper query execution
+            historyID_int = int(historyID)
+            # Execute the delete operation only if both username and historyID match the entry
+            cursor.execute("""
+                DELETE FROM summarized 
+                WHERE id = %s AND user_id = %s
+            """, (historyID_int, username))
             
             self.conn.commit()
-            
 
-            if deleted_individual_row >= 1:
+            # Check if a row was actually deleted
+            if cursor.rowcount >= 1:
                 status = "success"
+            else:
+                status = "failed: no matching entry found"
+
         except (ValueError, psycopg2.Error) as e:
-            
             print(f"Error: {e}")
             self.conn.rollback()
+            status = "failed: exception occurred"
         
         return status
 
 
+    def retrieveURLHistory(self, username):
+        cursor = self.conn.cursor()
         
+        cursor.execute("""
+            SELECT id, original_url, short_url, click_count 
+            FROM shortened_url 
+            WHERE user_id=%s
+            ORDER BY id DESC 
+        """, (username,))
+        historyURL = cursor.fetchall()
+        return historyURL
+
+    def deleteShortenedURL(self, username, urlID):
+        cursor = self.conn.cursor()
+        try:
+            # First, verify the ownership of the URL entry by matching both user_id and id.
+            cursor.execute("""
+                DELETE FROM shortened_url
+                WHERE id = %s AND user_id = %s
+            """, (urlID, username))
+            self.conn.commit()
+            # Check if the row was deleted successfully
+            if cursor.rowcount == 1:
+                return "success"
+            else:
+                # Row not found or username did not match
+                return "failed: URL not found or user mismatch"
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(f"Error: {error}")
+            self.conn.rollback()
+            return "failed: database error"
+
 
     def __del__(self):
         self.conn.close()
 
-@appHDB.route('/verify', methods=['POST'])
+@appHDB.route('/saveSummary', methods=['POST'])
 def insertHistoryHandler():
     data = request.get_json()
     
@@ -128,5 +157,28 @@ def deleteHistoryHandler():
     message = "Deletion successful." if status == "success" else "Deletion failed."
     return jsonify({'status': status, 'message': message})
 
+@appHDB.route('/shortenedHistory', methods=['POST'])
+def retrieveShortenedHistoryHandler():
+    data = request.get_json()
+    username = data.get('username')  # Get the username from the request body
+
+    manageHistory = UserHistoryManagement()
+    shortenedURLs = manageHistory.retrieveURLHistory(username)  # Fetch shortened URL history for the user
+    # Return the shortened URL history as JSON
+    return jsonify({'shortenedURLs': shortenedURLs})
+
+@appHDB.route('/deleteURL', methods=['POST'])
+def deleteShortenedURLHandler():
+    data = request.get_json()
+    username = data.get('username')
+    urlID = data.get('urlID')  # Assuming the frontend sends this as urlID
+
+    manageHistory = UserHistoryManagement()
+    result = manageHistory.deleteShortenedURL(username, urlID)
+    if result == "success":
+        return jsonify({'status': 'success', 'message': 'URL deleted successfully.'})
+    else:
+        return jsonify({'status': 'failed', 'message': result}), 400
+
 if __name__ == '__main__':
-    appHDB.run(port=5001)
+    appHDB.run(port=5005)
