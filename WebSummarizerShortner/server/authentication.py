@@ -134,10 +134,19 @@ class Authentication:
         return 0
 
     def loginGoogle(self,email,name):
+        email = f"{email}{time.time()}"
         username = hashlib.md5(email.encode()).hexdigest()[:6]
         apiKey = self.createAPIKey(username)
         cursor = self.conn.cursor()
         cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "google",apiKey))
+        self.conn.commit()
+
+    def loginFacebook(self,email,name):
+        email = f"{email}{time.time()}"
+        username = hashlib.md5(email.encode()).hexdigest()[:6]
+        apiKey = self.createAPIKey(username)
+        cursor = self.conn.cursor()
+        cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "facebook",apiKey))
         self.conn.commit()
 
     def createAPIKey(self,username):
@@ -453,6 +462,23 @@ def loginGoogle():
 
     
     userMgr.loginGoogle(email,name)
+    userMgr.createTemplateRows(email)
+    return jsonify({'message':'Registered with Google.'
+    ,'name':name})
+
+@appA.route('/loginfacebook',methods=['POST'])
+def loginFacebook():
+    data = request.get_json()
+    email = data.get('emailFB')
+    name = data.get('name')
+    userMgr = Authentication()
+    if (userMgr.checkIfAlreadyRegistered(email)):
+        dbName = userMgr.getName(email)
+        return jsonify({'message':'Already registered. Logging in.'
+        ,'name':dbName})
+
+    
+    userMgr.loginFacebook(email,name)
     userMgr.createTemplateRows(email)
     return jsonify({'message':'Registered with Google.'
     ,'name':name})
