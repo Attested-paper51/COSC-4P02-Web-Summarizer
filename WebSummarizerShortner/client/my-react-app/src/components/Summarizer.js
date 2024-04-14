@@ -330,7 +330,10 @@ const Summarizer = () => {
     }
 
     const transferLink = () => {
-        navigate("/Shortener", {state: { inputContent }});
+        const action = 'PUSH'; // Define the action here
+        const state = { action, inputContent };
+        sessionStorage.setItem('state', JSON.stringify(state));
+        //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
     }
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -1058,11 +1061,13 @@ const summarizeText = () => {
                                         </div>
                                         
                                         { shorten &&
-                                            <button className="summarize-btn" onClick={transferLink}>
-                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
-                                                </div>
-                                            </button>
+                                            <a href="/Shortener" onClick={transferLink}>
+                                                <button className="summarize-btn">
+                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                        <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
+                                                    </div>
+                                                </button>
+                                            </a>
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
                                         { userEmail && outputContent != '' &&

@@ -7,12 +7,12 @@ import DialogBox from '../components/DialogBox.js';
 const URLShortener = () => {
 
     const { darkMode } = useTheme();
-    const [isPremium, setPremium] = useState(true);
     const [username, setUsername] = useState('');
 
-    const {state} = useLocation();
-    const { inputContent } = state || {};
-    const [inputState, setInputState] = useState(inputContent);
+    // get state from the sessionStorage
+    const storedState = sessionStorage.getItem('state');
+    // Parse the stored state from it
+    const parsedState = storedState ? JSON.parse(storedState) : null;
 
     const [URL, setURL] = useState('');
     const [shortened, setShortURL] = useState('');
@@ -32,7 +32,8 @@ const URLShortener = () => {
 
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const checkEmptyInput = () => {
-        //const input = document.getElementById("input");
+        console.log("URL is: " + URL)
+
         if(URL === '') {
             setOpenEmptyInput(true)
         }
@@ -57,45 +58,19 @@ const URLShortener = () => {
 
 
     useEffect(() => {
-        if (inputState) {
-            //localStorage.setItem('URL', inputState);
-            setURL(inputState);
-            console.log("URL: " + URL)
-            console.log("inputState4: " + inputState)
+        if (parsedState && parsedState.action === 'PUSH') {
+            if (String(window.performance.getEntries()[0].type) === "navigate") {
+                
+                setURL(parsedState.inputContent)
+            }
+            else if (String(window.performance.getEntries()[0].type) === "reload") {
+                setURL("")
+            }
+            console.log("push")
+        } else {
+            //setInputState("I love decew!!!!")
+            console.log("pop")
         }
-    }, [inputState]);
-
-    // Clear localStorage and reset URL state
-    useEffect(() => {
-        //setInputState('hiiii');
-        return () => {
-            console.log("Type of setInputContent:", typeof setInputState);
-            console.log("inputState1: " + inputState)
-            //setInputState("undefined");
-            console.log("inputState2: " + inputState)
-            console.log("inputState3: " + inputState)
-            localStorage.removeItem('URL');
-        };
-    }, []);
-
-
-    const [refreshed, setRefreshed] = useState(false);
-
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            localStorage.setItem('pageRefreshed', 'true');
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        const isPageRefreshed = localStorage.getItem('pageRefreshed');
-        if (isPageRefreshed) {
-            setRefreshed(true);
-        }
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
     }, []);
     
     
@@ -253,6 +228,7 @@ const URLShortener = () => {
                 title={"Error"}
                 content={"Please enter a URL to be shortened."}
                 showCancelButton={false}
+                showConfirmButton={true}
                 confirmText={"Continue"}
                 onConfirm={handleEmptyConfirm}
                 />
