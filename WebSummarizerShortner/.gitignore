@@ -10,7 +10,7 @@
 
 # production
 /build
-/venv
+venv/
 
 # misc
 .DS_Store

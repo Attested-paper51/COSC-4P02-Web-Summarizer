@@ -134,11 +134,27 @@ class Authentication:
         return 0
 
     def loginGoogle(self,email,name):
-        username = hashlib.md5(email.encode()).hexdigest()[:6]
+        email2 = f"{email}{time.time()}"
+        username = hashlib.md5(email2.encode()).hexdigest()[:6]
         apiKey = self.createAPIKey(username)
         cursor = self.conn.cursor()
         cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "google",apiKey))
         self.conn.commit()
+
+    def loginFacebook(self,email,name):
+        email2 = f"{email}{time.time()}"
+        username = hashlib.md5(email2.encode()).hexdigest()[:6]
+        apiKey = self.createAPIKey(username)
+        cursor = self.conn.cursor()
+        cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "facebook",apiKey))
+        self.conn.commit()
+
+    def getLoginMethod(self,email):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT login_method FROM users WHERE email = %s",(email,))
+        result = cursor.fetchone()[0]
+        return result
+
 
     def createAPIKey(self,username):
 
@@ -426,7 +442,8 @@ def login():
     userMgr = Authentication()
     if (userMgr.loginUser(email,password)):
         name = userMgr.getName(email)
-        return jsonify({'message':'User found.','name':name})
+        username = userMgr.getUsername(email)
+        return jsonify({'message':'User found.','name':name, 'username':username})
     return jsonify({'message':'User not found or password is incorrect.'})
 
 @appA.route('/delete',methods=['POST'])
@@ -447,13 +464,43 @@ def loginGoogle():
     name = data.get('name')
     userMgr = Authentication()
     if (userMgr.checkIfAlreadyRegistered(email)):
+        #if they're already registered, either they are with the login method we want or they're registered with another one.
+        #if registered with another method, dont let them login using this method. email has to be different. 
+        if (userMgr.getLoginMethod(email) != 'google'):
+            return jsonify({'message':'Email is associated with another log in method, please use that method.'})
         dbName = userMgr.getName(email)
         return jsonify({'message':'Already registered. Logging in.'
         ,'name':dbName})
 
     
+    
     userMgr.loginGoogle(email,name)
     userMgr.createTemplateRows(email)
+    username = userMgr.getUsername(email)
+    userMgr.createAPIKey(username)
+    return jsonify({'message':'Registered with Google.'
+    ,'name':name})
+
+@appA.route('/loginfacebook',methods=['POST'])
+def loginFacebook():
+    data = request.get_json()
+    email = data.get('emailFB')
+    name = data.get('name')
+    userMgr = Authentication()
+    if (userMgr.checkIfAlreadyRegistered(email)):
+        #if they're already registered, either they are with the login method we want or they're registered with another one.
+        #if registered with another method, dont let them login using this method. email has to be different. 
+        if (userMgr.getLoginMethod(email) != 'facebook'):
+            return jsonify({'message':'Email is associated with another log in method, please use that method.'})
+        dbName = userMgr.getName(email)
+        return jsonify({'message':'Already registered. Logging in.'
+        ,'name':dbName})
+
+    
+    userMgr.loginFacebook(email,name)
+    userMgr.createTemplateRows(email)
+    username = userMgr.getUsername(email)
+    userMgr.createAPIKey(username)
     return jsonify({'message':'Registered with Google.'
     ,'name':name})
 
@@ -497,7 +544,10 @@ def getUsername():
 def getTemplate():
     data = request.get_json()
     email = data.get('email')
+    
     templateName = data.get('templatename')
+    #firstly, check if user has that template saved. if not, return nothing/null
+    
     userMgr = Authentication()
     templates = userMgr.getTemplate(email,templateName)
     formality = templates[0]

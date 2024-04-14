@@ -4,10 +4,12 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
-//import { GoogleLogin } from 'react-google-login';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from './ThemeContext.js';
+import { LoginSocialFacebook } from 'reactjs-social-login';
+import { FacebookLoginButton } from 'react-social-login-buttons';
+import DialogBox from '../components/DialogBox.js';
 
 const LogIn = () => {
 
@@ -24,6 +26,29 @@ const LogIn = () => {
   const [visible, setVisible] = useState(false);
 
   const {login} = useAuth();
+
+  const [dialogConfig, setDialogConfig] = useState({
+    open: false,
+    onClose: null,
+    title: "",
+    content: "",
+    showCancelButton: false,
+    showConfirmButton: false,
+    confirmText: "",
+    onConfirm: null,
+});
+
+const openDialog = (config) => {
+    setDialogConfig({ ...config, open: true })
+}
+
+const handleClose = () => {
+  setDialogConfig(prevState => ({ ...prevState, open: false }))
+}
+
+const defaultConfirm = () => {
+  handleClose()
+}
 
   const handleSubmit = async () => {
     try {
@@ -45,9 +70,11 @@ const LogIn = () => {
             login(email);//wip - maybe remove, authcontext maybe no good..
             //wip
             const name = result.name;
+            const user_id = result.username
             //localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
+            localStorage.setItem('user_id', user_id)
             localStorage.setItem('loginMethod',"manual");
             console.log('Email being logged in: ',localStorage.getItem('email'));
             //console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
@@ -84,9 +111,9 @@ const LogIn = () => {
   };
 
   function handleCallbackResponse(response) {
-    console.log("Encoded JWT Token: " + response.credential);
+    //console.log("Encoded JWT Token: " + response.credential);
     var userObj = jwtDecode(response.credential);
-    console.log(userObj);
+    //console.log(userObj);
     
     (async () => {
       var emailGoogle = userObj.email;
@@ -105,10 +132,19 @@ const LogIn = () => {
   
         if (response.ok) {
           const result = await response.json();
-          console.log(result);
+          //console.log(result);
           //add some handling here 
-          if (result.message === '') {
-            
+          if (result.message === 'Email is associated with another log in method, please use that method.') {
+            openDialog({
+              title: "Error",
+              content: result.message,
+              showCancelButton: false,
+              showConfirmButton: true,
+              confirmText: "Continue",
+              onClose: handleClose,
+              onConfirm: defaultConfirm,
+          });
+            return;
           }
           name = result.name;
           localStorage.setItem('email',emailGoogle);
@@ -140,6 +176,61 @@ const LogIn = () => {
       { theme: "outline", size: "large", shape: "circle"}
     );
   }, []);
+
+  function handleFBLogin(response) {
+    var data = response.data;
+    //console.log("email",data.email);
+    //console.log("name",data.name);
+
+    (async () => {
+      var emailFB = response.data.email;
+      //if the email is in the database already - pop up saying "account already there"
+      var name = response.data.name;
+      try {
+
+        // Make a POST request to the Flask backend
+        const response = await fetch('http://localhost:5001/loginfacebook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ emailFB, name}),
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          //add some handling here 
+          if (result.message === 'Email is associated with another log in method, please use that method.') {
+            console.log('yea you cant log in if you used another login method');
+            openDialog({
+              title: "Error",
+              content: result.message,
+              showCancelButton: false,
+              showConfirmButton: true,
+              confirmText: "Continue",
+              onClose: handleClose,
+              onConfirm: defaultConfirm,
+          });
+            return;
+          }
+          name = result.name;
+          localStorage.setItem('email',emailFB);
+          localStorage.setItem('loginMethod',"facebook");
+          localStorage.setItem('name',name);
+          navigate('/Dashboard');
+        }
+  
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    
+    
+  
+    
+    })();
+
+  }
   
 
   return (
@@ -154,12 +245,28 @@ const LogIn = () => {
               <div className="login-social">Continue with Gmail</div>
             </div>
           </button> */}
-        <button className="fb-btn">
+       {/*  <button className="fb-btn">
           <div className="fb-overlap">
             <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
             <div className="login-social">Continue with Facebook</div>
           </div>
-        </button>
+        </button> */}
+        
+        <LoginSocialFacebook
+        appId="1405214220354758"
+        onResolve={(response) => {
+          console.log(response);
+          handleFBLogin(response);
+        }}
+        onReject={(error) =>
+        {
+          console.log(error);
+        }}
+        >
+          
+          <FacebookLoginButton
+          />
+        </LoginSocialFacebook>
         <div className="email">
           <label className='email-text'>Your email</label> 
           <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
@@ -217,9 +324,23 @@ const LogIn = () => {
               </div>
             </button>
           </Link>
+          <DialogBox 
+                open={dialogConfig.open} 
+                onClose={dialogConfig.onClose}
+                title={dialogConfig.title}
+                content={dialogConfig.content}
+                showCancelButton={dialogConfig.showCancelButton}
+                showConfirmButton={dialogConfig.showConfirmButton}
+                confirmText={dialogConfig.confirmText}
+                onConfirm={dialogConfig.onConfirm}
+                />
 
         </div>
+
+        
     </div>
+
+    
   );
 }
 
