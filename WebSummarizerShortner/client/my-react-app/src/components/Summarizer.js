@@ -71,6 +71,7 @@ const Summarizer = () => {
     const saveTemplates = ["Save Template", "Template 1", "Template 2", "Template 3"];
     const [selectedSaveTemplate, setSaveTemplate] = useState(saveTemplates[0]);
 
+    const sliderLength = ["short", "medium", "long"];
     const [sliderValue, setSliderValue] = useState(1);
 
     const [startHour, setStartHour] = useState(0);
@@ -431,6 +432,7 @@ const Summarizer = () => {
 // State to manage loading dialog visibility
 const [isLoading, setIsLoading] = useState(false);
 
+
 const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
@@ -447,7 +449,7 @@ const summarizeText = () => {
             type: isClicked, 
             tone: selectedTone,
             style: selectedLayout,
-            length: sliderValue,
+            length: sliderLength[sliderValue],
             citation: selectedCitationType,
             option: selectedVideoSetting,
             startTime: `${startHour}:${startMin}`,
@@ -706,6 +708,9 @@ const summarizeText = () => {
 
         if (isClicked === 0) {
             data = {
+                tone: selectedTone,
+                style: selectedLayout,
+                length: sliderLength[sliderValue],
                 input: inputContent, // Assuming you have the original input stored in inputContent
                 summary: outputContent
             };
@@ -713,6 +718,9 @@ const summarizeText = () => {
         
         if (isClicked === 1) {
             data = {
+                tone: selectedTone,
+                style: selectedLayout,
+                length: sliderLength[sliderValue],
                 input: inputContent, // Assuming you have the original input stored in inputContent
                 summary: outputContent,
                 citation_style: selectedCitationType
@@ -721,6 +729,9 @@ const summarizeText = () => {
         
         if (isClicked === 2) {
             data = {
+                tone: selectedTone,
+                style: selectedLayout,
+                length: sliderLength[sliderValue],
                 input: inputContent, // Assuming you have the original input stored in inputContent
                 summary: outputContent,
                 option: selectedVideoSetting,

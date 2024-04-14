@@ -186,8 +186,6 @@ class Authentication:
             return False  # API key not found
 
 
-    
-
 
     #Template Logic
     def createTemplateRows(self,email):

@@ -34,6 +34,7 @@ def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
         return error, result
     else:
         extractedText = result
+        print(extractedText)
         return summarize(extractedText, tone, style, length)
  
 
