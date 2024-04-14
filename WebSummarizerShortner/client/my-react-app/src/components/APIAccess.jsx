@@ -289,18 +289,21 @@ const APIAccess = () => {
 
             <PopUp trigger={APIKeyPopup} setTrigger={setAPIKeyPopup} title='API key created'>
                 <label className='pop-label'>Your API key</label>
-                <input 
-                  type="text" 
-                  value={APIKey}
-                  readOnly
-                />
-                <div>
-                  {/* Display 'FaCopy' icon if copied, otherwise display 'FaRegCopy' */}
-                  {CopyAPIKey ? <FaCopy onClick={handleCopy} /> : <FaRegCopy onClick={handleCopy} />}
+                <div className='api-container'>
+                  <input 
+                    className='api-textfield'
+                    type="text" 
+                    value={APIKey}
+                    readOnly
+                  />
+                  <div className='copy'>
+                    {/* Display 'FaCopy' icon if copied, otherwise display 'FaRegCopy' */}
+                    {CopyAPIKey ? <FaCopy onClick={handleCopy} /> : <FaRegCopy onClick={handleCopy} />}
+                  </div>
                 </div>
-                <button onClick={() => setAPIKeyPopup(false)}>
-                  <div>
-                      <div>Close</div>
+                <button className='close-btn' onClick={() => setAPIKeyPopup(false)}>
+                  <div className={`close-btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                      <div className={`close ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Close</div>
                   </div>
                 </button>
             </PopUp>
