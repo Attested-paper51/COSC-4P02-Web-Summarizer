@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./css/APIAccessStyle.css";
 import { useTheme } from './ThemeContext.js'
 import PopUp from './PopUp.js';
+import { FaRegCopy, FaCopy } from 'react-icons/fa';
 
 const APIAccess = () => {
 
@@ -25,12 +26,12 @@ const APIAccess = () => {
 
   const[APIKeyPopup, setAPIKeyPopup] = useState(false);
   const [APIKey, setAPIKey] = useState('');
-  const [CopyAPIKey, setCopyAPIKey] = useState('Copy API Key')
+  const [CopyAPIKey, setCopyAPIKey] = useState(false)
     const handleCopy = () => {
         navigator.clipboard.writeText(APIKey)
-        setCopyAPIKey('Copied')
+        setCopyAPIKey(true)
         setTimeout(() => {
-          setCopyAPIKey('Copy URL');
+          setCopyAPIKey(false);
         }, 3000); // Reverts back to 'Submit' after 3 seconds
     }
 
@@ -177,7 +178,7 @@ const APIAccess = () => {
               <div>Get API Key</div>
             </div>
             </button>
-            
+
             <h3>Endpoints</h3>
             <h4>POST /apiapishorten</h4>
             <p>Shortens the provided original URL, provided that the URL begins with https://, http:// or www. This API does not support other URL types, and will return an error if this syntax is not followed.</p>
@@ -265,10 +266,10 @@ const APIAccess = () => {
                   value={APIKey}
                   readOnly
                 />
-                <button 
-                  onClick={handleCopy}>
-                  <div>{CopyAPIKey}</div>
-                </button>
+                <div>
+                  {/* Display 'FaCopy' icon if copied, otherwise display 'FaRegCopy' */}
+                  {CopyAPIKey ? <FaCopy onClick={handleCopy} /> : <FaRegCopy onClick={handleCopy} />}
+                </div>
                 <button onClick={() => setAPIKeyPopup(false)}>
                   <div>
                       <div>Close</div>

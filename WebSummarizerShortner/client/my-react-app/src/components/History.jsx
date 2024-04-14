@@ -240,11 +240,11 @@ const handleDeleteShortenedURL = async () => {
 
             {/* Content for Web Summarizer section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}</button>
+              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy size={15} /> : <FaRegCopy size={15} />}</button>
+                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
                 </>
               )}
             </div>
@@ -264,7 +264,7 @@ const handleDeleteShortenedURL = async () => {
                     <td>
                       <label className='custom-checkbox'>
                         <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
-                        {selectedRows[item[0]] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
                     <td className='scrollable'>{item[1]}</td>
@@ -282,11 +282,11 @@ const handleDeleteShortenedURL = async () => {
           <div className='short-section'>
             {/* Content for URL Shortener section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}</button>
+              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon'/>}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy size={15} /> : <FaRegCopy size={15} />}</button>
+                  <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline className='delete-icon' /></button>
+                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
                 </>
               )}
             </div>
@@ -306,7 +306,7 @@ const handleDeleteShortenedURL = async () => {
                     <td>
                       <label className='custom-checkbox'>
                         <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
-                        {selectedRows[item[0]] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
                     <td className='scrollable'>{item[1]}</td>
