@@ -253,7 +253,7 @@ const Settings = () => {
           <PopUp trigger={deletePopup} setTrigger={setDeletePopup} title='Delete Account'>
             <label className='pop-label'>Are you sure you want to delete your account permanently?</label>
             {/* Use the button below to permanently remove user from database */}
-            <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>
+            <button className='acc-delete-btn' onClick={handleDelete}>
               <div className={`acc-delete-overlap popup-btn ${darkMode ? 'acc-delete-dark' : 'acc-delete-light'}`}>
                   <div className={`acc-delete ${darkMode ? 'add-text' : 'adl-text'}`}>Delete Account Permanently</div>
               </div>
