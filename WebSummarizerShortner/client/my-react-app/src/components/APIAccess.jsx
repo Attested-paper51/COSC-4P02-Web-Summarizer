@@ -35,6 +35,31 @@ const APIAccess = () => {
         }, 3000); // Reverts back to 'Submit' after 3 seconds
     }
 
+  const handleFetchAPIKey = async () => {
+    const email = localStorage.getItem('email');
+
+    try { 
+      const response = await fetch('http://localhost:5001/getapikey', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result.key);
+          setAPIKey(result.key);
+          setAPIKeyPopup(true);
+
+        }
+
+    }catch (error) {
+
+    }
+  
+  }
+
 
   return (
 
@@ -56,7 +81,7 @@ const APIAccess = () => {
             <h3> Authentication </h3>
             <p>The API requires an API key for authentication to ensure secure access to its features.</p>
             
-            <button className='api-key' onClick={() => setAPIKeyPopup(true)}>
+            <button className='api-key' onClick={handleFetchAPIKey}>
             <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
               <div className={`${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
             </div>
