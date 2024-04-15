@@ -9,23 +9,32 @@
     padding: 0.5rem 0rem;
 }
 
-.api-wrapper h3, .api-wrapper h4{
-    /* font-size: clamp(1.3rem, 1vw, 7rem); */
+.api-wrapper h3{
+    font-size: clamp(1.1rem, 1.2vw, 7rem);
+    padding: 0.3rem 0rem;
+}
+
+.api-wrapper h4{
+    font-size: clamp(0.8rem, 1vw, 5rem);
     padding: 0.3rem 0rem;
 }
 
 .api-wrapper p{
-    /* font-size: clamp(1.3rem, 1vw, 7rem); */
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
     padding-bottom: 1rem;
 }
 
 .api-wrapper li{
-    /* font-size: clamp(1.3rem, 1vw, 7rem); */
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
     padding-bottom: 0.5rem;
 }
 
+.api-wrapper code{
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
+}
+
 .api-wrapper ol, .api-wrapper ul{
-    /* font-size: clamp(1.3rem, 1vw, 7rem); */
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
     padding: 0.5rem  1rem;
 }
 
@@ -37,9 +46,9 @@
 .api-wrapper .api-key{
     all: unset;
     box-sizing: border-box;
-    /* height: clamp(40px, 3.2vh, 500px); */
+    /* height: clamp(40px, 3.5vh, 500px); */
     opacity: 0.9;
-    padding-bottom: 1rem;
+    padding-bottom: 1vw;
 }
 
 .api-wrapper .api-key:hover{
@@ -54,6 +63,16 @@
     box-shadow: 0px 3px 4px #0000004c;
     border-radius: 9px;
     padding: 0.5rem;
+    /* width: clamp(300px, 20vw, 1000px);  */
+    font-size: clamp(0.9rem, 1vw, 10rem);
+}
+
+.api-wrapper .get-api{
+    padding: 0.4vw;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .api-wrapper .api-textfield{
