@@ -83,7 +83,7 @@ const APIAccess = () => {
             
             <button className='api-key' onClick={handleFetchAPIKey}>
             <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-              <div className={`${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
+              <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
             </div>
             </button>
             
@@ -100,7 +100,7 @@ const APIAccess = () => {
               </li>
             </ol>
             <h4>Accessing the API Key in Your Application</h4>
-            <p>Use the <span>dotenv</span> package to load and access environment variables in your application. Here's how you can do it:<br /> python</p>
+            <p>Use the <span>dotenv</span> package to load and access environment variables in your application. Here's how you can do it:<br /> <i>python</i></p>
             <code>
               <span>
                 import os<br/>
@@ -114,21 +114,26 @@ const APIAccess = () => {
               </span>
             </code>
             <h4>Using the API Key in Requests</h4>
-            <p>When making a request to the API, include the API key in the request body as shown in the example below:<br/>python</p>
+            <p>When making a request to the API, include the API key in the request body as shown in the example below:<br/><i>python</i></p>
             <code>
               <span>
-                import requests<br/>
+                # Load environment variables<br/>
+                load_dotenv()<br/>
                 <br/>
+                # Set key<br/>
+                api_key = os.getenv("SHORTIFY_KEY")<br/>
+                <br/>
+                # The URL of the API endpoint<br/>
                 url = 'http://127.0.0.1:5000/api/summarize'<br/>
                 <br/>
                 # The data to be sent to the API <br/>
                 data = {'{'}<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'key': api_key, # Use the loaded API key<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'input': 'Your text or URL here',<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'key': api_key, <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'input': "Example text",<br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;'type': 0,<br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;'tone': 'Standard',<br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;'style': 'Paragraph',<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'length': 1,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'length': 'short',<br/>
                 {'}'}<br/>
                 response = requests.post(url, json=data)<br/>
                 print(response.json())<br/>
@@ -146,11 +151,11 @@ const APIAccess = () => {
               <li><span>type</span>: The type of content - 0 for Text, 1 for Website URL, 2 for YouTube URL. (Required)</li>
               <li><span>tone</span>: The desired tone of the summary - options are "Standard", "Formal", "Casual", "Sarcastic", "Aggressive", "Sympathetic". (Required)</li>
               <li><span>style</span>: The desired style of the summary - options are "Paragraph", "Bullet Points", "Numbered List". (Required)</li>
-              <li><span>length</span>: The desired length of the summary - options are 1 (short), 2 (medium), 3 (long). (Required)</li>
+              <li><span>length</span>: The desired length of the summary - options are "short", "medium", "long". (Required)</li>
               <li><span>option</span>: Additional options for YouTube URLs - "Full Video", "Timestamp". (Required for YouTube URLs)</li>
-              <li><span>citation</span>: Additional options for citing website URLs in the chosen styles - “MLA”, “APA”, “Chicago”. These options are handed to the AI, so any citation format can be handled. (Optional)</li>
-              <li><span>startTime</span>: The start time for partial YouTube videos when using the Timestamp option. Enter in <strong>HH:MM</strong> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
-              <li><span>endTime</span>: The ending time for partial YouTube videos when using the Timestamp option. Enter in <strong>HH:MM</strong> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
+              <li><span>citation</span>: Additional options for citing website URLs in the chosen styles - “MLA”, “APA”, “Chicago”. (Optional)</li>
+              <li><span>startTime</span>: The start time for partial YouTube videos when using the Timestamp option. Enter in <i>HH:MM</i> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
+              <li><span>endTime</span>: The ending time for partial YouTube videos when using the Timestamp option. Enter in <i>HH:MM</i> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
             </ul>
             <h4>Response</h4>
             <ul>
@@ -164,12 +169,17 @@ const APIAccess = () => {
                 import requests<br/>
                 <br/>
                 url = 'http://127.0.0.1:5000/api/summarize'<br/>
+                # The data to be sent to the API<br/>
                 data = {'{'}<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'text': 'Your text or URL here',<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'type': 0,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'key' : api_key,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'input': "https://www.youtube.com/watch?v=qYvXk_bqlBk",<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'type': 2,<br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;'tone': 'Standard',<br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;'style': 'Paragraph',<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'length': 1,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'length': 'short',<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'option' : "Timestamp",<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'startTime' : "00:10",<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'endTime' : "00:15"<br/>
                 {'}'}<br/>
                 response = requests.post(url, json=data)<br/>
                 print(response.json())<br/>
@@ -208,9 +218,9 @@ const APIAccess = () => {
             <h3> Authentication </h3>
             <p> The API key must be provided when making requests to the API.  </p>
 
-            <button className='api-key' onClick={() => setAPIKeyPopup(true)}>
+            <button className='api-key' onClick={handleFetchAPIKey}>
             <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-              <div className={`${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
+              <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
             </div>
             </button>
 
