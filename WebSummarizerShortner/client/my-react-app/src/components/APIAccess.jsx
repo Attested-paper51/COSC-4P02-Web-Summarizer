@@ -91,18 +91,18 @@ const APIAccess = () => {
             <p>It's crucial to keep your API key secure and not expose it in your code or version control systems. To manage your API key securely, we recommend using environment variables. This approach keeps your key out of your source code and provides flexibility in changing the key without modifying your application code.</p>
             <h4>Setting up the Environment Variable</h4>
             <ol>
-              <li><strong>Create a <span>.env</span> file:</strong> This  guyfile will store your environment variables. Place this file in the root directory of your project. Ensure that <span>.env</span> is added to your <span>.gitignore</span> file to prevent it from being uploaded to version control.</li>
+              <li><strong>Create a <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>.env</span> file:</strong> This  guyfile will store your environment variables. Place this file in the root directory of your project. Ensure that <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>.env</span> is added to your <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>.gitignore</span> file to prevent it from being uploaded to version control.</li>
               <li>
-                <strong>Add the API Key to the <span>.env</span> file:</strong> Inside the <span>.env</span> file, you can assign your API key to a variable. For example:<br/>
+                <strong>Add the API Key to the <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>.env</span> file:</strong> Inside the <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>.env</span> file, you can assign your API key to a variable. For example:<br/>
                 <code>
-                <span>SHORTIFY_KEY=your_api_key_here</span><br/>
+                <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>SHORTIFY_KEY=your_api_key_here</span><br/>
                 </code>
               </li>
             </ol>
             <h4>Accessing the API Key in Your Application</h4>
-            <p>Use the <span>dotenv</span> package to load and access environment variables in your application. Here's how you can do it:<br /> <i>python</i></p>
+            <p>Use the <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>dotenv</span> package to load and access environment variables in your application. Here's how you can do it:<br /> <i>python</i></p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 import os<br/>
                 from dotenv import load_dotenv<br/>
                 <br/>
@@ -116,7 +116,7 @@ const APIAccess = () => {
             <h4>Using the API Key in Requests</h4>
             <p>When making a request to the API, include the API key in the request body as shown in the example below:<br/><i>python</i></p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 # Load environment variables<br/>
                 load_dotenv()<br/>
                 <br/>
@@ -146,26 +146,26 @@ const APIAccess = () => {
             <p>Summarizes the provided content based on the specified parameters.</p>
             <h4>Request Body</h4>
             <ul>
-              <li><span>key</span>: The key for authentication. See the Authentication section to learn how to safely handle keys. (Required)</li>
-              <li><span>input</span>: The text to summarize or the URL of the webpage/YouTube video. (Required)</li>
-              <li><span>type</span>: The type of content - 0 for Text, 1 for Website URL, 2 for YouTube URL. (Required)</li>
-              <li><span>tone</span>: The desired tone of the summary - options are "Standard", "Formal", "Casual", "Sarcastic", "Aggressive", "Sympathetic". (Required)</li>
-              <li><span>style</span>: The desired style of the summary - options are "Paragraph", "Bullet Points", "Numbered List". (Required)</li>
-              <li><span>length</span>: The desired length of the summary - options are "short", "medium", "long". (Required)</li>
-              <li><span>option</span>: Additional options for YouTube URLs - "Full Video", "Timestamp". (Required for YouTube URLs)</li>
-              <li><span>citation</span>: Additional options for citing website URLs in the chosen styles - “MLA”, “APA”, “Chicago”. (Optional)</li>
-              <li><span>startTime</span>: The start time for partial YouTube videos when using the Timestamp option. Enter in <i>HH:MM</i> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
-              <li><span>endTime</span>: The ending time for partial YouTube videos when using the Timestamp option. Enter in <i>HH:MM</i> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>key</span>: The key for authentication. See the Authentication section to learn how to safely handle keys. (Required)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>input</span>: The text to summarize or the URL of the webpage/YouTube video. (Required)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>type</span>: The type of content - 0 for Text, 1 for Website URL, 2 for YouTube URL. (Required)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>tone</span>: The desired tone of the summary - options are "Standard", "Formal", "Casual", "Sarcastic", "Aggressive", "Sympathetic". (Required)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>style</span>: The desired style of the summary - options are "Paragraph", "Bullet Points", "Numbered List". (Required)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>length</span>: The desired length of the summary - options are "short", "medium", "long". (Required)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>option</span>: Additional options for YouTube URLs - "Full Video", "Timestamp". (Required for YouTube URLs)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>citation</span>: Additional options for citing website URLs in the chosen styles - “MLA”, “APA”, “Chicago”. (Optional)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>startTime</span>: The start time for partial YouTube videos when using the Timestamp option. Enter in <i>HH:MM</i> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>endTime</span>: The ending time for partial YouTube videos when using the Timestamp option. Enter in <i>HH:MM</i> format, for hours and minutes of the YouTube Video. (Required for Timestamp option for YouTube URLs)</li>
             </ul>
             <h4>Response</h4>
             <ul>
-              <li><span>summary</span>: The summarized content.</li>
-              <li><span>error</span>: Error message, if applicable.</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>summary</span>: The summarized content.</li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>error</span>: Error message, if applicable.</li>
             </ul>
             <h4>Example Request</h4>
             <p>python</p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 import requests<br/>
                 <br/>
                 url = 'http://127.0.0.1:5000/api/summarize'<br/>
@@ -189,7 +189,7 @@ const APIAccess = () => {
             <h4>Example Response</h4>
             <p>json</p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 {'{'}<br/>
                   &nbsp;&nbsp;&nbsp;&nbsp;"summary": "Your summarized text will appear here."<br/>
                 {'}'}<br/>
@@ -199,7 +199,7 @@ const APIAccess = () => {
             <h3>Error Handling</h3>
             <ul>
               <li>If the required fields are not provided or are invalid, the API will return an error message.</li>
-              <li>If the <span>type</span> is not 0, 1, or 2, the API will return an error message.</li>
+              <li>If the <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>type</span> is not 0, 1, or 2, the API will return an error message.</li>
               <li>If there's an internal error during the summarization process, the API will return an error message.</li>
             </ul>
           </div>
@@ -212,8 +212,8 @@ const APIAccess = () => {
             <p>The URL Shortener API allows a user to utilize the URL shortening functionality implemented in this project. There are two provided functionalities, URL shortening, and short URL resolving - returning a short URL to its original form. </p>
             <h3> Base URLs </h3>
             <p>
-              The URL shortening functionality relies on the following base URL: <span>http://127.0.0.1:5002/apishorten</span> <br /> 
-              The short URL resolution functionality relies on the following base URL: <span>http://127.0.0.1:5002/apiresolve</span>
+              The URL shortening functionality relies on the following base URL: <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>http://127.0.0.1:5002/apishorten</span> <br /> 
+              The short URL resolution functionality relies on the following base URL: <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>http://127.0.0.1:5002/apiresolve</span>
             </p>
             <h3> Authentication </h3>
             <p> The API key must be provided when making requests to the API.  </p>
@@ -229,17 +229,17 @@ const APIAccess = () => {
             <p>Shortens the provided original URL, provided that the URL begins with https://, http:// or www. This API does not support other URL types, and will return an error if this syntax is not followed.</p>
             <h4>Request Body</h4>
             <ul>
-              <li><span>key</span>: The API key provided for you. </li>
-              <li><span>originalURL</span>: The URL you wish to shorten. </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>key</span>: The API key provided for you. </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>originalURL</span>: The URL you wish to shorten. </li>
             </ul>
             <h4>Response</h4>
             <ul>
-              <li><span>Message</span>: Either the returned shortened URL, or a string describing what went wrong if an error occurred. </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>Message</span>: Either the returned shortened URL, or a string describing what went wrong if an error occurred. </li>
             </ul>
             <h4>Request Format:</h4>
             <p>python</p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 import requests<br/>
                 <br/>
                 #The URL of the API endpoint<br/>
@@ -258,7 +258,7 @@ const APIAccess = () => {
             <h4>Request Response Example:</h4>
             <p>json</p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 {'{'}<br/>
                   &nbsp;&nbsp;&nbsp;&nbsp;  "message": "https://localhost:5002/–short–"<br/>
                 {'}'}<br/>
@@ -269,18 +269,18 @@ const APIAccess = () => {
             <p>Resolves the given shortened URL. This URL must be a short link generated by our system previously, aka it must be in our database. It will return the original link inputted if done correctly. </p>
             <h4>Request Body</h4>
             <ul>
-              <li><span>key</span>: The API key provided for you. </li>
-              <li><span>shortURL</span>: The short URL you wish to receive the original link from.  </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>key</span>: The API key provided for you. </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>shortURL</span>: The short URL you wish to receive the original link from.  </li>
             </ul>
             <h4>Response</h4>
             <ul>
-              <li><span>Message</span>: Either the returned original URL, or a string describing what went wrong if an error occurred. </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>Message</span>: Either the returned original URL, or a string describing what went wrong if an error occurred. </li>
             </ul>
 
             <h4>Request Format:</h4>
             <p>python</p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 import requests<br/>
                 <br/>
                 #The URL of the API endpoint<br/>
@@ -299,7 +299,7 @@ const APIAccess = () => {
             <h4>Request Response Example:</h4>
             <p>json</p>
             <code>
-              <span>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
                 {'{'}<br/>
                   &nbsp;&nbsp;&nbsp;&nbsp;  "message": "https://www.originalURL.com"<br/>
                 {'}'}<br/>

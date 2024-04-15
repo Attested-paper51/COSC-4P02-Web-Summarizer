@@ -390,6 +390,12 @@ a {
   background-color: var(--clr-accent4);
 }
 
+.span-light{
+  color: rgb(0, 167, 0);
+}
+.span-dark{
+  color: rgb(131, 233, 131);
+}
 
 /* .App {
   text-align: center;
