@@ -253,20 +253,20 @@ const defaultConfirm = () => {
         </button> */}
         
         <LoginSocialFacebook
-        appId="1405214220354758"
-        onResolve={(response) => {
-          console.log(response);
-          handleFBLogin(response);
-        }}
-        onReject={(error) =>
-        {
-          console.log(error);
-        }}
+          appId="1405214220354758"
+          className="facebook"
+          onResolve={(response) => {
+            console.log(response);
+            handleFBLogin(response);
+          }}
+          onReject={(error) =>
+          {
+            console.log(error);
+          }}
         >
-          
-          <FacebookLoginButton
-          />
+          <FacebookLoginButton/>
         </LoginSocialFacebook>
+
         <div className="email">
           <label className='email-text'>Your email</label> 
           <input className={`textfield ${darkMode ? 'input-url-dark' : 'input-url-light'}`}

@@ -1,8 +1,139 @@
 .api-wrapper{
     display: flex;
     flex-direction: column;
+    padding: 0.5rem;
 }
 
 .api-wrapper h1{
-    font-size: clamp(1.5rem, 1.9vw, 10rem);
+    font-size: clamp(1.5rem, 1.7vw, 10rem);
+    padding: 0.5rem 0rem;
 }
+
+.api-wrapper h3{
+    font-size: clamp(1.1rem, 1.2vw, 7rem);
+    padding: 0.3rem 0rem;
+}
+
+.api-wrapper h4{
+    font-size: clamp(0.8rem, 1vw, 5rem);
+    padding: 0.3rem 0rem;
+}
+
+.api-wrapper p{
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
+    padding-bottom: 1rem;
+}
+
+.api-wrapper li{
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
+    padding-bottom: 0.5rem;
+}
+
+.api-wrapper code{
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
+}
+
+.api-wrapper ol, .api-wrapper ul{
+    font-size: clamp(0.7rem, 0.95vw, 5rem);
+    padding: 0.5rem  1rem;
+}
+
+.api-wrapper span{
+    /* color: rgb(0, 157, 0); */
+    /* color: rgb(204, 238, 204); */
+}
+
+.api-wrapper .api-key{
+    all: unset;
+    box-sizing: border-box;
+    /* height: clamp(40px, 3.5vh, 500px); */
+    opacity: 0.9;
+    padding-bottom: 1vw;
+}
+
+.api-wrapper .api-key:hover{
+    opacity: 1;
+    cursor: pointer;
+} 
+
+.api-wrapper .btn-overlap{
+    /* height: clamp(40px, 3.2vh, 500px); */
+    position: relative;
+    /* margin-bottom: 1rem; */
+    box-shadow: 0px 3px 4px #0000004c;
+    border-radius: 9px;
+    padding: 0.5rem;
+    /* width: clamp(300px, 20vw, 1000px);  */
+    font-size: clamp(0.9rem, 1vw, 10rem);
+}
+
+.api-wrapper .get-api{
+    padding: 0.4vw;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.api-wrapper .api-textfield{
+    /* position: relative; */
+    height: clamp(35px, 3.5vh, 100px);
+    width: 100%;
+    padding-right: 3vw;
+}
+
+.api-wrapper .api-container{
+    position: relative;
+    padding: 1rem;
+    width: 100%;
+}
+
+.api-textfield:focus {
+    outline: none;
+}
+
+.api-textfield:hover {
+    cursor: default;
+}
+
+.api-wrapper .copy{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+}
+
+.api-wrapper .copy:hover{
+    cursor: pointer;
+}
+
+.close-btn{
+    all: unset;
+    box-sizing: border-box;
+    height: clamp(40px, 3.2vh, 500px);
+    text-align: center;
+    /* margin-top: 2.5em; */
+    margin-bottom: 1em;
+}
+
+.close-btn-overlap{
+    width: clamp(100px, 15vw, 800px); 
+    font-size: clamp(0.8rem, 0.9vw, 10rem);
+    position: relative;
+    box-shadow: 0px 3px 4px #0000004c;
+    border-radius: 0.5vw;
+    opacity: 0.8;
+}
+
+.close-btn:hover, .close-btn-overlap:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.close{
+    padding: 0.7vw;
+    font-weight: 600;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+

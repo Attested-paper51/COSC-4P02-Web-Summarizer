@@ -6,6 +6,10 @@
     min-height: 100vh;
 }
 
+.tooltip-title {
+    font-size: clamp(0.7rem, 1vw, 3rem);
+}
+
 .side-panel{
     /* padding: 2rem; */
     min-width: 18%;

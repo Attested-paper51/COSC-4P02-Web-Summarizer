@@ -71,6 +71,7 @@ const Summarizer = () => {
     const saveTemplates = ["Save Template", "Template 1", "Template 2", "Template 3"];
     const [selectedSaveTemplate, setSaveTemplate] = useState(saveTemplates[0]);
 
+    const sliderLength = ["short", "medium", "long"];
     const [sliderValue, setSliderValue] = useState(1);
 
     const [startHour, setStartHour] = useState(0);
@@ -118,6 +119,8 @@ const Summarizer = () => {
         if(isClicked !== buttonIndex)
         {
             setClickedButton(buttonIndex)
+            setSaveSummary('Save Summary');
+            setSaveClicked(false);
             emptyTextContent()
             showShorten(false)
             setTemplate(templates[0])
@@ -219,8 +222,10 @@ const Summarizer = () => {
 
     // empties input and output
     const emptyTextContent = () => {
-        setInputContent('')
-        setOutputContent('')
+        setInputContent('');
+        setOutputContent('');
+        setSaveSummary('Save Summary');
+        setSaveClicked(false);
     }
 
     // empties content and closes Dialog Box
@@ -244,7 +249,10 @@ const Summarizer = () => {
     const [isCopied, setCopy] = useState(false)
     const copySummary = () => {
         navigator.clipboard.writeText(outputContent)
-        setCopy(!isCopied)
+        setCopy(true)
+        setTimeout(() => {
+            setCopy(false);
+        }, 3000); // Reverts back to 'Submit' after 3 seconds
     }
 
     const handleToneChange = (item) => {
@@ -394,9 +402,12 @@ const Summarizer = () => {
     // for showing the error
     
 
+    const [SaveSummary, setSaveSummary] = useState('Save Summary');
+    const [isSaveClicked, setSaveClicked] = useState(false);
+
     //adding a summary and input content to history
     const addToHistory = async () => {
-
+        
         if (inputContent === '') {
             setErrorMessage('The input field is blank; please input something to generate a summary.');
             setOpenError(true);
@@ -418,7 +429,16 @@ const Summarizer = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
+                if (result.message === "Summary history is full. Please delete a previous entry.") {
+                    setErrorMessage(result.message);
+                    setOpenError(true);
+                    return;
+                }else{
+                    setSaveSummary('Saved Summary!');
+                    setSaveClicked(true);
+                    console.log(result.message);
+                }
+                
             }
 
         } catch (error) {
@@ -430,6 +450,7 @@ const Summarizer = () => {
 
 // State to manage loading dialog visibility
 const [isLoading, setIsLoading] = useState(false);
+
 
 const summarizeText = () => {
     // Show loading dialog
@@ -447,7 +468,7 @@ const summarizeText = () => {
             type: isClicked, 
             tone: selectedTone,
             style: selectedLayout,
-            length: sliderValue,
+            length: sliderLength[sliderValue],
             citation: selectedCitationType,
             option: selectedVideoSetting,
             startTime: `${startHour}:${startMin}`,
@@ -706,6 +727,9 @@ const summarizeText = () => {
 
         if (isClicked === 0) {
             data = {
+                tone: selectedTone,
+                style: selectedLayout,
+                length: sliderLength[sliderValue],
                 input: inputContent, // Assuming you have the original input stored in inputContent
                 summary: outputContent
             };
@@ -713,6 +737,9 @@ const summarizeText = () => {
         
         if (isClicked === 1) {
             data = {
+                tone: selectedTone,
+                style: selectedLayout,
+                length: sliderLength[sliderValue],
                 input: inputContent, // Assuming you have the original input stored in inputContent
                 summary: outputContent,
                 citation_style: selectedCitationType
@@ -721,6 +748,9 @@ const summarizeText = () => {
         
         if (isClicked === 2) {
             data = {
+                tone: selectedTone,
+                style: selectedLayout,
+                length: sliderLength[sliderValue],
                 input: inputContent, // Assuming you have the original input stored in inputContent
                 summary: outputContent,
                 option: selectedVideoSetting,
@@ -1236,9 +1266,9 @@ const summarizeText = () => {
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
                                         { userEmail && outputContent != '' &&
-                                            <button className="summarize-btn" onClick={addToHistory}>
+                                            <button className="summarize-btn" onClick={addToHistory} disabled={isSaveClicked}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
+                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>{SaveSummary}</div>
                                                 </div>
                                             </button>
                                         }

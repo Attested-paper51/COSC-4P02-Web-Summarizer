@@ -20,7 +20,7 @@ const History = () => {
   const email = localStorage.getItem('email');
   //let user = localStorage.getItem('user_id');
   const [username, setUsername] = useState('');
-  console.log("username on History.js is: " + username);
+  //console.log("username on History.js is: " + username);
   const handleSumButtonClick = () => {
     setShowSumSection(true);
     setShowShortSection(false);
@@ -78,7 +78,7 @@ const History = () => {
       if (response.ok) {
         const data = await response.json();
         setHistoryData(data.history);
-        console.log(data.history);
+        //console.log(data.history);
       } else {
         console.error('Failed to fetch history data');
       }
@@ -100,7 +100,7 @@ const History = () => {
         if (response.ok) {
             const data = await response.json();
             setData(data.shortenedURLs); // Assuming your backend returns an array of objects
-            console.log(data.shortenedURLs);
+            //console.log(data.shortenedURLs);
         } else {
             console.error('Failed to fetch shortened URL history');
         }
@@ -223,6 +223,9 @@ const handleDeleteShortenedURL = async () => {
     const outputText = outputValues.join('\n\n');
     navigator.clipboard.writeText(outputText);
     setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000); // Reverts back to 'Submit' after 3 seconds
   };
 
   return (
@@ -240,11 +243,11 @@ const handleDeleteShortenedURL = async () => {
 
             {/* Content for Web Summarizer section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}</button>
+              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy size={15} /> : <FaRegCopy size={15} />}</button>
+                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
                 </>
               )}
             </div>
@@ -264,7 +267,7 @@ const handleDeleteShortenedURL = async () => {
                     <td>
                       <label className='custom-checkbox'>
                         <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
-                        {selectedRows[item[0]] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
                     <td className='scrollable'>{item[1]}</td>
@@ -282,11 +285,11 @@ const handleDeleteShortenedURL = async () => {
           <div className='short-section'>
             {/* Content for URL Shortener section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}</button>
+              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon'/>}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
-                  <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy size={15} /> : <FaRegCopy size={15} />}</button>
+                  <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline className='delete-icon' /></button>
+                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
                 </>
               )}
             </div>
@@ -306,7 +309,7 @@ const handleDeleteShortenedURL = async () => {
                     <td>
                       <label className='custom-checkbox'>
                         <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
-                        {selectedRows[item[0]] ? <MdCheckBox /> : <MdOutlineCheckBoxOutlineBlank />}
+                        {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
                     <td className='scrollable'>{item[1]}</td>

@@ -33,7 +33,8 @@ def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
     if error:
         return error, result
     else:
-        extractedText = result
+        extractedText = "YouTube Video Transcript: " + result
+        print(extractedText)
         return summarize(extractedText, tone, style, length)
  
 
@@ -52,6 +53,6 @@ def processURL(url, tone, style, length, cite=None):
         elif cite == 'Chicago':
             cite = f"After the summary, add a citation on a new line using Chicago style. Use the term 'Bibliography' for the citation. Ensure the citation is accurately formatted according to Chicago style guidelines. The URL to be cited is {url}."
 
-        extractedText = result
+        extractedText = "URL content: " + result
         return summarize(extractedText, tone, style, length, cite)
 

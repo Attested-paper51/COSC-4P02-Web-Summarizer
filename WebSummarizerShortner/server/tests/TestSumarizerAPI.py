@@ -6,26 +6,31 @@ import os
 load_dotenv()
 
 # Set key
-key = os.getenv("SHORTIFY_KEY")
+api_key = os.getenv("SHORTIFY_KEY")
 
 # The URL of the API endpoint
 url = 'http://127.0.0.1:5000/api/summarize'
 
 # The data to be sent to the API
 data = {
-    'key' : key,
-    'input': 'To embed a graph we replace the vertices by steel rings and replace each edge with a spring to form a mechanical system . . . The vertices are placed in some initial layout and let go so that the spring forces on the rings move the system to a minimal energy state',
-    'type': 0,
-    'type': 0,
+    'key' : api_key,
+    'input': "https://www.youtube.com/watch?v=qYvXk_bqlBk",
+    'type': 2,
     'tone': 'Standard',
     'style': 'Paragraph',
-    'length': 1,
+    'length': 'short',
+    'option' : "Timestamp",
+    'startTime' : "00:10",
+    'endTime' : "00:15"
 }
 
-print(f"\n\nthe key: {key}")
+print(f"\n\nthe key: {api_key}")
 
 # Making a POST request to the API
-response = requests.post(url, json=data)
+try:
+    response = requests.post(url, json=data)
+except requests.exceptions.RequestException as e:
+    print(e)
 
 # Checking the response from the API
 if response.status_code == 200:

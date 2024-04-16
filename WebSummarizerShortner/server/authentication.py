@@ -186,8 +186,6 @@ class Authentication:
             return False  # API key not found
 
 
-    
-
 
     #Template Logic
     def createTemplateRows(self,email):
@@ -325,6 +323,24 @@ class Authentication:
         self.conn.commit()
         return 1
 
+    #Checking number of summaries in DB
+    def getNumSummaries(self,email):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        if (user is None):
+            return -1
+        cursor.execute("SELECT COUNT(*) FROM summarized WHERE user_id = %s",(user,))
+        count = cursor.fetchone()[0]
+        return count
+
+    #Delete all summaries for a given user
+    def deleteSummaries(self,email):
+        cursor = self.conn.cursor()
+        user = self.getUsername(email)
+        cursor.execute("DELETE FROM summarized WHERE user_id = %s",(user,))
+        self.conn.commit()
+        return 1
+
     
 
 
@@ -451,6 +467,7 @@ def deleteAccount():
     data = request.get_json()
     email = data.get('email')
     userMgr = Authentication()
+    userMgr.deleteSummaries(email)
     userMgr.deleteTemplates(email)
     userMgr.deleteAccount(email)
     
@@ -577,8 +594,13 @@ def addSummarized():
     input = data.get('input')
     output = data.get('output')
     userMgr = Authentication()
-    userMgr.addSummarizedHistory(input,output,email)
-    return jsonify({'message':'Added to history.'})
+    #if user's stored summaries is <10, save, otherwise display error
+    if (userMgr.getNumSummaries(email) < 10):
+        userMgr.addSummarizedHistory(input,output,email)
+        return jsonify({'message':'Added to history.'})
+    
+    return jsonify({'message':'Summary history is full. Please delete a previous entry.'})
+    
 
 @appA.route('/getapikey',methods=['POST'])
 def getAPIKey():
@@ -604,7 +626,6 @@ def checkTemplate():
 if __name__ == '__main__':
     appA.run(port=5001)
     
-   
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
     #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")

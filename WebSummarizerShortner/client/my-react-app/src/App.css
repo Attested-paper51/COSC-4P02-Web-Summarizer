@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz@0,9..40;1,9..40&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 *,
 *::before,
@@ -390,6 +391,18 @@ a {
   background-color: var(--clr-accent4);
 }
 
+/* API Access Popup */
+.copy-dark{
+  /* background-color: var(--clr-light2); */
+  color: var(--clr-accent3);
+}
+
+.span-light{
+  color: rgb(0, 167, 0);
+}
+.span-dark{
+  color: rgb(131, 233, 131);
+}
 
 /* .App {
   text-align: center;

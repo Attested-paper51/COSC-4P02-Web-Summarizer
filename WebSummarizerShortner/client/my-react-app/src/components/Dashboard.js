@@ -108,7 +108,7 @@ const Dashboard = () => {
         <div className='side-panel'>
           <div className='side-panel-title-wrapper'>
 
-            <Tooltip title="Collapse Sidebar" arrow>
+            <Tooltip title={<span className='tooltip-title'>Collapse Sidebar</span>} arrow>
               <button className='sidebar-icon-container' onClick={handleToggleSidebar}>
                 <CiCircleChevLeft className='sidebar-icon' />
               </button>
@@ -133,25 +133,25 @@ const Dashboard = () => {
       {!open &&
         <div className='small-side-panel-container'>
           <div className='small-side-panel'>
-            <Tooltip title="Open Sidebar" arrow>
+            <Tooltip title={<span className='tooltip-title'>Open Sidebar</span>} arrow>
               <button className='sidebar-icon-container small-sidebar-icon' onClick={handleToggleSidebar}>
                 <CiCircleChevRight className='sidebar-icon' />
               </button>
             </Tooltip>
             <div className='dashboard-options'>
-              <Tooltip title="History" arrow>
+              <Tooltip title={<span className='tooltip-title'>History</span>} arrow>
                 <button className={`dash-option small-icon history ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}> <MdHistory className='dash-option-icon' /></button>
               </Tooltip>
-              <Tooltip title="Templates" arrow>
+              <Tooltip title={<span className='tooltip-title'>Templates</span>} arrow>
                 <button className={`dash-option small-icon ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon' /></button>
               </Tooltip>
-              <Tooltip title="API Access" arrow>
+              <Tooltip title={<span className='tooltip-title'>API Access</span>} arrow>
                 <button className={`dash-option small-icon ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' /></button>
               </Tooltip>
-              <Tooltip title="Settings" arrow>
+              <Tooltip title={<span className='tooltip-title'>Settings</span>} arrow>
                 <button className={`dash-option small-icon ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon' /></button>
               </Tooltip>
-              <Tooltip title="Logout" arrow>
+              <Tooltip title={<span className='tooltip-title'>Logout</span>} arrow>
                 <button className='dash-option small-icon logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon' /></button>
               </Tooltip>
               {/* {storedEmail && <div>{storedEmail}</div>}  */}
