@@ -245,7 +245,10 @@ const Summarizer = () => {
     const [isCopied, setCopy] = useState(false)
     const copySummary = () => {
         navigator.clipboard.writeText(outputContent)
-        setCopy(!isCopied)
+        setCopy(true)
+        setTimeout(() => {
+            setCopy(false);
+        }, 3000); // Reverts back to 'Submit' after 3 seconds
     }
 
     const handleToneChange = (item) => {
@@ -395,9 +398,11 @@ const Summarizer = () => {
     // for showing the error
     
 
+    const [SaveSummary, SetSaveSummary] = useState('Save Summary')
+
     //adding a summary and input content to history
     const addToHistory = async () => {
-
+        SetSaveSummary('Saved Summary!')
         if (inputContent === '') {
             setErrorMessage('The input field is blank; please input something to generate a summary.');
             setOpenError(true);
@@ -1123,7 +1128,7 @@ const summarizeText = () => {
                                         { userEmail && outputContent != '' &&
                                             <button className="summarize-btn" onClick={addToHistory}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save Summary</div>
+                                                    <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>{SaveSummary}</div>
                                                 </div>
                                             </button>
                                         }

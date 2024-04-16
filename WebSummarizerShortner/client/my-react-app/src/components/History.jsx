@@ -223,6 +223,9 @@ const handleDeleteShortenedURL = async () => {
     const outputText = outputValues.join('\n\n');
     navigator.clipboard.writeText(outputText);
     setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000); // Reverts back to 'Submit' after 3 seconds
   };
 
   return (
