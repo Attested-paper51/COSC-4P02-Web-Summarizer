@@ -780,69 +780,73 @@ const summarizeText = () => {
                                         <p>Modes:</p>
                                     </div>
                                     <div className="dropdown-menus modes">
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedTone}
-                                                content={<>
-                                                    {
-                                                        tone.map(item =>
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleToneChange(item)}>
-                                                                {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>}
-                                            />
-                                        </div>
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedLayout}
-                                                content={<>
-                                                    {
-                                                        layout.map(item =>
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleLayoutChange(item)}>
-                                                                {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>}
-                                            />
-                                        </div>
-                                        <div className="word-count-level">
-                                            <div className="slider-text">
-                                                <p>Summary Length:</p>
+                                        <div className="primary-modes">
+                                            <div className="tone-layout-div">
+                                                <div className="dropdown-menu">
+                                                    <Dropdown
+                                                        buttonText={selectedTone}
+                                                        content={<>
+                                                            {
+                                                                tone.map(item =>
+                                                                    <DropdownItem
+                                                                        key={item}
+                                                                        onClick={() => handleToneChange(item)}>
+                                                                        {`${item}`}
+                                                                    </DropdownItem>)
+                                                            }
+                                                        </>}
+                                                    />
+                                                </div>
+                                                <div className="dropdown-menu">
+                                                    <Dropdown
+                                                        buttonText={selectedLayout}
+                                                        content={<>
+                                                            {
+                                                                layout.map(item =>
+                                                                    <DropdownItem
+                                                                        key={item}
+                                                                        onClick={() => handleLayoutChange(item)}>
+                                                                        {`${item}`}
+                                                                    </DropdownItem>)
+                                                            }
+                                                        </>}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="slider-container">
+                                            <div className="word-count-level">
                                                 <div className="slider-text">
-                                                    <p>Short</p>
+                                                    <p>Summary Length:</p>
                                                 </div>
-                                                <div className="slider-wrapper">
-                                                    <Box sx={{ width: 100 }} className="slider">
-                                                        <Slider
-                                                            aria-label="Temperature"
-                                                            value={sliderValue}
-                                                            onChange={changeSliderValue}
-                                                            defaultValue={value}
-                                                            getAriaValueText={valuetext}
-                                                            // valueLabelDisplay="auto"
-                                                            shiftStep={0}
-                                                            step={1}
-                                                            marks
-                                                            min={1}
-                                                            max={3}
-                                                            color="primary"
-                                                        />
-                                                    </Box>
-                                                </div>
-                                                <div className="slider-text">
-                                                    <p>Long</p>
+                                                <div className="slider-container">
+                                                    <div className="slider-text">
+                                                        <p>Short</p>
+                                                    </div>
+                                                    <div className="slider-wrapper">
+                                                        <Box sx={{ width: 100 }} className="slider">
+                                                            <Slider
+                                                                aria-label="Temperature"
+                                                                value={sliderValue}
+                                                                onChange={changeSliderValue}
+                                                                defaultValue={value}
+                                                                getAriaValueText={valuetext}
+                                                                // valueLabelDisplay="auto"
+                                                                shiftStep={0}
+                                                                step={1}
+                                                                marks
+                                                                min={1}
+                                                                max={3}
+                                                                color="primary"
+                                                            />
+                                                        </Box>
+                                                    </div>
+                                                    <div className="slider-text">
+                                                        <p>Long</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         { isClicked === 1 &&
-                                            <div className="dropdown-menu">
+                                            <div className="dropdown-menu citations">
                                                 <Dropdown
                                                     buttonText={selectedCitationType}
                                                     content={<>
@@ -859,7 +863,7 @@ const summarizeText = () => {
                                             </div>
                                         }
                                         { isClicked === 2 &&
-                                            <div className="dropdown-menu">
+                                            <div className="dropdown-menu video-setting">
                                                 <Dropdown
                                                     buttonText={selectedVideoSetting}
                                                     content={<>
@@ -924,69 +928,191 @@ const summarizeText = () => {
                                                 </div>
                                             </div>
                                         }
-                                        </div>
-                                    </div>
-
-                                    <div className="template-config-buttons">
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedSaveTemplate}
-                                                content={<>
-                                                    {
-                                                        saveTemplates.slice(1).map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                //onClick = {()=> }
-                                                                onClick={() => handleSaveTemplateChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
-                                        {/* <div className="save-template">
-                                            <div className="dropdown-menu">
-                                                <div className="dropdown">
-                                                    <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
-                                                        Save Settings */}
-                                    {/* <span className="toggle-icon"> 
-                                                            <FaChevronUp/>
-                                                        </span> */}
-                                    {/* </button>
-                                                </div> */}
-                                    {/* <button className='summarize-btn'>
-                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                        <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
-                                                    </div>
-                                                </button> */}
-                                    {/* </div>
-                                        </div> */}
-                                    {/* <div className="save-custom-info">
-                                            <button className='summarize-btn'>
-                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
-                                                </div>
-                                            </button>
-                                        </div> */}
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedTemplate}
-                                                content={<>
-                                                    {
-                                                        templates.slice(1).map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleTemplateChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
                                     </div>
                                 </div>
-                                {/* </div>)} */}
-                                <div className="text">
+
+                                <div className="template-config-buttons">
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedSaveTemplate}
+                                            content={<>
+                                                {
+                                                    saveTemplates.slice(1).map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            //onClick = {()=> }
+                                                            onClick={() => handleSaveTemplateChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                    {/* <div className="save-template">
+                                        <div className="dropdown-menu">
+                                            <div className="dropdown">
+                                                <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
+                                                    Save Settings */}
+                                {/* <span className="toggle-icon"> 
+                                                        <FaChevronUp/>
+                                                    </span> */}
+                                {/* </button>
+                                            </div> */}
+                                {/* <button className='summarize-btn'>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
+                                                </div>
+                                            </button> */}
+                                {/* </div>
+                                    </div> */}
+                                {/* <div className="save-custom-info">
+                                        <button className='summarize-btn'>
+                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
+                                            </div>
+                                        </button>
+                                    </div> */}
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedTemplate}
+                                            content={<>
+                                                {
+                                                    templates.slice(1).map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleTemplateChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={`premium-container second-row ${darkMode ? 'premium-dark' : 'premium-light'}`}>
+                                <div className="modes">
+                                    <div className="mode invisible">
+                                        <p>Modes:</p>
+                                    </div>
+                                    <div className="word-count-level2">
+                                                <div className="slider-text">
+                                                    <p>Summary Length:</p>
+                                                </div>
+                                                <div className="slider-container">
+                                                    <div className="slider-text">
+                                                        <p>Short</p>
+                                                    </div>
+                                                    <div className="slider-wrapper">
+                                                        <Box sx={{ width: 100 }} className="slider">
+                                                            <Slider
+                                                                aria-label="Temperature"
+                                                                value={sliderValue}
+                                                                onChange={changeSliderValue}
+                                                                defaultValue={value}
+                                                                getAriaValueText={valuetext}
+                                                                // valueLabelDisplay="auto"
+                                                                shiftStep={0}
+                                                                step={1}
+                                                                marks
+                                                                min={1}
+                                                                max={3}
+                                                                color="primary"
+                                                            />
+                                                        </Box>
+                                                    </div>
+                                                    <div className="slider-text">
+                                                        <p>Long</p>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                    { isClicked === 1 &&
+                                        <div className="dropdown-menu citations2">
+                                            <Dropdown
+                                                buttonText={selectedCitationType}
+                                                content={<>
+                                                    {
+                                                        citationType.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleCitationChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
+                                    }
+                                    { isClicked === 2 &&
+                                        <div className="dropdown-menu video-setting2">
+                                            <Dropdown
+                                                buttonText={selectedVideoSetting}
+                                                content={<>
+                                                    {
+                                                        videoSetting.map(item =>
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleVideoSettingChange(item)}>
+                                                                {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>}
+                                            />
+                                        </div>
+                                    }
+
+                                    { isClicked === 2 && selectedVideoSetting === videoSetting[1] &&
+                                        <div className="timestamp2">
+                                            <div className="start">
+                                                Start Time:
+                                                <div className="start-time">
+                                                    {/* <textarea 
+                                                        className="timestamp-textarea" 
+                                                        id="startM" 
+                                                        name="startM" 
+                                                        placeholder='Minutes'>
+                                                    </textarea> */}
+                                                    <NumberInputBasic
+                                                        value={startHour}
+                                                        //placeholder = "HH"
+                                                        onChange={setStartHour}
+                                                        darkMode={darkMode} />
+                                                    :
+                                                    <QuantityInput
+                                                        value={startMin}
+                                                        //placeholder = "MM"
+                                                        onChange={setStartMin}
+                                                        darkMode={darkMode} />
+                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                                </div>
+                                            </div>
+
+                                            <div className="end">
+                                                End Time:
+                                                <div className="end-time">
+                                                    <NumberInputBasic
+                                                        value={endHour}
+                                                        //placeholder = "HH"
+                                                        onChange={setEndHour}
+                                                        darkMode={darkMode} />
+                                                    :
+                                                    <QuantityInput
+                                                        value={endMin}
+
+                                                        //placeholder = "MM"
+                                                        onChange={setEndMin}
+                                                        darkMode={darkMode} />
+                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="text">
                                     <div className="inputArea">
                                         { isClicked === 0 &&
                                             <textarea

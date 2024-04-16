@@ -79,6 +79,16 @@
     flex-wrap: nowrap;
     position: relative;
 }
+.timestamp2 {
+    /* width: 250px; */
+    /* height: 50px; */
+    display: flex;
+    justify-content:space-between;
+    /* background-color: rgb(192, 255, 225); */
+    flex-wrap: nowrap;
+    position: relative;
+    display: None;
+}
 
 .timestamp-textarea {
     width: 50px;
@@ -381,9 +391,25 @@
     border-radius: 10px 10px 0 0;
 }
 
+.invisible {
+    opacity: 0;
+}
+
+.primary-modes {
+    display: flex;
+}
+
 .dropdown-menu {
     padding-right: 10px;
     font-size: 13px;
+}
+
+.tone-layout-div {
+    display: flex;
+}
+
+.second-row {
+    display: none;
 }
 
 .customSumBtn {
@@ -410,7 +436,19 @@
     background-color: white !important;
 } */
 
+.citations2 {
+    display: None;
+}
+.video-setting2 {
+    display: None;
+}
+
 .word-count-level {
+    /* background-color: yellow; */
+    display: grid;
+    place-items: center;
+}
+.word-count-level2 {
     /* background-color: yellow; */
     display: grid;
     place-items: center;
@@ -450,7 +488,7 @@
     font-size: clamp(1rem, 1.1vw, 1rem);
 } */
 
-@media (max-width: 935px) {
+@media (max-width: 950px) {
     /* .customSumBtn {
         width: clamp(0.8rem, 13vw, 10rem);
         height: clamp(0.8rem, 5vh, 10rem);
@@ -533,5 +571,33 @@
         position: static;
         padding-bottom: 10px;
         padding-right: 10px;
+    }
+}
+
+@media (max-width: 1460px) {
+    /* .primary-modes {
+        display: grid;
+        justify-content: space-between;
+        gap: 10px;
+    } */
+    .second-row {
+        display: block;
+    }
+    .word-count-level {
+        display: None;
+    }
+}
+
+@media (max-width: 1185px) {
+    /* .primary-modes {
+        display: grid;
+        justify-content: space-between;
+        gap: 10px;
+    } */
+    .citations, .video-setting, .timestamp {
+        display: None;
+    }
+    .citations2, .video-setting2, .timestamp2 {
+        display: flex;
     }
 }

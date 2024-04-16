@@ -212,7 +212,7 @@ a {
 }
 .premium-light{
   background-color: var(--clr-accent2);
-  border-bottom: 1px solid var(--clr-light1);
+  /* border-bottom: 1px solid var(--clr-light1); */
 }
 .premium-dark{
   background-color: var(--clr-accent3);
