@@ -391,6 +391,12 @@ a {
   background-color: var(--clr-accent4);
 }
 
+/* API Access Popup */
+.copy-dark{
+  /* background-color: var(--clr-light2); */
+  color: var(--clr-accent3);
+}
+
 .span-light{
   color: rgb(0, 167, 0);
 }

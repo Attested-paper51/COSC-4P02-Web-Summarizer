@@ -88,6 +88,14 @@
     width: 100%;
 }
 
+.api-textfield:focus {
+    outline: none;
+}
+
+.api-textfield:hover {
+    cursor: default;
+}
+
 .api-wrapper .copy{
     position: absolute;
     top: 50%;

@@ -27,13 +27,13 @@ const APIAccess = () => {
   const[APIKeyPopup, setAPIKeyPopup] = useState(false);
   const [APIKey, setAPIKey] = useState('');
   const [CopyAPIKey, setCopyAPIKey] = useState(false)
-    const handleCopy = () => {
+  const handleCopy = () => {
         navigator.clipboard.writeText(APIKey)
         setCopyAPIKey(true)
         setTimeout(() => {
           setCopyAPIKey(false);
         }, 3000); // Reverts back to 'Submit' after 3 seconds
-    }
+  }
 
   const handleFetchAPIKey = async () => {
     const email = localStorage.getItem('email');
@@ -81,6 +81,7 @@ const APIAccess = () => {
             <h3> Authentication </h3>
             <p>The API requires an API key for authentication to ensure secure access to its features.</p>
             
+            {/* <button className='api-key' onClick={() => setAPIKeyPopup(true)}> */}
             <button className='api-key' onClick={handleFetchAPIKey}>
             <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
               <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
@@ -333,7 +334,7 @@ const APIAccess = () => {
                   />
                   <div className='copy'>
                     {/* Display 'FaCopy' icon if copied, otherwise display 'FaRegCopy' */}
-                    {CopyAPIKey ? <FaCopy onClick={handleCopy} /> : <FaRegCopy onClick={handleCopy} />}
+                    {CopyAPIKey ? <FaCopy className={`${darkMode ? 'copy-dark' : 'copy-light'}`} onClick={handleCopy} /> : <FaRegCopy className={`${darkMode ? 'copy-dark' : 'copy-light'}`} onClick={handleCopy} />}
                   </div>
                 </div>
                 <button className='close-btn' onClick={() => setAPIKeyPopup(false)}>
