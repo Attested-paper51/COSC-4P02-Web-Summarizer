@@ -20,7 +20,7 @@ const History = () => {
   const email = localStorage.getItem('email');
   //let user = localStorage.getItem('user_id');
   const [username, setUsername] = useState('');
-  console.log("username on History.js is: " + username);
+  //console.log("username on History.js is: " + username);
   const handleSumButtonClick = () => {
     setShowSumSection(true);
     setShowShortSection(false);
@@ -78,7 +78,7 @@ const History = () => {
       if (response.ok) {
         const data = await response.json();
         setHistoryData(data.history);
-        console.log(data.history);
+        //console.log(data.history);
       } else {
         console.error('Failed to fetch history data');
       }
@@ -100,7 +100,7 @@ const History = () => {
         if (response.ok) {
             const data = await response.json();
             setData(data.shortenedURLs); // Assuming your backend returns an array of objects
-            console.log(data.shortenedURLs);
+            //console.log(data.shortenedURLs);
         } else {
             console.error('Failed to fetch shortened URL history');
         }

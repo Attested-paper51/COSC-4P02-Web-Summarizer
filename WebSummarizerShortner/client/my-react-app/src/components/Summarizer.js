@@ -119,6 +119,8 @@ const Summarizer = () => {
         if(isClicked !== buttonIndex)
         {
             setClickedButton(buttonIndex)
+            setSaveSummary('Save Summary');
+            setSaveClicked(false);
             emptyTextContent()
             showShorten(false)
             setTemplate(templates[0])
@@ -220,8 +222,10 @@ const Summarizer = () => {
 
     // empties input and output
     const emptyTextContent = () => {
-        setInputContent('')
-        setOutputContent('')
+        setInputContent('');
+        setOutputContent('');
+        setSaveSummary('Save Summary');
+        setSaveClicked(false);
     }
 
     // empties content and closes Dialog Box
@@ -398,11 +402,12 @@ const Summarizer = () => {
     // for showing the error
     
 
-    const [SaveSummary, SetSaveSummary] = useState('Save Summary')
+    const [SaveSummary, setSaveSummary] = useState('Save Summary');
+    const [isSaveClicked, setSaveClicked] = useState(false);
 
     //adding a summary and input content to history
     const addToHistory = async () => {
-        SetSaveSummary('Saved Summary!')
+        
         if (inputContent === '') {
             setErrorMessage('The input field is blank; please input something to generate a summary.');
             setOpenError(true);
@@ -424,7 +429,16 @@ const Summarizer = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
+                if (result.message === "Summary history is full. Please delete a previous entry.") {
+                    setErrorMessage(result.message);
+                    setOpenError(true);
+                    return;
+                }else{
+                    setSaveSummary('Saved Summary!');
+                    setSaveClicked(true);
+                    console.log(result.message);
+                }
+                
             }
 
         } catch (error) {
@@ -1126,7 +1140,7 @@ const summarizeText = () => {
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
                                         { userEmail && outputContent != '' &&
-                                            <button className="summarize-btn" onClick={addToHistory}>
+                                            <button className="summarize-btn" onClick={addToHistory} disabled={isSaveClicked}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>{SaveSummary}</div>
                                                 </div>
