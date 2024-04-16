@@ -150,6 +150,13 @@ const URLShortener = () => {
 
     const [summarize, showSummarize] = useState(false);
 
+    const transferLink = () => {
+        const action = 'PUSH';
+        const state = { action, URL };
+        sessionStorage.setItem('URLState', JSON.stringify(state));
+        //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
+    }
+
     return (
         <div className={`url ${darkMode ? 'url-dark' : 'url-light'}`}>
             {/* <h1>Shorten a URL</h1>*/}
@@ -235,15 +242,15 @@ const URLShortener = () => {
                 onConfirm={handleEmptyConfirm}
                 />
                 
-                { summarize &&
-                    <Link to = "/Summarizer">
+                { 
+                    <a href="/Summarizer" onClick={transferLink}>
                         <div className='url-div3'>
                             <button 
                                 className={`summarize-url-content ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                 <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Summarize the URL content</div>
                             </button> 
                         </div>
-                    </Link>
+                    </a>
                 }
                 
             </div>
