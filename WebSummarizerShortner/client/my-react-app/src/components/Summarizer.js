@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
@@ -15,11 +15,9 @@ import { GoThumbsdown } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
 import { IoClipboard } from "react-icons/io5";
-import { FaRegCopy } from "react-icons/fa6";
-import { FaCopy } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { PiExport } from "react-icons/pi";
-import { FaChevronUp } from "react-icons/fa6";
+
 // Components
 import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
@@ -36,22 +34,19 @@ const Summarizer = () => {
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
 
-    const [open, setOpen] = useState(false);
-    const [openEmptyInput, setOpenEmptyInput] = useState(false);
     const [openError, setOpenError] = useState(false);
-    const [openTemplates, setOpenTemplates] = useState(false);
-    const [openFullTemplateAlert, setOpenFullTemplateAlert] = useState(false);
 
     const [shorten, showShorten] = useState(false);
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [value, setValue] = useState(null);
-    //const [isPremium, setPremium] = useState(false);
     const userEmail = localStorage.getItem('email');
-    
-    //const username = localStorage.getItem('user_id')
-    //console.log(`this is the username: ${username}`)
+
+    // get state from the sessionStorage
+    const storedState = sessionStorage.getItem('URLState');
+    // Parse the stored state from it
+    const parsedState = storedState ? JSON.parse(storedState) : null;
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -81,8 +76,6 @@ const Summarizer = () => {
 
     const email = localStorage.getItem('email');
     const [username, setUsername] = useState('');
-
-    const navigate = useNavigate();
 
     const [dialogConfig, setDialogConfig] = useState({
         open: false,
@@ -195,6 +188,22 @@ const Summarizer = () => {
         }
     })
 
+    useEffect (() => {
+        // detects the condition of state transfer
+        if (parsedState && parsedState.action === 'PUSH') {
+            if (String(window.performance.getEntries()[0].type) === "navigate") {
+                toggleClicked(1)
+                setInputContent(parsedState.URL)
+            }
+            else if (String(window.performance.getEntries()[0].type) === "reload") {
+                setInputContent("")
+            }
+            console.log("push")
+        } else {
+            console.log("pop")
+        }
+    }, [])
+
 
     const componentDidMount = () => {
         // // This is called after the component has been mounted to the DOM
@@ -241,9 +250,7 @@ const Summarizer = () => {
     }
     const thumbsDown = () => {
         console.log("Output summary is bad.")
-        setOutputContent('Bilaaaaal')
-        //navigate("/Shortener", {state: { inputContent: inputContent }});
-        //alert(sliderValue)
+        //setOutputContent('Bilaaaaal')
     }
 
     const [isCopied, setCopy] = useState(false)
@@ -277,15 +284,11 @@ const Summarizer = () => {
     }
 
     const handleSaveTemplateChange = async (item) => {
-        //setSaveTemplate(item);
-        //console.log("item in handleSavTemplate",item);
-        //console.log("selectedSaveTemp:",selectedSaveTemplate);
         
         const isTaken = await checkIfTemplateSlotTaken(item);
         //if it is taken
         if (isTaken) {
             //console.log("so then result.length is not null.");
-            //setOpenFullTemplateAlert(true);
             openDialog({
                 title: "Warning!",
                 content: "Warning: This template slot already exists. Overwriting this template will replace its current settings. Are you sure you want to proceed?",
@@ -309,7 +312,6 @@ const Summarizer = () => {
         //close the dialog box
         handleClose()
         //handleFullTemplateAlertClose();
-        //
     }
 
     // For closing Multiple Error Dialog Box
@@ -323,7 +325,6 @@ const Summarizer = () => {
 
     const checkEmptyInput = () => {
         if(inputContent === '') {
-            //setOpenEmptyInput(true)
             openDialog({
                 title: "Error",
                 content: "Please enter some text to summarize.",
@@ -340,7 +341,7 @@ const Summarizer = () => {
     }
 
     const transferLink = () => {
-        const action = 'PUSH'; // Define the action here
+        const action = 'PUSH';
         const state = { action, inputContent };
         sessionStorage.setItem('state', JSON.stringify(state));
         //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
@@ -380,8 +381,7 @@ const Summarizer = () => {
             }
         }
     }
-
-
+    
 
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
@@ -810,69 +810,73 @@ const summarizeText = () => {
                                         <p>Modes:</p>
                                     </div>
                                     <div className="dropdown-menus modes">
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedTone}
-                                                content={<>
-                                                    {
-                                                        tone.map(item =>
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleToneChange(item)}>
-                                                                {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>}
-                                            />
-                                        </div>
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedLayout}
-                                                content={<>
-                                                    {
-                                                        layout.map(item =>
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleLayoutChange(item)}>
-                                                                {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>}
-                                            />
-                                        </div>
-                                        <div className="word-count-level">
-                                            <div className="slider-text">
-                                                <p>Summary Length:</p>
+                                        <div className="primary-modes">
+                                            <div className="tone-layout-div">
+                                                <div className="dropdown-menu">
+                                                    <Dropdown
+                                                        buttonText={selectedTone}
+                                                        content={<>
+                                                            {
+                                                                tone.map(item =>
+                                                                    <DropdownItem
+                                                                        key={item}
+                                                                        onClick={() => handleToneChange(item)}>
+                                                                        {`${item}`}
+                                                                    </DropdownItem>)
+                                                            }
+                                                        </>}
+                                                    />
+                                                </div>
+                                                <div className="dropdown-menu">
+                                                    <Dropdown
+                                                        buttonText={selectedLayout}
+                                                        content={<>
+                                                            {
+                                                                layout.map(item =>
+                                                                    <DropdownItem
+                                                                        key={item}
+                                                                        onClick={() => handleLayoutChange(item)}>
+                                                                        {`${item}`}
+                                                                    </DropdownItem>)
+                                                            }
+                                                        </>}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="slider-container">
+                                            <div className="word-count-level">
                                                 <div className="slider-text">
-                                                    <p>Short</p>
+                                                    <p>Summary Length:</p>
                                                 </div>
-                                                <div className="slider-wrapper">
-                                                    <Box sx={{ width: 100 }} className="slider">
-                                                        <Slider
-                                                            aria-label="Temperature"
-                                                            value={sliderValue}
-                                                            onChange={changeSliderValue}
-                                                            defaultValue={value}
-                                                            getAriaValueText={valuetext}
-                                                            // valueLabelDisplay="auto"
-                                                            shiftStep={0}
-                                                            step={1}
-                                                            marks
-                                                            min={1}
-                                                            max={3}
-                                                            color="primary"
-                                                        />
-                                                    </Box>
-                                                </div>
-                                                <div className="slider-text">
-                                                    <p>Long</p>
+                                                <div className="slider-container">
+                                                    <div className="slider-text">
+                                                        <p>Short</p>
+                                                    </div>
+                                                    <div className="slider-wrapper">
+                                                        <Box sx={{ width: 100 }} className="slider">
+                                                            <Slider
+                                                                aria-label="Temperature"
+                                                                value={sliderValue}
+                                                                onChange={changeSliderValue}
+                                                                defaultValue={value}
+                                                                getAriaValueText={valuetext}
+                                                                // valueLabelDisplay="auto"
+                                                                shiftStep={0}
+                                                                step={1}
+                                                                marks
+                                                                min={1}
+                                                                max={3}
+                                                                color="primary"
+                                                            />
+                                                        </Box>
+                                                    </div>
+                                                    <div className="slider-text">
+                                                        <p>Long</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         { isClicked === 1 &&
-                                            <div className="dropdown-menu">
+                                            <div className="dropdown-menu citations">
                                                 <Dropdown
                                                     buttonText={selectedCitationType}
                                                     content={<>
@@ -889,7 +893,7 @@ const summarizeText = () => {
                                             </div>
                                         }
                                         { isClicked === 2 &&
-                                            <div className="dropdown-menu">
+                                            <div className="dropdown-menu video-setting">
                                                 <Dropdown
                                                     buttonText={selectedVideoSetting}
                                                     content={<>
@@ -954,69 +958,191 @@ const summarizeText = () => {
                                                 </div>
                                             </div>
                                         }
-                                        </div>
-                                    </div>
-
-                                    <div className="template-config-buttons">
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedSaveTemplate}
-                                                content={<>
-                                                    {
-                                                        saveTemplates.slice(1).map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                //onClick = {()=> }
-                                                                onClick={() => handleSaveTemplateChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
-                                        {/* <div className="save-template">
-                                            <div className="dropdown-menu">
-                                                <div className="dropdown">
-                                                    <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
-                                                        Save Settings */}
-                                    {/* <span className="toggle-icon"> 
-                                                            <FaChevronUp/>
-                                                        </span> */}
-                                    {/* </button>
-                                                </div> */}
-                                    {/* <button className='summarize-btn'>
-                                                    <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                        <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
-                                                    </div>
-                                                </button> */}
-                                    {/* </div>
-                                        </div> */}
-                                    {/* <div className="save-custom-info">
-                                            <button className='summarize-btn'>
-                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
-                                                </div>
-                                            </button>
-                                        </div> */}
-                                        <div className="dropdown-menu">
-                                            <Dropdown
-                                                buttonText={selectedTemplate}
-                                                content={<>
-                                                    {
-                                                        templates.slice(1).map(item => 
-                                                            <DropdownItem
-                                                                key={item}
-                                                                onClick={() => handleTemplateChange(item)}>
-                                                                    {`${item}`}
-                                                            </DropdownItem>)
-                                                    }
-                                                </>} 
-                                            />
-                                        </div>
                                     </div>
                                 </div>
-                                {/* </div>)} */}
-                                <div className="text">
+
+                                <div className="template-config-buttons">
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedSaveTemplate}
+                                            content={<>
+                                                {
+                                                    saveTemplates.slice(1).map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            //onClick = {()=> }
+                                                            onClick={() => handleSaveTemplateChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                    {/* <div className="save-template">
+                                        <div className="dropdown-menu">
+                                            <div className="dropdown">
+                                                <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
+                                                    Save Settings */}
+                                {/* <span className="toggle-icon"> 
+                                                        <FaChevronUp/>
+                                                    </span> */}
+                                {/* </button>
+                                            </div> */}
+                                {/* <button className='summarize-btn'>
+                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
+                                                </div>
+                                            </button> */}
+                                {/* </div>
+                                    </div> */}
+                                {/* <div className="save-custom-info">
+                                        <button className='summarize-btn'>
+                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                                                <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
+                                            </div>
+                                        </button>
+                                    </div> */}
+                                    <div className="dropdown-menu">
+                                        <Dropdown
+                                            buttonText={selectedTemplate}
+                                            content={<>
+                                                {
+                                                    templates.slice(1).map(item => 
+                                                        <DropdownItem
+                                                            key={item}
+                                                            onClick={() => handleTemplateChange(item)}>
+                                                                {`${item}`}
+                                                        </DropdownItem>)
+                                                }
+                                            </>} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={`premium-container second-row ${darkMode ? 'premium-dark' : 'premium-light'}`}>
+                                <div className="modes">
+                                    <div className="mode invisible">
+                                        <p>Modes:</p>
+                                    </div>
+                                    <div className="word-count-level2">
+                                                <div className="slider-text">
+                                                    <p>Summary Length:</p>
+                                                </div>
+                                                <div className="slider-container">
+                                                    <div className="slider-text">
+                                                        <p>Short</p>
+                                                    </div>
+                                                    <div className="slider-wrapper">
+                                                        <Box sx={{ width: 100 }} className="slider">
+                                                            <Slider
+                                                                aria-label="Temperature"
+                                                                value={sliderValue}
+                                                                onChange={changeSliderValue}
+                                                                defaultValue={value}
+                                                                getAriaValueText={valuetext}
+                                                                // valueLabelDisplay="auto"
+                                                                shiftStep={0}
+                                                                step={1}
+                                                                marks
+                                                                min={1}
+                                                                max={3}
+                                                                color="primary"
+                                                            />
+                                                        </Box>
+                                                    </div>
+                                                    <div className="slider-text">
+                                                        <p>Long</p>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                    { isClicked === 1 &&
+                                        <div className="dropdown-menu citations2">
+                                            <Dropdown
+                                                buttonText={selectedCitationType}
+                                                content={<>
+                                                    {
+                                                        citationType.map(item => 
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleCitationChange(item)}>
+                                                                    {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>} 
+                                            />
+                                        </div>
+                                    }
+                                    { isClicked === 2 &&
+                                        <div className="dropdown-menu video-setting2">
+                                            <Dropdown
+                                                buttonText={selectedVideoSetting}
+                                                content={<>
+                                                    {
+                                                        videoSetting.map(item =>
+                                                            <DropdownItem
+                                                                key={item}
+                                                                onClick={() => handleVideoSettingChange(item)}>
+                                                                {`${item}`}
+                                                            </DropdownItem>)
+                                                    }
+                                                </>}
+                                            />
+                                        </div>
+                                    }
+
+                                    { isClicked === 2 && selectedVideoSetting === videoSetting[1] &&
+                                        <div className="timestamp2">
+                                            <div className="start">
+                                                Start Time:
+                                                <div className="start-time">
+                                                    {/* <textarea 
+                                                        className="timestamp-textarea" 
+                                                        id="startM" 
+                                                        name="startM" 
+                                                        placeholder='Minutes'>
+                                                    </textarea> */}
+                                                    <NumberInputBasic
+                                                        value={startHour}
+                                                        //placeholder = "HH"
+                                                        onChange={setStartHour}
+                                                        darkMode={darkMode} />
+                                                    :
+                                                    <QuantityInput
+                                                        value={startMin}
+                                                        //placeholder = "MM"
+                                                        onChange={setStartMin}
+                                                        darkMode={darkMode} />
+                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
+                                                </div>
+                                            </div>
+
+                                            <div className="end">
+                                                End Time:
+                                                <div className="end-time">
+                                                    <NumberInputBasic
+                                                        value={endHour}
+                                                        //placeholder = "HH"
+                                                        onChange={setEndHour}
+                                                        darkMode={darkMode} />
+                                                    :
+                                                    <QuantityInput
+                                                        value={endMin}
+
+                                                        //placeholder = "MM"
+                                                        onChange={setEndMin}
+                                                        darkMode={darkMode} />
+                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
+                                                    :
+                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="text">
                                     <div className="inputArea">
                                         { isClicked === 0 &&
                                             <textarea
