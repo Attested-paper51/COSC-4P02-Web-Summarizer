@@ -29,6 +29,9 @@ const VerifyUser = () => {
       }else if (result.message === 'Email not found!') {
         setEmailError(result.message);
         setEmail('');
+      }else if (result.message === 'Cannot reset the password of a Google/FB authenticated account.') {
+        setEmailError(result.message);
+        setEmail('');
       }
 
     }else {

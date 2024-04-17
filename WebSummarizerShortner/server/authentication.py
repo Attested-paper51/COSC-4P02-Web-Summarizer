@@ -49,9 +49,16 @@ class Authentication:
 
     def loginUser(self,email,password):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM users WHERE email = %s AND password = %s", (email, password))
+        print(self.getLoginMethod(email))
+        if (self.getLoginMethod(email) == -1):
+            return 0
+        elif (self.getLoginMethod(email) != 'manual'):
+            return -1
+        cursor.execute("SELECT COUNT(*) FROM users WHERE email = %s AND password = %s AND login_method = 'manual'", (email, password))
         count = cursor.fetchone()[0]
-        return count == 1
+        if count == 1:
+            return 1
+        return 0
 
     def isPasswordValid(self, password):
         if not (8 <= len(password) <=20):
@@ -152,8 +159,10 @@ class Authentication:
     def getLoginMethod(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT login_method FROM users WHERE email = %s",(email,))
-        result = cursor.fetchone()[0]
-        return result
+        result = cursor.fetchone()
+        if result == None:
+            return -1
+        return result[0]
 
 
     def createAPIKey(self,username):
@@ -352,8 +361,12 @@ def verify():
     data = request.get_json()
     email = data.get('email')
     userMgr = Authentication()
+    
     if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Email found.'})
+        loginMethod = userMgr.getLoginMethod(email)
+        if (loginMethod == 'manual'):
+            return jsonify({'message':'Email found.'})
+        return jsonify({'message':'Cannot reset the password of a Google/FB authenticated account.'})
     return jsonify({'message':'Email not found!'})
 
 #Resetting a user's password, given that they forgot their old.
@@ -456,10 +469,16 @@ def login():
     password = data.get('pass')
 
     userMgr = Authentication()
-    if (userMgr.loginUser(email,password)):
+    canLogin = userMgr.loginUser(email,password)
+    if (canLogin == 1):
         name = userMgr.getName(email)
         username = userMgr.getUsername(email)
+        print(canLogin)
         return jsonify({'message':'User found.','name':name, 'username':username})
+    elif (canLogin == -1):
+        print(canLogin)
+        return jsonify({'message':'Email is associated with Google/FB authentication.'})
+    print(canLogin)
     return jsonify({'message':'User not found or password is incorrect.'})
 
 @appA.route('/delete',methods=['POST'])
@@ -624,7 +643,7 @@ def checkTemplate():
 
 
 if __name__ == '__main__':
-    appA.run(port=5001)
+    appA.run(port=5001,debug=True)
     
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")

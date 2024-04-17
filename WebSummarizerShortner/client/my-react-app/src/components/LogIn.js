@@ -88,6 +88,8 @@ const defaultConfirm = () => {
             
             setPass('');
             setEmail('');
+          }else if (result.message === 'Email is associated with Google/FB authentication.') {
+            setPassError(result.message);
           }
       } else {
           console.error('Failed to login.');
