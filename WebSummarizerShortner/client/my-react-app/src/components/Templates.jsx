@@ -67,22 +67,22 @@ const Templates = () => {
     const [selectedCitationType3, setCitationType3] = useState(citationType[0]);
 
     //timestamp vars
-    const [startHour, setStartHour] = useState(0);
-    const [startMin, setStartMin] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-    const [endMin, setEndMin] = useState(0);
+    const [startHour, setStartHour] = useState();
+    const [startMin, setStartMin] = useState();
+    const [endHour, setEndHour] = useState();
+    const [endMin, setEndMin] = useState();
 
      //timestamp vars - template 2
-     const [startHour2, setStartHour2] = useState(0);
-     const [startMin2, setStartMin2] = useState(0);
-     const [endHour2, setEndHour2] = useState(0);
-     const [endMin2, setEndMin2] = useState(0);
+     const [startHour2, setStartHour2] = useState();
+     const [startMin2, setStartMin2] = useState();
+     const [endHour2, setEndHour2] = useState();
+     const [endMin2, setEndMin2] = useState();
 
       //timestamp vars - template 3
-    const [startHour3, setStartHour3] = useState(0);
-    const [startMin3, setStartMin3] = useState(0);
-    const [endHour3, setEndHour3] = useState(0);
-    const [endMin3, setEndMin3] = useState(0);
+    const [startHour3, setStartHour3] = useState();
+    const [startMin3, setStartMin3] = useState();
+    const [endHour3, setEndHour3] = useState();
+    const [endMin3, setEndMin3] = useState();
 
 
     const valuetext = (value) => {
@@ -881,10 +881,10 @@ const Templates = () => {
         setClickedButton(0);
         setVideoSetting(videoSetting[0]);
         setCitationType(citationType[0]);
-        setStartHour("HH");
-        setStartMin("MM");
-        setEndHour("HH");
-        setEndMin("MM");
+        setStartHour();
+        setStartMin();
+        setEndHour();
+        setEndMin();
         var templatename = "customTemplate1";
         try {
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -913,10 +913,10 @@ const Templates = () => {
         setClickedButton2(0);
         setVideoSetting2(videoSetting[0]);
         setCitationType2(citationType[0]);
-        setStartHour2("HH");
-        setStartMin2("MM");
-        setEndHour2("HH");
-        setEndMin2("MM");
+        setStartHour2();
+        setStartMin2();
+        setEndHour2();
+        setEndMin2();
         var templatename = "customTemplate2";
         try {
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -945,10 +945,10 @@ const Templates = () => {
             setClickedButton3(0);
             setVideoSetting3(videoSetting[0]);
             setCitationType3(citationType[0]);
-            setStartHour3("HH");
-            setStartMin3("MM");
-            setEndHour3("HH");
-            setEndMin3("MM");
+            setStartHour3();
+            setStartMin3();
+            setEndHour3();
+            setEndMin3();
             var templatename = "customTemplate3";
             try {
                 const response = await fetch('http://localhost:5001/cleartemplate', {

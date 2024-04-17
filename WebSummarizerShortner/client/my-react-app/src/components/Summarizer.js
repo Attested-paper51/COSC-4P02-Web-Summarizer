@@ -74,10 +74,10 @@ const Summarizer = () => {
     const sliderLength = ["short", "medium", "long"];
     const [sliderValue, setSliderValue] = useState(1);
 
-    const [startHour, setStartHour] = useState(0);
-    const [startMin, setStartMin] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-    const [endMin, setEndMin] = useState(0);
+    const [startHour, setStartHour] = useState();
+    const [startMin, setStartMin] = useState();
+    const [endHour, setEndHour] = useState();
+    const [endMin, setEndMin] = useState();
 
     const email = localStorage.getItem('email');
     const [username, setUsername] = useState('');

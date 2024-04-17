@@ -34,6 +34,7 @@ export default function NumberInputBasic({value, onChange, darkMode}) {
     <NumberInput
       aria-label="Demo number input"
       placeholder="HH"
+      min = {0}
       value={value}
       onChange={(event, val) => onChange(val)}
       darkMode={darkMode} // Pass the darkMode prop to the NumberInput component
