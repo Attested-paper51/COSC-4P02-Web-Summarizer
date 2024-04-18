@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
 import { useTheme } from './ThemeContext.js';
 import { LoginSocialFacebook } from 'reactjs-social-login';
-import { FacebookLoginButton } from 'react-social-login-buttons';
+import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import DialogBox from '../components/DialogBox.js';
 
 const LogIn = () => {
@@ -172,15 +172,16 @@ const defaultConfirm = () => {
       client_id: clientId,
       callback: handleCallbackResponse
     });
+    //<GoogleLoginButton/>
 
     google.accounts.id.renderButton(
-      document.getElementById("gmail-login"),
-      { theme: "outline", size: "large", shape: "circle"}
+      document.getElementById("gmail-login-button")
+      //{ theme: "outline", size: "large", shape: "circle"}
     );
   }, []);
 
   function handleFBLogin(response) {
-    var data = response.data;
+    //var data = response.data;
     //console.log("email",data.email);
     //console.log("name",data.name);
 
@@ -240,7 +241,10 @@ const defaultConfirm = () => {
     <div className={`login-box ${darkMode ? 'login-dark' : 'login-light'}`}>
       <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className="form-title">Log in</div>
-        <div id="gmail-login"></div>
+        
+        <div id="gmail-login-button">
+          <GoogleLoginButton />
+        </div>
         { /*<button className="gmail-btn">
             <div className="gmail-overlap">
               <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
