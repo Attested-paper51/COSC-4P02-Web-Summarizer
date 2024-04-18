@@ -13,7 +13,7 @@ const History = () => {
   const [activeButton, setActiveButton] = useState(null); // State for active button
   const [historyData, setHistoryData] = useState([]); // State to store history data
 
-  const [data, setData] = useState(generateData(10));// number of rows is 10
+  const [data, setData] = useState([]);// number of rows is 10
   const [selectedRows, setSelectedRows] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -110,22 +110,7 @@ const History = () => {
 };
 
 
-  // Function to generate dummy data
-  function generateData(numRows) {
-    const newData = [];
-    for (let i = 1; i <= numRows; i++) {
-      newData.push({
-        id: i,
-        input: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        output: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        original: 'https://www.youtube.com/watch?v=bqOYm-q3ank&ab_channel=hola%EC%98%AC%EB%9D%BC',
-        shortened: 'https://rb.gy/tii8gw'
-      });
-    }
-    return newData;
-  }
-  
-
+ 
   const handleCheckboxChange = (id) => {
     setSelectedRows(prevSelectedRows => ({
       ...prevSelectedRows,
@@ -137,6 +122,23 @@ const History = () => {
   const handleSelectAll = () => {
   if (!selectAll) {
     const allSelected = historyData.reduce((acc, item) => {
+      acc[item[0]] = true;
+      return acc;
+    }, {});
+    console.log("Selecting All:", allSelected);
+    setSelectedRows(allSelected);
+    setSelectAll(true);
+  } else {
+    console.log("Clearing Selection");
+    setSelectedRows({});
+    setSelectAll(false);
+  }
+};
+
+
+const handleSelectAllShortened = () => {
+  if (!selectAll) {
+    const allSelected = data.reduce((acc, item) => {
       acc[item[0]] = true;
       return acc;
     }, {});
@@ -285,7 +287,7 @@ const handleDeleteShortenedURL = async () => {
           <div className='short-section'>
             {/* Content for URL Shortener section */}
             <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon'/>}</button>
+              <button className='control-btn' onClick={handleSelectAllShortened}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon'/>}</button>
               {Object.keys(selectedRows).length > 0 && (
                 <>
                   <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline className='delete-icon' /></button>
