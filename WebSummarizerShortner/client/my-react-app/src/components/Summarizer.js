@@ -455,6 +455,14 @@ const [isLoading, setIsLoading] = useState(false);
 const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
+     // Provide default values if startHour, startMin, endHour, or endMin are undefined or empty strings
+     const defaultHour = 0;
+     const defaultMin = 0;
+     const sanitizedStartHour = startHour || defaultHour;
+     const sanitizedStartMin = startMin || defaultMin;
+     const sanitizedEndHour = endHour || defaultHour;
+     const sanitizedEndMin = endMin || defaultMin;
+     //console.log(sanitizedEndHour);
 
     //fetch('/api/summarize', {
     fetch('http://127.0.0.1:5000/api/summarize', {
@@ -471,8 +479,8 @@ const summarizeText = () => {
             length: sliderLength[sliderValue],
             citation: selectedCitationType,
             option: selectedVideoSetting,
-            startTime: `${startHour}:${startMin}`,
-            endTime: `${endHour}:${endMin}`
+            startTime: `${sanitizedStartHour}:${sanitizedStartMin}`,
+            endTime: `${sanitizedEndHour}:${sanitizedEndMin}`
         }),
     })
     .then(response => {

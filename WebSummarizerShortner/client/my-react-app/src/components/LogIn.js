@@ -175,8 +175,8 @@ const defaultConfirm = () => {
     //<GoogleLoginButton/>
 
     google.accounts.id.renderButton(
-      document.getElementById("gmail-login-button")
-      //{ theme: "outline", size: "large", shape: "circle"}
+      document.getElementById("gmail-login-button"),
+      { }
     );
   }, []);
 
