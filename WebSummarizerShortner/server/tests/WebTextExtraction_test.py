@@ -1,5 +1,5 @@
 import pytest
-from WebTextExtraction import app
+from server.tests.WebTextExtraction import app
 import time
 #import WebTextExtraction
 from unittest.mock import patch, MagicMock
