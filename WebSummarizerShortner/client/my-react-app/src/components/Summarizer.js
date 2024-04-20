@@ -245,12 +245,43 @@ const Summarizer = () => {
     }
 
     // functions can be changed accordingly
-    const thumbsUp = () => {
-        console.log("Output summary is good!")
+    const thumbsUp = async () => {
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/thumbsup', { //Server use only
+            const response = await fetch('http://localhost:5001/thumbsup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to thumbs up.');
+            }
+            console.log('Thumbs up successful!');
+
+        }catch (error) {
+            console.log(error)
+        }
+        
     }
-    const thumbsDown = () => {
-        console.log("Output summary is bad.")
-        //setOutputContent('Bilaaaaal')
+    const thumbsDown = async () => {
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/thumbsdown', { //Server use only
+            const response = await fetch('http://localhost:5001/thumbsdown', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to thumbs down.');
+            }
+            console.log('Thumbs down successful!');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     const [isCopied, setCopy] = useState(false)
@@ -1223,10 +1254,10 @@ const summarizeText = () => {
                                     <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="feedback-buttons">
                                             <Tooltip title="Like" arrow>
-                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19} /></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp} disabled={!outputContent}><GoThumbsup size={19} /></button>
                                             </Tooltip>
                                             <Tooltip title="Dislike" arrow>
-                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19} /></button>
+                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown} disabled ={!outputContent}><GoThumbsdown size={19} /></button>
                                             </Tooltip>
                                         </div>
 
