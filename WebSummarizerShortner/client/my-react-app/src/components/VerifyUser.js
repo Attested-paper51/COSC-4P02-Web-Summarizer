@@ -12,6 +12,7 @@ const VerifyUser = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async() => {
+    //const response = await fetch('http://4p02shortify.com:5001/verify', { //Server use only
     const response = await fetch('http://localhost:5001/verify', {
       method: 'POST',
       headers: {

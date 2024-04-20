@@ -347,40 +347,6 @@ const Summarizer = () => {
         //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
     }
 
-    const saveSummary = async () => {
-
-        if (!inputContent || !outputContent || !username) {
-
-            console.log('Missing required fields.');
-            return;
-        }
-
-        else {
-            const url = 'http://localhost:5005/saveSummary';
-            const data = {
-                username: username,
-                inputT: inputContent,
-                summarizedT: outputContent,
-            };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                const responseData = await response.json();
-                console.log(responseData); // Logging the response for debugging purposes
-                // You can set some state here to show a success message to the user
-            } catch (error) {
-                console.error('Error saving summary:', error);
-                // You can set some state here to show an error message to the user
-            }
-        }
-    }
     
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -419,6 +385,7 @@ const Summarizer = () => {
         }
 
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/addsummarized', { //Server use only
             const response = await fetch('http://localhost:5001/addsummarized', {
                 method: 'POST',
                 headers: {
@@ -466,6 +433,7 @@ const summarizeText = () => {
 
     //fetch('/api/summarize', {
     fetch('http://127.0.0.1:5000/api/summarize', {
+    //fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -526,6 +494,7 @@ const summarizeText = () => {
 
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //For server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -672,6 +641,7 @@ const summarizeText = () => {
         
 
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
                 method: 'POST',
                 headers: {
@@ -703,6 +673,7 @@ const summarizeText = () => {
         //console.log("templateNameToFetch:",templatename);
         try {
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {

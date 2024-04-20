@@ -79,6 +79,7 @@ const URLShortener = () => {
         console.log(email);
         const fetchUsername = async () => {
             try {
+                //const response = await fetch('http://4p02shortify.com:5001/getusername', { //For server use only
                 const response = await fetch('http://localhost:5001/getusername', {
                     method: 'POST',
                     headers: {
@@ -116,7 +117,8 @@ const URLShortener = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5002/shorten', {
+            const response = await fetch('http://127.0.0.1:5002/shorten', {
+            //const response = await fetch('http://4p02shortify.com:5002/shorten', { //for server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +192,7 @@ const URLShortener = () => {
                                 type="text" 
                                 required
                                 onChange={(e) => setURL(e.target.value)}
-                                placeholder={`shortify.com/${username}`}
+                                placeholder={`4p02shortify.com/s/${username}/`}
                                 readOnly
                             />
                             {/* <div className='custom-div1'> */}
