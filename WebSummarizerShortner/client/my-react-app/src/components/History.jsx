@@ -220,15 +220,38 @@ const handleDeleteShortenedURL = async () => {
 };
 
 
-  const handleCopy = () => {
-    const outputValues = Object.keys(selectedRows).map(id => data.find(item => item.id === parseInt(id)).output);
+const handleCopy = () => {
+    const activeData = showSumSection ? historyData : data;  // Determine which dataset to use based on active section
+
+    const outputValues = Object.keys(selectedRows)
+      .filter(id => selectedRows[id])  // Filter for selected IDs
+      .map(id => {
+        const intId = parseInt(id, 10);  // Convert ID from string to integer
+        const foundItem = activeData.find(item => item && item[0] === intId);  // Find the item in the correct dataset
+        if (!foundItem) {
+          console.error('Item not found for ID:', id);
+          return 'No data';  // Return 'No data' if not found
+        }
+        // Concatenate the values from foundItem[1] and foundItem[2] with a separator (e.g., " - ")
+        return foundItem[1] + ' - ' + foundItem[2];  // Modify this to change formatting if necessary
+      })
+      .filter(output => output !== 'No data');  // Remove 'No data' entries
+
+    if (outputValues.length === 0) {
+      console.log('No items selected or valid items not found in data.');
+      return;
+    }
+
     const outputText = outputValues.join('\n\n');
-    navigator.clipboard.writeText(outputText);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000); // Reverts back to 'Submit' after 3 seconds
-  };
+    navigator.clipboard.writeText(outputText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }).catch(err => {
+      console.error('Error copying text:', err);
+    });
+};
+
+
 
   return (
 
