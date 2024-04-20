@@ -13,6 +13,8 @@ from dotenv import load_dotenv
 # Set your AWS region and S3 bucket name
 AWS_REGION = "ca-central-1"
 S3_BUCKET_NAME = "ytaudiotranscribe"
+
+#initiating dot environment
 load_dotenv()
 aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
