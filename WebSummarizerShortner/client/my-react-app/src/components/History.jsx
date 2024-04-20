@@ -39,6 +39,7 @@ const History = () => {
         console.log(email);
         const fetchUsername = async () => {
             try {
+              //const response = await fetch('http://4p02shortify.com:5001/getusername', { //Server use only
                 const response = await fetch('http://localhost:5001/getusername', {
                     method: 'POST',
                     headers: {
@@ -68,6 +69,7 @@ const History = () => {
   // Function to fetch history data from the Flask backend
   const fetchHistoryData = async () => {
     try {
+      //const response = await fetch('http://4p02shortify.com:5005/history', { //Server use only
       const response = await fetch('http://localhost:5005/history', {
         method: 'POST',
         headers: {
@@ -90,6 +92,7 @@ const History = () => {
 
   const fetchShortenedURLHistory = async () => {
     try {
+      //const response = await fetch('http://4p02shortify.com:5005/shortenedHistory', { //Server use only
         const response = await fetch('http://localhost:5005/shortenedHistory', {
             method: 'POST',
             headers: {
@@ -160,6 +163,7 @@ const handleSelectAllShortened = () => {
   // Call the deleteHistory for each selected id
   for (const historyID of selectedIds) {
     try {
+      //const response = await fetch('http://4p02shortify.com:5005/deleteHistory', { //Server use only
       const response = await fetch('http://localhost:5005/deleteHistory', {
         method: 'POST',
         headers: {
@@ -192,6 +196,7 @@ const handleDeleteShortenedURL = async () => {
   // Iterate over selected IDs and attempt deletion for each
   for (const urlID of selectedIds) {
     try {
+      //const response = await fetch('http://4p02shortify.com:5005/deleteURL', { //Server use only
       const response = await fetch('http://localhost:5005/deleteURL', {
         method: 'POST',
         headers: {

@@ -39,6 +39,7 @@ const APIAccess = () => {
     const email = localStorage.getItem('email');
 
     try { 
+      //const response = await fetch('http://4p02shortify.com:5001/getapikey', { //Server use only
       const response = await fetch('http://localhost:5001/getapikey', {
             method: 'POST',
             headers: {

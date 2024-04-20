@@ -31,6 +31,7 @@ const Settings = () => {
 
   const handleDelete = async () => {
     try {
+      //const response = await fetch('http://4p02shortify.com:5001/delete', { //Server use only
       const response = await fetch('http://localhost:5001/delete', {
             method: 'POST',
             headers: {
@@ -52,6 +53,7 @@ const Settings = () => {
   const handleEmailChange = async () => {
 
     try {
+      //const response = await fetch('http://4p02shortify.com:5001/changeemail', { //Server use only
       const response = await fetch('http://localhost:5001/changeemail', {
             method: 'POST',
             headers: {
@@ -81,7 +83,8 @@ const Settings = () => {
   const handleNameChange = async () => {
    
     try {
-      const response = await fetch('http://localhost:5001/changeename', {
+      //const response = await fetch('http://4p02shortify.com:5001/changename', { //Server use only
+      const response = await fetch('http://localhost:5001/changename', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
