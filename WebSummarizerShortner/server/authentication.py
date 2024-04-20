@@ -416,7 +416,7 @@ def changeEmail():
     return jsonify({'message':'Email changed.'})
 
 
-@appA.route('/changeename',methods=['POST'])
+@appA.route('/changename',methods=['POST'])
 def changeName():
     data = request.get_json()
     email = data.get('email')
@@ -644,6 +644,7 @@ def checkTemplate():
 
 if __name__ == '__main__':
     appA.run(port=5001,debug=True)
+    #appA.run(host='0.0.0.0',port=5001) # For server use only
     
     #auth.addTemplate("emailTest1@gmail.com")
     #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")

@@ -49,6 +49,7 @@ class SimpleURLShortener:
         modURL = originalURL+uniqueIdentifier
         url_hash = hashlib.md5(modURL.encode()).hexdigest()[:6]
         # Create a link with the domain and the hash to the end
+        #shortURL = "http://4p02shortify.com/s/"+url_hash[:6] #For server use only
         shortURL = "http://127.0.0.1:5002/"+url_hash[:6]
         #shortURL = url_hash[:6]
 
@@ -81,7 +82,10 @@ class SimpleURLShortener:
         encodedCustomString = customString.replace('/','%2F')
 
         #shortURL = f"http://127.0.0.1:5002/{username}-{customString}"
+
+        #shortURL = f"http://4p02shortify.com/s/{username}/{encodedCustomString}" #For server use only
         shortURL = f"http://127.0.0.1:5002/{username}/{encodedCustomString}"
+        
 
 
         #check if the custom string is already in the database
@@ -129,45 +133,6 @@ class SimpleURLShortener:
         # Close the database connection when the object is deleted
         self.conn.close()
 
-def main():
-    url_shortener = SimpleURLShortener()
-
-    while True:
-        print("\nURL Shortener Menu:")
-        print("1. Shorten URL")
-        print("2. Resolve Shortened URL")
-        print("3. Exit")
-        print("4. Custom string")
-
-        choice = input("Enter your choice (1/2/3): ")
-
-        if choice == "1":
-            originalURL = input("Enter the URL you want to shorten: ")
-            shortened_url = url_shortener.shorten_url(originalURL)
-            print("Shortened URL:", shortened_url)
-
-        elif choice == "2":
-            short_url = input("Enter the shortened URL: ")
-            original_url = url_shortener.resolve_url(short_url)
-            print("Original URL:", original_url)
-            print("Click count for this link: ",url_shortener.getClickCount(short_url))
-
-        elif choice == "3":
-            print("Exiting.")
-            break
-
-        elif choice == "4":
-            originalURL = input("Enter the URL you wanna shorten: ")
-            customString = input("Enter the custom ending for your URL")
-            shortened_url = url_shortener.customShorten_url(originalURL,customString)
-            while shortened_url == -1:
-                customString = input("Custom string already taken, try again: ")
-                shortened_url = url_shortener.customShorten_url(originalURL,customString)
-            print("Shortened URL: ", shortened_url)
-
-
-        else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
 
 url_shortener = SimpleURLShortener()
 @appS.route('/shorten',methods=['POST'])
@@ -246,12 +211,15 @@ def getClicks():
 
 
 
-@appS.route('/<path:short_url>')
+@appS.route('/s/<path:short_url>')
 def redirectToOriginal(short_url):
     #print("short_url:"+short_url)
     decodedShort = unquote(short_url)
     #fullURL = "http://127.0.0.1:5002/"+short_url
-    fullURL = "http://127.0.0.1:5002/"+decodedShort
+
+    #fullURL = "http://4p02shortify.com/s/"+decodedShort #For server use only
+    fullURL = "http://172.0.0.1:5002/s/"+decodedShort
+
     #print("Full:"+fullURL)
     originalURL = url_shortener.resolve_url(fullURL)
     #print("Original:"+originalURL)
@@ -265,6 +233,7 @@ def redirectToOriginal(short_url):
 
 if __name__ == "__main__":
     appS.run(port=5002)
-    #main()
+    #appS.run(host='0.0.0.0',port=5002) #For server use only
+    
 
 
