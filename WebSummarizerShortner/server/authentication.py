@@ -350,6 +350,19 @@ class Authentication:
         self.conn.commit()
         return 1
 
+    #Thumbs up
+    def addThumbsUp(self):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE thumbs SET up = up+1")
+        self.conn.commit()
+        return 1
+
+    def addThumbsDown(self):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE thumbs SET down = down+1")
+        self.conn.commit()
+        return 1
+
     
 
 
@@ -639,6 +652,24 @@ def checkTemplate():
         return jsonify({'message':'Template in use.'})
         
     return jsonify({'message':'Template not in use.'})
+
+
+@appA.route('/thumbsup',methods=['POST'])
+def thumbsUp():
+    data = request.get_json()
+    userMgr = Authentication()
+    userMgr.addThumbsUp()
+    print("hey")
+    return jsonify({'message':'Thumbs up'})
+
+@appA.route('/thumbsdown',methods=['POST'])
+def thumbsDown():
+    data = request.get_json()
+    userMgr = Authentication()
+    userMgr.addThumbsDown()
+    return jsonify({'message':'Thumbs down'})
+
+
 
 
 

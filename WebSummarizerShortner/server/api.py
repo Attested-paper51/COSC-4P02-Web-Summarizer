@@ -54,5 +54,5 @@ if __name__ == '__main__':
 
     response = api.testGetClicks('6aff035d57bbbc5a9ccfbc83449b3b9c',"rahdhahfd")
     print(response)
-    response = api.testGetClicks('6aff035d57bbbc5a9ccfbc83449b3b9c',"http://127.0.0.1:5002/ad4b56")
+    response = api.testGetClicks('6aff035d57bbbc5a9ccfbc83449b3b9c',"http://127.0.0.1:5002/52f96f/render")
     print(response)
