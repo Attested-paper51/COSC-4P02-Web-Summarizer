@@ -497,6 +497,8 @@ const summarizeText = () => {
             throw new Error(data.error);
         }
         setOutputContent(data.summary);
+        setSaveSummary('Save Summary');
+        setSaveClicked(false);
     })
     .catch(error => {
         setIsLoading(false); // Ensure loading dialog is hidden on error
