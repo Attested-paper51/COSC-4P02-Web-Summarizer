@@ -232,15 +232,16 @@
 }
 
 .login-box .facebook button{
-    border-radius: 90px !important;
-    background-color: white !important;
-    color: #3c4043 !important;
+    /* border-radius: 90px !important; */
+    /* background-color: white !important; */
+    /* color: #3c4043 !important; */
     width: clamp(230px, 12vw, 1000px) !important; 
     font-size: clamp(0.9rem, 0.8vw, 10rem) !important;
     height: clamp(36px, 3.1vh, 500px) !important;
     text-align: center !important;
     font-family: "IBM Plex Sans" !important;
     font-weight: 450 !important;
+    padding-left: 2em !important;
 }
 
 
