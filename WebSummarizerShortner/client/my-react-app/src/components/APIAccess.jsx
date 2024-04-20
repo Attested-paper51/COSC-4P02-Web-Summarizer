@@ -82,8 +82,8 @@ const APIAccess = () => {
             <h3> Authentication </h3>
             <p>The API requires an API key for authentication to ensure secure access to its features.</p>
             
-            <button className='api-key' onClick={() => setAPIKeyPopup(true)}>
-            {/* <button className='api-key' onClick={handleFetchAPIKey}> */}
+            {/* <button className='api-key' onClick={() => setAPIKeyPopup(true)}> */}
+             <button className='api-key' onClick={handleFetchAPIKey}>
             <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
               <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
             </div>
@@ -211,11 +211,12 @@ const APIAccess = () => {
           <div>
             <h1> URL Shortener API Documentation</h1>
             <h3> Overview </h3>
-            <p>The URL Shortener API allows a user to utilize the URL shortening functionality implemented in this project. There are two provided functionalities, URL shortening, and short URL resolving - returning a short URL to its original form. </p>
+            <p>The URL Shortener API allows a user to utilize the URL shortening functionality implemented in this project. There are three provided functionalities, URL shortening, click count retrieval and short URL resolving - returning a short URL to its original form.  </p>
             <h3> Base URLs </h3>
             <p>
               The URL shortening functionality relies on the following base URL: <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>http://127.0.0.1:5002/apishorten</span> <br /> 
-              The short URL resolution functionality relies on the following base URL: <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>http://127.0.0.1:5002/apiresolve</span>
+              The short URL resolution functionality relies on the following base URL: <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>http://127.0.0.1:5002/apiresolve</span> <br />
+              The get click count functionality relies on the following base URL: <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>http://127.0.0.1:5002/apiclicks</span>
             </p>
             <h3> Authentication </h3>
             <p> The API key must be provided when making requests to the API.  </p>
@@ -227,7 +228,7 @@ const APIAccess = () => {
             </button>
 
             <h3>Endpoints</h3>
-            <h4>POST /apiapishorten</h4>
+            <h4>POST /apishorten</h4>
             <p>Shortens the provided original URL, provided that the URL begins with https://, http:// or www. This API does not support other URL types, and will return an error if this syntax is not followed.</p>
             <h4>Request Body</h4>
             <ul>
@@ -289,7 +290,7 @@ const APIAccess = () => {
                 url = 'http://localhost:5002/apiresolve' <br/>
                 data = {'{'}<br/>
                 &nbsp;&nbsp;&nbsp;&nbsp;'key': apiKey,<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;'originalURL': shortURL, <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'shortURL': shortURL, <br/>
                 {'}'}<br/>
                 #Make a post request to URL<br/>
                 response = requests.post(url,json=data)<br/> 
@@ -309,6 +310,48 @@ const APIAccess = () => {
               <br/>
             </code>
 
+            <h4>POST /apiclicks</h4>
+            <p>Returns the amount of clicks stored in the database that corresponds to the given short URL. Allows for analytics; users can see how much their short link has been used. </p>
+            <h4>Request Body</h4>
+            <ul>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>key</span>: The API key provided for you. </li>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>shortURL</span>: The short URL you wish to retrieve the click count from.  </li>
+            </ul>
+            <h4>Response</h4>
+            <ul>
+              <li><span className={`${darkMode ? 'span-dark' : 'span-light'}`}>Message</span>: Either the returned click count, or a string describing what went wrong if an error occurred. </li>
+            </ul>
+
+            <h4>Request Format:</h4>
+            <p>python</p>
+            <code>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
+                import requests<br/>
+                <br/>
+                #The URL of the API endpoint<br/>
+                url = 'http://localhost:5002/apiclicks' <br/>
+                data = {'{'}<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'key': apiKey,<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;'shortURL': shortURL, <br/>
+                {'}'}<br/>
+                #Make a post request to URL<br/>
+                response = requests.post(url,json=data)<br/> 
+                # The response embedded in message<br/>
+                return response.json()['message']<br/> 
+                <br/>
+              </span>
+            </code>
+            <h4>Request Response Example:</h4>
+            <p>json</p>
+            <code>
+              <span className={`${darkMode ? 'span-dark' : 'span-light'}`}>
+                {'{'}<br/>
+                  &nbsp;&nbsp;&nbsp;&nbsp;  "message": 4<br/>
+                {'}'}<br/>
+              </span>
+              <br/>
+            </code>
+
             <h3>Error Handling</h3>
             <p>Errors are displayed in the ‘message’ response. </p>
             <p><u>Shortening</u></p>
@@ -316,7 +359,7 @@ const APIAccess = () => {
               <li>If the API key is not valid: “API Key is not valid”</li>
               <li>If the URL doesn’t start with http://, https:// or www. : “Original URL not valid."</li>
             </ul>
-            <p><u>Resolving</u></p>
+            <p><u>Resolving and Click Counts</u></p>
             <ul>
               <li>If the API key is not valid: “API Key is not valid”</li>
               <li>If the short URL inputted is not valid (not in the database): “Short URL incorrect”</li>
