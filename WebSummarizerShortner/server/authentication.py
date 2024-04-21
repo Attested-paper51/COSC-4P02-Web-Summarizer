@@ -357,6 +357,7 @@ class Authentication:
         self.conn.commit()
         return 1
 
+    #Thumbs down
     def addThumbsDown(self):
         cursor = self.conn.cursor()
         cursor.execute("UPDATE thumbs SET down = down+1")
@@ -366,21 +367,23 @@ class Authentication:
     
 
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
 
 @appA.route('/verify',methods=['POST'])
 def verify():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        loginMethod = userMgr.getLoginMethod(email)
-        if (loginMethod == 'manual'):
-            return jsonify({'message':'Email found.'})
-        return jsonify({'message':'Cannot reset the password of a Google/FB authenticated account.'})
-    return jsonify({'message':'Email not found!'})
+    with Authentication() as userMgr:
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            loginMethod = userMgr.getLoginMethod(email)
+            if (loginMethod == 'manual'):
+                return jsonify({'message':'Email found.'})
+            return jsonify({'message':'Cannot reset the password of a Google/FB authenticated account.'})
+        return jsonify({'message':'Email not found!'})
 
 #Resetting a user's password, given that they forgot their old.
 @appA.route('/reset',methods=['POST'])
@@ -388,12 +391,12 @@ def resetPW():
     data = request.get_json()
     email = data.get('email')
     newPassword = data.get('pass')
-    userMgr = Authentication()
-    if not (userMgr.isPasswordValid(newPassword)):
-        return jsonify({'message':'New password requirements not met.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordValid(newPassword)):
+            return jsonify({'message':'New password requirements not met.'})
 
-    userMgr.resetPassword(email,newPassword)
-    return jsonify({'message':'Password changed successfully.'})
+        userMgr.resetPassword(email,newPassword)
+        return jsonify({'message':'Password changed successfully.'})
 
 
 #Changing a user's password, given that they know their current pass and
@@ -405,14 +408,14 @@ def changePW():
     password = data.get('password')
     newPassword = data.get('newPassword')#depends
 
-    userMgr = Authentication()
-    if not (userMgr.isPasswordValid(newPassword)):
-        return jsonify({'message':'New password requirements not met.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordValid(newPassword)):
+            return jsonify({'message':'New password requirements not met.'})
 
-    if (userMgr.changePassword(email,password,newPassword)):
-        return jsonify({'message':'Password changed successfully.'})
-    else:
-        return jsonify({'message':'Current password incorrect.'})
+        if (userMgr.changePassword(email,password,newPassword)):
+            return jsonify({'message':'Password changed successfully.'})
+        else:
+            return jsonify({'message':'Current password incorrect.'})
 
 
 @appA.route('/changeemail',methods=['POST'])
@@ -422,11 +425,11 @@ def changeEmail():
     newEmail = data.get('newEmail')
     password = data.get('password')
 
-    userMgr = Authentication()
-    if not (userMgr.isPasswordCorrect(email,password)):
-        return jsonify({'message':'Password invalid!'})
-    userMgr.changeEmail(email,newEmail,password)
-    return jsonify({'message':'Email changed.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordCorrect(email,password)):
+            return jsonify({'message':'Password invalid!'})
+        userMgr.changeEmail(email,newEmail,password)
+        return jsonify({'message':'Email changed.'})
 
 
 @appA.route('/changename',methods=['POST'])
@@ -434,8 +437,8 @@ def changeName():
     data = request.get_json()
     email = data.get('email')
     newName = data.get('newname')
-    userMgr = Authentication()
-    userMgr.changeName(newName,email)
+    with Authentication() as userMgr:
+        userMgr.changeName(newName,email)
     return jsonify({'message':'Name changed.'})
 
 @appA.route('/register', methods=['POST'])
@@ -446,31 +449,24 @@ def signup():
     password = data.get('pass')
     name = data.get('name')
     
-    
-    #Add this to .env
+    #Check whether the email is valid
     api_key = os.getenv("EMAILVF_PW")
-    
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
-
-    #commented out for now, testing.
+    response = requests.get(url)
+    result = response.json()
     
+    if 'data' not in result or result['data'].get('result') != 'deliverable':
+        return jsonify({'message': 'Email does not exist or is not deliverable.'})
 
-    #response = requests.get(url)
-    #result = response.json()
-    
-    #if 'data' not in result or result['data'].get('result') != 'deliverable':
-    #    return jsonify({'message': 'Email does not exist or is not deliverable.'})
     # Insert the user data into the database
-    userMgr = Authentication()
-    if not (userMgr.isPasswordValid(password)):
-        return jsonify({'message':'Password invalid.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordValid(password)):
+            return jsonify({'message':'Password invalid.'})
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            return jsonify({'message':'Email is already registered.'})
+        userMgr.registerUser(email,password,name)
 
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Email is already registered.'})
-    userMgr.registerUser(email,password,name)
-
-    userMgr.createTemplateRows(email)
-    #print("request made")
+        userMgr.createTemplateRows(email)
 
     return jsonify({'message': 'User registered successfully.'})
 
@@ -481,27 +477,25 @@ def login():
     email = data.get('email')
     password = data.get('pass')
 
-    userMgr = Authentication()
-    canLogin = userMgr.loginUser(email,password)
-    if (canLogin == 1):
-        name = userMgr.getName(email)
-        username = userMgr.getUsername(email)
-        print(canLogin)
-        return jsonify({'message':'User found.','name':name, 'username':username})
-    elif (canLogin == -1):
-        print(canLogin)
-        return jsonify({'message':'Email is associated with Google/FB authentication.'})
-    print(canLogin)
-    return jsonify({'message':'User not found or password is incorrect.'})
+    with Authentication() as userMgr:
+        canLogin = userMgr.loginUser(email,password)
+        if (canLogin == 1):
+            name = userMgr.getName(email)
+            username = userMgr.getUsername(email)
+            return jsonify({'message':'User found.','name':name, 'username':username})
+        elif (canLogin == -1):
+            print(canLogin)
+            return jsonify({'message':'Email is associated with Google/FB authentication.'})
+        return jsonify({'message':'User not found or password is incorrect.'})
 
 @appA.route('/delete',methods=['POST'])
 def deleteAccount():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    userMgr.deleteSummaries(email)
-    userMgr.deleteTemplates(email)
-    userMgr.deleteAccount(email)
+    with Authentication() as userMgr:
+        userMgr.deleteSummaries(email)
+        userMgr.deleteTemplates(email)
+        userMgr.deleteAccount(email)
     
     return jsonify({'message':'Account deleted.'})
 
@@ -511,47 +505,47 @@ def loginGoogle():
     data = request.get_json()
     email = data.get('emailGoogle')
     name = data.get('name')
-    userMgr = Authentication()
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        #if they're already registered, either they are with the login method we want or they're registered with another one.
-        #if registered with another method, dont let them login using this method. email has to be different. 
-        if (userMgr.getLoginMethod(email) != 'google'):
-            return jsonify({'message':'Email is associated with another log in method, please use that method.'})
-        dbName = userMgr.getName(email)
-        return jsonify({'message':'Already registered. Logging in.'
-        ,'name':dbName})
+    with Authentication() as userMgr:
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            #if they're already registered, either they are with the login method we want or they're registered with another one.
+            #if registered with another method, dont let them login using this method. email has to be different. 
+            if (userMgr.getLoginMethod(email) != 'google'):
+                return jsonify({'message':'Email is associated with another log in method, please use that method.'})
+            dbName = userMgr.getName(email)
+            return jsonify({'message':'Already registered. Logging in.'
+            ,'name':dbName})
 
     
     
-    userMgr.loginGoogle(email,name)
-    userMgr.createTemplateRows(email)
-    username = userMgr.getUsername(email)
-    userMgr.createAPIKey(username)
-    return jsonify({'message':'Registered with Google.'
-    ,'name':name})
+        userMgr.loginGoogle(email,name)
+        userMgr.createTemplateRows(email)
+        username = userMgr.getUsername(email)
+        userMgr.createAPIKey(username)
+        return jsonify({'message':'Registered with Google.'
+        ,'name':name})
 
 @appA.route('/loginfacebook',methods=['POST'])
 def loginFacebook():
     data = request.get_json()
     email = data.get('emailFB')
     name = data.get('name')
-    userMgr = Authentication()
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        #if they're already registered, either they are with the login method we want or they're registered with another one.
-        #if registered with another method, dont let them login using this method. email has to be different. 
-        if (userMgr.getLoginMethod(email) != 'facebook'):
-            return jsonify({'message':'Email is associated with another log in method, please use that method.'})
-        dbName = userMgr.getName(email)
-        return jsonify({'message':'Already registered. Logging in.'
-        ,'name':dbName})
+    with Authentication() as userMgr:
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            #if they're already registered, either they are with the login method we want or they're registered with another one.
+            #if registered with another method, dont let them login using this method. email has to be different. 
+            if (userMgr.getLoginMethod(email) != 'facebook'):
+                return jsonify({'message':'Email is associated with another log in method, please use that method.'})
+            dbName = userMgr.getName(email)
+            return jsonify({'message':'Already registered. Logging in.'
+            ,'name':dbName})
 
-    
-    userMgr.loginFacebook(email,name)
-    userMgr.createTemplateRows(email)
-    username = userMgr.getUsername(email)
-    userMgr.createAPIKey(username)
-    return jsonify({'message':'Registered with Google.'
-    ,'name':name})
+        
+        userMgr.loginFacebook(email,name)
+        userMgr.createTemplateRows(email)
+        username = userMgr.getUsername(email)
+        userMgr.createAPIKey(username)
+        return jsonify({'message':'Registered with Google.'
+        ,'name':name})
 
 
 @appA.route('/savetemplate',methods=['POST'])
@@ -565,11 +559,11 @@ def saveTemplate():
     length = data.get('length')
     citation = data.get('citation')
     templateName = data.get('templatename')
-    userMgr = Authentication()
-    #Note that we need to add num paragraphs, or just drop the col.
-    if userMgr.addTemplate(email,formality,structure,summType,timestamp,length,citation,templateName):
-        return jsonify({'message':'Template added.'})
-    return jsonify({'message':'Not added.'})
+    with Authentication() as userMgr:
+        
+        if userMgr.addTemplate(email,formality,structure,summType,timestamp,length,citation,templateName):
+            return jsonify({'message':'Template added.'})
+        return jsonify({'message':'Not added.'})
     
 
 @appA.route('/cleartemplate',methods=['POST'])
@@ -577,17 +571,17 @@ def clearTemplate():
     data = request.get_json()
     email = data.get('email')
     templateName = data.get('templatename')
-    userMgr = Authentication()
-    userMgr.clearTemplate(email,templateName)
-    return jsonify({'message':'Template cleared.'})
+    with Authentication() as userMgr:
+        userMgr.clearTemplate(email,templateName)
+        return jsonify({'message':'Template cleared.'})
 
 @appA.route('/getusername',methods=['POST'])
 def getUsername():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    username = userMgr.getUsername(email)
-    return jsonify({'message':username})
+    with Authentication() as userMgr:
+        username = userMgr.getUsername(email)
+        return jsonify({'message':username})
 
 @appA.route('/gettemplate',methods=['POST'])
 def getTemplate():
@@ -597,17 +591,17 @@ def getTemplate():
     templateName = data.get('templatename')
     #firstly, check if user has that template saved. if not, return nothing/null
     
-    userMgr = Authentication()
-    templates = userMgr.getTemplate(email,templateName)
-    formality = templates[0]
-    structure = templates[1]
-    summType = templates[2]
-    timestamps = templates[3]
-    length = templates[4]
-    citation = templates[5]
-    return jsonify({'length':length, 'formality':formality,
-    'structure':structure,'citation':citation,
-    'summtype':summType,'timestamps':timestamps})
+    with Authentication() as userMgr:
+        templates = userMgr.getTemplate(email,templateName)
+        formality = templates[0]
+        structure = templates[1]
+        summType = templates[2]
+        timestamps = templates[3]
+        length = templates[4]
+        citation = templates[5]
+        return jsonify({'length':length, 'formality':formality,
+        'structure':structure,'citation':citation,
+        'summtype':summType,'timestamps':timestamps})
 
 @appA.route('/addfeedback',methods=['POST'])
 def addFeedback():
@@ -615,9 +609,9 @@ def addFeedback():
     stars = data.get('rating')
     text = data.get('feedback')
     
-    userMgr = Authentication()
-    userMgr.addFeedback(stars,text)
-    return jsonify({'message':'Feedback added successfully.'})
+    with Authentication() as userMgr:
+        userMgr.addFeedback(stars,text)
+        return jsonify({'message':'Feedback added successfully.'})
 
 @appA.route('/addsummarized',methods=['POST'])
 def addSummarized():
@@ -625,48 +619,49 @@ def addSummarized():
     email = data.get('email')
     input = data.get('input')
     output = data.get('output')
-    userMgr = Authentication()
-    #if user's stored summaries is <10, save, otherwise display error
-    if (userMgr.getNumSummaries(email) < 10):
-        userMgr.addSummarizedHistory(input,output,email)
-        return jsonify({'message':'Added to history.'})
-    
-    return jsonify({'message':'Summary history is full. Please delete a previous entry.'})
+    with Authentication() as userMgr:
+        #if user's stored summaries is <10, save, otherwise display error
+        if (userMgr.getNumSummaries(email) < 10):
+            userMgr.addSummarizedHistory(input,output,email)
+            return jsonify({'message':'Added to history.'})
+        
+        return jsonify({'message':'Summary history is full. Please delete a previous entry.'})
     
 
 @appA.route('/getapikey',methods=['POST'])
 def getAPIKey():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    key = userMgr.getAPIKey(email)
-    return jsonify({'key':key})
+    with Authentication() as userMgr:
+        key = userMgr.getAPIKey(email)
+        return jsonify({'key':key})
 
 @appA.route('/checktemplate',methods=['POST'])
 def checkTemplate():
     data = request.get_json()
     email = data.get('email')
     templateName = data.get('templatename')
-    userMgr = Authentication()
-    if userMgr.checkTemplateInUse(email,templateName):
-        return jsonify({'message':'Template in use.'})
+    with Authentication() as userMgr:
+        if userMgr.checkTemplateInUse(email,templateName):
+            return jsonify({'message':'Template in use.'})
         
     return jsonify({'message':'Template not in use.'})
 
 
+#Adding a thumbs up to the thumbs up counter
 @appA.route('/thumbsup',methods=['POST'])
 def thumbsUp():
-    data = request.get_json()
-    userMgr = Authentication()
-    userMgr.addThumbsUp()
-    print("hey")
+    #data = request.get_json()
+    with Authentication() as userMgr:
+        userMgr.addThumbsUp()
     return jsonify({'message':'Thumbs up'})
 
+#Adding a thumbs down to the thumbs down counter
 @appA.route('/thumbsdown',methods=['POST'])
 def thumbsDown():
-    data = request.get_json()
-    userMgr = Authentication()
-    userMgr.addThumbsDown()
+    #data = request.get_json()
+    with Authentication() as userMgr:
+        userMgr.addThumbsDown()
     return jsonify({'message':'Thumbs down'})
 
 
@@ -677,6 +672,3 @@ if __name__ == '__main__':
     appA.run(port=5001,debug=True)
     #appA.run(host='0.0.0.0',port=5001) # For server use only
     
-    #auth.addTemplate("emailTest1@gmail.com")
-    #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
-    #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")

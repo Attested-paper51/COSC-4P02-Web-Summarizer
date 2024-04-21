@@ -50,7 +50,7 @@ class SimpleURLShortener:
         url_hash = hashlib.md5(modURL.encode()).hexdigest()[:6]
         # Create a link with the domain and the hash to the end
         #shortURL = "http://4p02shortify.com/s/"+url_hash[:6] #For server use only
-        shortURL = "http://127.0.0.1:5002/"+url_hash[:6]
+        shortURL = "http://127.0.0.1:5002/s/"+url_hash[:6]
         #shortURL = url_hash[:6]
 
         #Resolve the user ID associated with the email, if exists
@@ -114,7 +114,6 @@ class SimpleURLShortener:
         return count[0]
 
     def resolve_url(self, shortURL):
-        
         # Retrieve the original URL from the database
         cursor = self.conn.cursor()
         cursor.execute('SELECT original_url FROM shortened_url WHERE short_url = %s', (shortURL,))
@@ -129,8 +128,10 @@ class SimpleURLShortener:
             return -1  # Return -1 if no result is found
 
 
-    def __del__(self):
-        # Close the database connection when the object is deleted
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
 
 
@@ -141,14 +142,15 @@ def shorten_url():
     originalURL = data.get('originalURL')
     email = data.get('email')
     customWord = data.get('customWord')
-    if not customWord:
-        shortURL = url_shortener.shorten_url(originalURL,email)
-    else:
-        shortURL = url_shortener.customShorten_url(email,originalURL,customWord)
-        #if the custom word is already in use
-        if shortURL == -1:
-            return jsonify({'message':'Custom word already used in another link.'})
-    
+    with SimpleURLShortener() as url_shortener:
+        if not customWord:
+            shortURL = url_shortener.shorten_url(originalURL,email)
+        else:
+            shortURL = url_shortener.customShorten_url(email,originalURL,customWord)
+            #if the custom word is already in use
+            if shortURL == -1:
+                return jsonify({'message':'Custom word already used in another link.'})
+        
 
     return jsonify({'shortenedURL': shortURL,'message':'Shortened successfully.'})
 
@@ -159,17 +161,18 @@ def shorten_url_api():
     data = request.get_json()
 
     key = data.get('key')
-    auth = Authentication()
-    #check if api key valid
-    if auth.checkAPIKey(key) == False:
-        return jsonify({'message':'API Key not valid.'})
+    with Authentication() as auth:
+        #check if api key valid
+        
+        if auth.checkAPIKey(key) == False:
+            return jsonify({'message':'API Key not valid.'})
     
     
     originalURL = data.get('originalURL')
     if not originalURL.startswith(('http://', 'https://', 'www.')):
         return jsonify({'message': 'Original URL not valid.'})
-    
-    result = url_shortener.shorten_url(originalURL,None)
+    with SimpleURLShortener() as url_shortener:
+        result = url_shortener.shorten_url(originalURL,None)
     
     return jsonify({'message':result})
 
@@ -177,14 +180,15 @@ def shorten_url_api():
 def resolveOriginal():
     data = request.get_json()
     key = data.get('key')
-    auth = Authentication()
-    #check if api key valid
-    if auth.checkAPIKey(key) == False:
-        return jsonify({'message':'API Key not valid.'})
+    with Authentication() as auth:
+        #check if api key valid
+        if auth.checkAPIKey(key) == False:
+            return jsonify({'message':'API Key not valid.'})
 
     shortURL = data.get('shortURL')
-    #get original url
-    result = url_shortener.resolve_url(shortURL)
+    with SimpleURLShortener() as url_shortener:
+        #get original url
+        result = url_shortener.resolve_url(shortURL)
     #if the short url is incorrect
     if result == -1:
         return jsonify({'message':'Short URL incorrect'})
@@ -195,13 +199,16 @@ def resolveOriginal():
 def getClicks():
     data = request.get_json()
     key = data.get('key')
-    auth = Authentication()
-    #check if API key valid
-    if auth.checkAPIKey(key) == False:
-        return jsonify({'message':'API Key not valid.'})
+    
+    with Authentication() as auth:
+        #check if API key valid
+        if auth.checkAPIKey(key) == False:
+            return jsonify({'message':'API Key not valid.'})
 
     shortURL = data.get('shortURL')
-    clicks = url_shortener.getClickCount(shortURL)
+
+    with SimpleURLShortener() as url_shortener:
+        clicks = url_shortener.getClickCount(shortURL)
     if clicks == -1:
         return jsonify({'message':'Short URL incorrect'})
 
@@ -218,10 +225,11 @@ def redirectToOriginal(short_url):
     #fullURL = "http://127.0.0.1:5002/"+short_url
 
     #fullURL = "http://4p02shortify.com/s/"+decodedShort #For server use only
-    fullURL = "http://172.0.0.1:5002/s/"+decodedShort
+    fullURL = "http://127.0.0.1:5002/s/"+decodedShort
 
     #print("Full:"+fullURL)
-    originalURL = url_shortener.resolve_url(fullURL)
+    with SimpleURLShortener() as url_shortener:
+        originalURL = url_shortener.resolve_url(fullURL)
     #print("Original:"+originalURL)
     #Ensure the url has http in front of it.
     pattern = re.compile(r'^(?!https?://).*$', re.IGNORECASE)
@@ -232,7 +240,7 @@ def redirectToOriginal(short_url):
 
 
 if __name__ == "__main__":
-    appS.run(port=5002)
+    appS.run(port=5002,debug=True)
     #appS.run(host='0.0.0.0',port=5002) #For server use only
     
 
