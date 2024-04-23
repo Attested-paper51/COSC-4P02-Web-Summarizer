@@ -3,15 +3,20 @@ import { useNavigate} from 'react-router-dom';
 import "./css/VerifyUserStyle.css";
 import { useTheme } from './ThemeContext.js'
 
+/**
+ * VerifyUser page to verify whether a user's inputted email exists in the database before redirecting to the Password Reset page
+ * @returns /Verify page
+ */
 const VerifyUser = () => {
 
   const { darkMode } = useTheme();
-
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const navigate = useNavigate();
 
+  //Verify a user's inputted email is in the database
   const handleSubmit = async() => {
+    //Fetch call to the flask server
     //const response = await fetch('http://4p02shortify.com:5001/verify', { //Server use only
     const response = await fetch('http://localhost:5001/verify', {
       method: 'POST',
@@ -23,13 +28,14 @@ const VerifyUser = () => {
 
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
+      //If the email is found 
       if (result.message === 'Email found.'){
         //Navigate to password reset if the backend finds the user.
         navigate(`/Reset?email=${encodeURIComponent(email)}`);
       }else if (result.message === 'Email not found!') {
         setEmailError(result.message);
         setEmail('');
+        //If the email entered is a Google/FB account email
       }else if (result.message === 'Cannot reset the password of a Google/FB authenticated account.') {
         setEmailError(result.message);
         setEmail('');

@@ -138,8 +138,10 @@ class Authentication:
     def getUsername(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
-        username = cursor.fetchone()[0]
-        return username
+        username = cursor.fetchone()
+        if username:
+            return username[0]
+        return None
 
     #Checking if a password matches what is stored in the DB
     def isPasswordCorrect(self,email,password):
