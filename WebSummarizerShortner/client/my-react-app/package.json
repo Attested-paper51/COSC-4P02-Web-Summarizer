@@ -64,7 +64,7 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "moduleNameMapper": {
-      "@mui/material/Tooltip": "./node_modules/@mui/material/Tooltip"
+      "@mui/material/Tooltip": "<rootDir>/node_modules/@mui/material/Tooltip"
     }
   }
 }
