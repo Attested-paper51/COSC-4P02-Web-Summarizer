@@ -204,7 +204,7 @@ const Summarizer = () => {
             }
             console.log("push")
         } else {
-            setInputContent("pop function")
+            //setInputContent("pop function")
             console.log("pop")
         }
     }, [])
