@@ -502,7 +502,7 @@ const summarizeText = () => {
      const sanitizedEndMin = endMin || defaultMin;
      //console.log(sanitizedEndHour);
 
-    //fetch('/api/summarize', {
+    
     fetch('http://127.0.0.1:5000/api/summarize', {
     //fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
@@ -853,7 +853,7 @@ const summarizeText = () => {
                         </div>
 
                         <div className="main-content">
-                            {/* {userEmail && ( */}
+                             {userEmail &&  
 
                             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
@@ -1070,7 +1070,8 @@ const summarizeText = () => {
                                     </div>
                                 </div>
                             </div>
-
+                            }
+                            {userEmail &&
                             <div className={`premium-container second-row ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
                                     <div className="mode invisible">
@@ -1192,7 +1193,7 @@ const summarizeText = () => {
                                     }
                                 </div>
                             </div>
-
+                            }              
                             <div className="text">
                                     <div className="inputArea">
                                         { isClicked === 0 &&
