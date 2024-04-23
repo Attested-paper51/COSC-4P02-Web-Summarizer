@@ -194,12 +194,17 @@ const Summarizer = () => {
             if (String(window.performance.getEntries()[0].type) === "navigate") {
                 toggleClicked(1)
                 setInputContent(parsedState.URL)
+                //console.log(parsedState)
+                //console.log(sessionStorage)
+                //JSON.parse(sessionStorage.getItem('URLState')).action = ''
+                //parsedState.action = ''
             }
             else if (String(window.performance.getEntries()[0].type) === "reload") {
                 setInputContent("")
             }
             console.log("push")
         } else {
+            setInputContent("pop function")
             console.log("pop")
         }
     }, [])
@@ -207,6 +212,7 @@ const Summarizer = () => {
 
     const componentDidMount = () => {
         // // This is called after the component has been mounted to the DOM
+        //setInputContent('')
         // const inputArea = document.querySelector("textarea");
         // const outputArea = document.getElementById("output"); 
         // // Now you can work with the textarea
@@ -381,7 +387,7 @@ const Summarizer = () => {
             }
         }
     }
-    
+
 
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
@@ -780,7 +786,6 @@ const summarizeText = () => {
         document.body.removeChild(a); // Clean up
 
     }
-
 
 
     return (

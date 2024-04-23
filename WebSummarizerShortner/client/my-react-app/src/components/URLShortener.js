@@ -5,7 +5,6 @@ import { useTheme } from './ThemeContext.js'
 import DialogBox from '../components/DialogBox.js';
 
 const URLShortener = () => {
-
     const { darkMode } = useTheme();
     const [username, setUsername] = useState('');
 
@@ -242,7 +241,7 @@ const URLShortener = () => {
                 onConfirm={handleEmptyConfirm}
                 />
                 
-                { 
+                { summarize &&
                     <a href="/Summarizer" onClick={transferLink}>
                         <div className='url-div3'>
                             <button 
