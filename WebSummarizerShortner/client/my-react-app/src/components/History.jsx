@@ -155,15 +155,10 @@ const handleSelectAllShortened = () => {
   }
 };
 
-
-  const handleDelete = async () => {
-  // Filter out the selected ids
+const handleDelete = async () => {
   const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
-  
-  // Call the deleteHistory for each selected id
   for (const historyID of selectedIds) {
     try {
-      //const response = await fetch('http://4p02shortify.com:5005/deleteHistory', { //Server use only
       const response = await fetch('http://localhost:5005/deleteHistory', {
         method: 'POST',
         headers: {
@@ -175,28 +170,21 @@ const handleSelectAllShortened = () => {
         }),
       });
       const data = await response.json();
-      console.log(data.message); // You might want to handle this more gracefully
+      console.log(data.message);
     } catch (error) {
       console.error('Error deleting history entry:', error);
     }
   }
-
-  // Refresh the history data to reflect the deletions
   fetchHistoryData();
-
-  // Reset selected rows and copied flag
   setSelectedRows({});
   setCopied(false);
+  setSelectAll(false); // Reset select all
 };
 
 const handleDeleteShortenedURL = async () => {
-  // Identify selected URLs based on checkbox selection
   const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
-
-  // Iterate over selected IDs and attempt deletion for each
   for (const urlID of selectedIds) {
     try {
-      //const response = await fetch('http://4p02shortify.com:5005/deleteURL', { //Server use only
       const response = await fetch('http://localhost:5005/deleteURL', {
         method: 'POST',
         headers: {
@@ -204,56 +192,46 @@ const handleDeleteShortenedURL = async () => {
         },
         body: JSON.stringify({
           username: username,
-          urlID, // Ensure this matches the expected parameter in your backend
+          urlID,
         }),
       });
       const data = await response.json();
-      if (data.status !== 'success') {
-        console.error(`Failed to delete URL with ID ${urlID}: ${data.message}`);
-      }
+      console.error(`Failed to delete URL with ID ${urlID}: ${data.message}`);
     } catch (error) {
       console.error(`Error deleting URL with ID ${urlID}:`, error);
     }
   }
-
-  // Refresh the shortened URL history to reflect deletions
   fetchShortenedURLHistory();
-
-  // Reset selections
   setSelectedRows({});
   setCopied(false);
+  setSelectAll(false); // Reset select all
 };
 
-
 const handleCopy = () => {
-    const activeData = showSumSection ? historyData : data;  // Determine which dataset to use based on active section
+  const activeData = showSumSection ? historyData : data;
+  const outputValues = Object.keys(selectedRows)
+    .filter(id => selectedRows[id])
+    .map(id => {
+      const intId = parseInt(id, 10);
+      const foundItem = activeData.find(item => item && item[0] === intId);
+      return foundItem ? foundItem[1] + ' - ' + foundItem[2] : 'No data';
+    })
+    .filter(output => output !== 'No data');
 
-    const outputValues = Object.keys(selectedRows)
-      .filter(id => selectedRows[id])  // Filter for selected IDs
-      .map(id => {
-        const intId = parseInt(id, 10);  // Convert ID from string to integer
-        const foundItem = activeData.find(item => item && item[0] === intId);  // Find the item in the correct dataset
-        if (!foundItem) {
-          console.error('Item not found for ID:', id);
-          return 'No data';  // Return 'No data' if not found
-        }
-        // Concatenate the values from foundItem[1] and foundItem[2] with a separator (e.g., " - ")
-        return foundItem[1] + ' - ' + foundItem[2];  // Modify this to change formatting if necessary
-      })
-      .filter(output => output !== 'No data');  // Remove 'No data' entries
+  if (outputValues.length === 0) {
+    console.log('No items selected or valid items not found in data.');
+    return;
+  }
 
-    if (outputValues.length === 0) {
-      console.log('No items selected or valid items not found in data.');
-      return;
-    }
-
-    const outputText = outputValues.join('\n\n');
-    navigator.clipboard.writeText(outputText).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    }).catch(err => {
-      console.error('Error copying text:', err);
-    });
+  const outputText = outputValues.join('\n\n');
+  navigator.clipboard.writeText(outputText).then(() => {
+    setCopied(true);
+    setSelectedRows({});
+    setSelectAll(false); // Reset select all
+    setTimeout(() => setCopied(false), 3000);
+  }).catch(err => {
+    console.error('Error copying text:', err);
+  });
 };
 
 
