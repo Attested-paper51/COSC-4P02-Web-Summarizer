@@ -194,12 +194,17 @@ const Summarizer = () => {
             if (String(window.performance.getEntries()[0].type) === "navigate") {
                 toggleClicked(1)
                 setInputContent(parsedState.URL)
+                //console.log(parsedState)
+                //console.log(sessionStorage)
+                //JSON.parse(sessionStorage.getItem('URLState')).action = ''
+                //parsedState.action = ''
             }
             else if (String(window.performance.getEntries()[0].type) === "reload") {
                 setInputContent("")
             }
             console.log("push")
         } else {
+            //setInputContent("pop function")
             console.log("pop")
         }
     }, [])
@@ -207,6 +212,7 @@ const Summarizer = () => {
 
     const componentDidMount = () => {
         // // This is called after the component has been mounted to the DOM
+        //setInputContent('')
         // const inputArea = document.querySelector("textarea");
         // const outputArea = document.getElementById("output"); 
         // // Now you can work with the textarea
@@ -400,6 +406,7 @@ const Summarizer = () => {
     
 
     const [SaveSummary, setSaveSummary] = useState('Save Summary');
+    const [saveSummaryText, setSaveSummaryText] = useState('Save Summary');
     const [isSaveClicked, setSaveClicked] = useState(false);
 
     //adding a summary and input content to history
@@ -416,31 +423,51 @@ const Summarizer = () => {
         }
 
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/addsummarized', { //Server use only
             const response = await fetch('http://localhost:5001/addsummarized', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input: inputContent, output: outputContent, email}),
+                body: JSON.stringify({ input: inputContent, output: outputContent, email }),
             });
 
             if (response.ok) {
                 const result = await response.json();
                 if (result.message === "Summary history is full. Please delete a previous entry.") {
-                    setErrorMessage(result.message);
-                    setOpenError(true);
-                    return;
-                }else{
-                    setSaveSummary('Saved Summary!');
-                    setSaveClicked(true);
-                    console.log(result.message);
+                    setDialogConfig({
+                        open: true,
+                        title: "Error",
+                        content: result.message,
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmText: "OK",
+                        onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+                    });
+                } else {
+                    setDialogConfig({
+                        open: true,
+                        title: "Success",
+                        content: "Summary saved successfully!",
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmText: "OK",
+                        onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+                    });
+                    setSaveSummaryText('Saved Summary!');
+                    setTimeout(() => setSaveSummaryText('Save Summary'), 3000); // Optionally reset the button text after some time
                 }
-                
             }
-
         } catch (error) {
-            console.log(error)
+            setDialogConfig({
+                open: true,
+                title: "Error",
+                content: "Failed to save summary.",
+                showCancelButton: false,
+                showConfirmButton: true,
+                confirmText: "OK",
+                onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+            });
+            console.error('Error:', error);
         }
 
     };
@@ -792,7 +819,6 @@ const summarizeText = () => {
         document.body.removeChild(a); // Clean up
 
     }
-
 
 
     return (

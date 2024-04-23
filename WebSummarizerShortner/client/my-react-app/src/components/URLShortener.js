@@ -252,7 +252,7 @@ const URLShortener = () => {
                 onConfirm={handleEmptyConfirm}
                 />
                 
-                { 
+                { summarize &&
                     <a href="/Summarizer" onClick={transferLink}>
                         <div className='url-div3'>
                             <button 

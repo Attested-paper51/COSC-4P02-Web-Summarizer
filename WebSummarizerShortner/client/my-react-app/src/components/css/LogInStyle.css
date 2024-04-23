@@ -3,18 +3,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    /* margin: auto; */
     width: 100%;
     padding: 6vh 0;
-    /* height: 600px; */
-    /* position: fixed; */
-    /* border: 5px solid #000000; */
-    /* background-color: rgb(248, 248, 238); */
     min-height: 90vh;
 }
 
 .login-box .form, .login-box .account{
-    /*height: 550px;*/
     height: clamp(570px, 50vh, 3200px);
     width: clamp(340px, 32vw, 1100px);
     position: relative;
@@ -27,15 +21,10 @@
 
 
 .login-box .form{
-    /*width: 550px;*/
-    /* border: 0.1vw solid #7e7d7d; */
     border-radius: 10px 0 0 10px;
-    /* background-color: #ffffff; */
 }
 
 .login-box .account{
-    /*width: 550px;*/
-    /* background-color: #f5e4a5; */
     border: 0.1vw solid;
     border-left: 0;
     border-radius: 0px 10px 10px 0;
@@ -71,13 +60,11 @@
 
 .login-box .email-text, .login-box .pass-text{
     display: block;
-    /* color: #757373; */
 }
 
 .login-box .textfield{
     height: clamp(40px, 3.2vh, 500px);
     font-size: clamp(0.8rem, 0.65vw, 10rem);
-    /* border: 1px solid #b7b6b6; */
     border-radius: 8px;
     position: relative;
     width: 100%;
@@ -85,13 +72,11 @@
 }
 
 .login-box .login-overlap{
-    /* background-color: #0d55a7;  */
     width: clamp(300px, 20vw, 1000px); 
     font-size: clamp(0.9rem, 0.8vw, 10rem);
 }
 
 .login-box .create-overlap{
-    /* background-color: #361e04; */
     width: clamp(300px, 20vw, 1000px);
     font-size: clamp(0.9rem, 0.8vw, 10rem);
 }
@@ -113,7 +98,6 @@
 } 
 
 .login-box .login-overlap, .login-box .create-overlap, .login-box .gmail-overlap, .login-box .fb-overlap{
-    /*height: clamp(40px, 3.2vh, 500px);*/
     position: relative;
     margin-top: 1em;
     box-shadow: 0px 3px 4px #0000004c;
@@ -125,17 +109,10 @@
 }
 
 .login-box .login, .login-box .create, .login-box .login-social{
-    /* color: #ffffff; */
-    /*font-size: 16px;*/
     font-weight: 600;
-    /*left: 123px;*/
     letter-spacing: 0;
-    /*line-height: 20px;*/
-    /* position: absolute; */
     text-align: center;
-    /*top: 13px;*/
     white-space: nowrap;
-    /*padding-top: 12px;*/
 }
 
 .login-box .pass-container{
@@ -146,10 +123,6 @@
 
 .login-box .login-social{
     color: black;
-    /*line-height: 14px;
-    padding-top: 2px;
-    padding-left: 8px;
-    font-size: 14px;*/
 }
 
 .login-box .forgot{
@@ -169,10 +142,6 @@
 }
 
 .login-box .join{
-    /*font-size: 16px;
-    font-weight: 550;
-    line-height: 25px;
-    padding: 0em 2em;*/
     font-size: clamp(0.9rem, 1vw, 10rem);
     text-align: center;
     padding: 0em 2em 1em;
@@ -182,17 +151,8 @@
 .login-box .logo{
     width: clamp(300px, 25vh, 580px);
 }
-
-/* .login-box .account-img{
-    width: 500px; 
-    height: 250px;
-    padding-top: 3.5em; 
-    margin: 1em;
-} */
   
 .login-box .account-img .logo{
-    /*width: 250px;
-    height: 250px;*/
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -266,58 +226,3 @@
         padding: 1vw;
     }
 }
-
-/*@media (max-width: 1140px) {
-    .login-box{
-        display: flex;
-        flex-direction: column;
-    }
-    .login-box .form{
-        margin-bottom: 0;
-        border-radius: 10px;
-    }
-    .login-box .account{
-        margin-top: 0.5em;
-        width: 550px;
-        border-radius: 10px;
-        border: 2px solid #bba048;
-    }
-    .login-box .hide-pass{
-        left: 425px;
-    }
-}
-
-@media (max-width: 640px) {
-
-    .login-box .form, .login-box .account{
-        width: 400px;
-    }
-    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .email, .login-box .password{
-        width: 300px;
-    }
-    .login-box .hide-pass{
-        left: 278px;
-    }
-}
-
-@media (max-width: 450px) {
-    .login-box .form, .login-box .account{
-        width: 360px;
-    }
-    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .email, .login-box .password{
-        width: 250px;
-    }
-    .login-box{
-        font-size: 1em;
-    }
-    .login-box .login-social, .login-box .email-text, .login-box .pass-text, .login-box .login, .login-box .create, .login-box .forgot{
-        font-size: 12px;
-        line-height: 12px;
-    }
-    .login-box .gmail-overlap, .login-box .fb-overlap, .login-box .login-overlap, .login-box .create-overlap{
-        height: 35px;
-    }
-    .login-box .hide-pass{
-        left: 227px;
-    }
-}*/

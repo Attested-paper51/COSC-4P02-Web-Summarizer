@@ -155,15 +155,10 @@ const handleSelectAllShortened = () => {
   }
 };
 
-
-  const handleDelete = async () => {
-  // Filter out the selected ids
+const handleDelete = async () => {
   const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
-  
-  // Call the deleteHistory for each selected id
   for (const historyID of selectedIds) {
     try {
-      //const response = await fetch('http://4p02shortify.com:5005/deleteHistory', { //Server use only
       const response = await fetch('http://localhost:5005/deleteHistory', {
         method: 'POST',
         headers: {
@@ -175,28 +170,21 @@ const handleSelectAllShortened = () => {
         }),
       });
       const data = await response.json();
-      console.log(data.message); // You might want to handle this more gracefully
+      console.log(data.message);
     } catch (error) {
       console.error('Error deleting history entry:', error);
     }
   }
-
-  // Refresh the history data to reflect the deletions
   fetchHistoryData();
-
-  // Reset selected rows and copied flag
   setSelectedRows({});
   setCopied(false);
+  setSelectAll(false); // Reset select all
 };
 
 const handleDeleteShortenedURL = async () => {
-  // Identify selected URLs based on checkbox selection
   const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
-
-  // Iterate over selected IDs and attempt deletion for each
   for (const urlID of selectedIds) {
     try {
-      //const response = await fetch('http://4p02shortify.com:5005/deleteURL', { //Server use only
       const response = await fetch('http://localhost:5005/deleteURL', {
         method: 'POST',
         headers: {
@@ -204,62 +192,59 @@ const handleDeleteShortenedURL = async () => {
         },
         body: JSON.stringify({
           username: username,
-          urlID, // Ensure this matches the expected parameter in your backend
+          urlID,
         }),
       });
       const data = await response.json();
-      if (data.status !== 'success') {
-        console.error(`Failed to delete URL with ID ${urlID}: ${data.message}`);
-      }
+      console.error(`Failed to delete URL with ID ${urlID}: ${data.message}`);
     } catch (error) {
       console.error(`Error deleting URL with ID ${urlID}:`, error);
     }
   }
-
-  // Refresh the shortened URL history to reflect deletions
   fetchShortenedURLHistory();
-
-  // Reset selections
   setSelectedRows({});
   setCopied(false);
+  setSelectAll(false); // Reset select all
 };
-
 
 const handleCopy = () => {
-    const activeData = showSumSection ? historyData : data;  // Determine which dataset to use based on active section
+  const activeData = showSumSection ? historyData : data;
+  const outputValues = Object.keys(selectedRows)
+    .filter(id => selectedRows[id])
+    .map(id => {
+      const intId = parseInt(id, 10);
+      const foundItem = activeData.find(item => item && item[0] === intId);
+      return foundItem ? foundItem[1] + ' - ' + foundItem[2] : 'No data';
+    })
+    .filter(output => output !== 'No data');
 
-    const outputValues = Object.keys(selectedRows)
-      .filter(id => selectedRows[id])  // Filter for selected IDs
-      .map(id => {
-        const intId = parseInt(id, 10);  // Convert ID from string to integer
-        const foundItem = activeData.find(item => item && item[0] === intId);  // Find the item in the correct dataset
-        if (!foundItem) {
-          console.error('Item not found for ID:', id);
-          return 'No data';  // Return 'No data' if not found
-        }
-        // Concatenate the values from foundItem[1] and foundItem[2] with a separator (e.g., " - ")
-        return foundItem[1] + ' - ' + foundItem[2];  // Modify this to change formatting if necessary
-      })
-      .filter(output => output !== 'No data');  // Remove 'No data' entries
+  if (outputValues.length === 0) {
+    console.log('No items selected or valid items not found in data.');
+    return;
+  }
 
-    if (outputValues.length === 0) {
-      console.log('No items selected or valid items not found in data.');
-      return;
-    }
-
-    const outputText = outputValues.join('\n\n');
-    navigator.clipboard.writeText(outputText).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    }).catch(err => {
-      console.error('Error copying text:', err);
-    });
+  const outputText = outputValues.join('\n\n');
+  navigator.clipboard.writeText(outputText).then(() => {
+    setCopied(true);
+    setSelectedRows({});
+    setSelectAll(false); // Reset select all
+    setTimeout(() => setCopied(false), 3000);
+  }).catch(err => {
+    console.error('Error copying text:', err);
+  });
 };
 
+function isURL(str) {
+  try {
+    new URL(str);
+    return true;
+  } catch (_) {
+    return false;  
+  }
+}
 
 
   return (
-
     <div className="history-wrapper">
         
         <h1>History</h1>
@@ -267,32 +252,19 @@ const handleCopy = () => {
           <button className={`sum-btn ${activeButton === 'sum' ? 'active' : ''}`} onClick={handleSumButtonClick}>Web Summarizer History</button>
           <button className={`short-btn ${activeButton === 'short' ? 'active' : ''}`} onClick={handleShortButtonClick}>URL Shortener History</button>
         </div>
-      
+
         {showSumSection && (
           <div className='sum-section'>
-
-            {/* Content for Web Summarizer section */}
-            <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAll}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}</button>
-              {Object.keys(selectedRows).length > 0 && (
-                <>
-                  <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
-                </>
-              )}
-            </div>
-            
             <table id="summary-table">
               <thead>
-              <tr>
-                <th>Select</th>
-                <th>Prompt Given</th>
-                <th>Summarized Prompt</th>
-              </tr>
+                <tr>
+                  <th>Select</th>
+                  <th>Prompt Given</th>
+                  <th>Summarized Prompt</th>
+                </tr>
               </thead>
               <tbody>
-                {
-                historyData.map((item) => (
+                {historyData.map((item) => (
                   <tr key={item[0]}>
                     <td>
                       <label className='custom-checkbox'>
@@ -300,38 +272,27 @@ const handleCopy = () => {
                         {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
-                    <td className='scrollable'>{item[1]}</td>
+                    <td className='scrollable'>
+                      {isURL(item[1]) ? <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a> : item[1]}
+                    </td>
                     <td className='scrollable'>{item[2]}</td>
                   </tr>
-                ))
-                }
+                ))}
               </tbody>
             </table>
-
           </div>
         )}
 
         {showShortSection && (
           <div className='short-section'>
-            {/* Content for URL Shortener section */}
-            <div className='btn-section'>
-              <button className='control-btn' onClick={handleSelectAllShortened}>{selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon'/>}</button>
-              {Object.keys(selectedRows).length > 0 && (
-                <>
-                  <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline className='delete-icon' /></button>
-                  <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
-                </>
-              )}
-            </div>
-
             <table id="shortener-table">
               <thead>
-              <tr>
-                <th>Select</th>
-                <th>Original Link Given</th>
-                <th>Shortened Link</th>
-                <th>Click counts</th>
-              </tr>
+                <tr>
+                  <th>Select</th>
+                  <th>Original Link Given</th>
+                  <th>Shortened Link</th>
+                  <th>Click counts</th>
+                </tr>
               </thead>
               <tbody>
                 {data.map((item) => (
@@ -342,20 +303,23 @@ const handleCopy = () => {
                         {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
                       </label>
                     </td>
-                    <td className='scrollable'>{item[1]}</td>
-                    <td className='scrollable'>{item[2]}</td>
+                    <td className='scrollable'>
+                      <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+                    </td>
+                    <td className='scrollable'>
+                      <a href={item[2]} target="_blank" rel="noopener noreferrer" className="link-style">{item[2]}</a>
+                    </td>
                     <td>{item[3]}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-
           </div>
         )}
 
     </div>
+);
 
-  );
 }
 
 export default History;
