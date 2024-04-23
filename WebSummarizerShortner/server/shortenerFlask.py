@@ -14,7 +14,10 @@ from authentication import Authentication
 appS = Flask(__name__)
 CORS(appS)
 
+#SimpleURLShortener handles all the database logic for URL shortening. 
 class SimpleURLShortener:
+
+    #Constructor; connect to the database hosted on ElephantSQL
     def __init__(self):
         load_dotenv()
         databasePW = os.getenv("DATABASE_PW")
@@ -25,21 +28,7 @@ class SimpleURLShortener:
             host="drona.db.elephantsql.com",
             port="5432",
             sslmode="require"
-        )    
-        self.create_table()
-
-    def create_table(self):
-        # Create the 'shortened_url' table if it doesn't exist
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS shortened_url (
-                id INTEGER PRIMARY KEY,
-                original_url TEXT,
-                short_url TEXT,
-                click_count INTEGER DEFAULT 0
-            )
-        ''')
-        self.conn.commit()
+        )  
 
     #Generate a random shortened URL given an input original URL
     def shorten_url(self, originalURL,email):
@@ -48,10 +37,11 @@ class SimpleURLShortener:
         uniqueIdentifier = str(int(time.time()))
         modURL = originalURL+uniqueIdentifier
         url_hash = hashlib.md5(modURL.encode()).hexdigest()[:6]
+
         # Create a link with the domain and the hash to the end
         #shortURL = "http://4p02shortify.com/s/"+url_hash[:6] #For server use only
         shortURL = "http://127.0.0.1:5002/s/"+url_hash[:6]
-        #shortURL = url_hash[:6]
+        
 
         #Resolve the user ID associated with the email, if exists
         if (email == None):
@@ -81,7 +71,7 @@ class SimpleURLShortener:
         username = cursor.fetchone()[0]
         encodedCustomString = customString.replace('/','%2F')
 
-        #shortURL = f"http://127.0.0.1:5002/{username}-{customString}"
+        #shortURL = f"http://127.0.0.1:5002/{username}-{customString}" #Delete
 
         #shortURL = f"http://4p02shortify.com/s/{username}/{encodedCustomString}" #For server use only
         shortURL = f"http://127.0.0.1:5002/{username}/{encodedCustomString}"
@@ -89,22 +79,19 @@ class SimpleURLShortener:
 
 
         #check if the custom string is already in the database
-        #cursor = self.conn.cursor()
         cursor.execute('SELECT id FROM shortened_url WHERE short_url = %s', (shortURL,))
         result = cursor.fetchone()
         if result:
             return -1
 
-
-        #cursor = self.conn.cursor()
-        # insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING")
-        # cursor.execute(insert_query, (shortURL, originalURL, 0))
+       #Otherwise, add the shortened URL to the database
         insert_query = sql.SQL("INSERT INTO shortened_url (short_url, original_url, click_count,user_id) VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING")
         cursor.execute(insert_query, (shortURL, originalURL, 0, username))
         self.conn.commit()
 
         return shortURL
 
+    #Get the click count of a given short URL
     def getClickCount(self,shortURL):
         cursor = self.conn.cursor()
         cursor.execute('SELECT click_count FROM shortened_url WHERE short_url = %s',(shortURL,))
@@ -113,6 +100,7 @@ class SimpleURLShortener:
             return -1
         return count[0]
 
+    #Resolving a short URL - return the original from the DB
     def resolve_url(self, shortURL):
         # Retrieve the original URL from the database
         cursor = self.conn.cursor()
@@ -128,14 +116,16 @@ class SimpleURLShortener:
             return -1  # Return -1 if no result is found
 
 
+    #Entering the 'with' block
     def __enter__(self):
         return self
 
+    #Exiting the 'with' block
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
 
 
-url_shortener = SimpleURLShortener()
+#Flask Route to shorten a link
 @appS.route('/shorten',methods=['POST'])
 def shorten_url():
     data = request.get_json()
@@ -144,9 +134,9 @@ def shorten_url():
     customWord = data.get('customWord')
     with SimpleURLShortener() as url_shortener:
         if not customWord:
-            shortURL = url_shortener.shorten_url(originalURL,email)
+            shortURL = url_shortener.shorten_url(originalURL,email) #Regular URL shortening
         else:
-            shortURL = url_shortener.customShorten_url(email,originalURL,customWord)
+            shortURL = url_shortener.customShorten_url(email,originalURL,customWord) #Custom word URL shortening
             #if the custom word is already in use
             if shortURL == -1:
                 return jsonify({'message':'Custom word already used in another link.'})
@@ -163,19 +153,19 @@ def shorten_url_api():
     key = data.get('key')
     with Authentication() as auth:
         #check if api key valid
-        
         if auth.checkAPIKey(key) == False:
             return jsonify({'message':'API Key not valid.'})
     
     
     originalURL = data.get('originalURL')
-    if not originalURL.startswith(('http://', 'https://', 'www.')):
+    if not originalURL.startswith(('http://', 'https://', 'www.')): #Ensure the URL is valid (starts with either of these 3 prefixes)
         return jsonify({'message': 'Original URL not valid.'})
     with SimpleURLShortener() as url_shortener:
         result = url_shortener.shorten_url(originalURL,None)
     
     return jsonify({'message':result})
 
+#Route to resolve/retrieve an original link using API
 @appS.route('/apiresolve',methods=['POST'])
 def resolveOriginal():
     data = request.get_json()
@@ -195,6 +185,7 @@ def resolveOriginal():
     #return original url
     return jsonify({'message':result})
 
+#Route to retrieve the click count of a short link using the API
 @appS.route('/apiclicks',methods=['GET'])
 def getClicks():
     data = request.get_json()
@@ -215,28 +206,25 @@ def getClicks():
     return jsonify({'message':clicks})
 
     
-
-
-
+#Route to redirect to an original link when a short link is inputted into the browser
 @appS.route('/s/<path:short_url>')
 def redirectToOriginal(short_url):
-    #print("short_url:"+short_url)
+    #To allow for proper original URL resolution even when a custom word is used
     decodedShort = unquote(short_url)
-    #fullURL = "http://127.0.0.1:5002/"+short_url
 
     #fullURL = "http://4p02shortify.com/s/"+decodedShort #For server use only
     fullURL = "http://127.0.0.1:5002/s/"+decodedShort
 
-    #print("Full:"+fullURL)
+
     with SimpleURLShortener() as url_shortener:
         originalURL = url_shortener.resolve_url(fullURL)
-    #print("Original:"+originalURL)
-    #Ensure the url has http in front of it.
+    
+
+    #Ensure the url has http in front of it for the redirect function to work
     pattern = re.compile(r'^(?!https?://).*$', re.IGNORECASE)
     if pattern.match(originalURL):
         originalURL = 'http://'+originalURL
-    #print(originalURL)
-    return redirect(originalURL)
+    return redirect(originalURL)#Redirects to the original link
 
 
 if __name__ == "__main__":
