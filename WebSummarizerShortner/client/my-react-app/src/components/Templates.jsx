@@ -34,11 +34,8 @@ const Templates = () => {
     const [isClicked2, setClickedButton2] = useState(0);
     const [isClicked3, setClickedButton3] = useState(0);
 
-    const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
     const [value, setValue] = useState(null);
-    const [isPremium, setPremium] = useState(false);
-    const userEmail = localStorage.getItem('email');
 
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
@@ -67,22 +64,22 @@ const Templates = () => {
     const [selectedCitationType3, setCitationType3] = useState(citationType[0]);
 
     //timestamp vars
-    const [startHour, setStartHour] = useState(0);
-    const [startMin, setStartMin] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-    const [endMin, setEndMin] = useState(0);
+    const [startHour, setStartHour] = useState();
+    const [startMin, setStartMin] = useState();
+    const [endHour, setEndHour] = useState();
+    const [endMin, setEndMin] = useState();
 
      //timestamp vars - template 2
-     const [startHour2, setStartHour2] = useState(0);
-     const [startMin2, setStartMin2] = useState(0);
-     const [endHour2, setEndHour2] = useState(0);
-     const [endMin2, setEndMin2] = useState(0);
+     const [startHour2, setStartHour2] = useState();
+     const [startMin2, setStartMin2] = useState();
+     const [endHour2, setEndHour2] = useState();
+     const [endMin2, setEndMin2] = useState();
 
       //timestamp vars - template 3
-    const [startHour3, setStartHour3] = useState(0);
-    const [startMin3, setStartMin3] = useState(0);
-    const [endHour3, setEndHour3] = useState(0);
-    const [endMin3, setEndMin3] = useState(0);
+    const [startHour3, setStartHour3] = useState();
+    const [startMin3, setStartMin3] = useState();
+    const [endHour3, setEndHour3] = useState();
+    const [endMin3, setEndMin3] = useState();
 
 
     const valuetext = (value) => {
@@ -144,32 +141,32 @@ const Templates = () => {
         return words.length
     }    
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        if (timeoutId) {
-            clearTimeout(timeoutId)
-        }
+    //     if (timeoutId) {
+    //         clearTimeout(timeoutId)
+    //     }
 
-        // set a timeout of 200 miliseconds - then update the word count
-        const id = setTimeout(() => {
-            // updates word count
-            if(inputContent.trim().length == 0) {
-                setWordCount(0)
-            }
-            else {
-                const words = countWords(inputContent)
-                setWordCount(words)
-            }
-        }, 200)
+    //     // set a timeout of 200 miliseconds - then update the word count
+    //     const id = setTimeout(() => {
+    //         // updates word count
+    //         if(inputContent.trim().length == 0) {
+    //             setWordCount(0)
+    //         }
+    //         else {
+    //             const words = countWords(inputContent)
+    //             setWordCount(words)
+    //         }
+    //     }, 200)
 
-        setTimeoutId(id)
+    //     setTimeoutId(id)
 
-        return () => {
-            if (timeoutId) {
-                clearTimeout(timeoutId)
-            }
-        }
-    }, [inputContent])
+    //     return () => {
+    //         if (timeoutId) {
+    //             clearTimeout(timeoutId)
+    //         }
+    //     }
+    // }, [inputContent])
 
 
     /** every render: checks if output has text
@@ -365,86 +362,7 @@ const Templates = () => {
 
     }
 
-    //for handling saving of template 1
-    const handleClickSave  = async () => {
-        var formality = selectedTone;
-        var structure = selectedLayout;
-        
-        
-        var length;
-        
-        if (sliderValue === 1) {
-            
-            length = 'short';
-        }else if (sliderValue === 2) {
-            
-            length = 'medium';
-        }else if (sliderValue === 3){
-            
-            length = 'long';
-        }
-        var summ_type = "";
-        var timestamp = "";
-        var citation = "";
-        if (isClicked === 0) {
-            summ_type = "text";
-        }else if (isClicked === 1) {
-            summ_type = "website";
-            if (selectedCitationType === citationType[0]){
-                citation = "none";
-            }else if (selectedCitationType === citationType[1]) {
-                citation = "mla";
-            }else if (selectedCitationType === citationType[2]) {
-                citation = "apa";
-            }else if (selectedCitationType === citationType[3]) {
-                citation = "chicago";
-            }
-        }else if (isClicked === 2){
-            summ_type = "video";
-            if (selectedVideoSetting === videoSetting[1]) {
-                if (startHour === "HH" || startMin === "MM" || 
-                endHour === "HH" || endMin === "MM") {
-                    //display timestamp error
-                    console.log("hey, change the values dude");
-                    return;
-                }else{
-                    var start = (startHour*60)+startMin;
-                    var end = (endHour*60)+endMin;
-                    if (end < start ) {
-                        //display invalid timestamp error
-                        console.log("how can u end before u start, dummy");
-                        return;
-                    }
-                    timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
-                }
-            }else {
-                timestamp = "full"
-            }
-        }
-        
-        
-        var templatename = "customTemplate1";
-
-        try {
-            const response = await fetch('http://localhost:5001/savetemplate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, formality, structure, 
-                 summ_type, timestamp, length, citation, templatename }),
-        });
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result.message);
-        }
-
-
-
-        }catch (error) {
-            console.error('Error:', error.message);
-        }
-    }
+    
 
     useEffect(() => {
         handleTemplateFetch();
@@ -464,6 +382,7 @@ const Templates = () => {
         try {
     
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -551,6 +470,7 @@ const Templates = () => {
         try {
     
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -636,6 +556,7 @@ const Templates = () => {
         try {
     
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -710,12 +631,104 @@ const Templates = () => {
     
       };
 
+    
+
+    //for handling saving of template 1
+    const handleClickSave  = async () => {
+        var formality = selectedTone;
+        var structure = selectedLayout;
+        
+        
+        var length;
+        
+        if (sliderValue === 1) {
+            
+            length = 'short';
+        }else if (sliderValue === 2) {
+            
+            length = 'medium';
+        }else if (sliderValue === 3){
+            
+            length = 'long';
+        }
+        var summ_type = "";
+        var timestamp = "";
+        var citation = "";
+        if (isClicked === 0) {
+            summ_type = "text";
+        }else if (isClicked === 1) {
+            summ_type = "website";
+            if (selectedCitationType === citationType[0]){
+                citation = "none";
+            }else if (selectedCitationType === citationType[1]) {
+                citation = "mla";
+            }else if (selectedCitationType === citationType[2]) {
+                citation = "apa";
+            }else if (selectedCitationType === citationType[3]) {
+                citation = "chicago";
+            }
+        }else if (isClicked === 2){
+            summ_type = "video";
+            if (selectedVideoSetting === videoSetting[1]) {
+                if (isNaN(startHour) || 
+                isNaN(startMin) || 
+                isNaN(endHour) || 
+                isNaN(endMin) || 
+                startHour === null || 
+                startMin === null || 
+                endHour === null || 
+                endMin === null ) {
+                    //display timestamp error
+                    setErrorMessage('Please convert the timestamp values to numerical format.');
+                    setOpenError(true);
+                    return;
+                }else{
+                    var start = (startHour*60)+startMin;
+                    var end = (endHour*60)+endMin;
+                    if (end <= start ) {
+                        //display invalid timestamp error
+                        setErrorMessage('End time must be after the start time.');
+                        setOpenError(true);
+                        return;
+                    }
+                    timestamp = `${startHour}:${startMin},${endHour}:${endMin}`;
+                }
+            }else {
+                timestamp = "full"
+            }
+        }
+        
+        
+        var templatename = "customTemplate1";
+
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
+            const response = await fetch('http://localhost:5001/savetemplate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, formality, structure, 
+                 summ_type, timestamp, length, citation, templatename }),
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+        }
+
+
+
+        }catch (error) {
+            console.error('Error:', error.message);
+        }
+    }
+
     //for handling saving of template 2
     const handleClickSave2  = async () => {
         var formality = selectedTone2;
         var structure = selectedLayout2;
         
-        //var wordcount = 0;
+    
         var length;
         
         if (sliderValue2 === 1) {
@@ -747,17 +760,25 @@ const Templates = () => {
         }else if (isClicked2 === 2) {
             summ_type = "video";
             if (selectedVideoSetting2 === videoSetting[1]) {
-                if (startHour2 === "HH" || startMin2 === "MM" || 
-                endHour2 === "HH" || endMin2 === "MM") {
+                if (isNaN(startHour2) || 
+                isNaN(startMin2) || 
+                isNaN(endHour2) || 
+                isNaN(endMin2) || 
+                startHour2 === null || 
+                startMin2 === null || 
+                endHour2 === null || 
+                endMin2 === null ) {
                     //display timestamp error
-                    console.log("hey, change the values dude");
+                    setErrorMessage('Please convert the timestamp values to numerical format.');
+                    setOpenError(true);
                     return;
                 }else{
                     var start = (startHour2*60)+startMin2;
                     var end = (endHour2*60)+endMin2;
-                    if (end < start ) {
+                    if (end <= start ) {
                         //display invalid timestamp error
-                        console.log("how can u end before u start, dummy");
+                        setErrorMessage('End time must be after the start time.');
+                        setOpenError(true);
                         return;
                     }
                     timestamp = `${startHour2}:${startMin2},${endHour2}:${endMin2}`;
@@ -769,6 +790,8 @@ const Templates = () => {
         var templatename = "customTemplate2";
 
         try {
+
+            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
             method: 'POST',
             headers: {
@@ -794,7 +817,7 @@ const Templates = () => {
         var formality = selectedTone3;
         var structure = selectedLayout3;
         
-        //var wordcount = 0;
+
         var length;
         
         if (sliderValue3 === 1) {
@@ -826,18 +849,27 @@ const Templates = () => {
         }else if (isClicked3 === 2) {
             summ_type = "video";
             if (selectedVideoSetting3 === videoSetting[1]) {
-                if (startHour3 === "HH" || startMin3 === "MM" || 
-                endHour3 === "HH" || endMin3 === "MM") {
+                if (isNaN(startHour3) || 
+                isNaN(startMin3) || 
+                isNaN(endHour3) || 
+                isNaN(endMin3) || 
+                startHour3 === null || 
+                startMin3 === null || 
+                endHour3 === null || 
+                endMin3 === null ) {
                     //display timestamp error
-                    console.log("hey, change the values dude");
+                    setErrorMessage('Please convert the timestamp values to numerical format.');
+                    setOpenError(true);
                     return;
                 }else{
                     var start = (startHour3*60)+startMin3;
                     var end = (endHour3*60)+endMin3;
-                    if (end < start ) {
+                    if (end <= start ) {
                         //display invalid timestamp error
-                        console.log("how can u end before u start, dummy");
+                        setErrorMessage('End time must be after the start time.');
+                        setOpenError(true);
                         return;
+                    
                     }
                     timestamp = `${startHour3}:${startMin3},${endHour3}:${endMin3}`;
                 }
@@ -852,6 +884,7 @@ const Templates = () => {
         var templatename = "customTemplate3";
 
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
             method: 'POST',
             headers: {
@@ -881,12 +914,13 @@ const Templates = () => {
         setClickedButton(0);
         setVideoSetting(videoSetting[0]);
         setCitationType(citationType[0]);
-        setStartHour("HH");
-        setStartMin("MM");
-        setEndHour("HH");
-        setEndMin("MM");
+        setStartHour();
+        setStartMin();
+        setEndHour();
+        setEndMin();
         var templatename = "customTemplate1";
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
             const response = await fetch('http://localhost:5001/cleartemplate', {
             method: 'POST',
             headers: {
@@ -913,12 +947,13 @@ const Templates = () => {
         setClickedButton2(0);
         setVideoSetting2(videoSetting[0]);
         setCitationType2(citationType[0]);
-        setStartHour2("HH");
-        setStartMin2("MM");
-        setEndHour2("HH");
-        setEndMin2("MM");
+        setStartHour2();
+        setStartMin2();
+        setEndHour2();
+        setEndMin2();
         var templatename = "customTemplate2";
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
             const response = await fetch('http://localhost:5001/cleartemplate', {
             method: 'POST',
             headers: {
@@ -945,12 +980,13 @@ const Templates = () => {
             setClickedButton3(0);
             setVideoSetting3(videoSetting[0]);
             setCitationType3(citationType[0]);
-            setStartHour3("HH");
-            setStartMin3("MM");
-            setEndHour3("HH");
-            setEndMin3("MM");
+            setStartHour3();
+            setStartMin3();
+            setEndHour3();
+            setEndMin3();
             var templatename = "customTemplate3";
             try {
+                //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
                 const response = await fetch('http://localhost:5001/cleartemplate', {
                 method: 'POST',
                 headers: {
@@ -1544,6 +1580,17 @@ return (
                 </div>
                     
             </div> 
+
+            <DialogBox 
+                open={openError} 
+                onClose={handleErrorClose}
+                title={"Error"}
+                content={errorMessage}
+                showCancelButton={false}
+                showConfirmButton={true}
+                confirmText={"Continue"}
+                onConfirm={handleErrorConfirm}
+                />
         </div>
 
 

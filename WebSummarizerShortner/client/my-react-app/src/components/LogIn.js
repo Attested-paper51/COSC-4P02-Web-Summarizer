@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
 import { useTheme } from './ThemeContext.js';
 import { LoginSocialFacebook } from 'reactjs-social-login';
-import { FacebookLoginButton } from 'react-social-login-buttons';
+import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import DialogBox from '../components/DialogBox.js';
 
 const LogIn = () => {
@@ -55,6 +55,7 @@ const defaultConfirm = () => {
 
         // Make a POST request to the Flask backend
         const response = await fetch('http://localhost:5001/login', {
+        //const response = await fetch('http://4p02shortify.com:5001/login', { //For server use only
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,6 +89,8 @@ const defaultConfirm = () => {
             
             setPass('');
             setEmail('');
+          }else if (result.message === 'Email is associated with Google/FB authentication.') {
+            setPassError(result.message);
           }
       } else {
           console.error('Failed to login.');
@@ -123,6 +126,7 @@ const defaultConfirm = () => {
 
         // Make a POST request to the Flask backend
         const response = await fetch('http://localhost:5001/logingoogle', {
+        //const response = await fetch('http://4p02shortify.com:5001/logingoogle', { //For server use only
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -170,15 +174,16 @@ const defaultConfirm = () => {
       client_id: clientId,
       callback: handleCallbackResponse
     });
+    //<GoogleLoginButton/>
 
     google.accounts.id.renderButton(
-      document.getElementById("gmail-login"),
-      { theme: "outline", size: "large", shape: "circle"}
+      document.getElementById("gmail-login-button"),
+      { }
     );
   }, []);
 
   function handleFBLogin(response) {
-    var data = response.data;
+    //var data = response.data;
     //console.log("email",data.email);
     //console.log("name",data.name);
 
@@ -190,6 +195,7 @@ const defaultConfirm = () => {
 
         // Make a POST request to the Flask backend
         const response = await fetch('http://localhost:5001/loginfacebook', {
+        //const response = await fetch('http://4p02shortify.com:5001/loginfacebook', { //For server use only
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -238,7 +244,10 @@ const defaultConfirm = () => {
     <div className={`login-box ${darkMode ? 'login-dark' : 'login-light'}`}>
       <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className="form-title">Log in</div>
-        <div id="gmail-login"></div>
+        
+        <div id="gmail-login-button">
+          <GoogleLoginButton />
+        </div>
         { /*<button className="gmail-btn">
             <div className="gmail-overlap">
               <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
@@ -253,7 +262,7 @@ const defaultConfirm = () => {
         </button> */}
         
         <LoginSocialFacebook
-          appId="1405214220354758"
+          appId="671298455122068"
           className="facebook"
           onResolve={(response) => {
             console.log(response);

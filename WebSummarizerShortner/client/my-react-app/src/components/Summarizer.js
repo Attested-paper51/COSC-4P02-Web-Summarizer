@@ -69,10 +69,10 @@ const Summarizer = () => {
     const sliderLength = ["short", "medium", "long"];
     const [sliderValue, setSliderValue] = useState(1);
 
-    const [startHour, setStartHour] = useState(0);
-    const [startMin, setStartMin] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-    const [endMin, setEndMin] = useState(0);
+    const [startHour, setStartHour] = useState();
+    const [startMin, setStartMin] = useState();
+    const [endHour, setEndHour] = useState();
+    const [endMin, setEndMin] = useState();
 
     const email = localStorage.getItem('email');
     const [username, setUsername] = useState('');
@@ -251,12 +251,43 @@ const Summarizer = () => {
     }
 
     // functions can be changed accordingly
-    const thumbsUp = () => {
-        console.log("Output summary is good!")
+    const thumbsUp = async () => {
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/thumbsup', { //Server use only
+            const response = await fetch('http://localhost:5001/thumbsup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to thumbs up.');
+            }
+            console.log('Thumbs up successful!');
+
+        }catch (error) {
+            console.log(error)
+        }
+        
     }
-    const thumbsDown = () => {
-        console.log("Output summary is bad.")
-        //setOutputContent('Bilaaaaal')
+    const thumbsDown = async () => {
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/thumbsdown', { //Server use only
+            const response = await fetch('http://localhost:5001/thumbsdown', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to thumbs down.');
+            }
+            console.log('Thumbs down successful!');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     const [isCopied, setCopy] = useState(false)
@@ -353,41 +384,7 @@ const Summarizer = () => {
         //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
     }
 
-    const saveSummary = async () => {
-
-        if (!inputContent || !outputContent || !username) {
-
-            console.log('Missing required fields.');
-            return;
-        }
-
-        else {
-            const url = 'http://localhost:5005/saveSummary';
-            const data = {
-                username: username,
-                inputT: inputContent,
-                summarizedT: outputContent,
-            };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                const responseData = await response.json();
-                console.log(responseData); // Logging the response for debugging purposes
-                // You can set some state here to show a success message to the user
-            } catch (error) {
-                console.error('Error saving summary:', error);
-                // You can set some state here to show an error message to the user
-            }
-        }
-    }
-
+    
 
     // document.addEventListener('DOMContentLoaded', function() {
     //     const textarea = document.getElementById('input');
@@ -409,6 +406,7 @@ const Summarizer = () => {
     
 
     const [SaveSummary, setSaveSummary] = useState('Save Summary');
+    const [saveSummaryText, setSaveSummaryText] = useState('Save Summary');
     const [isSaveClicked, setSaveClicked] = useState(false);
 
     //adding a summary and input content to history
@@ -430,25 +428,46 @@ const Summarizer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input: inputContent, output: outputContent, email}),
+                body: JSON.stringify({ input: inputContent, output: outputContent, email }),
             });
 
             if (response.ok) {
                 const result = await response.json();
                 if (result.message === "Summary history is full. Please delete a previous entry.") {
-                    setErrorMessage(result.message);
-                    setOpenError(true);
-                    return;
-                }else{
-                    setSaveSummary('Saved Summary!');
-                    setSaveClicked(true);
-                    console.log(result.message);
+                    setDialogConfig({
+                        open: true,
+                        title: "Error",
+                        content: result.message,
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmText: "OK",
+                        onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+                    });
+                } else {
+                    setDialogConfig({
+                        open: true,
+                        title: "Success",
+                        content: "Summary saved successfully!",
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmText: "OK",
+                        onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+                    });
+                    setSaveSummaryText('Saved Summary!');
+                    setTimeout(() => setSaveSummaryText('Save Summary'), 3000); // Optionally reset the button text after some time
                 }
-                
             }
-
         } catch (error) {
-            console.log(error)
+            setDialogConfig({
+                open: true,
+                title: "Error",
+                content: "Failed to save summary.",
+                showCancelButton: false,
+                showConfirmButton: true,
+                confirmText: "OK",
+                onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+            });
+            console.error('Error:', error);
         }
 
     };
@@ -461,9 +480,18 @@ const [isLoading, setIsLoading] = useState(false);
 const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
+     // Provide default values if startHour, startMin, endHour, or endMin are undefined or empty strings
+     const defaultHour = 0;
+     const defaultMin = 0;
+     const sanitizedStartHour = startHour || defaultHour;
+     const sanitizedStartMin = startMin || defaultMin;
+     const sanitizedEndHour = endHour || defaultHour;
+     const sanitizedEndMin = endMin || defaultMin;
+     //console.log(sanitizedEndHour);
 
     //fetch('/api/summarize', {
     fetch('http://127.0.0.1:5000/api/summarize', {
+    //fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -477,8 +505,8 @@ const summarizeText = () => {
             length: sliderLength[sliderValue],
             citation: selectedCitationType,
             option: selectedVideoSetting,
-            startTime: `${startHour}:${startMin}`,
-            endTime: `${endHour}:${endMin}`
+            startTime: `${sanitizedStartHour}:${sanitizedStartMin}`,
+            endTime: `${sanitizedEndHour}:${sanitizedEndMin}`
         }),
     })
     .then(response => {
@@ -495,6 +523,8 @@ const summarizeText = () => {
             throw new Error(data.error);
         }
         setOutputContent(data.summary);
+        setSaveSummary('Save Summary');
+        setSaveClicked(false);
     })
     .catch(error => {
         setIsLoading(false); // Ensure loading dialog is hidden on error
@@ -522,6 +552,7 @@ const summarizeText = () => {
 
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //For server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -668,6 +699,7 @@ const summarizeText = () => {
         
 
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
                 method: 'POST',
                 headers: {
@@ -699,6 +731,7 @@ const summarizeText = () => {
         //console.log("templateNameToFetch:",templatename);
         try {
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -1247,10 +1280,10 @@ const summarizeText = () => {
                                     <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="feedback-buttons">
                                             <Tooltip title="Like" arrow>
-                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19} /></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp} disabled={!outputContent}><GoThumbsup size={19} /></button>
                                             </Tooltip>
                                             <Tooltip title="Dislike" arrow>
-                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19} /></button>
+                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown} disabled ={!outputContent}><GoThumbsdown size={19} /></button>
                                             </Tooltip>
                                         </div>
 

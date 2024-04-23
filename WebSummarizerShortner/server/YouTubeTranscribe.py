@@ -8,10 +8,16 @@ import subprocess
 import json
 import datetime
 from youtube_transcript_api import YouTubeTranscriptApi
+from dotenv import load_dotenv
 
 # Set your AWS region and S3 bucket name
 AWS_REGION = "ca-central-1"
 S3_BUCKET_NAME = "ytaudiotranscribe"
+
+#initiating dot environment
+load_dotenv()
+aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID")
+aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
 
 def convert_time_to_seconds(time_str):
     """Converts time from HH:MM format to seconds."""
@@ -40,7 +46,7 @@ def get_video_duration(video_id):
 def upload_file_to_s3(file_name, bucket=S3_BUCKET_NAME, object_name=None):
     if object_name is None:
         object_name = file_name
-    s3_client = boto3.client('s3', region_name=AWS_REGION)
+    s3_client = boto3.client('s3', region_name=AWS_REGION, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
     try:
         start_time = time.time()  # Start time for upload measurement
         s3_client.upload_file(file_name, bucket, object_name)
@@ -59,12 +65,15 @@ def download_audio(video_url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
+        #'ffmpeg_location': 'D:\\Hamza\'s\COSC_4P02\\ffmpeg-2024-04-15-git-5e380bcdb1-full_build\\ffmpeg-2024-04-15-git-5e380bcdb1-full_build\\bin',
+       # 'ffmpeg_location': '../../../ffmpeg-2024-04-15-git-5e380bcdb1-full_build/ffmpeg-2024-04-15-git-5e380bcdb1-full_build/bin',  
         'outtmpl': '%(id)s.%(ext)s',
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([video_url])
         info = ydl.extract_info(video_url, download=False)
         return f"{info['id']}.mp3"
+
 
 def transcribe_audio(file_path, bucket=S3_BUCKET_NAME):
     transcribe_client = boto3.client('transcribe', region_name=AWS_REGION)

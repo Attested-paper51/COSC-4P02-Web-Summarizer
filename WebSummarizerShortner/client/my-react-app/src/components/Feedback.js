@@ -22,6 +22,7 @@ const Feedback = () => {
         try {
     
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/addfeedback', { //Server use only
             const response = await fetch('http://localhost:5001/addfeedback', {
                 method: 'POST',
                 headers: {
@@ -61,7 +62,7 @@ const Feedback = () => {
                 {[...Array(5)].map((star,index) => {
                     const currentRating = index + 1;
                     return(
-                        <label className='five-stars'>
+                        <label className='five-stars' key={currentRating}>
                             <input className='rating-input'
                                 type="radio" 
                                 name="rating" 
@@ -84,7 +85,8 @@ const Feedback = () => {
                     id='input'
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
-                    placeholder='Tell us about your experience'required>
+                    placeholder='Tell us about your experience'
+                    required>
                 </textarea>
                 <button 
                     className={`send-feedback ${darkMode ? "btn-dark" : "btn-light"}`} 

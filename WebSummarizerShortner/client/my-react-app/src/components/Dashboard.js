@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 import "./css/DashboardStyle.css";
@@ -43,39 +42,16 @@ const Dashboard = () => {
 
   //Testing, not fully working, attempting to see if the logged in user will
   //persist after refreshing the page.
-  const { userEmail } = useContext(AuthContext);
-  const [authenticated, setAuthenticated] = useState(false);
   const storedEmail = localStorage.getItem('email');
 
 
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('authenticated');
-    //const userEmail = localStorage.getItem('email');
-    setAuthenticated(!!isAuthenticated);
-
-    console.log('Authentication state is: ', isAuthenticated);
-    //console.log('Authenticated email: ',userEmail);
-
-  }, []);
 
   const handleLogout = () => {
-    //uhh 
-    if (localStorage.getItem('loginMethod') === "google") {
-      localStorage.removeItem('email');
-      localStorage.removeItem('authenticated');
-      localStorage.removeItem('name');
-      localStorage.removeItem('loginMethod');
-    }
     localStorage.removeItem('email');
-    localStorage.removeItem('authenticated');
     localStorage.removeItem('name');
     localStorage.removeItem('loginMethod');
     navigate('/');
   };
-
-  //console.log('Authentication state is: ',isAuthenticated);
-  console.log('AuthContext email: ', userEmail);
-  console.log('Local Storage email: ', storedEmail);
 
   const [open, setOpen] = useState(true);
 
