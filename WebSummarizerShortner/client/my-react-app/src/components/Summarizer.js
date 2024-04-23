@@ -33,6 +33,7 @@ const Summarizer = () => {
 
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
+    const [shouldDetectChanges, setShouldDetectChanges] = useState(false);
 
     const [openError, setOpenError] = useState(false);
 
@@ -112,11 +113,10 @@ const Summarizer = () => {
         if(isClicked !== buttonIndex)
         {
             setClickedButton(buttonIndex)
-            setSaveSummary('Save Summary');
-            setSaveClicked(false);
             emptyTextContent()
             showShorten(false)
             setTemplate(templates[0])
+
         }
     }
 
@@ -188,6 +188,18 @@ const Summarizer = () => {
         }
     })
 
+    useEffect(() => {
+        if (shouldDetectChanges) {
+            if (outputContent != savedContent)
+            {
+                console.log("outputContent has changed:", outputContent);
+                setSaveClicked(false)
+                setSaveSummary("Save Summary")
+                setShouldDetectChanges(false)
+            }
+        }
+    });
+
     useEffect (() => {
         // detects the condition of state transfer
         if (parsedState && parsedState.action === 'PUSH') {
@@ -239,8 +251,6 @@ const Summarizer = () => {
     const emptyTextContent = () => {
         setInputContent('');
         setOutputContent('');
-        setSaveSummary('Save Summary');
-        setSaveClicked(false);
     }
 
     // empties content and closes Dialog Box
@@ -406,8 +416,8 @@ const Summarizer = () => {
     
 
     const [SaveSummary, setSaveSummary] = useState('Save Summary');
-    const [saveSummaryText, setSaveSummaryText] = useState('Save Summary');
     const [isSaveClicked, setSaveClicked] = useState(false);
+    const [savedContent, setSavedContent] = useState('');
 
     //adding a summary and input content to history
     const addToHistory = async () => {
@@ -453,8 +463,11 @@ const Summarizer = () => {
                         confirmText: "OK",
                         onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
                     });
-                    setSaveSummaryText('Saved Summary!');
-                    setTimeout(() => setSaveSummaryText('Save Summary'), 3000); // Optionally reset the button text after some time
+                    setSaveSummary('Saved Summary!')
+                    setSaveClicked(true)
+                    setSavedContent(outputContent)
+                    setShouldDetectChanges(true)
+                    //setTimeout(() => setSaveSummaryText('Save Summary'), 3000); // Optionally reset the button text after some time
                 }
             }
         } catch (error) {
@@ -1304,7 +1317,10 @@ const summarizeText = () => {
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
                                         { userEmail && outputContent != '' &&
-                                            <button className="summarize-btn" onClick={addToHistory} disabled={isSaveClicked}>
+                                            <button 
+                                            className={`summarize-btn ${isSaveClicked ? 'button-disabled' : ''}`}
+                                            onClick={addToHistory} 
+                                            disabled={isSaveClicked}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>{SaveSummary}</div>
                                                 </div>
