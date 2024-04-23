@@ -62,7 +62,7 @@ const Feedback = () => {
                 {[...Array(5)].map((star,index) => {
                     const currentRating = index + 1;
                     return(
-                        <label className='five-stars'>
+                        <label className='five-stars' key={currentRating}>
                             <input className='rating-input'
                                 type="radio" 
                                 name="rating" 
@@ -85,7 +85,8 @@ const Feedback = () => {
                     id='input'
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
-                    placeholder='Tell us about your experience'required>
+                    placeholder='Tell us about your experience'
+                    required>
                 </textarea>
                 <button 
                     className={`send-feedback ${darkMode ? "btn-dark" : "btn-light"}`} 

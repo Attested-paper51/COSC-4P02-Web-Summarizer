@@ -1,56 +1,52 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import { FaMoon, FaSun } from 'react-icons/fa'; // Import FaMoon and FaSun components
 import Header from '../Header';
 
+// Mock the ThemeContext module
+// const setDarkMode = jest.fn();
+jest.mock('../ThemeContext.js', () => ({
+  useTheme: () => ({
+    darkMode: false, // Set darkMode to false for testing
+    setDarkMode: jest.fn(), // Mock setDarkMode function
+  }),
+}));
+
 describe('Header component', () => {
-  it('renders without crashing', () => {
-    render(<Header />);
-    // Check if the component renders without crashing
+  test('renders header with navigation links', () => {
+    render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    );
+
     expect(screen.getByText('shortify')).toBeInTheDocument();
+    expect(screen.getByText('SUMMARIZER')).toBeInTheDocument();
+    expect(screen.getByText('URL SHORTENER')).toBeInTheDocument();
   });
 
-//   it('toggles dark mode when mode button is clicked', () => {
-//     render(<Header />);
-//     const modeButton = screen.getByRole('button', { name: /mode/i });
+  // test('changes icon on button click', () => {
+  //   render(
+  //     <BrowserRouter>
+  //       <Header />
+  //     </BrowserRouter>
+  //   );
+  //   // Find the button by its data-testid attribute
+  //   const modeButton = screen.getByTestId('mode-button');
 
-//     // Initially, dark mode is off
-//     expect(document.body).toHaveClass('header-light');
+  //  // Assert that the initial icon is FaMoon
+  //  expect(modeButton).toContainElement(screen.getByTestId('moon-icon'));
 
-//     // Click the mode button to toggle dark mode
-//     fireEvent.click(modeButton);
+  //  // Simulate a click event on the button
+  //  fireEvent.click(modeButton);
+  //  setDarkMode(true) // Set darkMode to false for testing
 
-//     // Check if dark mode is toggled
-//     expect(document.body).toHaveClass('header-dark');
+  // // Assert that the updated icon is FaSun
+  // //  expect(modeButton).toContainElement(screen.getByTestId('sun-icon'));
+  // // Wait for the icon update to complete
+  // expect(modeButton).toContainElement(screen.getByTestId('sun-icon'));
 
-//     // Click the mode button again to toggle back to light mode
-//     fireEvent.click(modeButton);
+  // });
 
-//     // Check if light mode is toggled back
-//     expect(document.body).toHaveClass('header-light');
-//   });
-
-//   it('displays user profile and email when logged in', () => {
-//     // Mock localStorage values
-//     const mockEmail = 'test@example.com';
-//     const mockName = 'Test User';
-//     localStorage.setItem('email', mockEmail);
-//     localStorage.setItem('name', mockName);
-
-//     render(<Header />);
-
-//     // Check if profile icon and email are displayed
-//     expect(screen.getByText(mockName)).toBeInTheDocument();
-//     expect(screen.getByTestId('profile-icon')).toBeInTheDocument();
-//   });
-
-//   it('displays login button when not logged in', () => {
-//     // Clear localStorage values
-//     localStorage.removeItem('email');
-//     localStorage.removeItem('name');
-
-//     render(<Header />);
-
-//     // Check if login button is displayed
-//     expect(screen.getByRole('button', { name: /person/i })).toBeInTheDocument();
-//   });
 });

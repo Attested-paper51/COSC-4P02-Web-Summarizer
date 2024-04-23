@@ -8,7 +8,7 @@ const Hero = () => {
   const { darkMode } = useTheme();
 
   return(
-    <div className={`hero ${darkMode ? 'hero-dark' : 'hero-light'}`}>
+    <div className={`hero ${darkMode ? 'hero-dark' : 'hero-light'}`}  data-testid="hero-container">
       <div className="hero-div1">
         <div className="hero-title">
           <p className="hero-heading">
