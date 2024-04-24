@@ -16,7 +16,7 @@ import APIAccess from './APIAccess.jsx';
 import { useTheme } from '../context/ThemeContext.js';
 
 /**
- * 
+ * Dashboard defines all functionality for the user dashboard page
  * @returns Dashboard page
  */
 const Dashboard = () => {
@@ -33,6 +33,7 @@ const Dashboard = () => {
     setActiveComponent(componentName);
   };
 
+  //Handle logic when a user clicks logout
   const handleLogout = () => {
     localStorage.removeItem('email');
     localStorage.removeItem('name');
