@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
-import { useTheme } from './ThemeContext.js';
+import { useTheme } from '../context/ThemeContext.js';
 import { LoginSocialFacebook } from 'reactjs-social-login';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import DialogBox from '../components/DialogBox.js';
@@ -298,7 +298,7 @@ const defaultConfirm = () => {
               onChange={(e) => setPass(e.target.value)}
               placeholder='Enter password here' 
             />
-            <div className='hide-pass' onClick = {() => setVisible(!visible)}>
+            <div className='hide-pass' onClick = {() => setVisible(!visible)} data-testid='hide-pass'>
               {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
             </div>
           </div>
@@ -307,7 +307,7 @@ const defaultConfirm = () => {
         
           <button className="login-btn" onClick={handleSubmit}>
             <div className={`login-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-              <div className={`login ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Log in</div>
+              <div className={`login ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Log In</div>
             </div>
           </button>
 

@@ -4,7 +4,7 @@ import "./css/HeaderStyle.css";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { AuthContext } from '../context/AuthContext.js';
-import { useTheme } from './ThemeContext.js';
+import { useTheme } from '../context/ThemeContext.js';
 
 const Header = () => {
   //maybe remove

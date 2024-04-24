@@ -6,7 +6,7 @@ import Header from '../Header';
 
 // Mock the ThemeContext module
 // const setDarkMode = jest.fn();
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
   useTheme: () => ({
     darkMode: false, // Set darkMode to false for testing
     setDarkMode: jest.fn(), // Mock setDarkMode function

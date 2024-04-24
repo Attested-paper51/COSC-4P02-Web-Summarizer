@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Hero from '../Hero'; // Update the path
 
 // Mocking the useTheme hook
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
     useTheme: () => ({
       darkMode: false, // Set darkMode to false for testing
       setDarkMode: jest.fn(), // Mock setDarkMode function
