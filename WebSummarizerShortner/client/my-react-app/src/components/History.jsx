@@ -244,81 +244,111 @@ function isURL(str) {
 }
 
 
+const hasSelectedRows = () => {
+  return Object.keys(selectedRows).some(key => selectedRows[key]);
+};
+
+
   return (
     <div className="history-wrapper">
-        
-        <h1>History</h1>
-        <div className='hist-section'>
-          <button className={`sum-btn ${activeButton === 'sum' ? 'active' : ''}`} onClick={handleSumButtonClick}>Web Summarizer</button>
-          <button className={`short-btn ${activeButton === 'short' ? 'active' : ''}`} onClick={handleShortButtonClick}>URL Shortener</button>
-        </div>
-
-        {showSumSection && (
-          <div className='sum-section'>
-            <table id="summary-table">
-              <thead>
-                <tr>
-                  <th>Select</th>
-                  <th>Prompt Given</th>
-                  <th>Summarized Prompt</th>
-                </tr>
-              </thead>
-              <tbody>
-                {historyData.map((item) => (
-                  <tr key={item[0]}>
-                    <td>
-                      <label className='custom-checkbox'>
-                        <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
-                        {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
-                      </label>
-                    </td>
-                    <td className='scrollable'>
-                      {isURL(item[1]) ? <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a> : item[1]}
-                    </td>
-                    <td className='scrollable'>{item[2]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {showShortSection && (
-          <div className='short-section'>
-            <table id="shortener-table">
-              <thead>
-                <tr>
-                  <th>Select</th>
-                  <th>Original Link Given</th>
-                  <th>Shortened Link</th>
-                  <th>Click counts</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((item) => (
-                  <tr key={item[0]}>
-                    <td>
-                      <label className='custom-checkbox'>
-                        <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
-                        {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
-                      </label>
-                    </td>
-                    <td className='scrollable'>
-                      <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
-                    </td>
-                    <td className='scrollable'>
-                      <a href={item[2]} target="_blank" rel="noopener noreferrer" className="link-style">{item[2]}</a>
-                    </td>
-                    <td>{item[3]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
+    <h1>History</h1>
+    <div className='hist-section'>
+      <button className={`sum-btn ${activeButton === 'sum' ? 'active' : ''}`} onClick={handleSumButtonClick}>Web Summarizer History</button>
+      <button className={`short-btn ${activeButton === 'short' ? 'active' : ''}`} onClick={handleShortButtonClick}>URL Shortener History</button>
     </div>
-);
+
+    {showSumSection && (
+      <div className='sum-section'>
+        <div className='btn-section'>
+          <button className='control-btn' onClick={handleSelectAll}>
+            {selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
+          </button>
+          {hasSelectedRows() && (
+            <>
+              <button className='control-btn' onClick={handleDelete}><MdDeleteOutline className='delete-icon' /></button>
+              <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
+            </>
+          )}
+        </div>
+    <table id="summary-table">
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Prompt Given</th>
+          <th>Summarized Prompt</th>
+        </tr>
+      </thead>
+      <tbody>
+        {historyData.map((item) => (
+          <tr key={item[0]}>
+            <td>
+              <label className='custom-checkbox'>
+                <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
+                {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
+              </label>
+            </td>
+            <td className='scrollable'>
+              {isURL(item[1]) ? (
+                <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+              ) : item[1]}
+            </td>
+            <td className='scrollable'>{item[2]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
+
+      {showShortSection && (
+      <div className='short-section'>
+        <div className='btn-section'>
+          <button className='control-btn' onClick={handleSelectAllShortened}>
+            {selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
+          </button>
+          {hasSelectedRows() && (
+            <>
+              <button className='control-btn' onClick={handleDeleteShortenedURL}><MdDeleteOutline className='delete-icon' /></button>
+              <button className='control-btn' onClick={handleCopy}> {copied ? <FaCopy className='copy-icon' /> : <FaRegCopy className='copy-icon' />}</button>
+            </>
+          )}
+        </div>
+          <table id="shortener-table">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Original Link Given</th>
+                <th>Shortened Link</th>
+                <th>Click counts</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item[0]}>
+                  <td>
+                    <label className='custom-checkbox'>
+                      <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
+                      {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
+                    </label>
+                  </td>
+                  <td className='scrollable'>
+                    <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+                  </td>
+                  <td className='scrollable'>
+                    <a href={item[2]} target="_blank" rel="noopener noreferrer" className="link-style">{item[2]}</a>
+                  </td>
+                  <td>{item[3]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+
+          </div>
+      );
 
 }
 
