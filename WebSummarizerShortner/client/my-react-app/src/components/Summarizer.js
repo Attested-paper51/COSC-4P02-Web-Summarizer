@@ -8,7 +8,6 @@ import "./css/SignUpStyle.css";
 import "./css/Dropdown.css";
 import "./css/DropdownButton.css";
 import '../App.css'
-
 // Icons
 // import { FaTrashCan } from "react-icons/fa6";
 import { GoThumbsdown } from "react-icons/go";
@@ -24,9 +23,13 @@ import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
 import { useTheme } from '../context/ThemeContext.js'
-import { resolveBreakpointValues } from "@mui/system/breakpoints";
+//import { parse } from "@fortawesome/fontawesome-svg-core";
+//import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
-
+/**
+ * Summarizer includes all the logic for summarizing a given text, website link or youtube link. 
+ * @returns Summarizer page
+ */
 const Summarizer = () => {
 
     const { darkMode } = useTheme();
@@ -41,8 +44,7 @@ const Summarizer = () => {
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
-    const [value, setValue] = useState(null);
-    const userEmail = localStorage.getItem('email');
+    const [value] = useState(null);
 
     // get state from the sessionStorage
     const storedState = sessionStorage.getItem('URLState');
@@ -65,7 +67,7 @@ const Summarizer = () => {
     const [selectedTemplate, setTemplate] = useState(templates[0]);
 
     const saveTemplates = ["Save Template", "Template 1", "Template 2", "Template 3"];
-    const [selectedSaveTemplate, setSaveTemplate] = useState(saveTemplates[0]);
+    const [selectedSaveTemplate] = useState(saveTemplates[0]);
 
     const sliderLength = ["short", "medium", "long"];
     const [sliderValue, setSliderValue] = useState(1);
@@ -75,9 +77,15 @@ const Summarizer = () => {
     const [endHour, setEndHour] = useState();
     const [endMin, setEndMin] = useState();
 
-    const email = localStorage.getItem('email');
-    const [username, setUsername] = useState('');
+     // for error handling
+     const [errorMessage, setErrorMessage] = useState('An error has occurred');
+     const [SaveSummary, setSaveSummary] = useState('Save Summary');
+     const [isSaveClicked, setSaveClicked] = useState(false);
+     const [savedContent, setSavedContent] = useState('');
 
+    const email = localStorage.getItem('email');
+
+    //Dialog box for error messages
     const [dialogConfig, setDialogConfig] = useState({
         open: false,
         onClose: null,
@@ -137,6 +145,7 @@ const Summarizer = () => {
         return words.length
     }
 
+    //useEffect to keep track of the wordcount when a user is typing in the input field
     useEffect(() => {
 
         if (timeoutId) {
@@ -162,7 +171,7 @@ const Summarizer = () => {
                 clearTimeout(timeoutId)
             }
         }
-    }, [inputContent])
+    }, [inputContent,timeoutId])
 
 
     /** every render: checks if output has text
@@ -186,11 +195,12 @@ const Summarizer = () => {
         {
             showShorten(false)
         }
-    })
+    }, [outputContent,isClicked])
 
+    //Detects whether the output has changed and if it has it will allow the user to save the summary again
     useEffect(() => {
         if (shouldDetectChanges) {
-            if (outputContent != savedContent)
+            if (outputContent !== savedContent)
             {
                 console.log("outputContent has changed:", outputContent);
                 setSaveClicked(false)
@@ -198,8 +208,9 @@ const Summarizer = () => {
                 setShouldDetectChanges(false)
             }
         }
-    });
+    },[shouldDetectChanges,outputContent,savedContent]);
 
+    //Logic to allow for transferring the URL to the shortener
     useEffect (() => {
         // detects the condition of state transfer
         if (parsedState && parsedState.action === 'PUSH') {
@@ -214,38 +225,14 @@ const Summarizer = () => {
             else if (String(window.performance.getEntries()[0].type) === "reload") {
                 setInputContent("")
             }
-            console.log("push")
+            //console.log("push")
         } else {
             //setInputContent("pop function")
-            console.log("pop")
+            //console.log("pop")
         }
-    }, [])
+    },[parsedState]);
 
 
-    const componentDidMount = () => {
-        // // This is called after the component has been mounted to the DOM
-        //setInputContent('')
-        // const inputArea = document.querySelector("textarea");
-        // const outputArea = document.getElementById("output"); 
-        // // Now you can work with the textarea
-        // inputArea.addEventListener("input", e =>
-        // {
-        //     inputArea.style.height = "60.5vh";
-        //     //alert(inputArea.style.height)
-        //     outputArea.style.height = inputArea.style.height;
-        //     let height = e.target.scrollHeight;
-        //     //alert(height)
-        //     inputArea.style.height = `${(height / window.innerHeight) * 100}vh`;
-        //     outputArea.style.height = inputArea.style.height;
-        // })
-
-        // //Add an additional check for the window resize event
-        // window.addEventListener("resize", () => {
-        //     // Reset the height when the window is resized
-        //     inputArea.style.height = "60.5vh";
-        //     outputArea.style.height = inputArea.style.height;
-        // });
-    }
 
     // empties input and output
     const emptyTextContent = () => {
@@ -260,7 +247,7 @@ const Summarizer = () => {
         handleClose()
     }
 
-    // functions can be changed accordingly
+    // thumbsUp makes a fetch to the server to increment the number of thumbs up by 1 when the button is clicked
     const thumbsUp = async () => {
         try {
             //const response = await fetch('http://4p02shortify.com:5001/thumbsup', { //Server use only
@@ -281,6 +268,7 @@ const Summarizer = () => {
         }
         
     }
+    // thumbsDown makes a fetch to the server to increment the number of thumbs down by 1 when the button is clicked
     const thumbsDown = async () => {
         try {
             //const response = await fetch('http://4p02shortify.com:5001/thumbsdown', { //Server use only
@@ -300,7 +288,8 @@ const Summarizer = () => {
         }
     }
 
-    const [isCopied, setCopy] = useState(false)
+    const [isCopied, setCopy] = useState(false);
+    //Logic for copying the summary
     const copySummary = () => {
         navigator.clipboard.writeText(outputContent)
         setCopy(true)
@@ -370,6 +359,7 @@ const Summarizer = () => {
         handleErrorClose()
     }
 
+    //Logic for if a user attempts to summarize empty content; which will display an error, otherwise it will summarize
     const checkEmptyInput = () => {
         if(inputContent === '') {
             openDialog({
@@ -386,7 +376,7 @@ const Summarizer = () => {
             summarizeText();
         }
     }
-
+    //Transferring the link to the shortener page
     const transferLink = () => {
         const action = 'PUSH';
         const state = { action, inputContent };
@@ -394,30 +384,8 @@ const Summarizer = () => {
         //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
     }
 
-    
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const textarea = document.getElementById('input');
-    //     const targetDiv = document.getElementById('btnDiv');
-
-    //     textarea.addEventListener('input', function() {
-    //         targetDiv.style.borderColor = '#87CEFA'; // Change border color when typing
-    //     });
-
-    //     textarea.addEventListener('blur', function() {
-    //         targetDiv.style.borderColor = '#ccc'; // Reset border color when textarea loses focus
-    //     });
-    // });
-
-    //--------------------------------BACKEND----------------------------------------
-    // for error handling
-    const [errorMessage, setErrorMessage] = useState('An error has occurred');
-    // for showing the error
-    
-
-    const [SaveSummary, setSaveSummary] = useState('Save Summary');
-    const [isSaveClicked, setSaveClicked] = useState(false);
-    const [savedContent, setSavedContent] = useState('');
+   
 
     //adding a summary and input content to history
     const addToHistory = async () => {
@@ -433,6 +401,7 @@ const Summarizer = () => {
         }
 
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/addsummarized', { //Server use only
             const response = await fetch('http://localhost:5001/addsummarized', {
                 method: 'POST',
                 headers: {
@@ -489,7 +458,7 @@ const Summarizer = () => {
 // State to manage loading dialog visibility
 const [isLoading, setIsLoading] = useState(false);
 
-
+//summarizeText will make a fetch call to the backend to summarize the given input, whether text, website or YouTube
 const summarizeText = () => {
     // Show loading dialog
     setIsLoading(true);
@@ -500,7 +469,7 @@ const summarizeText = () => {
      const sanitizedStartMin = startMin || defaultMin;
      const sanitizedEndHour = endHour || defaultHour;
      const sanitizedEndMin = endMin || defaultMin;
-     //console.log(sanitizedEndHour);
+    
 
     
     fetch('http://127.0.0.1:5000/api/summarize', {
@@ -549,7 +518,7 @@ const summarizeText = () => {
     //function to pull the values stored in the database for the template
     const handleTemplateFetch = async (item) => {
         setTemplate(item);
-        //do if so that u can say template 1 = customTemplate1 etc.
+        
         var templatename;
         if (item === templates[1]) {
             templatename = "customTemplate1";
@@ -558,9 +527,6 @@ const summarizeText = () => {
         } else {
             templatename = "customTemplate3";
         }
-        //console.log("Selected template:",selectedTemplate);
-        //console.log("item:",item);
-        //console.log("templateNameToFetch:",templatename);
         try {
 
             // Make a POST request to the Flask backend
@@ -575,7 +541,7 @@ const summarizeText = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                //result should include all the flags I want
+                
                 if (result.summtype === 'text') {
                     setClickedButton(0);
                 } else if (result.summtype === 'website') {
@@ -595,7 +561,7 @@ const summarizeText = () => {
                         setVideoSetting(videoSetting[0]);
                     } else {
                         setVideoSetting(videoSetting[1]);
-                        //timestamp thing
+                        //timestamps
                         const [startTime, endTime] = result.timestamps.split(',');
                         const [startHour, startMin] = startTime.split(':');
                         const [endHour, endMin] = endTime.split(':');
@@ -610,12 +576,12 @@ const summarizeText = () => {
                     setClickedButton(0);
                 }
 
-                if (result.formality != null) {
+                if (result.formality !== null) {
                     setTone(result.formality);
                 } else {
                     setTone(tone[0]);
                 }
-                if (result.structure != null) {
+                if (result.structure !== null) {
                     setLayout(result.structure);
                 } else {
                     setLayout(layout[0]);
@@ -643,7 +609,7 @@ const summarizeText = () => {
         var formality = selectedTone;
         var structure = selectedLayout;
         const email = localStorage.getItem('email');
-        //var wordcount = 0;
+       
         var length;
         var templatename;
         if (item === templates[1]) {
@@ -656,13 +622,10 @@ const summarizeText = () => {
         
         
         if (sliderValue === 1) {
-            //wordcount = 50;
             length = 'short';
         }else if (sliderValue === 2) {
-            //wordcount = 100;
             length = 'medium';
         }else if (sliderValue === 3){
-            //wordcount = 200;
             length = 'long';
         }
         var summ_type = "";
@@ -687,7 +650,6 @@ const summarizeText = () => {
                 if (startHour === "HH" || startMin === "MM" ||
                     endHour === "HH" || endMin === "MM") {
                     //display timestamp error
-                    //console.log("hey, change the values dude");
                     setErrorMessage('Please convert the timestamp values to numerical format.');
                     setOpenError(true);
                     return;
@@ -696,7 +658,6 @@ const summarizeText = () => {
                     var end = (endHour * 60) + endMin;
                     if (end < start) {
                         //display invalid timestamp error
-                        //console.log("how can u end before u start, dummy");
                         setErrorMessage('End time cannot occur before start time.');
                         setOpenError(true);
                         return;
@@ -710,7 +671,7 @@ const summarizeText = () => {
 
         }
         
-
+        // Make a POST request to the backend 
         try {
             //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
@@ -730,6 +691,7 @@ const summarizeText = () => {
         }
     }
 
+    //Checking if a template slot is currently taken when a user attempts to save
     const checkIfTemplateSlotTaken = async (item) => {
         var templatename;
         if (item === templates[1]) {
@@ -739,9 +701,6 @@ const summarizeText = () => {
         }else {
             templatename = "customTemplate3";
         }
-        //console.log("Selected template:",selectedTemplate);
-        console.log("item to check if empty:",item);
-        //console.log("templateNameToFetch:",templatename);
         try {
             // Make a POST request to the Flask backend
             //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
@@ -810,9 +769,6 @@ const summarizeText = () => {
                 endTime: `${endHour}:${endMin}`
             };
         }
-        
-        // Now you can use `data` here, as it's been declared in an outer scope
-        
 
         // Convert the JSON object to a string
         const jsonString = JSON.stringify(data);
@@ -853,7 +809,7 @@ const summarizeText = () => {
                         </div>
 
                         <div className="main-content">
-                            {userEmail &&  
+                             {email &&  
 
                             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
@@ -1071,7 +1027,7 @@ const summarizeText = () => {
                                 </div>
                             </div>
                             }
-                            {userEmail &&
+                            {email &&
                             <div className={`premium-container second-row ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
                                     <div className="mode invisible">
@@ -1250,7 +1206,7 @@ const summarizeText = () => {
                                             { inputContent && wordCount >= 1 && wordCount < 126 ? 
                                                 (<Tooltip title={inputContent.length === 1? `${inputContent.length} Character`: `${inputContent.length} Characters`} arrow>
                                                     <div className="word-cnt-div">{wordCount === 1? `${wordCount} Word`: `${wordCount} Words`}</div>
-                                                </Tooltip>) : wordCount >= 126 && !userEmail ?
+                                                </Tooltip>) : wordCount >= 126 && !email ?
                                                 <div className="get-premium">
                                                     <div><Link to = "/Login" className="link-blue">Get Premium</Link> for unlimited words.</div>
                                                     <div>{wordCount}/125 Words</div>    
@@ -1317,7 +1273,7 @@ const summarizeText = () => {
                                             </a>
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
-                                        { userEmail && outputContent != '' &&
+                                        { email && outputContent !== '' &&
                                             <button 
                                             className={`summarize-btn ${isSaveClicked ? 'button-disabled' : ''}`}
                                             onClick={addToHistory} 

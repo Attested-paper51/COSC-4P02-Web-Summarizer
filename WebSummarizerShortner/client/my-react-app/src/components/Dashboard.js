@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import "./css/DashboardStyle.css";
 import { MdHistory } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -10,27 +9,21 @@ import { IoPersonSharp } from "react-icons/io5";
 import { TbLogout } from "react-icons/tb";
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
 import Tooltip from '@mui/material/Tooltip';
-
 import History from './History.jsx';
 import Templates from './Templates.jsx';
 import Settings from './Settings.jsx';
 import APIAccess from './APIAccess.jsx';
+import { useTheme } from '../context/ThemeContext.js';
 
-import { useTheme } from '../context/ThemeContext.js'
-
+/**
+ * Dashboard defines all functionality for the user dashboard page
+ * @returns Dashboard page
+ */
 const Dashboard = () => {
 
   const { darkMode } = useTheme();
 
   const navigate = useNavigate();
-  // // const emailCheck = localStorage.getItem('email');
-
-  // // useEffect (() => {
-  // //   if (!emailCheck) {
-  // //     navigate('/login');
-  // //   }
-  // // }, [emailCheck,navigate]);
-
 
   let username = localStorage.getItem('name');
 
@@ -40,12 +33,7 @@ const Dashboard = () => {
     setActiveComponent(componentName);
   };
 
-  //Testing, not fully working, attempting to see if the logged in user will
-  //persist after refreshing the page.
-  const storedEmail = localStorage.getItem('email');
-
-
-
+  //Handle logic when a user clicks logout
   const handleLogout = () => {
     localStorage.removeItem('email');
     localStorage.removeItem('name');

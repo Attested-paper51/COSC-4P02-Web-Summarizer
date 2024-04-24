@@ -11,7 +11,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
 import UserDashboardPage from './pages/UserDashboardPage.js';
 import { AuthProvider } from './context/AuthContext.js';
-import { useTheme, ThemeProvider } from './context/ThemeContext.js';
+import { useTheme } from './context/ThemeContext.js';
 
 
 const App = () => {

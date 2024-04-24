@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import "./css/FooterStyle.css";
 import { useTheme } from '../context/ThemeContext.js';
-
+/**
+ * 
+ * @returns Footer of the website
+ */
 const Footer = () => {
 
   const {darkMode} = useTheme();
-  console.log(darkMode)
   return (
     <div className='footer'>
       <footer className={`footer-container ${darkMode ? 'footer-dark' : 'footer-light'}`}>
