@@ -81,11 +81,11 @@ const Dashboard = () => {
     <div className="dashboard">
 
       {open &&
-        <div className='side-panel'>
-          <div className='side-panel-title-wrapper'>
+        <div className='side-panel' data-testid='side-panel'>
 
+          <div className='side-panel-title-wrapper'>
             <Tooltip title={<span className='tooltip-title'>Collapse Sidebar</span>} arrow>
-              <button className='sidebar-icon-container' onClick={handleToggleSidebar}>
+              <button className='sidebar-icon-container' onClick={handleToggleSidebar} data-testid="collapse-sidebar-button">
                 <CiCircleChevLeft className='sidebar-icon' />
               </button>
             </Tooltip>
@@ -107,7 +107,7 @@ const Dashboard = () => {
 
 
       {!open &&
-        <div className='small-side-panel-container'>
+        <div className='small-side-panel-container' data-testid='small-side-panel-container'>
           <div className='small-side-panel'>
             <Tooltip title={<span className='tooltip-title'>Open Sidebar</span>} arrow>
               <button className='sidebar-icon-container small-sidebar-icon' onClick={handleToggleSidebar}>
@@ -137,7 +137,7 @@ const Dashboard = () => {
         </div>}
 
 
-      <div className={`main-panel ${darkMode ? 'main-panel-dark' : 'main-panel-light'}`}>
+      <div className={`main-panel ${darkMode ? 'main-panel-dark' : 'main-panel-light'}`} data-testid ='main-panel'>
         {activeComponent === 'History' && <History />}
         {activeComponent === 'Templates' && <Templates />}
         {activeComponent === 'APIAccess' && <APIAccess />}

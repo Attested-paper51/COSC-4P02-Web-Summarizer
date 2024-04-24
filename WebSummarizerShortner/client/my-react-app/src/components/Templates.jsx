@@ -16,7 +16,7 @@ import NumberInputBasic, {QuantityInput} from "./NumberInput.js";
 import DialogBox from '../components/DialogBox.js';
 
 import { useTheme } from './ThemeContext.js'
-import { dark } from '@mui/material/styles/createPalette';
+
 
 const Templates = () => {
 
