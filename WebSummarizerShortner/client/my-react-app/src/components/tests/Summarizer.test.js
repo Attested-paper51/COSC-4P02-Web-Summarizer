@@ -9,18 +9,16 @@ jest.mock('../ThemeContext.js', () => ({
       darkMode: false, // Set darkMode to false for testing
       setDarkMode: jest.fn(), // Mock setDarkMode function
     }),
-  }));
+}));
 
 describe('Summarizer component', () => {
-  test('renders Summarizer content with light mode', () => {
-    render(
-      <Router>
-        <Summarizer />
-      </Router>
-    );
+    test('renders Summarizer content with light mode', () => {
+        render(
+            <Router>
+            <Summarizer />
+            </Router>
+        );
 
-    // Check if Summarizer content is rendered
-    a
-  });
-
+        // Check if Summarizer content is rendered
+    });
 });
