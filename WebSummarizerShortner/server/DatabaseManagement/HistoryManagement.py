@@ -123,7 +123,8 @@ class UserHistoryManagement:
 
 
     def __del__(self):
-        self.conn.close()
+        if hasattr(self, 'conn'):
+            self.conn.close()
 
 @appHDB.route('/saveSummary', methods=['POST'])
 def insertHistoryHandler():
