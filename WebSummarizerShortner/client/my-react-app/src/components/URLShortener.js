@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 import DialogBox from '../components/DialogBox.js';
 /**
  * URLShortener defines front-end functionality for the URL shortener

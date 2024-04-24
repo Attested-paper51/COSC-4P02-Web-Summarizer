@@ -22,8 +22,9 @@ import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 import { parse } from "@fortawesome/fontawesome-svg-core";
+import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 /**
  * Summarizer includes all the logic for summarizing a given text, website link or youtube link. 
@@ -526,7 +527,6 @@ const summarizeText = () => {
         } else {
             templatename = "customTemplate3";
         }
-        
         try {
 
             // Make a POST request to the Flask backend

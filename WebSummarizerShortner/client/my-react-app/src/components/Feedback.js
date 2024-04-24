@@ -3,6 +3,10 @@ import "./css/FeedbackStyle.css";
 import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext.js'
 
+/**
+ * Feedback defines the functionality allowing users to submit feedback about the website
+ * @returns Feedback page 
+ */
 const Feedback = () => {
 
     const { darkMode } = useTheme();
@@ -13,12 +17,8 @@ const Feedback = () => {
 
     const [thankyou, showThankyou] = useState(false);
 
+    // Functionality for when a user submits feedback
     const handleRating = async () => {
-        //console.log(rating) //number of stars stored in rating
-        //const Feedback = {feedback}
-        //console.log(Feedback)
-
-        
         try {
     
             // Make a POST request to the Flask backend
@@ -33,21 +33,20 @@ const Feedback = () => {
     
             if (response.ok) {
                 const result = await response.json();
-                console.log(result.message);
-                
-                
+                setRating(null);
+                setFeedback('');
 
+                setTimeout(() => {
+                    showThankyou('');
+                }, 5000); // Reverts back to 'Submit' after 5 seconds
             }
         } catch (error) {
             console.error('Error:', error.message);
+            setRating(null);
+            setFeedback('');
         }
 
-        setRating(null)
-        setFeedback('')
-
-        setTimeout(() => {
-            showThankyou('');
-        }, 5000); // Reverts back to 'Submit' after 5 seconds
+        
     }
     
     return (

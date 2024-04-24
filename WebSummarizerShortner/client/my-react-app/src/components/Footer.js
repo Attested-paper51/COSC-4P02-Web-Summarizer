@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import "./css/FooterStyle.css";
 import { useTheme } from '../context/ThemeContext.js';
-
+/**
+ * 
+ * @returns Footer of the website
+ */
 const Footer = () => {
 
   const {darkMode} = useTheme();

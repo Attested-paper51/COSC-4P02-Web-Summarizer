@@ -5,17 +5,20 @@ import "./css/PopUpStyle.css";
 import { FaCheck } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 import PopUp from './PopUp.js';
-import Feedback from './Feedback.js'
 import { useTheme } from '../context/ThemeContext.js'
 
 
+/**
+ * Settings defines all functionality for a user's settings dashboard where they can manage their account
+ * @returns Settings page
+ */
 const Settings = () => {
 
   const { darkMode } = useTheme();
 
   let username = localStorage.getItem('name');
   let email = localStorage.getItem('email');
-  let userpass = 'janedoe123'
+  let userpass = 'janedoe123';
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passError, setPassError] = useState('');
@@ -27,8 +30,8 @@ const Settings = () => {
   const[passPopup, setPassPopup] = useState(false);
   const navigate = useNavigate();
 
-  console.log(localStorage.getItem('loginMethod'));
 
+  // handleDelete includes the logic for if the user decides to delete their account
   const handleDelete = async () => {
     try {
       //const response = await fetch('http://4p02shortify.com:5001/delete', { //Server use only
@@ -40,6 +43,7 @@ const Settings = () => {
             body: JSON.stringify({ email}),
         });
       if (response.ok) {
+        localStorage.removeItem('loginMethod');
         localStorage.removeItem('email');
         localStorage.removeItem('name');
         navigate('/SignUp');
@@ -50,8 +54,10 @@ const Settings = () => {
 
   };
 
+  // Handling of the change email functionality, which only applies to manually registered users
   const handleEmailChange = async () => {
 
+    // Fetch Flask backend functionality
     try {
       //const response = await fetch('http://4p02shortify.com:5001/changeemail', { //Server use only
       const response = await fetch('http://localhost:5001/changeemail', {
@@ -63,7 +69,7 @@ const Settings = () => {
         });
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
+    
         if (result.message === "Email changed.") {
           localStorage.setItem('email',newEmail)
           setEmailPopup(false);
@@ -80,8 +86,9 @@ const Settings = () => {
     }
   };
 
+  //Handling of the change name functionality
   const handleNameChange = async () => {
-   
+  // POST fetch to Flask backend
     try {
       //const response = await fetch('http://4p02shortify.com:5001/changename', { //Server use only
       const response = await fetch('http://localhost:5001/changename', {
@@ -93,7 +100,7 @@ const Settings = () => {
         });
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
+
         if (result.message === "Name changed.") {
           localStorage.setItem('name',newname)
           setNamePopup(false);
@@ -107,7 +114,7 @@ const Settings = () => {
       console.error('Error:', error);
     }
   };
-
+  //handle password field change
   const handlePassChange = (e) => {
     setPassError('');
     setPassword(e.target.value);

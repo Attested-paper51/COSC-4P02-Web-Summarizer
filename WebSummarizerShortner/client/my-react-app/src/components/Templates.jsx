@@ -5,12 +5,13 @@ import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import { MdDeleteOutline } from "react-icons/md";
 // Components
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
 import DialogBox from '../components/DialogBox.js';
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 /**
  * Templates provides the functionality for a user's 3 custom templates, allowing them to see templates, edit them, save them and reset them. 
  * 

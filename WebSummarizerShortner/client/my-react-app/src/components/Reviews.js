@@ -4,6 +4,10 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css';
 import { useTheme } from '../context/ThemeContext.js';
 
+/**
+ * Reviews is a carousel of pre-written reviews of the website.
+ * @returns Reviews carousel
+ */
 const Reviews = () => {
 
     const { darkMode } = useTheme();
