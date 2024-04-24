@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import LandingPage from '../LandingPage'; // Adjust the import path as per your file structure
 
 // Mock the ThemeContext module
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
     useTheme: () => ({
       darkMode: false, // Set darkMode to false for testing
     }),

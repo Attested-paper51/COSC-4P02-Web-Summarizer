@@ -2,7 +2,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import Feedback from '../Feedback';
 
 // Mock the ThemeContext module
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
   useTheme: () => ({
     darkMode: false, // Set darkMode to false for testing
   }),

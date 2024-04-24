@@ -1,7 +1,7 @@
 import { FaStar } from 'react-icons/fa';
 import "./css/FeedbackStyle.css";
 import { useState } from 'react';
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 
 const Feedback = () => {
 
