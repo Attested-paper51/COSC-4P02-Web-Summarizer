@@ -4,7 +4,7 @@ import Hero from '../components/Hero.js';
 import LandingPage from '../components/LandingPage.js';
 import Footer from '../components/Footer.js';
 import Reviews from '../components/Reviews.js';
-import { ThemeProvider } from '../components/ThemeContext.js';
+import { ThemeProvider } from '../context/ThemeContext.js';
 
 const HomePage = () => {
     return (

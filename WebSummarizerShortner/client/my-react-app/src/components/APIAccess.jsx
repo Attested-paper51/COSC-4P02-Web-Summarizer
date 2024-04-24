@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./css/APIAccessStyle.css";
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 import PopUp from './PopUp.js';
 import { FaRegCopy, FaCopy } from 'react-icons/fa';
 
@@ -83,10 +83,10 @@ const APIAccess = () => {
             <p>The API requires an API key for authentication to ensure secure access to its features.</p>
             
             {/* <button className='api-key' onClick={() => setAPIKeyPopup(true)}> */}
-             <button className='api-key' onClick={handleFetchAPIKey}>
-            <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-              <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
-            </div>
+            <button className='api-key' onClick={handleFetchAPIKey}>
+              <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
+              </div>
             </button>
             
             <h4>Securing the API Key</h4>

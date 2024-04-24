@@ -1,7 +1,7 @@
 import React from 'react';
 import "./css/LandingPageStyle.css";
 import { Link } from 'react-router-dom';
-import { useTheme } from './ThemeContext.js';
+import { useTheme } from '../context/ThemeContext.js';
 
 const LandingPage = () => 
 {

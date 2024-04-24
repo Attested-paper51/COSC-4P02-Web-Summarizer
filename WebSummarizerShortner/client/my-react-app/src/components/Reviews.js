@@ -2,7 +2,7 @@ import { FaQuoteRight, FaStar } from 'react-icons/fa';
 import "./css/ReviewsStyle.css";
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css';
-import { useTheme } from './ThemeContext.js';
+import { useTheme } from '../context/ThemeContext.js';
 
 const Reviews = () => {
 

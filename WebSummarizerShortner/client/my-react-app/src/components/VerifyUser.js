@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate} from 'react-router-dom';
 import "./css/VerifyUserStyle.css";
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 
 /**
  * VerifyUser page to verify whether a user's inputted email exists in the database before redirecting to the Password Reset page

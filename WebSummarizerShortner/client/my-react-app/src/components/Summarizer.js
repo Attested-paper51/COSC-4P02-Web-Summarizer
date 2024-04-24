@@ -23,7 +23,7 @@ import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 
@@ -853,7 +853,7 @@ const summarizeText = () => {
                         </div>
 
                         <div className="main-content">
-                             {userEmail &&  
+                            {userEmail &&  
 
                             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
