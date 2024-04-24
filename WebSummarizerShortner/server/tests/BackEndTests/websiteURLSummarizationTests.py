@@ -58,7 +58,7 @@ class WebsiteURLSummarizationTestCase(unittest.TestCase):
         response = self.client.post('/api/summarize', json=request)
         self.assertEqual(response.status_code, 200)
         self.assertIn('error', response.json)
-        self.assertEqual(response.json['error'], "error processing url")
+        self.assertEqual(response.json['error'], "error processing url (please use html urls)")
         self.log_response('Invalid URL Test', request, response)
 
 if __name__ == '__main__':

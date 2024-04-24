@@ -19,5 +19,5 @@ def extract_text_from_url(url):
         return False, readable_text
     except Exception as e:
         logging.error(f"Error: {e}")
-        return True, "error processing url"
+        return True, "error processing url (please use html urls)"
 
