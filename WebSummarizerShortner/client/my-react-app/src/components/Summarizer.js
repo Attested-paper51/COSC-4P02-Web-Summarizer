@@ -853,7 +853,7 @@ const summarizeText = () => {
                         </div>
 
                         <div className="main-content">
-                             {userEmail &&  
+                            {userEmail &&  
 
                             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
