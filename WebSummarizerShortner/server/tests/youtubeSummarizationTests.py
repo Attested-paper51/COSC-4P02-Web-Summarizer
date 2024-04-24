@@ -47,7 +47,7 @@ class YouTubeSummarizationTestCase(unittest.TestCase):
         # Test for summarizing with an invalid YouTube URL
         request = {
             'key': 'frontend',
-            'input': 'https://www.youtube.com/watch?v=invalid_video',
+            'input': 'notayoutubelink',
             'type': 2,
             'tone': 'Standard',
             'style': 'Paragraph',
