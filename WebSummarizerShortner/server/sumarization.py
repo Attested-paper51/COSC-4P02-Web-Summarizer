@@ -14,7 +14,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def summarize(text, tone, style, length, cite=None):
     try:
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-3.5-turbo-0125",
             messages=[
                 {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text with a {tone} tone. The summary should be in {style} form. give me a {length} summary. {cite}"},
                 {"role": "user", "content": text}
@@ -34,7 +34,6 @@ def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
         return error, result
     else:
         extractedText = "YouTube Video Transcript: " + result
-        print(extractedText)
         return summarize(extractedText, tone, style, length)
  
 

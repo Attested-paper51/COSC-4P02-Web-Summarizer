@@ -1,0 +1,46 @@
+Test Name: Full Video Test
+Request: {
+    "key": "frontend",
+    "input": "https://www.youtube.com/watch?v=UNP03fDSj1U",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Full Video"
+}
+Response: {
+    "summary": "In the YouTube video transcript, the speaker shares their experience of taking on 30-day challenges inspired by the philosopher Morgan Spurlock. By committing to trying something new for 30 days, the speaker found that this timeframe was ideal for forming new habits and breaking old ones. They discovered increased self-confidence and memorable experiences by pushing themselves to do more challenging tasks. The speaker also emphasizes the importance of making small, sustainable changes to increase the likelihood of success. Encouraging viewers to take on their own 30-day challenges, the speaker highlights the transformative power of committing to a goal for a month and urges them to seize the opportunity to pursue their desires."
+}
+
+Test Name: Exceed Video Duration Test
+Request: {
+    "key": "frontend",
+    "input": "https://www.youtube.com/watch?v=UNP03fDSj1U",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Timestamp",
+    "startTime": "00:00",
+    "endTime": "00:05"
+}
+Response: {
+    "error": "Start or end time exceeds video duration."
+}
+
+Test Name: Valid Timestamps Test
+Request: {
+    "key": "frontend",
+    "input": "https://www.youtube.com/watch?v=UNP03fDSj1U",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Timestamp",
+    "startTime": "00:01",
+    "endTime": "00:03"
+}
+Response: {
+    "summary": "The speaker reflects on the transformative power of taking on 30-day challenges, noting how their self-confidence grew as they completed various tasks, such as biking to work and hiking Mount Kilimanjaro. They emphasize the idea that one can achieve anything for 30 days, citing examples like writing a novel or giving up sugar. The speaker highlights the importance of making small, sustainable changes for long-term success, while also encouraging the audience to take on challenges and pursue their goals without hesitation."
+}
+

@@ -36,9 +36,9 @@ def summarize_text():
 
     # checks if frontend or correct api key is given
     if key != 'frontend' and not aut.checkAPIKey(key):
-        return jsonify({"error": "Invalid key"})
+        return jsonify({"error": "Invalid or missing api key"})
 
-    cite = cite_mapping[cite]
+    cite = cite_mapping.get(cite, cite)
 
     print(f"tone: {tone}\nstyle: {style}\nlength: {length}\nstartTime: {startTime}\nendTime: {endTime}\noption: {option}\ncite: {cite}\n")
 
