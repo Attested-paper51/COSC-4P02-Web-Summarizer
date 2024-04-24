@@ -14,7 +14,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def summarize(text, tone, style, length, cite=None):
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
+            model="gpt-4-turbo",
             messages=[
                 {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text with a {tone} tone. The summary should be in {style} form. give me a {length} summary. {cite}"},
                 {"role": "user", "content": text}
