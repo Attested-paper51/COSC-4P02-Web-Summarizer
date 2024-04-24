@@ -490,8 +490,8 @@ const summarizeText = () => {
      //console.log(sanitizedEndHour);
 
     
-    fetch('http://127.0.0.1:5000/api/summarize', {
-    //fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
+    //fetch('http://127.0.0.1:5000/api/summarize', {
+    fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
