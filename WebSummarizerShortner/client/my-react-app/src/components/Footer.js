@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import "./css/FooterStyle.css";
-import { useTheme } from './ThemeContext.js';
+import { useTheme } from '../context/ThemeContext.js';
 
 const Footer = () => {
 

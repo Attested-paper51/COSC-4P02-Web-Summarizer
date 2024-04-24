@@ -2,12 +2,9 @@ import React from 'react';
 import { render, fireEvent, screen} from '@testing-library/react';
 import { BrowserRouter as Router} from 'react-router-dom';
 import Dashboard from '../Dashboard.js'; 
-import LandingPage from '../../pages/HomePage.js'; 
-import Header from '../Header.js';
-
 
 // Mocking the useTheme hook
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
   useTheme: () => ({
     darkMode: false, // Set darkMode to false for testing
     setDarkMode: jest.fn(), // Mock setDarkMode function

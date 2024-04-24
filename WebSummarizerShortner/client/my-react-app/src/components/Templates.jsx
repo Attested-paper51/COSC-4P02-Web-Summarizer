@@ -15,7 +15,7 @@ import NumberInputBasic, {QuantityInput} from "./NumberInput.js";
 
 import DialogBox from '../components/DialogBox.js';
 
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 
 
 const Templates = () => {

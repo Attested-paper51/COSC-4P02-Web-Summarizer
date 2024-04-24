@@ -16,7 +16,7 @@ import Templates from './Templates.jsx';
 import Settings from './Settings.jsx';
 import APIAccess from './APIAccess.jsx';
 
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 
 const Dashboard = () => {
 

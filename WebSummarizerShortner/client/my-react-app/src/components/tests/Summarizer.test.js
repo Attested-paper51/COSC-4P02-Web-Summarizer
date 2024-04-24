@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Summarizer from '../Summarizer'; // Update the path
 
 // Mocking the useTheme hook
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
     useTheme: () => ({
       darkMode: false, // Set darkMode to false for testing
       setDarkMode: jest.fn(), // Mock setDarkMode function
@@ -20,7 +20,7 @@ describe('Summarizer component', () => {
     );
 
     // Check if Summarizer content is rendered
-    a
+    
   });
 
 });
