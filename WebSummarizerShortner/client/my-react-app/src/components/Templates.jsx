@@ -1,61 +1,53 @@
 import React, { useState } from 'react';
 import { useEffect } from "react";
-// import { Link } from 'react-router-dom';
 import "./css/TemplatesStyle.css";
 import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
-import { MdDeleteOutline } from "react-icons/md";
-// import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 // Components
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, {QuantityInput} from "./NumberInput.js"; 
-
 import DialogBox from '../components/DialogBox.js';
-
 import { useTheme } from './ThemeContext.js'
-import { dark } from '@mui/material/styles/createPalette';
-
+/**
+ * Templates provides the functionality for a user's 3 custom templates, allowing them to see templates, edit them, save them and reset them. 
+ * 
+ * @returns Templates page
+ */
 const Templates = () => {
 
     const { darkMode } = useTheme();
-
-    const [inputContent, setInputContent] = useState('');
-    const [outputContent, setOutputContent] = useState('');
-
-    const [open, setOpen] = useState(false);
-    const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    const email = localStorage.getItem('email');
+    
+    const [value, setValue] = useState(null);
     const [openError, setOpenError] = useState(false);
 
-    const [shorten, showShorten] = useState(false);
+    
     const [isClicked, setClickedButton] = useState(0);
     const [isClicked2, setClickedButton2] = useState(0);
     const [isClicked3, setClickedButton3] = useState(0);
-
-    const [timeoutId, setTimeoutId] = useState(null);
-    const [value, setValue] = useState(null);
-
+    
+    //Tone vars
     const tone = ["Standard", "Formal", "Causal", "Sarcastic", "Aggressive", "Sympathetic"];
     const [selectedTone, setTone] = useState(tone[0]);
     const [selectedTone2, setTone2] = useState(tone[0]);
     const [selectedTone3, setTone3] = useState(tone[0]);
-
+    //Layout vars
     const layout = ["Paragraph", "Bullet Points", "Numbered List"];
     const [selectedLayout, setLayout] = useState(layout[0]);
     const [selectedLayout2, setLayout2] = useState(layout[0]);
     const [selectedLayout3, setLayout3] = useState(layout[0]);
-
+    //Video vars
     const videoSetting = ["Full Video", "Timestamp"];
     const [selectedVideoSetting, setVideoSetting] = useState(videoSetting[0]);
     const [selectedVideoSetting2, setVideoSetting2] = useState(videoSetting[0]);
     const [selectedVideoSetting3, setVideoSetting3] = useState(videoSetting[0]);
-
+    //Slider for length
     const [sliderValue, setSliderValue] = useState(1);
     const [sliderValue2, setSliderValue2] = useState(1);
     const [sliderValue3, setSliderValue3] = useState(1);
-    const email = localStorage.getItem('email');
 
     //citation vars
     const citationType = ["No Citation", "MLA Citation", "APA Citation", "Chicago Citation"];
@@ -81,11 +73,12 @@ const Templates = () => {
     const [endHour3, setEndHour3] = useState();
     const [endMin3, setEndMin3] = useState();
 
-
+    //Return the text value of a given value
     const valuetext = (value) => {
         return `${value}`;
     }
 
+    //Handling changing of slider values for individual templates
     const changeSliderValue = (event) => {
         setSliderValue(event.target.value)
     }
@@ -96,143 +89,31 @@ const Templates = () => {
         setSliderValue3(event.target.value)
     }
 
+    //Handling the switching of tabs on a template
     const toggleClicked = (buttonIndex) => {
         setClickedButton(buttonIndex)
-        emptyTextContent()
-        showShorten(false)
+        
     }
-
     const toggleClicked2 = (buttonIndex) => {
         setClickedButton2(buttonIndex)
-        emptyTextContent()
-        showShorten(false)
+        
     }
-
     const toggleClicked3 = (buttonIndex) => {
         setClickedButton3(buttonIndex)
-        emptyTextContent()
-        showShorten(false)
-    }
-
-    // for opening Dialog Box
-    const handleOpen = () => {
-        setOpen(true)
-    }
-
-    // for closing Dialog Box
-    const handleClose = () => {
-        setOpen(false)
-    }
-
-    // detecting input text change
-    const handleInputChange = (event) => {
-        setInputContent(event.target.value)
-    }
-
-    // detecting output text change
-    const handleOutputChange = (event) => {
-        setOutputContent(event.target.value)
-    }
-
-    // counts number of words in a string
-    const countWords = (text) => {
-        text = text.trim()
-        const words = text.split(/\s+/)
-        return words.length
-    }    
-
-    // useEffect(() => {
         
-    //     if (timeoutId) {
-    //         clearTimeout(timeoutId)
-    //     }
-
-    //     // set a timeout of 200 miliseconds - then update the word count
-    //     const id = setTimeout(() => {
-    //         // updates word count
-    //         if(inputContent.trim().length == 0) {
-    //             setWordCount(0)
-    //         }
-    //         else {
-    //             const words = countWords(inputContent)
-    //             setWordCount(words)
-    //         }
-    //     }, 200)
-
-    //     setTimeoutId(id)
-
-    //     return () => {
-    //         if (timeoutId) {
-    //             clearTimeout(timeoutId)
-    //         }
-    //     }
-    // }, [inputContent])
-
-
-    /** every render: checks if output has text
-     *  if it does, then makes output editable
-     *  else, keeps it readOnly*/
-    // useEffect (() => {
-    //     // runs after every render
-    //     const output = document.getElementById("output");
-    //     if(outputContent !== '') {
-    //         output.readOnly = false
-    //     }
-    //     else {
-    //         output.readOnly = true
-    //     }
-
-    //     // conditions for showing the link to Url Shortener
-    //     if((isClicked === 1 || isClicked === 2) && outputContent !== '') {
-    //         showShorten(true)
-    //     }   
-    //     else if (isClicked == 0)
-    //     {
-    //         showShorten(false)
-    //     }
-    // })
-
-
-    // empties input and output
-    const emptyTextContent = () => {
-        setInputContent('')
-        setOutputContent('')
     }
 
-    // empties content and closes Dialog Box
-    const handleConfirm = () => {
-        emptyTextContent()
-        showShorten(false)
-        handleClose()
-    }
-
-    // functions can be changed accordingly
-    const thumbsUp = () => {
-        console.log("Output summary is good!")
-    }
-    const thumbsDown = () => {
-        console.log("Output summary is bad.")
-        setOutputContent('Bilaaaaal')
-        //alert(sliderValue)
-    }
-
-    const [isCopied, setCopy] = useState(false)
-    const copySummary = () => {
-        navigator.clipboard.writeText(outputContent)
-        setCopy(!isCopied)
-    }
-
+    //Handling the selection of the tone 
     const handleToneChange = (item) => {
         setTone(item)
     }
-
     const handleToneChange2 = (item) => {
         setTone2(item)
     }
     const handleToneChange3 = (item) => {
         setTone3(item)
     }
-
+    //Handling of the layout selection
     const handleLayoutChange = (item) => {
         setLayout(item)
     }
@@ -242,7 +123,7 @@ const Templates = () => {
     const handleLayoutChange3 = (item) => {
         setLayout3(item)
     }
-
+    //Handling of video setting selection
     const handleVideoSettingChange = (item) => {
         setVideoSetting(item)
     }
@@ -253,24 +134,6 @@ const Templates = () => {
         setVideoSetting3(item)
     }
 
-    // const checkEmptyInput = () => {
-    //     //const input = document.getElementById("input");
-    //     if(inputContent === '') {
-    //         setOpenEmptyInput(true)
-    //     }
-    //     else {
-    //         summarizeText();
-    //     }
-    // }
-
-    // for closing Empty Error Dialog Box
-    const handleEmptyClose = () => {
-        setOpenEmptyInput(false)
-    }
-    // closes Dialog Box
-    const handleEmptyConfirm = () => {
-        handleEmptyClose()
-    }
 
     // for closing Error Dialog Box
     const handleErrorClose = () => {
@@ -281,6 +144,7 @@ const Templates = () => {
         handleErrorClose()
     }
 
+    //Handling change of citation type
     const handleCitationChange = (item) => {
         setCitationType(item)
     }
@@ -291,79 +155,11 @@ const Templates = () => {
         setCitationType3(item)
     }
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const textarea = document.getElementById('input');
-    //     const targetDiv = document.getElementById('btnDiv');
-
-    //     textarea.addEventListener('input', function() {
-    //         targetDiv.style.borderColor = '#87CEFA'; // Change border color when typing
-    //     });
-
-    //     textarea.addEventListener('blur', function() {
-    //         targetDiv.style.borderColor = '#ccc'; // Reset border color when textarea loses focus
-    //     });
-    // });
-
-    //--------------------------------BACKEND----------------------------------------
+ 
     // for error handling
     const [errorMessage, setErrorMessage] = useState('An error has occurred');
-    // for showing the error
-    const showError = (message) => {
-        setErrorMessage(message)
-        setOpenError(true)
-    }
 
-
-    // // function for handling text summarization
-    // const summarizeText = () => {
-    //     fetch('/api/summarize', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ text: inputContent, type: isClicked }),
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-
-    //             setOutputContent(data.summary); // This line updates the output area
-    //     })
-    //     .catch(error => {
-    //         showError('An error occurred while fetching the summary.');
-    //     });
-    // };
-
-
-    //export button handling, for downloading json file
-    const exportJSON = () => {
-        // Create a JSON object with the input and summarized text
-        const data = {
-            input: inputContent, // Assuming you have the original input stored in inputContent
-            summary: outputContent
-        };
-
-
-        // Convert the JSON object to a string
-        const jsonString = JSON.stringify(data);
-
-        // Create a Blob from the JSON string
-        const blob = new Blob([jsonString], { type: 'application/json' });
-
-        // Create a URL for the blob
-        const url = URL.createObjectURL(blob);
-
-        // Create a temporary anchor element and trigger a download
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'summary.json'; // Filename for the downloaded file
-        document.body.appendChild(a); // Append the anchor to the document
-        a.click(); // Trigger the download
-        document.body.removeChild(a); // Clean up
-
-    }
-
-    
-
+    //useEffect hook to fetch the 3 templates from the server as soon as the Templates.jsx is loaded
     useEffect(() => {
         handleTemplateFetch();
         handleTemplateFetch2();
@@ -371,16 +167,10 @@ const Templates = () => {
 
     },[]);
 
-    //function to pull the values stored in the database for the template
+    //function to pull the values stored in the database for the template 1
     const handleTemplateFetch = async () => {
-        //do if so that u can say template 1 = customTemplate1 etc.
-        
         const templatename = "customTemplate1";
-
-        //console.log("item:",item);
-        //console.log("templateNameToFetch:",templatename);
         try {
-    
             // Make a POST request to the Flask backend
             //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
@@ -392,8 +182,8 @@ const Templates = () => {
             });
     
             if (response.ok) {
+                //result includes an array of all the template values
                 const result = await response.json();
-                //result should include all the flags I want
                 if (result.summtype === 'text') {
                     setClickedButton(0);
                 }else if (result.summtype === 'website') {
@@ -413,7 +203,7 @@ const Templates = () => {
                         setVideoSetting(videoSetting[0]);
                     }else {
                         setVideoSetting(videoSetting[1]);
-                        //timestamp thing
+                        //timestamp values
                         const [startTime, endTime] = result.timestamps.split(',');
                         const [startHour, startMin] = startTime.split(':');
                         const [endHour, endMin] = endTime.split(':');
@@ -421,7 +211,6 @@ const Templates = () => {
                         setStartMin(parseInt(startMin));
                         setEndHour(parseInt(endHour));
                         setEndMin(parseInt(endMin));
-                        
                     }
                     
                 }else {
@@ -459,14 +248,9 @@ const Templates = () => {
     
       };
 
-      //function to pull the values stored in the database for the template
-    const handleTemplateFetch2 = async () => {
-        //do if so that u can say template 1 = customTemplate1 etc.
-    
+      //function to pull the values stored in the database for the template 2
+    const handleTemplateFetch2 = async () => {   
         const templatename = "customTemplate2";
-
-        //console.log("item:",item);
-        //console.log("templateNameToFetch:",templatename);
         try {
     
             // Make a POST request to the Flask backend
@@ -480,8 +264,8 @@ const Templates = () => {
             });
     
             if (response.ok) {
+                //result includes an array of all the template values
                 const result = await response.json();
-                //result should include all the flags I want
                 if (result.summtype === 'text') {
                     setClickedButton2(0);
                 }else if (result.summtype === 'website') {
@@ -501,7 +285,7 @@ const Templates = () => {
                         setVideoSetting2(videoSetting[0]);
                     }else {
                         setVideoSetting2(videoSetting[1]);
-                        //timestamp thing
+                        //timestamp 
                         const [startTime, endTime] = result.timestamps.split(',');
                         const [startHour, startMin] = startTime.split(':');
                         const [endHour, endMin] = endTime.split(':');
@@ -545,14 +329,9 @@ const Templates = () => {
     
       };
 
-      //function to pull the values stored in the database for the template
+      //function to pull the values stored in the database for the template 3
     const handleTemplateFetch3 = async () => {
-        //do if so that u can say template 1 = customTemplate1 etc.
-        
         const templatename = "customTemplate3";
-
-        //console.log("item:",item);
-        //console.log("templateNameToFetch:",templatename);
         try {
     
             // Make a POST request to the Flask backend
@@ -566,8 +345,8 @@ const Templates = () => {
             });
     
             if (response.ok) {
+                //result includes an array of all the template values
                 const result = await response.json();
-                //result should include all the flags I want
                 if (result.summtype === 'text') {
                     setClickedButton3(0);
                 }else if (result.summtype === 'website') {
@@ -587,7 +366,7 @@ const Templates = () => {
                         setVideoSetting3(videoSetting[0]);
                     }else {
                         setVideoSetting3(videoSetting[1]);
-                        //timestamp thing
+                        //timestamp 
                         const [startTime, endTime] = result.timestamps.split(',');
                         const [startHour, startMin] = startTime.split(':');
                         const [endHour, endMin] = endTime.split(':');
@@ -637,18 +416,12 @@ const Templates = () => {
     const handleClickSave  = async () => {
         var formality = selectedTone;
         var structure = selectedLayout;
-        
-        
-        var length;
-        
-        if (sliderValue === 1) {
-            
+        var length;     
+        if (sliderValue === 1) {         
             length = 'short';
-        }else if (sliderValue === 2) {
-            
+        }else if (sliderValue === 2) {     
             length = 'medium';
         }else if (sliderValue === 3){
-            
             length = 'long';
         }
         var summ_type = "";
@@ -697,10 +470,8 @@ const Templates = () => {
                 timestamp = "full"
             }
         }
-        
-        
         var templatename = "customTemplate1";
-
+        //Save values in DB by making fetch call
         try {
             //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
@@ -715,9 +486,6 @@ const Templates = () => {
             const result = await response.json();
             console.log(result.message);
         }
-
-
-
         }catch (error) {
             console.error('Error:', error.message);
         }
@@ -727,18 +495,12 @@ const Templates = () => {
     const handleClickSave2  = async () => {
         var formality = selectedTone2;
         var structure = selectedLayout2;
-        
-    
-        var length;
-        
+        var length;      
         if (sliderValue2 === 1) {
-            
             length = 'short';
         }else if (sliderValue2 === 2) {
-            
             length = 'medium';
         }else if (sliderValue2 === 3) {
-            
             length = 'long';
         }
         var summ_type = "";
@@ -788,7 +550,7 @@ const Templates = () => {
             }
         }
         var templatename = "customTemplate2";
-
+        //Save values to template by making fetch call 
         try {
 
             //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
@@ -804,9 +566,6 @@ const Templates = () => {
             const result = await response.json();
             console.log(result.message);
         }
-
-
-
         }catch (error) {
             console.error('Error:', error.message);
         }
@@ -816,10 +575,7 @@ const Templates = () => {
     const handleClickSave3  = async () => {
         var formality = selectedTone3;
         var structure = selectedLayout3;
-        
-
         var length;
-        
         if (sliderValue3 === 1) {
             
             length = 'short';
@@ -877,12 +633,11 @@ const Templates = () => {
             }else {
                 timestamp = "full"
             }
-            
         }
-        
         
         var templatename = "customTemplate3";
 
+        //Save variables to template in DB by fetch call
         try {
             //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
@@ -919,6 +674,7 @@ const Templates = () => {
         setEndHour();
         setEndMin();
         var templatename = "customTemplate1";
+        //Clear the template on the server
         try {
             //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -952,6 +708,7 @@ const Templates = () => {
         setEndHour2();
         setEndMin2();
         var templatename = "customTemplate2";
+        //Clear the template on the server
         try {
             //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
             const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -985,6 +742,7 @@ const Templates = () => {
             setEndHour3();
             setEndMin3();
             var templatename = "customTemplate3";
+            //Clear the template on the server
             try {
                 //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
                 const response = await fetch('http://localhost:5001/cleartemplate', {
@@ -1004,10 +762,6 @@ const Templates = () => {
             }
         }
     
-
-
-    
-
 return (
 
     <div className="templates-wrapper">
