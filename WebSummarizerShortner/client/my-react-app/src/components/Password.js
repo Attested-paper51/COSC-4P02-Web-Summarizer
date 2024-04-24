@@ -27,7 +27,7 @@ const Password = () => {
       setFinalError('Passwords do not match!');
       return;
   }
-
+    //const response = await fetch('http://4p02shortify.com:5001/reset', { //Server use only
     const response = await fetch('http://localhost:5001/reset', {
       method: 'POST',
       headers: {

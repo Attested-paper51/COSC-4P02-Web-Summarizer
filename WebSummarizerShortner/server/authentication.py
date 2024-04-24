@@ -12,6 +12,7 @@ appA = Flask(__name__)
 CORS(appA)
 
 class Authentication:
+    #Constructor; connect to the database hosted on ElephantSQL
     def __init__(self):
         load_dotenv()
         databasePW = os.getenv("DATABASE_PW")
@@ -24,6 +25,7 @@ class Authentication:
             sslmode="require"
         )
 
+    #Register a user manually, given an email, password and name
     def registerUser(self,email,password,name):
         username = hashlib.md5(email.encode()).hexdigest()[:6]
         apiKey = self.createAPIKey(username)
@@ -32,12 +34,14 @@ class Authentication:
         cursor.execute("INSERT INTO users (username, email, password, name, login_method, api_key) VALUES (%s, %s, %s, %s, %s, %s)", (username, email, password, name, "manual",apiKey))
         self.conn.commit()
 
+    #Check if a user is already registered. 
     def checkIfAlreadyRegistered(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM users WHERE email = %s", (email,))
         count = cursor.fetchone()[0]
         return count > 0
 
+    #Checking wether an email exists in the DB, and return that email
     def findEmail(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT email FROM users WHERE email = %s",(email,))
@@ -47,6 +51,7 @@ class Authentication:
         else:
             return None
 
+    #Login to the user's account given an email and a password (for manual users)
     def loginUser(self,email,password):
         cursor = self.conn.cursor()
         print(self.getLoginMethod(email))
@@ -60,22 +65,26 @@ class Authentication:
             return 1
         return 0
 
+    #Query whether a password is valid based on password requirements
     def isPasswordValid(self, password):
-        if not (8 <= len(password) <=20):
+        if not (8 <= len(password) <=20): #Length requirement
             return False
 
+        #Must have an uppercase, and a number
         return any(char.isupper() for char in password) and any(char.isdigit() for char in password)
 
+    #Delete an account - data in users table
     def deleteAccount(self,email):
         cursor = self.conn.cursor()
         if self.findEmail(email) is None:
             return None
+        #Delete the row in the users table
         cursor.execute("DELETE FROM users WHERE email = %s",(email,))
         self.conn.commit()
         return 1
 
+    #Change a password given that the current password is known
     def changePassword(self,email,password,newPassword):
-
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, password))
         userExists = cursor.fetchone()
@@ -89,6 +98,7 @@ class Authentication:
             #Passwords don't match
             return 0
     
+    #Resetting a password, given that the user knows their email but does not remember the password.
     def resetPassword(self,email,newPassword):
         cursor = self.conn.cursor()
         if (self.isPasswordValid(newPassword)):
@@ -98,13 +108,11 @@ class Authentication:
         return 0
         
 
-    
+    #Change an email, given the current and new email and the password.
     def changeEmail(self,email,newEmail,password):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s",(email,password))
-        #it should be implied that the user exists, no?
         userExists = cursor.fetchone()
-
         if userExists:
             cursor.execute("UPDATE users SET email = %s WHERE email = %s",(newEmail,email))
             self.conn.commit()
@@ -112,24 +120,30 @@ class Authentication:
         else:
             return 0
 
+    #Get the stored name based on a given email
     def getName(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT name FROM users WHERE email = %s",(email,))
         name = cursor.fetchone()[0]
         return name
 
+    #Change the nickname of a given email
     def changeName(self,name,email):
         cursor = self.conn.cursor()
         cursor.execute("UPDATE users SET name = %s WHERE email = %s",(name,email,))
         self.conn.commit()
         return 1
 
+    #Get a username of a given email address
     def getUsername(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT username FROM users WHERE email = %s",(email,))
-        username = cursor.fetchone()[0]
-        return username
+        username = cursor.fetchone()
+        if username:
+            return username[0]
+        return None
 
+    #Checking if a password matches what is stored in the DB
     def isPasswordCorrect(self,email,password):
         cursor = self.conn.cursor()
         cursor.execute("SELECT password FROM users WHERE email = %s",(email,))
@@ -140,6 +154,7 @@ class Authentication:
 
         return 0
 
+    #Login using Google authentication
     def loginGoogle(self,email,name):
         email2 = f"{email}{time.time()}"
         username = hashlib.md5(email2.encode()).hexdigest()[:6]
@@ -148,6 +163,7 @@ class Authentication:
         cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "google",apiKey))
         self.conn.commit()
 
+    #Login using Facebook authentication
     def loginFacebook(self,email,name):
         email2 = f"{email}{time.time()}"
         username = hashlib.md5(email2.encode()).hexdigest()[:6]
@@ -156,6 +172,7 @@ class Authentication:
         cursor.execute("INSERT INTO users (username, email, name, login_method,api_key) VALUES (%s, %s, %s, %s,%s)", (username, email, name, "facebook",apiKey))
         self.conn.commit()
 
+    #Get the login method/signup method that the user used to register
     def getLoginMethod(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT login_method FROM users WHERE email = %s",(email,))
@@ -164,26 +181,24 @@ class Authentication:
             return -1
         return result[0]
 
-
+    #Create an API key for a user
     def createAPIKey(self,username):
-
-
-        # Concatenate username with current timestamp
+        #Concatenate username with current timestamp
         data = f"{username}{time.time()}"
-    
-        # Hash the concatenated string
+        #Hash the concatenated string
         hashed_data = hashlib.sha256(data.encode()).hexdigest()
-    
-        # Truncate the hash to get a 32-character API key
+        #Truncate the hash to get a 32-character API key
         apiKey = hashed_data[:32]
         return apiKey
     
+    #Return the API key of an account given an email
     def getAPIKey(self,email):
         cursor = self.conn.cursor()
         cursor.execute("SELECT api_key FROM users WHERE email = %s",(email,))
         apiKey = cursor.fetchone()[0]
         return apiKey
 
+    #Checking whether an API key is in the DB
     def checkAPIKey(self,apiKey):
         cursor = self.conn.cursor()
         #print(apiKey)
@@ -197,8 +212,9 @@ class Authentication:
 
 
     #Template Logic
+
+    #Creating the three rows assigned to a user when account is created
     def createTemplateRows(self,email):
-        #add a way to avoid 3 rows from creating if 3 are already created
         cursor = self.conn.cursor()
         if (self.findEmail(email) is None):
             return 0
@@ -208,16 +224,15 @@ class Authentication:
             self.conn.commit()
         return 1
         
-
+    #Populate a template based on an email and template name, filling in the given parameters
     def addTemplate(self,email,formality,
     structure,summType,timestamps,length,citation,template_name):
-    #Add a way to ensure return val is 0 if template name is invalid
+    #If somehow the template name is not one of the 3 assigned. 
         if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
             return 0
 
         cursor = self.conn.cursor()
         user = self.getUsername(email)
-
 
         cursor.execute("""
             UPDATE templates 
@@ -236,10 +251,11 @@ class Authentication:
         
         self.conn.commit()
         return 1
-
+    #Return the values of a template based on an email and a template name to query
     def getTemplate(self,email,templateName):
         cursor = self.conn.cursor()
         user = self.getUsername(email)
+        #If somehow the template name is not one of the 3 assigned. 
         if (templateName not in ["customTemplate1","customTemplate2","customTemplate3"]):
             return 0
 
@@ -249,17 +265,17 @@ class Authentication:
         WHERE username = %s 
         AND template_name = %s
         """, (user, templateName))
-        templateVals = cursor.fetchone()
+        templateVals = cursor.fetchone()#Return the whole array of values
         return templateVals
 
-
+    #Clearing a template based on an email and a template name to clear
     def clearTemplate(self,email,template_name):
         cursor = self.conn.cursor()
         user = self.getUsername(email)
-
+        #If somehow the template name is not one of the 3 assigned. 
         if (template_name not in ["customTemplate1","customTemplate2","customTemplate3"]):
             return 0
-
+        #SQL clear query
         cursor.execute("""
         UPDATE templates 
         SET 
@@ -275,14 +291,15 @@ class Authentication:
             template_name = %s
         """, (user, template_name))
 
-        # Commit the changes
+        
         self.conn.commit()
         return 1
 
+    #Checking if a template is in use given an email and a template name to query.
     def checkTemplateInUse(self,email,templateName):
         cursor = self.conn.cursor()
         user = self.getUsername(email)
-
+        #If somehow the template name is not one of the 3 assigned.
         if (templateName not in ["customTemplate1","customTemplate2","customTemplate3"]):
             return 0
 
@@ -294,14 +311,15 @@ class Authentication:
         """, (user, templateName))
     
         length = cursor.fetchone()[0]
-    
+
+        #If length is null/None, it means the template is not in use; as it must be something if a template is in use.
         if length is not None:
             return 1  # Template is in use
         else:
             return 0  # Template is not in use
 
         
-
+    #Deleting the templates for a user's email
     def deleteTemplates(self,email):
         cursor = self.conn.cursor()
         if (self.findEmail(email) is None):
@@ -312,8 +330,7 @@ class Authentication:
         return 1
 
 
-    #Feedback
-
+    #Adding feedback
     def addFeedback(self,stars,text):
         cursor = self.conn.cursor()
         
@@ -350,24 +367,43 @@ class Authentication:
         self.conn.commit()
         return 1
 
+    #Thumbs up
+    def addThumbsUp(self):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE thumbs SET up = up+1")
+        self.conn.commit()
+        return 1
+
+    #Thumbs down
+    def addThumbsDown(self):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE thumbs SET down = down+1")
+        self.conn.commit()
+        return 1
+
     
-
-
-    def __del__(self):
+    #Entering the 'with block'
+    def __enter__(self):
+        return self
+    #Close the connection when entering the 'with' block
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.conn.close()
 
+#Verifying a user is registered; for the purpose of resetting the password.
 @appA.route('/verify',methods=['POST'])
 def verify():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        loginMethod = userMgr.getLoginMethod(email)
-        if (loginMethod == 'manual'):
-            return jsonify({'message':'Email found.'})
-        return jsonify({'message':'Cannot reset the password of a Google/FB authenticated account.'})
-    return jsonify({'message':'Email not found!'})
+    with Authentication() as userMgr:
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            loginMethod = userMgr.getLoginMethod(email)
+            #If the user registered manually, they can reset their password.
+            if (loginMethod == 'manual'):
+                return jsonify({'message':'Email found.'})
+            #If not manual, cannot reset password.
+            return jsonify({'message':'Cannot reset the password of a Google/FB authenticated account.'})
+        #Otherwise, the email was not found. 
+        return jsonify({'message':'Email not found!'})
 
 #Resetting a user's password, given that they forgot their old.
 @appA.route('/reset',methods=['POST'])
@@ -375,33 +411,32 @@ def resetPW():
     data = request.get_json()
     email = data.get('email')
     newPassword = data.get('pass')
-    userMgr = Authentication()
-    if not (userMgr.isPasswordValid(newPassword)):
-        return jsonify({'message':'New password requirements not met.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordValid(newPassword)):
+            return jsonify({'message':'New password requirements not met.'})
 
-    userMgr.resetPassword(email,newPassword)
-    return jsonify({'message':'Password changed successfully.'})
+        userMgr.resetPassword(email,newPassword)
+        return jsonify({'message':'Password changed successfully.'})
 
 
 #Changing a user's password, given that they know their current pass and
-#Just want to change it.
 @appA.route('/changepassword',methods=['POST'])
 def changePW():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    newPassword = data.get('newPassword')#depends
+    newPassword = data.get('newPassword')
 
-    userMgr = Authentication()
-    if not (userMgr.isPasswordValid(newPassword)):
-        return jsonify({'message':'New password requirements not met.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordValid(newPassword)):
+            return jsonify({'message':'New password requirements not met.'})
 
-    if (userMgr.changePassword(email,password,newPassword)):
-        return jsonify({'message':'Password changed successfully.'})
-    else:
-        return jsonify({'message':'Current password incorrect.'})
+        if (userMgr.changePassword(email,password,newPassword)):
+            return jsonify({'message':'Password changed successfully.'})
+        else:
+            return jsonify({'message':'Current password incorrect.'})
 
-
+#Change email of a manually authenticated user.
 @appA.route('/changeemail',methods=['POST'])
 def changeEmail():
     data = request.get_json()
@@ -409,22 +444,23 @@ def changeEmail():
     newEmail = data.get('newEmail')
     password = data.get('password')
 
-    userMgr = Authentication()
-    if not (userMgr.isPasswordCorrect(email,password)):
-        return jsonify({'message':'Password invalid!'})
-    userMgr.changeEmail(email,newEmail,password)
-    return jsonify({'message':'Email changed.'})
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordCorrect(email,password)):
+            return jsonify({'message':'Password invalid!'})
+        userMgr.changeEmail(email,newEmail,password)
+        return jsonify({'message':'Email changed.'})
 
-
-@appA.route('/changeename',methods=['POST'])
+#Change a user's name (nickname, not username)
+@appA.route('/changename',methods=['POST'])
 def changeName():
     data = request.get_json()
     email = data.get('email')
     newName = data.get('newname')
-    userMgr = Authentication()
-    userMgr.changeName(newName,email)
+    with Authentication() as userMgr:
+        userMgr.changeName(newName,email)
     return jsonify({'message':'Name changed.'})
 
+#Register a user manually
 @appA.route('/register', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -433,114 +469,110 @@ def signup():
     password = data.get('pass')
     name = data.get('name')
     
-    
-    #Add this to .env
+    #Check whether the email is valid
     api_key = os.getenv("EMAILVF_PW")
-    
     url = 'https://api.hunter.io/v2/email-verifier?email={}&api_key={}'.format(email,api_key)
-
-    #commented out for now, testing.
+    response = requests.get(url)
+    result = response.json()
     
+    if 'data' not in result or result['data'].get('result') != 'deliverable':
+        return jsonify({'message': 'Email does not exist or is not deliverable.'})
 
-    #response = requests.get(url)
-    #result = response.json()
-    
-    #if 'data' not in result or result['data'].get('result') != 'deliverable':
-    #    return jsonify({'message': 'Email does not exist or is not deliverable.'})
     # Insert the user data into the database
-    userMgr = Authentication()
-    if not (userMgr.isPasswordValid(password)):
-        return jsonify({'message':'Password invalid.'})
-
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        return jsonify({'message':'Email is already registered.'})
-    userMgr.registerUser(email,password,name)
-
-    userMgr.createTemplateRows(email)
-    #print("request made")
+    with Authentication() as userMgr:
+        if not (userMgr.isPasswordValid(password)):
+            return jsonify({'message':'Password invalid.'})
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            return jsonify({'message':'Email is already registered.'})
+        userMgr.registerUser(email,password,name)
+        userMgr.createTemplateRows(email)
+        username = userMgr.getUsername(email)
+        userMgr.createAPIKey(username)
 
     return jsonify({'message': 'User registered successfully.'})
 
+#Manual logging in
 @appA.route('/login',methods=['POST'])
 def login():
     data = request.get_json()
-    # Extract user data from the request
     email = data.get('email')
     password = data.get('pass')
+    with Authentication() as userMgr:
+        #If they've registered manually.
+        canLogin = userMgr.loginUser(email,password)
+        if (canLogin == 1):
+            name = userMgr.getName(email)
+            username = userMgr.getUsername(email)
+            return jsonify({'message':'User found.','name':name, 'username':username})
+        #If they registered with Google/FB
+        elif (canLogin == -1):
+            print(canLogin)
+            return jsonify({'message':'Email is associated with Google/FB authentication.'})
+        #If canLogin == 0
+        return jsonify({'message':'User not found or password is incorrect.'})
 
-    userMgr = Authentication()
-    canLogin = userMgr.loginUser(email,password)
-    if (canLogin == 1):
-        name = userMgr.getName(email)
-        username = userMgr.getUsername(email)
-        print(canLogin)
-        return jsonify({'message':'User found.','name':name, 'username':username})
-    elif (canLogin == -1):
-        print(canLogin)
-        return jsonify({'message':'Email is associated with Google/FB authentication.'})
-    print(canLogin)
-    return jsonify({'message':'User not found or password is incorrect.'})
-
+#Delete account
 @appA.route('/delete',methods=['POST'])
 def deleteAccount():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    userMgr.deleteSummaries(email)
-    userMgr.deleteTemplates(email)
-    userMgr.deleteAccount(email)
+    with Authentication() as userMgr:
+        userMgr.deleteSummaries(email)
+        userMgr.deleteTemplates(email)
+        userMgr.deleteAccount(email)
     
     return jsonify({'message':'Account deleted.'})
 
-
+#Login with Google
 @appA.route('/logingoogle',methods=['POST'])
 def loginGoogle():
     data = request.get_json()
     email = data.get('emailGoogle')
     name = data.get('name')
-    userMgr = Authentication()
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        #if they're already registered, either they are with the login method we want or they're registered with another one.
-        #if registered with another method, dont let them login using this method. email has to be different. 
-        if (userMgr.getLoginMethod(email) != 'google'):
-            return jsonify({'message':'Email is associated with another log in method, please use that method.'})
-        dbName = userMgr.getName(email)
-        return jsonify({'message':'Already registered. Logging in.'
-        ,'name':dbName})
+    with Authentication() as userMgr:
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            #if they're already registered, either they are with the login method we want or they're registered with another one.
+            #if registered with another method, dont let them login using this method. email has to be different. 
+            if (userMgr.getLoginMethod(email) != 'google'):
+                return jsonify({'message':'Email is associated with another log in method, please use that method.'})
+            dbName = userMgr.getName(email)
+            return jsonify({'message':'Already registered. Logging in.'
+            ,'name':dbName})
 
     
-    
-    userMgr.loginGoogle(email,name)
-    userMgr.createTemplateRows(email)
-    username = userMgr.getUsername(email)
-    userMgr.createAPIKey(username)
-    return jsonify({'message':'Registered with Google.'
-    ,'name':name})
+        #If they're not registered, create the necessary rows in DB
+        userMgr.loginGoogle(email,name)
+        userMgr.createTemplateRows(email)
+        #username = userMgr.getUsername(email) #delete
+        #userMgr.createAPIKey(username) #delete
+        return jsonify({'message':'Registered with Google.'
+        ,'name':name})
 
+#Login with facebook
 @appA.route('/loginfacebook',methods=['POST'])
 def loginFacebook():
     data = request.get_json()
     email = data.get('emailFB')
     name = data.get('name')
-    userMgr = Authentication()
-    if (userMgr.checkIfAlreadyRegistered(email)):
-        #if they're already registered, either they are with the login method we want or they're registered with another one.
-        #if registered with another method, dont let them login using this method. email has to be different. 
-        if (userMgr.getLoginMethod(email) != 'facebook'):
-            return jsonify({'message':'Email is associated with another log in method, please use that method.'})
-        dbName = userMgr.getName(email)
-        return jsonify({'message':'Already registered. Logging in.'
-        ,'name':dbName})
+    with Authentication() as userMgr:
+        if (userMgr.checkIfAlreadyRegistered(email)):
+            #if they're already registered, either they are with the login method we want or they're registered with another one.
+            #if registered with another method, dont let them login using this method. email has to be different. 
+            if (userMgr.getLoginMethod(email) != 'facebook'):
+                return jsonify({'message':'Email is associated with another log in method, please use that method.'})
+            dbName = userMgr.getName(email)
+            return jsonify({'message':'Already registered. Logging in.'
+            ,'name':dbName})
 
-    
-    userMgr.loginFacebook(email,name)
-    userMgr.createTemplateRows(email)
-    username = userMgr.getUsername(email)
-    userMgr.createAPIKey(username)
-    return jsonify({'message':'Registered with Google.'
-    ,'name':name})
+        #If they're not already registered and this is the first sign up, log in and create the necessary rows.
+        userMgr.loginFacebook(email,name)
+        userMgr.createTemplateRows(email)
+        #username = userMgr.getUsername(email) #delete
+        #userMgr.createAPIKey(username) #delete
+        return jsonify({'message':'Registered with Facebook.'
+        ,'name':name})
 
-
+#Save a template based on the parameters the user selects
 @appA.route('/savetemplate',methods=['POST'])
 def saveTemplate():
     data = request.get_json()
@@ -552,99 +584,119 @@ def saveTemplate():
     length = data.get('length')
     citation = data.get('citation')
     templateName = data.get('templatename')
-    userMgr = Authentication()
-    #Note that we need to add num paragraphs, or just drop the col.
-    if userMgr.addTemplate(email,formality,structure,summType,timestamp,length,citation,templateName):
-        return jsonify({'message':'Template added.'})
-    return jsonify({'message':'Not added.'})
+    with Authentication() as userMgr:
+        
+        if userMgr.addTemplate(email,formality,structure,summType,timestamp,length,citation,templateName):
+            return jsonify({'message':'Template added.'})
+        return jsonify({'message':'Not added.'})
     
-
+#Clear a template
 @appA.route('/cleartemplate',methods=['POST'])
 def clearTemplate():
     data = request.get_json()
     email = data.get('email')
     templateName = data.get('templatename')
-    userMgr = Authentication()
-    userMgr.clearTemplate(email,templateName)
-    return jsonify({'message':'Template cleared.'})
+    with Authentication() as userMgr:
+        userMgr.clearTemplate(email,templateName)
+        return jsonify({'message':'Template cleared.'})
 
+#Get the username in the database based on the email
 @appA.route('/getusername',methods=['POST'])
 def getUsername():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    username = userMgr.getUsername(email)
-    return jsonify({'message':username})
+    with Authentication() as userMgr:
+        username = userMgr.getUsername(email)
+        return jsonify({'message':username})
 
+#Get a template based on the email and the template name
 @appA.route('/gettemplate',methods=['POST'])
 def getTemplate():
     data = request.get_json()
     email = data.get('email')
     
     templateName = data.get('templatename')
-    #firstly, check if user has that template saved. if not, return nothing/null
-    
-    userMgr = Authentication()
-    templates = userMgr.getTemplate(email,templateName)
-    formality = templates[0]
-    structure = templates[1]
-    summType = templates[2]
-    timestamps = templates[3]
-    length = templates[4]
-    citation = templates[5]
-    return jsonify({'length':length, 'formality':formality,
-    'structure':structure,'citation':citation,
-    'summtype':summType,'timestamps':timestamps})
+    with Authentication() as userMgr:
+        templates = userMgr.getTemplate(email,templateName)
+        formality = templates[0]
+        structure = templates[1]
+        summType = templates[2]
+        timestamps = templates[3]
+        length = templates[4]
+        citation = templates[5]
+        return jsonify({'length':length, 'formality':formality,
+        'structure':structure,'citation':citation,
+        'summtype':summType,'timestamps':timestamps})
 
+#Add anonymous feedback to table in the DB
 @appA.route('/addfeedback',methods=['POST'])
 def addFeedback():
     data = request.get_json()
     stars = data.get('rating')
     text = data.get('feedback')
     
-    userMgr = Authentication()
-    userMgr.addFeedback(stars,text)
-    return jsonify({'message':'Feedback added successfully.'})
+    with Authentication() as userMgr:
+        userMgr.addFeedback(stars,text)
+        return jsonify({'message':'Feedback added successfully.'})
 
+#Add summary to history
 @appA.route('/addsummarized',methods=['POST'])
 def addSummarized():
     data = request.get_json()
     email = data.get('email')
     input = data.get('input')
     output = data.get('output')
-    userMgr = Authentication()
-    #if user's stored summaries is <10, save, otherwise display error
-    if (userMgr.getNumSummaries(email) < 10):
-        userMgr.addSummarizedHistory(input,output,email)
-        return jsonify({'message':'Added to history.'})
-    
-    return jsonify({'message':'Summary history is full. Please delete a previous entry.'})
-    
+    with Authentication() as userMgr:
+        #if user's stored summaries is <10, save, otherwise display error
+        if (userMgr.getNumSummaries(email) < 10):
+            userMgr.addSummarizedHistory(input,output,email)
+            return jsonify({'message':'Added to history.'})
+        
+        return jsonify({'message':'Summary history is full. Please delete a previous entry.'})   
 
+#Get an API key for a given email address
 @appA.route('/getapikey',methods=['POST'])
 def getAPIKey():
     data = request.get_json()
     email = data.get('email')
-    userMgr = Authentication()
-    key = userMgr.getAPIKey(email)
-    return jsonify({'key':key})
+    with Authentication() as userMgr:
+        key = userMgr.getAPIKey(email)
+        return jsonify({'key':key})
 
+#Checking whether a template is in use 
 @appA.route('/checktemplate',methods=['POST'])
 def checkTemplate():
     data = request.get_json()
     email = data.get('email')
     templateName = data.get('templatename')
-    userMgr = Authentication()
-    if userMgr.checkTemplateInUse(email,templateName):
-        return jsonify({'message':'Template in use.'})
+    with Authentication() as userMgr:
+        if userMgr.checkTemplateInUse(email,templateName):
+            return jsonify({'message':'Template in use.'})
         
     return jsonify({'message':'Template not in use.'})
+
+
+#Adding a thumbs up to the thumbs up counter
+@appA.route('/thumbsup',methods=['POST'])
+def thumbsUp():
+    #data = request.get_json()
+    with Authentication() as userMgr:
+        userMgr.addThumbsUp()
+    return jsonify({'message':'Thumbs up'})
+
+#Adding a thumbs down to the thumbs down counter
+@appA.route('/thumbsdown',methods=['POST'])
+def thumbsDown():
+    #data = request.get_json()
+    with Authentication() as userMgr:
+        userMgr.addThumbsDown()
+    return jsonify({'message':'Thumbs down'})
+
+
 
 
 
 if __name__ == '__main__':
     appA.run(port=5001,debug=True)
+    #appA.run(host='0.0.0.0',port=5001) # For server use only
     
-    #auth.addTemplate("emailTest1@gmail.com")
-    #auth.addTemplate("emailTest1@gmail.com",2,"formal","bullets",5,"customTemplate1")
-    #auth.clearTemplate("emailTest1@gmail.com","customTemplate1")

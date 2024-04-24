@@ -3,9 +3,11 @@ import "./css/URLShortenerStyle.css";
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from './ThemeContext.js'
 import DialogBox from '../components/DialogBox.js';
-
+/**
+ * URLShortener defines front-end functionality for the URL shortener
+ * @returns URL Shortener page
+ */
 const URLShortener = () => {
-
     const { darkMode } = useTheme();
     const [username, setUsername] = useState('');
 
@@ -21,7 +23,9 @@ const URLShortener = () => {
 
     const [URLError, setURLError] = useState('');
     
-    const [CopyURL, setCopyURL] = useState('Copy URL')
+    const [CopyURL, setCopyURL] = useState('Copy URL');
+
+    //Copying a shortened link
     const handleCopy = () => {
         navigator.clipboard.writeText(shortened)
         setCopyURL('Copied')
@@ -31,11 +35,13 @@ const URLShortener = () => {
     }
 
     const [openEmptyInput, setOpenEmptyInput] = useState(false);
+    
+    //Checking if the input is empty
     const checkEmptyInput = () => {
         console.log("URL is: " + URL)
 
         if(URL === '') {
-            setOpenEmptyInput(true)
+            setOpenEmptyInput(true);
         }
         else {
             handleSubmit();
@@ -57,7 +63,7 @@ const URLShortener = () => {
     const email = localStorage.getItem('email');
 
 
-
+    //
     useEffect(() => {
         if (parsedState && parsedState.action === 'PUSH') {
             if (String(window.performance.getEntries()[0].type) === "navigate") {
@@ -74,11 +80,14 @@ const URLShortener = () => {
         }
     }, []);
     
-    
+    //useEffect to fetch the user's username to display in the 'custom short link preview', ONLY if they are logged in
     useEffect(() => {
-        console.log(email);
+        
+        //Fetch user's username
         const fetchUsername = async () => {
             try {
+                
+                //const response = await fetch('http://4p02shortify.com:5001/getusername', { //For server use only
                 const response = await fetch('http://localhost:5001/getusername', {
                     method: 'POST',
                     headers: {
@@ -90,7 +99,7 @@ const URLShortener = () => {
                 if (response.ok) {
                     const result = await response.json();
                     setUsername(result.message);
-                    console.log(username);
+                    
                 } else {
                     console.error('Failed to fetch username');
                 }
@@ -108,15 +117,17 @@ const URLShortener = () => {
     //URL Shortening
     const handleSubmit = async () => {
 
-        const urlRegEx = /^(http:\/\/|https:\/\/|www\.)\w+/;
+        const urlRegEx = /^(http:\/\/|https:\/\/|www\.)\w+/; //Regex for the prefixing of URLs
 
         if (!urlRegEx.test(URL)) {
             setURLError('URL invalid, enter a valid URL starting with http://, https://, or www.');
             return;
         }
 
+        //Shorten the link by making a fetch call to Flask server
         try {
-            const response = await fetch('http://localhost:5002/shorten', {
+            const response = await fetch('http://127.0.0.1:5002/shorten', {
+            //const response = await fetch('http://4p02shortify.com:5002/shorten', { //for server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,15 +137,13 @@ const URLShortener = () => {
     
             if (response.ok) {
                 const result = await response.json();
-                //the error message here needs to be made prettier
+                //If the custom word is already in use
                 if (result.message === 'Custom word already used in another link.') {
                     setCustomWordError(result.message);
                 }else {
                     setShortURL(result.shortenedURL);
-                    showSummarize(true);
+                    showSummarize(true); //allow user to summarize this link
                 }
-
-                
             } else {
                 console.error('Failed to shorten URL');
             }
@@ -143,6 +152,7 @@ const URLShortener = () => {
         }
     };
 
+    //Handling the change of the custom word field
     const handleCustomWordChange = (e) => {
         setCustomWordError('');
         setCustomWord(e.target.value);
@@ -171,7 +181,7 @@ const URLShortener = () => {
                         onChange={handleChangeInput}
                         placeholder='Enter URL here' 
                     />
-                    { !email &&
+                    { !email && //If the user isn't logged in
                     <button 
                         className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`} 
                         // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
@@ -182,7 +192,7 @@ const URLShortener = () => {
                 </div>
                 
                 {URLError && <div className={`url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{URLError}</div>}
-                {email &&
+                {email && //If the user is logged in
                     <div className='premium-url'>
                         <h3 className='custom-url'>Customize your link</h3> 
                         <div className='custom-div'>
@@ -190,7 +200,7 @@ const URLShortener = () => {
                                 type="text" 
                                 required
                                 onChange={(e) => setURL(e.target.value)}
-                                placeholder={`shortify.com/${username}`}
+                                placeholder={`4p02shortify.com/s/${username}/`}
                                 readOnly
                             />
                             {/* <div className='custom-div1'> */}
@@ -242,7 +252,7 @@ const URLShortener = () => {
                 onConfirm={handleEmptyConfirm}
                 />
                 
-                { 
+                { summarize &&
                     <a href="/Summarizer" onClick={transferLink}>
                         <div className='url-div3'>
                             <button 

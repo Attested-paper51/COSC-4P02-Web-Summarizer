@@ -33,6 +33,7 @@ const Summarizer = () => {
 
     const [inputContent, setInputContent] = useState('');
     const [outputContent, setOutputContent] = useState('');
+    const [shouldDetectChanges, setShouldDetectChanges] = useState(false);
 
     const [openError, setOpenError] = useState(false);
 
@@ -112,11 +113,10 @@ const Summarizer = () => {
         if(isClicked !== buttonIndex)
         {
             setClickedButton(buttonIndex)
-            setSaveSummary('Save Summary');
-            setSaveClicked(false);
             emptyTextContent()
             showShorten(false)
             setTemplate(templates[0])
+
         }
     }
 
@@ -188,18 +188,35 @@ const Summarizer = () => {
         }
     })
 
+    useEffect(() => {
+        if (shouldDetectChanges) {
+            if (outputContent != savedContent)
+            {
+                console.log("outputContent has changed:", outputContent);
+                setSaveClicked(false)
+                setSaveSummary("Save Summary")
+                setShouldDetectChanges(false)
+            }
+        }
+    });
+
     useEffect (() => {
         // detects the condition of state transfer
         if (parsedState && parsedState.action === 'PUSH') {
             if (String(window.performance.getEntries()[0].type) === "navigate") {
                 toggleClicked(1)
                 setInputContent(parsedState.URL)
+                //console.log(parsedState)
+                //console.log(sessionStorage)
+                //JSON.parse(sessionStorage.getItem('URLState')).action = ''
+                //parsedState.action = ''
             }
             else if (String(window.performance.getEntries()[0].type) === "reload") {
                 setInputContent("")
             }
             console.log("push")
         } else {
+            //setInputContent("pop function")
             console.log("pop")
         }
     }, [])
@@ -207,6 +224,7 @@ const Summarizer = () => {
 
     const componentDidMount = () => {
         // // This is called after the component has been mounted to the DOM
+        //setInputContent('')
         // const inputArea = document.querySelector("textarea");
         // const outputArea = document.getElementById("output"); 
         // // Now you can work with the textarea
@@ -233,8 +251,6 @@ const Summarizer = () => {
     const emptyTextContent = () => {
         setInputContent('');
         setOutputContent('');
-        setSaveSummary('Save Summary');
-        setSaveClicked(false);
     }
 
     // empties content and closes Dialog Box
@@ -245,12 +261,43 @@ const Summarizer = () => {
     }
 
     // functions can be changed accordingly
-    const thumbsUp = () => {
-        console.log("Output summary is good!")
+    const thumbsUp = async () => {
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/thumbsup', { //Server use only
+            const response = await fetch('http://localhost:5001/thumbsup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to thumbs up.');
+            }
+            console.log('Thumbs up successful!');
+
+        }catch (error) {
+            console.log(error)
+        }
+        
     }
-    const thumbsDown = () => {
-        console.log("Output summary is bad.")
-        //setOutputContent('Bilaaaaal')
+    const thumbsDown = async () => {
+        try {
+            //const response = await fetch('http://4p02shortify.com:5001/thumbsdown', { //Server use only
+            const response = await fetch('http://localhost:5001/thumbsdown', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to thumbs down.');
+            }
+            console.log('Thumbs down successful!');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     const [isCopied, setCopy] = useState(false)
@@ -347,40 +394,6 @@ const Summarizer = () => {
         //navigate("/Shortener", {state: { action:'PUSH', inputContent }});
     }
 
-    const saveSummary = async () => {
-
-        if (!inputContent || !outputContent || !username) {
-
-            console.log('Missing required fields.');
-            return;
-        }
-
-        else {
-            const url = 'http://localhost:5005/saveSummary';
-            const data = {
-                username: username,
-                inputT: inputContent,
-                summarizedT: outputContent,
-            };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                const responseData = await response.json();
-                console.log(responseData); // Logging the response for debugging purposes
-                // You can set some state here to show a success message to the user
-            } catch (error) {
-                console.error('Error saving summary:', error);
-                // You can set some state here to show an error message to the user
-            }
-        }
-    }
     
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -404,6 +417,7 @@ const Summarizer = () => {
 
     const [SaveSummary, setSaveSummary] = useState('Save Summary');
     const [isSaveClicked, setSaveClicked] = useState(false);
+    const [savedContent, setSavedContent] = useState('');
 
     //adding a summary and input content to history
     const addToHistory = async () => {
@@ -424,25 +438,49 @@ const Summarizer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input: inputContent, output: outputContent, email}),
+                body: JSON.stringify({ input: inputContent, output: outputContent, email }),
             });
 
             if (response.ok) {
                 const result = await response.json();
                 if (result.message === "Summary history is full. Please delete a previous entry.") {
-                    setErrorMessage(result.message);
-                    setOpenError(true);
-                    return;
-                }else{
-                    setSaveSummary('Saved Summary!');
-                    setSaveClicked(true);
-                    console.log(result.message);
+                    setDialogConfig({
+                        open: true,
+                        title: "Error",
+                        content: result.message,
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmText: "OK",
+                        onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+                    });
+                } else {
+                    setDialogConfig({
+                        open: true,
+                        title: "Success",
+                        content: "Summary saved successfully!",
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmText: "OK",
+                        onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+                    });
+                    setSaveSummary('Saved Summary!')
+                    setSaveClicked(true)
+                    setSavedContent(outputContent)
+                    setShouldDetectChanges(true)
+                    //setTimeout(() => setSaveSummaryText('Save Summary'), 3000); // Optionally reset the button text after some time
                 }
-                
             }
-
         } catch (error) {
-            console.log(error)
+            setDialogConfig({
+                open: true,
+                title: "Error",
+                content: "Failed to save summary.",
+                showCancelButton: false,
+                showConfirmButton: true,
+                confirmText: "OK",
+                onConfirm: () => setDialogConfig(prev => ({ ...prev, open: false })),
+            });
+            console.error('Error:', error);
         }
 
     };
@@ -464,8 +502,9 @@ const summarizeText = () => {
      const sanitizedEndMin = endMin || defaultMin;
      //console.log(sanitizedEndHour);
 
-    //fetch('/api/summarize', {
-    fetch('http://127.0.0.1:5000/api/summarize', {
+    
+    //fetch('http://127.0.0.1:5000/api/summarize', {
+    fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -497,6 +536,8 @@ const summarizeText = () => {
             throw new Error(data.error);
         }
         setOutputContent(data.summary);
+        setSaveSummary('Save Summary');
+        setSaveClicked(false);
     })
     .catch(error => {
         setIsLoading(false); // Ensure loading dialog is hidden on error
@@ -524,6 +565,7 @@ const summarizeText = () => {
 
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //For server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -670,6 +712,7 @@ const summarizeText = () => {
         
 
         try {
+            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
                 method: 'POST',
                 headers: {
@@ -701,6 +744,7 @@ const summarizeText = () => {
         //console.log("templateNameToFetch:",templatename);
         try {
             // Make a POST request to the Flask backend
+            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -790,7 +834,6 @@ const summarizeText = () => {
     }
 
 
-
     return (
         <div className={`wrapper ${darkMode ? 'summarizer-dark' : 'summarizer-light'}`}>
             <div className="in-wrapper-sum">
@@ -810,7 +853,7 @@ const summarizeText = () => {
                         </div>
 
                         <div className="main-content">
-                            {/* {userEmail && ( */}
+                             {userEmail &&  
 
                             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
@@ -1027,7 +1070,8 @@ const summarizeText = () => {
                                     </div>
                                 </div>
                             </div>
-
+                            }
+                            {userEmail &&
                             <div className={`premium-container second-row ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
                                     <div className="mode invisible">
@@ -1149,7 +1193,7 @@ const summarizeText = () => {
                                     }
                                 </div>
                             </div>
-
+                            }              
                             <div className="text">
                                     <div className="inputArea">
                                         { isClicked === 0 &&
@@ -1250,10 +1294,10 @@ const summarizeText = () => {
                                     <div className={`bottom-div2 ${darkMode ? 'bd-dark' : 'bd-light'}`}>
                                         <div className="feedback-buttons">
                                             <Tooltip title="Like" arrow>
-                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp}><GoThumbsup size={19} /></button>
+                                                <button className={`feedback-up ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsUp} disabled={!outputContent}><GoThumbsup size={19} /></button>
                                             </Tooltip>
                                             <Tooltip title="Dislike" arrow>
-                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown}><GoThumbsdown size={19} /></button>
+                                                <button className={`feedback-down ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} onClick={thumbsDown} disabled ={!outputContent}><GoThumbsdown size={19} /></button>
                                             </Tooltip>
                                         </div>
 
@@ -1274,7 +1318,10 @@ const summarizeText = () => {
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
                                         { userEmail && outputContent != '' &&
-                                            <button className="summarize-btn" onClick={addToHistory} disabled={isSaveClicked}>
+                                            <button 
+                                            className={`summarize-btn ${isSaveClicked ? 'button-disabled' : ''}`}
+                                            onClick={addToHistory} 
+                                            disabled={isSaveClicked}>
                                                 <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                     <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>{SaveSummary}</div>
                                                 </div>
