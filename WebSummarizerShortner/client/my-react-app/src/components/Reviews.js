@@ -1,4 +1,4 @@
-import { FaQuoteRight, FaStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 import "./css/ReviewsStyle.css";
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css';

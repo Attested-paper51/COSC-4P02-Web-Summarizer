@@ -55,7 +55,7 @@ const History = () => {
                 if (response.ok) {
                     const result = await response.json();
                     setUsername(result.message);
-                    console.log(username);
+                    
                 } else {
                     console.error('Failed to fetch username');
                 }

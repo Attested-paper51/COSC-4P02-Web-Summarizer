@@ -104,10 +104,6 @@ const defaultConfirm = () => {
     setEmail(e.target.value);
   };
 
-  const handlePassChange = (e) => {
-    setPassError('');
-    setPass(e.target.value);
-  };
   
   //handleCallbackResponse to handle Google authentication
   function handleCallbackResponse(response) {
@@ -174,7 +170,7 @@ const defaultConfirm = () => {
       document.getElementById("gmail-login-button"),
       { }
     );
-  }, []);
+  });
 
   //Function to handle Facebook logging in
   function handleFBLogin(response) {

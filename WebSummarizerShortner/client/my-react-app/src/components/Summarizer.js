@@ -23,8 +23,8 @@ import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
 import { useTheme } from '../context/ThemeContext.js'
-import { parse } from "@fortawesome/fontawesome-svg-core";
-import { resolveBreakpointValues } from "@mui/system/breakpoints";
+//import { parse } from "@fortawesome/fontawesome-svg-core";
+//import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 /**
  * Summarizer includes all the logic for summarizing a given text, website link or youtube link. 
@@ -44,7 +44,7 @@ const Summarizer = () => {
     const [isClicked, setClickedButton] = useState(0);
     const [wordCount, setWordCount] = useState(0);
     const [timeoutId, setTimeoutId] = useState(null);
-    const [value, setValue] = useState(null);
+    const [value] = useState(null);
 
     // get state from the sessionStorage
     const storedState = sessionStorage.getItem('URLState');
@@ -67,7 +67,7 @@ const Summarizer = () => {
     const [selectedTemplate, setTemplate] = useState(templates[0]);
 
     const saveTemplates = ["Save Template", "Template 1", "Template 2", "Template 3"];
-    const [selectedSaveTemplate, setSaveTemplate] = useState(saveTemplates[0]);
+    const [selectedSaveTemplate] = useState(saveTemplates[0]);
 
     const sliderLength = ["short", "medium", "long"];
     const [sliderValue, setSliderValue] = useState(1);
@@ -200,7 +200,7 @@ const Summarizer = () => {
     //Detects whether the output has changed and if it has it will allow the user to save the summary again
     useEffect(() => {
         if (shouldDetectChanges) {
-            if (outputContent != savedContent)
+            if (outputContent !== savedContent)
             {
                 console.log("outputContent has changed:", outputContent);
                 setSaveClicked(false)
@@ -208,7 +208,7 @@ const Summarizer = () => {
                 setShouldDetectChanges(false)
             }
         }
-    },[shouldDetectChanges,outputContent]);
+    },[shouldDetectChanges,outputContent,savedContent]);
 
     //Logic to allow for transferring the URL to the shortener
     useEffect (() => {
@@ -230,7 +230,7 @@ const Summarizer = () => {
             //setInputContent("pop function")
             //console.log("pop")
         }
-    }, [parsedState])
+    },[parsedState]);
 
 
 
@@ -576,12 +576,12 @@ const summarizeText = () => {
                     setClickedButton(0);
                 }
 
-                if (result.formality != null) {
+                if (result.formality !== null) {
                     setTone(result.formality);
                 } else {
                     setTone(tone[0]);
                 }
-                if (result.structure != null) {
+                if (result.structure !== null) {
                     setLayout(result.structure);
                 } else {
                     setLayout(layout[0]);
@@ -1273,7 +1273,7 @@ const summarizeText = () => {
                                             </a>
                                         }
                                         {/**Added outputContent != '' so you cant save summary if theres nothing there */}
-                                        { email && outputContent != '' &&
+                                        { email && outputContent !== '' &&
                                             <button 
                                             className={`summarize-btn ${isSaveClicked ? 'button-disabled' : ''}`}
                                             onClick={addToHistory} 

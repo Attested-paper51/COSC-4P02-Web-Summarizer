@@ -5,7 +5,7 @@ import "./css/SummarizerStyle.css";
 import "./css/SignUpStyle.css";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { MdDeleteOutline } from "react-icons/md";
+//import { MdDeleteOutline } from "react-icons/md";
 // Components
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
@@ -22,7 +22,7 @@ const Templates = () => {
     const { darkMode } = useTheme();
     const email = localStorage.getItem('email');
     
-    const [value, setValue] = useState(null);
+    const [value] = useState(null);
     const [openError, setOpenError] = useState(false);
 
     
@@ -166,7 +166,7 @@ const Templates = () => {
         handleTemplateFetch2();
         handleTemplateFetch3();
 
-    },[]);
+    });
 
     //function to pull the values stored in the database for the template 1
     const handleTemplateFetch = async () => {
@@ -870,7 +870,7 @@ return (
                                 </div>
                             </div>
                         </div>
-                        { isClicked == 1 &&
+                        { isClicked === 1 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
                                                     buttonText={selectedCitationType}
@@ -887,7 +887,7 @@ return (
                                                 />
                                             </div>
                                         }
-                        { isClicked == 2 &&
+                        { isClicked === 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
                                     buttonText={selectedVideoSetting}
@@ -905,7 +905,7 @@ return (
                             </div>
                         }
 
-                        { isClicked ==2 && selectedVideoSetting == videoSetting[1] &&
+                        { isClicked ===2 && selectedVideoSetting === videoSetting[1] &&
                             <div className="timestamp">
                                 <div className="start">
                                     Start Time:
@@ -1059,7 +1059,7 @@ return (
                                 </div>
                             </div>
                         </div>
-                        { isClicked2 == 1 &&
+                        { isClicked2 === 1 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
                                                     buttonText={selectedCitationType2}
@@ -1076,7 +1076,7 @@ return (
                                                 />
                                             </div>
                                         }
-                        { isClicked2 == 2 &&
+                        { isClicked2 === 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
                                     buttonText={selectedVideoSetting2}
@@ -1094,7 +1094,7 @@ return (
                             </div>
                         }
 
-                        { isClicked2 ==2 && selectedVideoSetting2 == videoSetting[1] &&
+                        { isClicked2 ===2 && selectedVideoSetting2 === videoSetting[1] &&
                             <div className="timestamp">
                             <div className="start">
                                 Start Time:
@@ -1248,7 +1248,7 @@ return (
                                 </div>
                             </div>
                         </div>
-                        { isClicked3 == 1 &&
+                        { isClicked3 === 1 &&
                                             <div className="dropdown-menu">
                                                 <Dropdown
                                                     buttonText={selectedCitationType3}
@@ -1265,7 +1265,7 @@ return (
                                                 />
                                             </div>
                                         }
-                        { isClicked3 == 2 &&
+                        { isClicked3 === 2 &&
                             <div className="dropdown-menu">
                                 <Dropdown
                                     buttonText={selectedVideoSetting3}
@@ -1283,7 +1283,7 @@ return (
                             </div>
                         }
 
-                        { isClicked3 ==2 && selectedVideoSetting3 == videoSetting[1] &&
+                        { isClicked3 ===2 && selectedVideoSetting3 === videoSetting[1] &&
                             <div className="timestamp">
                             <div className="start">
                                 Start Time:

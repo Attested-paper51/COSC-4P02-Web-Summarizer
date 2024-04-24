@@ -32,7 +32,7 @@ const Feedback = () => {
             });
     
             if (response.ok) {
-                const result = await response.json();
+                //const result = await response.json();
                 setRating(null);
                 setFeedback('');
 
