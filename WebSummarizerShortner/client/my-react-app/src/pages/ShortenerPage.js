@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import URLShortener from '../components/URLShortener.js';
-import { ThemeProvider } from '../components/ThemeContext.js';
+import { ThemeProvider } from '../context/ThemeContext.js';
 
 const ShortenerPage = () => {
     return (

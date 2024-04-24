@@ -23,7 +23,7 @@ import DialogBox from '../components/DialogBox.js';
 import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 
@@ -503,8 +503,8 @@ const summarizeText = () => {
      //console.log(sanitizedEndHour);
 
     
-    fetch('http://127.0.0.1:5000/api/summarize', {
-    //fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
+    //fetch('http://127.0.0.1:5000/api/summarize', {
+    fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

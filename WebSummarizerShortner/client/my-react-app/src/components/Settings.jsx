@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
 import PopUp from './PopUp.js';
 import Feedback from './Feedback.js'
-import { useTheme } from './ThemeContext.js'
+import { useTheme } from '../context/ThemeContext.js'
 
 
 const Settings = () => {

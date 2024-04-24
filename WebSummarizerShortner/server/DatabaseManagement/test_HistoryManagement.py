@@ -11,6 +11,8 @@ class TestUserHistoryManagement(unittest.TestCase):
         self.mock_cursor = MagicMock()
         self.mock_connect.return_value = self.mock_conn
         self.mock_conn.cursor.return_value = self.mock_cursor
+        # Set a default fetchone response that is appropriate for count queries
+        self.mock_cursor.fetchone.return_value = (0,)
 
     def tearDown(self):
         self.patcher_connect.stop()
@@ -25,6 +27,7 @@ class TestUserHistoryManagement(unittest.TestCase):
             success = True
         except Exception as e:
             success = False
+            print(f"Error during test: {e}")  # Print out the error if any
 
         self.assertTrue(success)
         self.mock_cursor.execute.assert_called()
@@ -55,8 +58,43 @@ class TestUserHistoryManagement(unittest.TestCase):
         self.history_manager = UserHistoryManagement()
         self.mock_cursor.rowcount = 1
 
-        status = self.history_manager.deleteHistory("username", None)
+        status = self.history_manager.deleteHistory("username", "1")
         self.assertEqual(status, "success")
+
+    def normalize_sql(sql):
+        return ' '.join(sql.strip().split())
+
+
+    def test_special_character_handling(self):
+        input_data = "Robert'); DROP TABLE summarized;--"
+        self.history_manager = UserHistoryManagement()
+        self.history_manager.insertHistory(input_data, "summarized", "username")
+        # Verify the sanitized input is handled correctly
+        self.mock_cursor.execute.assert_called_with("""
+            INSERT INTO summarized (input_text, summarized_text, user_id)
+            VALUES (%s, %s, %s)
+        """, (input_data, "summarized", "username"))
+
+    def test_empty_history_retrieval(self):
+        self.history_manager = UserHistoryManagement()
+        self.mock_cursor.fetchall.return_value = []
+        history = self.history_manager.retrieveHistory("new_user")
+        self.assertEqual(history, [])
+        self.mock_cursor.execute.assert_called_with(
+            "SELECT id, input_text, summarized_text FROM summarized WHERE user_id=%s", ("new_user",)
+        )
+
+    def test_nonexistent_history_deletion(self):
+        self.history_manager = UserHistoryManagement()
+        self.mock_cursor.rowcount = 0
+        status = self.history_manager.deleteHistory("username", "999")
+        self.assertEqual(status, "failed: no matching entry found")
+
+    def test_database_connection_failure(self):
+        with patch('HistoryManagement.psycopg2.connect') as mock_connect:
+            mock_connect.side_effect = Exception("Connection failed")
+            with self.assertRaises(Exception):
+                UserHistoryManagement()
 
 if __name__ == '__main__':
     unittest.main()

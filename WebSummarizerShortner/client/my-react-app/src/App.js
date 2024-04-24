@@ -11,10 +11,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
 import UserDashboardPage from './pages/UserDashboardPage.js';
 import { AuthProvider } from './context/AuthContext.js';
-//import LoginButton from './components/LogIn';
-//import {useEffect} from 'react';
-//import { FaGoogle } from 'react-icons/fa';
-import { useTheme, ThemeProvider } from './components/ThemeContext.js';
+import { useTheme, ThemeProvider } from './context/ThemeContext.js';
 
 
 const App = () => {
