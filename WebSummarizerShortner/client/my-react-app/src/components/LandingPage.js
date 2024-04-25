@@ -2,7 +2,10 @@ import React from 'react';
 import "./css/LandingPageStyle.css";
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.js';
-
+/**
+ * LandingPage defines the HTML for the landing page of the website
+ * @returns LandingPage for the website
+ */
 const LandingPage = () => 
 {
   const { darkMode } = useTheme();

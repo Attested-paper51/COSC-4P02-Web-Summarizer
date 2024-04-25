@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../context/ThemeContext.js'
 
+/**
+ * Password includes the functionality for password resets
+ * @returns Password page
+ */
 const Password = () => {
 
   const { darkMode } = useTheme();
@@ -22,11 +26,14 @@ const Password = () => {
   const location = useLocation();
 
   const email = new URLSearchParams(location.search).get('email') || '';
+
+  // Logic for when a user presses Reset
   const handleSubmit = async () => {
     if (pass !== finalPass) {
       setFinalError('Passwords do not match!');
       return;
   }
+    //Make a Flask call to the backend to reset the password
     //const response = await fetch('http://4p02shortify.com:5001/reset', { //Server use only
     const response = await fetch('http://localhost:5001/reset', {
       method: 'POST',
@@ -53,18 +60,14 @@ const Password = () => {
     }
   }
 
-  const handlePassChange = (e) => {
-    setPassError('');
-    setFinalError('');
-    setPass(e.target.value);
-  }
-
+  // Handling for user changing the confirm password field
   const handleConfirmChange = (e) => {
     setPassError('');
     setFinalError('');
     confirmPass(e.target.value);
   }
 
+  //Password requirements
   const valid = ( item, v_icon, inv_icon ) => {
     let text = document.querySelector(`#${item}`);
     text.style.opacity = "1";
@@ -87,21 +90,19 @@ const Password = () => {
     invalid_icon.style.opacity = "1";
   }
 
-  // const [capital, setCapital] = useState(false);
-  // const [number, setNumber] = useState(false);
-  // const [length, setLength] = useState(false);
 
+  //Handling when a user changes the initial password field
   const handleInputChange = (e) => {
     setPass(e.target.value)
     const password =e.target.value;
 
     if (password.match(/[A-Z]/) != null) {
       valid ('uppercase', 'fa-check', 'fa-times');
-      // setCapital(true)
+      
     }
     else {
       invalid('uppercase', 'fa-check', 'fa-times');
-      // setCapital(false)
+      
     }
     if (password.match(/[0-9]/) != null) {
       valid ('number', 'fa-check', 'fa-times');
@@ -121,17 +122,6 @@ const Password = () => {
     <div className={`pass-box ${darkMode ? 'login-dark' : 'login-light'}`}>
       <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className='form-title'>Reset account password</div>
-        {/* <div className="form-subtitle">Join us to access to Tailored Summaries, Analytics, API Integration and more!</div> */}
-        {/* <div className="username">
-          <label className='user-text'>Enter your email</label> 
-          <input className='textfield'
-            type="text" 
-            required
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
-            placeholder='Enter email here' 
-          />
-        </div> */}
       
         <div className="password">
 
@@ -145,6 +135,7 @@ const Password = () => {
                 onClick={(e) => setPass(e.target.value)}
                 onChange={handleInputChange}
                 placeholder='Enter password here' 
+                data-testid='password-input'
               />
               <div className='hide-pass1' onClick = {() => setVisible(!visible)}>
                 {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
@@ -184,6 +175,7 @@ const Password = () => {
                 value={finalPass}
                 onChange={handleConfirmChange} 
                 placeholder='Enter password here' 
+                data-testid='repassword-input'
               />
               <div className='hide-pass2' onClick = {() => setVisible1(!visible1)}>
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}

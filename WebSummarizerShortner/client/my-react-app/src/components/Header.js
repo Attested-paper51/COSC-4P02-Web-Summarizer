@@ -1,17 +1,17 @@
-import { Component, useContext } from "react";
 import { Link } from 'react-router-dom';
 import "./css/HeaderStyle.css";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
-import { AuthContext } from '../context/AuthContext.js';
-import { useTheme } from '../context/ThemeContext.js';
 
+import { useTheme } from '../context/ThemeContext.js';
+/**
+ * 
+ * @returns Header of the website
+ */
 const Header = () => {
-  //maybe remove
-  // const { userEmail } = useContext(AuthContext);//for user displaying
+  
   const storedEmail = localStorage.getItem('email');
   const storedName = localStorage.getItem('name');
-
   const { darkMode, setDarkMode } = useTheme();
 
   // Function to toggle dark mode

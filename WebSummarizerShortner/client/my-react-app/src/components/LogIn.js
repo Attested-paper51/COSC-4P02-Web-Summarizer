@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { useAuth } from '../context/AuthContext.js';
 import "./css/LogInStyle.css";
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
@@ -11,6 +10,10 @@ import { LoginSocialFacebook } from 'reactjs-social-login';
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 import DialogBox from '../components/DialogBox.js';
 
+/**
+ * LogIn contains the functionality for the login page, allowing users to log in using their manual email and password, or Google/FB authentication
+ * @returns Login page
+ */
 const LogIn = () => {
 
   const { darkMode } = useTheme();
@@ -25,8 +28,8 @@ const LogIn = () => {
   
   const [visible, setVisible] = useState(false);
 
-  const {login} = useAuth();
-
+ 
+  //Error config
   const [dialogConfig, setDialogConfig] = useState({
     open: false,
     onClose: null,
@@ -49,7 +52,7 @@ const handleClose = () => {
 const defaultConfirm = () => {
   handleClose()
 }
-
+  //Logic for when a user presses 'Login'
   const handleSubmit = async () => {
     try {
 
@@ -68,25 +71,18 @@ const defaultConfirm = () => {
           console.log(result);
           if (result.message === 'User found.'){
             //Navigate to dashboard if the backend finds the user.
-            login(email);//wip - maybe remove, authcontext maybe no good..
-            //wip
+
             const name = result.name;
-            const user_id = result.username
+            //const user_id = result.username
             //localStorage.setItem('authenticated',true);
             localStorage.setItem('email',email);
             localStorage.setItem('name',name);
-            localStorage.setItem('user_id', user_id)
+            //localStorage.setItem('user_id', user_id)
             localStorage.setItem('loginMethod',"manual");
-            console.log('Email being logged in: ',localStorage.getItem('email'));
-            //console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
             navigate('/Dashboard');
           }else if (result.message === 'User not found or password is incorrect.') {
             setPassError(result.message);
-            //localStorage.setItem('authenticated',false);
             localStorage.setItem('email',null);
-            console.log('Email being logged in: ',localStorage.getItem('email'));
-            //console.log('Autentication state stored: ',localStorage.getItem('authenticated'));
-            
             setPass('');
             setEmail('');
           }else if (result.message === 'Email is associated with Google/FB authentication.') {
@@ -108,19 +104,13 @@ const defaultConfirm = () => {
     setEmail(e.target.value);
   };
 
-  const handlePassChange = (e) => {
-    setPassError('');
-    setPass(e.target.value);
-  };
-
+  
+  //handleCallbackResponse to handle Google authentication
   function handleCallbackResponse(response) {
-    //console.log("Encoded JWT Token: " + response.credential);
     var userObj = jwtDecode(response.credential);
-    //console.log(userObj);
-    
     (async () => {
       var emailGoogle = userObj.email;
-      //if the email is in the database already - pop up saying "account already there"
+      
       var name = userObj.name;
       try {
 
@@ -167,7 +157,7 @@ const defaultConfirm = () => {
     })();
 
   }
-
+  //Display Google login button on page load
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
@@ -180,12 +170,10 @@ const defaultConfirm = () => {
       document.getElementById("gmail-login-button"),
       { }
     );
-  }, []);
+  });
 
+  //Function to handle Facebook logging in
   function handleFBLogin(response) {
-    //var data = response.data;
-    //console.log("email",data.email);
-    //console.log("name",data.name);
 
     (async () => {
       var emailFB = response.data.email;
@@ -205,10 +193,8 @@ const defaultConfirm = () => {
   
         if (response.ok) {
           const result = await response.json();
-          console.log(result);
-          //add some handling here 
           if (result.message === 'Email is associated with another log in method, please use that method.') {
-            console.log('yea you cant log in if you used another login method');
+            
             openDialog({
               title: "Error",
               content: result.message,
@@ -230,9 +216,6 @@ const defaultConfirm = () => {
       } catch (error) {
         console.error('Error:', error.message);
       }
-    
-    
-  
     
     })();
 

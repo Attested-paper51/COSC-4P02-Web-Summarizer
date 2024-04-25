@@ -1,13 +1,7 @@
 .env
-<<<<<<< HEAD
-<<<<<<< HEAD
 mineral-weaver-414516-9148ba0c6470.json
 mineral-weaver-414516-c19a1aadc808.json
-=======
->>>>>>> 17aaec9fd6de30891662b1261f449214315e694e
-=======
->>>>>>> 17aaec9fd6de30891662b1261f449214315e694e
 
 __pycache__/
-
+.idea/
 .pytest_cache/

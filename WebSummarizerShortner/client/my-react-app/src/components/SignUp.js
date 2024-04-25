@@ -1,15 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./css/SignUpStyle.css";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from '@mui/material/Tooltip';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.js'
 
-//import { Link } from 'react-router-dom';
 
+/**
+ * SignUp defines the functions to allow a user to sign up and create an account manually
+ * @returns SignUp page
+ */
 const SignUp = () => {
 
   const { darkMode } = useTheme();
@@ -29,11 +31,11 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  // handleSubmit contains the logic for when a user clicks the Register button and attempts to sign up
   const handleSubmit = async () => {
     try {
         if (pass !== finalPass) {
-            //this will be a popup
-            console.log('Passwords do not match!');
+            
             setPassError('Passwords do not match!');
             return;
         }
@@ -55,7 +57,7 @@ const SignUp = () => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
-
+          //Handle different cases sent by the backend
           if (result.message === 'Email is already registered.') {
             setEmailError('Email is already registered.');
             setEmail('');
@@ -82,6 +84,7 @@ const SignUp = () => {
 
   };
 
+  // Handling the changing of the Name and Email fields
   const handleNameChange = (e) => {
     setNameError('');
     setName(e.target.value);
@@ -114,10 +117,7 @@ const SignUp = () => {
     invalid_icon.style.opacity = "1";
   }
 
-  // const [capital, setCapital] = useState(false);
-  // const [number, setNumber] = useState(false);
-  // const [length, setLength] = useState(false);
-
+  // Handling the changing of the password field
   const handleInputChange = (e) => {
     setPass(e.target.value)
     setPassError('');
@@ -126,11 +126,11 @@ const SignUp = () => {
 
     if (password.match(/[A-Z]/) != null) {
       valid ('uppercase', 'fa-check', 'fa-times');
-      // setCapital(true)
+    
     }
     else {
       invalid('uppercase', 'fa-check', 'fa-times');
-      // setCapital(false)
+      
     }
     if (password.match(/[0-9]/) != null) {
       valid ('number', 'fa-check', 'fa-times');
@@ -146,18 +146,14 @@ const SignUp = () => {
     }
   };
 
-  const handlePassChange = (e) => {
-    setPassError('');
-    setFinalError('');
-    setPass(e.target.value);
-  }
-
+  // Handling of the confirm password field
   const handleConfirmChange = (e) => {
     setPassError('');
     setFinalError('');
     confirmPass(e.target.value);
   }
 
+  //Checklist for the password requirements
   const [checklist, showChecklist] = useState(true);
 
   useEffect(() => {
@@ -217,6 +213,7 @@ const SignUp = () => {
                   onClick={(e)=> { setPass(e.target.value); }}
                   onChange={handleInputChange}
                   placeholder='Enter password here' 
+                  data-testid='password-input'
                 />
               <div className='hide-pass1' onClick = {() => setVisible(!visible)}>
                 {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
@@ -226,19 +223,19 @@ const SignUp = () => {
             {checklist && 
             <div className='pass-checklist'>
               <div>
-              <p id='length'>
+              <p id='length' data-testid="length">
                 <FontAwesomeIcon className='fa-times icon' icon={faTimes}/>
-                <FontAwesomeIcon className='fa-check icon' icon={faCheck}/>
+                <FontAwesomeIcon data-testid="fa-check-length" className='fa-check icon' icon={faCheck}/>
                 <span>8 to 20 characters long</span>
               </p>
-              <p id='uppercase'>
+              <p id='uppercase' data-testid="uppercase">
                 <FontAwesomeIcon className='fa-times icon' icon={faTimes}/>
-                <FontAwesomeIcon className='fa-check icon' icon={faCheck}/>
+                <FontAwesomeIcon data-testid="fa-check-uppercase" className='fa-check icon' icon={faCheck}/>
                 <span>Atleast 1 uppercase letter</span>
               </p>
-              <p id='number'>
+              <p id='number' data-testid="number">
                 <FontAwesomeIcon className='fa-times icon' icon={faTimes}/>
-                <FontAwesomeIcon className='fa-check icon' icon={faCheck}/>
+                <FontAwesomeIcon data-testid="fa-check-number" className='fa-check icon' icon={faCheck}/>
                 <span>Atleast 1 number</span>
               </p>
               </div>
@@ -271,6 +268,7 @@ const SignUp = () => {
                 //onClick={handleConfirmChange}
                 // onChange={(e) => setPass(e.target.value)}
                 placeholder='Enter password here' 
+                data-testid='repassword-input'
               />
               <div className='hide-pass2' onClick = {() => setVisible1(!visible1)}>
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}
@@ -281,7 +279,7 @@ const SignUp = () => {
 
         <button className="signup-btn" onClick={handleSubmit}>
           <div className={`signup-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-            <div className={`signup ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
+            <div data-testid='create-account' className={`signup ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
           </div>
         </button>
         
