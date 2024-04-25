@@ -16,12 +16,12 @@ jest.mock('../../context/ThemeContext.js', () => ({
 
 describe('Summarizer component', () => {
     test('renders Summarizer content with light mode', () => {
-        render(
+        const screen = render(
             <Router>
             <Summarizer />
             </Router>
         );  
-        //expect(screen).toBeTruthy()
+        expect(screen).toBeTruthy()
     });
 
     // Mode Tests
@@ -67,9 +67,27 @@ describe('Summarizer component', () => {
 
         const inputField = container.querySelector('#inputText');
         fireEvent.change(inputField, { target: { value: 'Test input' } });
-        
+
         expect(inputField).toHaveValue('Test input');
     });
+
+    // test('checks if the selected option in the dropdown is correct', () => {
+    //     // Render the component
+    //     const { getByLabelText, getByText } = render(<Summarizer />);
+    
+    //     // Find the dropdown element by its label text (adjust as needed based on your component's structure)
+    //     const dropdown = getByLabelText('Layout');
+    
+    //     // Open the dropdown
+    //     fireEvent.click(dropdown);
+    
+    //     // Find the selected option
+    //     const selectedOption = getByText('Paragraph'); // Replace 'Paragraph' with the expected selected option
+    
+    //     // Assert that the selected option is visible and has the selected attribute
+    //     expect(selectedOption).toBeInTheDocument();
+    //     expect(selectedOption).toHaveAttribute('selected');
+    //   });
 
 
     // URL Linking Tests
