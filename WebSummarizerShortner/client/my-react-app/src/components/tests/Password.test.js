@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router} from 'react-router-dom';
 import Password from '../Password.js';
-import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter
+import { MemoryRouter } from 'react-router-dom'; 
 
 // Mocking the useTheme hook
 jest.mock('../../context/ThemeContext.js', () => ({

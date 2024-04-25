@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor, getByTestId, screen } from '@testing-library/react';
 import { BrowserRouter as Router} from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { AuthProvider } from '../../context/AuthContext.js'; // Import the AuthProvider
+import { AuthProvider } from '../../context/AuthContext.js'; 
 import LogIn from '../LogIn.js'; 
 
 // Mocking the google object

@@ -274,7 +274,7 @@ const hasSelectedRows = () => {
     {showSumSection && (
       <div className='sum-section'>
         <div className='btn-section'>
-          <button className='control-btn' onClick={handleSelectAll}>
+          <button className='control-btn' onClick={handleSelectAll} data-testid='select-all-button'>
             {selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
           </button>
           {hasSelectedRows() && (
@@ -297,7 +297,7 @@ const hasSelectedRows = () => {
           <tr key={item[0]}>
             <td>
               <label className='custom-checkbox'>
-                <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
+                <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} data-testid='checkbox'/>
                 {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
               </label>
             </td>

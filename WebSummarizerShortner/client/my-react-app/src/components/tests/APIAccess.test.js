@@ -42,7 +42,7 @@ describe('APIAccess Component', () => {
     expect(screen.getByText('Summarizer API Documentation')).toBeInTheDocument();
   });
 
-test('switches to URL Shortener section on URL Shortener button click', () => {
+  test('switches to URL Shortener section on URL Shortener button click', () => {
     render(
         <APIAccess />
     );
@@ -53,7 +53,7 @@ test('switches to URL Shortener section on URL Shortener button click', () => {
     expect(screen.getByText('URL Shortener API Documentation')).toBeInTheDocument();
   });
 
-test('fetches API key and displays it in the popup', async () => {
+  test('fetches API key and displays it in the popup', async () => {
     // Mock the fetch API
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       ok: true,
