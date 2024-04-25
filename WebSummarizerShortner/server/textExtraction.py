@@ -7,7 +7,7 @@ import time
 def extract_text_from_url(url):
     try:
         options = Options()
-        options.headless = False
+        options.headless = True
         logging.getLogger('urllib3.connectionpool').setLevel(logging.ERROR)
         browser = webdriver.Chrome(options=options)
         browser.get(url)
@@ -19,5 +19,5 @@ def extract_text_from_url(url):
         return False, readable_text
     except Exception as e:
         logging.error(f"Error: {e}")
-        return True, "error processing url"
+        return True, "error processing url (please use html urls)"
 

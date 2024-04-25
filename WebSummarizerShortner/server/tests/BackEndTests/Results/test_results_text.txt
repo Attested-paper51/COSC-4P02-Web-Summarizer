@@ -1,0 +1,78 @@
+Test Name: Test Tone: Formal, Style: Bullet Points, Length: short
+Request: {
+    "key": "frontend",
+    "input": "Comprehensive testing of tone, style, and length.",
+    "type": 0,
+    "tone": "Formal",
+    "style": "Bullet Points",
+    "length": "short"
+}
+Response: {
+    "summary": "- Testing of tone, style, and length is essential for ensuring comprehensive evaluation of written content.\n- It helps in determining the appropriateness of writing style and tone for the intended audience.\n- Evaluating the length of the content ensures that it is concise and effectively conveys the message.\n- Comprehensive testing of tone, style, and length is crucial for enhancing the overall quality of written materials."
+}
+
+Test Name: Test Tone: Casual, Style: Numbered List, Length: long
+Request: {
+    "key": "frontend",
+    "input": "Comprehensive testing of tone, style, and length.",
+    "type": 0,
+    "tone": "Casual",
+    "style": "Numbered List",
+    "length": "long"
+}
+Response: {
+    "summary": "1. Let's break it down, I'm here to summarize! \n2. Basically, they want me to test how I can summarize in different tones, styles, and lengths. \n3. No worries, I'll make sure to keep it casual and easygoing while summarizing the text. \n4. So, I'll be providing summaries in a numbered list format to keep things organized. \n5. Time to show off my summarization skills and have some fun with it!"
+}
+
+Test Name: Test Tone: Sarcastic, Style: Paragraph, Length: medium
+Request: {
+    "key": "frontend",
+    "input": "Comprehensive testing of tone, style, and length.",
+    "type": 0,
+    "tone": "Sarcastic",
+    "style": "Paragraph",
+    "length": "medium"
+}
+Response: {
+    "summary": "Oh, how delightful it is to spend endless hours meticulously testing the tone, style, and length of a document. What a thrilling and invigorating task, truly a joy to behold. So much excitement in ensuring every word, punctuation mark, and paragraph is perfectly calibrated to meet the highest standards. A truly riveting experience, one that certainly does not feel like a tedious and monotonous chore at all."
+}
+
+Test Name: Empty Text Input Test
+Request: {
+    "key": "frontend",
+    "input": "",
+    "type": 0,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "medium"
+}
+Response: {
+    "error": "Missing or empty text"
+}
+
+Test Name: Invalid Input Type Test
+Request: {
+    "key": "frontend",
+    "input": "This should be treated as text, but is mislabeled.",
+    "type": 7,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "medium"
+}
+Response: {
+    "error": "Invalid input type"
+}
+
+Test Name: Invalid API Key Test
+Request: {
+    "key": "wrong_key",
+    "input": "Sample text",
+    "type": 0,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "medium"
+}
+Response: {
+    "error": "Invalid or missing api key"
+}
+

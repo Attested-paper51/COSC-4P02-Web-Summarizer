@@ -1,0 +1,60 @@
+Test Name: Full Video Test
+Request: {
+    "key": "frontend",
+    "input": "https://www.youtube.com/watch?v=UNP03fDSj1U",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Full Video"
+}
+Response: {
+    "summary": "The speaker reflects on their experience of trying something new for 30 days, inspired by Morgan Spurlock's concept. By taking on various challenges, such as daily photo-taking and writing a novel within a month, they discovered increased self-confidence and a sense of accomplishment. The speaker highlights the importance of making sustainable changes and shares that even small efforts can lead to significant results. Encouraging the audience to consider what they have always wanted to try and commit to it for the next 30 days, the speaker emphasizes the potential for personal growth within this timeframe."
+}
+
+Test Name: Invalid URL Test
+Request: {
+    "key": "frontend",
+    "input": "notayoutubelink",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Full Video"
+}
+Response: {
+    "error": "Invalid YouTube URL"
+}
+
+Test Name: Exceed Video Duration Test
+Request: {
+    "key": "frontend",
+    "input": "https://www.youtube.com/watch?v=UNP03fDSj1U",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Timestamp",
+    "startTime": "00:00",
+    "endTime": "00:05"
+}
+Response: {
+    "error": "Start or end time exceeds video duration."
+}
+
+Test Name: Valid Timestamps Test
+Request: {
+    "key": "frontend",
+    "input": "https://www.youtube.com/watch?v=UNP03fDSj1U",
+    "type": 2,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "option": "Timestamp",
+    "startTime": "00:01",
+    "endTime": "00:03"
+}
+Response: {
+    "summary": "The YouTube video transcript highlights the transformative power of engaging in 30-day challenges. By pushing oneself to complete various challenges such as writing a novel in a month or hiking up Mount Kilimanjaro, the speaker experienced an increase in self-confidence and a shift towards a more adventurous lifestyle. They emphasize the importance of making small, sustainable changes to achieve lasting results. The key takeaway is that committing to short-term challenges can lead to significant personal growth and accomplishments."
+}
+

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import "./css/URLShortenerStyle.css";
-import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.js'
 import DialogBox from '../components/DialogBox.js';
 /**
@@ -73,12 +72,12 @@ const URLShortener = () => {
             else if (String(window.performance.getEntries()[0].type) === "reload") {
                 setURL("")
             }
-            console.log("push")
+            //console.log("push")
         } else {
             //setInputState("I love decew!!!!")
-            console.log("pop")
+            //console.log("pop")
         }
-    }, []);
+    }, [parsedState]);
     
     //useEffect to fetch the user's username to display in the 'custom short link preview', ONLY if they are logged in
     useEffect(() => {
