@@ -83,8 +83,8 @@ const Dashboard = () => {
           </div>
           <div className='user-name'>{username}</div>
           <div className='dashboard-options'>
-            <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory className='dash-option-icon' />History</button>
-            <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate className='dash-option-icon' />Templates</button>
+            <button className={`dash-option ${activeComponent === 'History' ? 'active' : ''}`} onClick={() => handleOptionClick('History')}><MdHistory data-testid='history' className='dash-option-icon' />History</button>
+            <button className={`dash-option ${activeComponent === 'Templates' ? 'active' : ''}`} onClick={() => handleOptionClick('Templates')}><TbTemplate data-testid='templates' className='dash-option-icon' />Templates</button>
             <button className={`dash-option ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' />API Access</button>
             <button className={`dash-option ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon' />Settings</button>
             <button className='dash-option logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon' />Logout</button>
