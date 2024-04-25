@@ -74,7 +74,7 @@ class SimpleURLShortener:
         #shortURL = f"http://127.0.0.1:5002/{username}-{customString}" #Delete
 
         #shortURL = f"http://4p02shortify.com/s/{username}/{encodedCustomString}" #For server use only
-        shortURL = f"http://127.0.0.1:5002/{username}/{encodedCustomString}"
+        shortURL = f"http://127.0.0.1:5002/s/{username}/{encodedCustomString}"
         
 
 
