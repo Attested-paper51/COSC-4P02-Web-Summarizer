@@ -14,7 +14,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def summarize(text, tone, style, length, cite=None):
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
+            model="gpt-4-turbo",
             messages=[
                 {"role": "system", "content": f"You are a powerful summarization tool. Your task is to summarize the provided text with a {tone} tone. The summary should be in {style} form. give me a {length} summary. {cite}"},
                 {"role": "user", "content": text}
@@ -34,7 +34,6 @@ def processYouTubeURL(url, option, tone, style, length, startTime=0, endTime=0):
         return error, result
     else:
         extractedText = "YouTube Video Transcript: " + result
-        print(extractedText)
         return summarize(extractedText, tone, style, length)
  
 
@@ -47,11 +46,11 @@ def processURL(url, tone, style, length, cite=None):
         return error, result
     else:
         if cite == 'APA':
-            cite = f"After the summary, add a citation on a new line using APA style, with in-text citations where appropriate. Use the term 'Reference' for the citation. Ensure the citation is accurately formatted according to APA guidelines. The URL to be cited is {url}."
+            cite = f"After the summary, add a citation on a new line using APA style. Use the term 'Reference' for the citation. Ensure the citation is accurately formatted according to APA guidelines. The URL to be cited is {url}."
         elif cite == 'MLA':
-            cite = f"After the summary, add a citation on a new line using MLA style, with in-text citations where appropriate. Use the term 'Citation' for the citation. Ensure the citation is accurately formatted according to MLA guidelines. The URL to be cited is {url}."
+            cite = f"After the summary, add a citation on a new line using MLA style. Use the term 'Citation' for the citation. Ensure the citation is accurately formatted according to MLA guidelines. The URL to be cited is {url}."
         elif cite == 'Chicago':
-            cite = f"After the summary, add a citation on a new line using Chicago style with footnotes where appropriate. Use the term 'Bibliography' for the citation. Ensure the citation is accurately formatted according to Chicago style guidelines. The URL to be cited is {url}."
+            cite = f"After the summary, add a citation on a new line using Chicago style. Use the term 'Bibliography' for the citation. Ensure the citation is accurately formatted according to Chicago style guidelines. The URL to be cited is {url}."
 
         extractedText = "URL content: " + result
         return summarize(extractedText, tone, style, length, cite)

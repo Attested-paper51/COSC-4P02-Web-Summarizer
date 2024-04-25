@@ -390,6 +390,12 @@ a {
 .popup-dark{
   background-color: var(--clr-accent4);
 }
+.link-style-light{
+  color: var(--clr-btn-light);
+}
+.link-style-dark{
+  color: var(--clr-btn-dark);
+}
 
 /* API Access Popup */
 .copy-dark{

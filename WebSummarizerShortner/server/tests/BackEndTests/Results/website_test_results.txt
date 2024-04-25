@@ -1,0 +1,69 @@
+Test Name: Invalid URL Test
+Request: {
+    "key": "frontend",
+    "input": "https://thisisdefinitelynotavalidurl.com",
+    "type": 1,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short"
+}
+Response: {
+    "error": "error processing url"
+}
+
+Test Name: Valid URL with No Citation Citation
+Request: {
+    "key": "frontend",
+    "input": "https://en.wikipedia.org/wiki/Main_Page",
+    "type": 1,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "citation": "No Citation"
+}
+Response: {
+    "summary": "Wikipedia is a free encyclopedia that allows anyone to edit its content. The article provides information about Blair Peach, a New Zealand teacher and activist who died in 1979 during an anti-racism demonstration in London. The investigation revealed that Peach was fatally hit by a police officer, resulting in compensation for his family and the establishment of an award in his honor. The article also includes snippets of other featured content on Wikipedia, such as information about recent news, historical events, and notable individuals. Additionally, it offers links to different sections of Wikipedia and its sister projects. The platform is maintained by volunteer editors and hosted by the Wikimedia Foundation, providing access to a wide range of articles in multiple languages."
+}
+
+Test Name: Valid URL with APA Citation
+Request: {
+    "key": "frontend",
+    "input": "https://en.wikipedia.org/wiki/Main_Page",
+    "type": 1,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "citation": "APA"
+}
+Response: {
+    "summary": "Blair Peach, a New Zealand teacher and activist, tragically died during an anti-racism demonstration in Southall, London, in 1979. An investigation revealed that he was fatally struck by a police officer, leading to compensation for his family and the establishment of awards and a school in his honor. The full report on his death was not released to the public until 2009. (\"Blair Peach,\" n.d.)\n\nReference:\nBlair Peach. (n.d.). In Wikipedia. Retrieved from https://en.wikipedia.org/wiki/Main_Page"
+}
+
+Test Name: Valid URL with MLA Citation
+Request: {
+    "key": "frontend",
+    "input": "https://en.wikipedia.org/wiki/Main_Page",
+    "type": 1,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "citation": "MLA"
+}
+Response: {
+    "summary": "Blair Peach, a New Zealand teacher and activist, tragically died during an anti-racism demonstration in Southall, London, in 1979. An investigation revealed he was fatally hit on the head by a Metropolitan Police officer, leading to compensations and honors in Peach's name. The full report on his death was not made public until many years later, highlighting the aftermath and impact of the incident. (\"Blair Peach\") \n\nCitation\n\"Wikipedia.\" Wikipedia, Wikimedia Foundation, 7 Mar. 2024, https://en.wikipedia.org/wiki/Main_Page."
+}
+
+Test Name: Valid URL with Chicago Citation
+Request: {
+    "key": "frontend",
+    "input": "https://en.wikipedia.org/wiki/Main_Page",
+    "type": 1,
+    "tone": "Standard",
+    "style": "Paragraph",
+    "length": "short",
+    "citation": "Chicago"
+}
+Response: {
+    "summary": "Wikipedia is a widely accessible online encyclopedia where users can edit and contribute to articles across a variety of topics. One notable case featured on the site is that of Blair Peach, a New Zealand teacher and activist who tragically died during an anti-racism demonstration in London in 1979. An investigation revealed he was fatally hit on the head by a police officer. Despite initial obstruction and a delayed release of the full investigation report, Peach's family received compensation and various honors were bestowed upon him, including an award by the National Union of Teachers and a school named after him in Southall.^1\n\nBibliography\nhttps://en.wikipedia.org/wiki/Main_Page"
+}
+

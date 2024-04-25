@@ -4,6 +4,9 @@ import {
   numberInputClasses,
 } from '@mui/base/Unstable_NumberInput';
 import { styled } from '@mui/system';
+/**
+ * NumberInput defines the input fields for the timestamp values in Summarizer
+ */
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
   return (

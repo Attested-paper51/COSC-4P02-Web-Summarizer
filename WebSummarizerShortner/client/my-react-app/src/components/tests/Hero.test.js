@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen, rerender } from '@testing-library/react';
+import { render, screen, fireEvent, rerender, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Hero from '../Hero'; // Update the path
+import Hero from '../Hero.js'; 
+import Summarizer from '../Summarizer.js'
 
 // Mocking the useTheme hook
 jest.mock('../../context/ThemeContext.js', () => ({
@@ -29,5 +30,19 @@ describe('Hero component', () => {
     const heroContainer = screen.getByTestId('hero-container');
     expect(heroContainer).toHaveClass('hero-light');
   });
+
+  // test('switches to the Summarizer on try it now button click', () => {
+  //   render(
+  //     <Router>
+  //       <Hero />
+  //       <Summarizer />
+  //     </Router>
+  //   );
+
+  //   const summarizerButton = screen.getByText('Try it now!');
+  //   fireEvent.click(summarizerButton);
+
+  //   expect(screen.getByText('Summarizer')).toBeInTheDocument();
+  // });
 
 });

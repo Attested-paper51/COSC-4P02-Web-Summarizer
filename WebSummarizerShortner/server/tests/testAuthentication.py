@@ -1,4 +1,12 @@
 from flask_cors import CORS
+import sys
+import os
+# Get the absolute path to the parent directory of the current file
+current_file_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.abspath(os.path.join(current_file_directory, ".."))
+
+# Append the parent directory to sys.path
+sys.path.append(parent_directory)
 from authentication import Authentication
 import time
 import pytest
@@ -117,13 +125,12 @@ def testAddTemplate():
     word_count = 100
     formality = "formal"
     structure = "structured"
-    num_paragraphs = 3
     summ_type = "text"
     timestamps = "timestamp"
     template_name = "customTemplate1"
     length = "medium"
-    assert auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, length,template_name)
-    assert not auth.addTemplate(email, word_count, formality, structure, num_paragraphs, summ_type, timestamps, length,"Cheese")
+    assert auth.addTemplate(email, word_count, formality, structure, summ_type, timestamps, length,template_name)
+    assert not auth.addTemplate(email, word_count, formality, structure,  summ_type, timestamps, length,"Cheese")
 
 def testClearTemplate():
     email = "registerTest@gmail.com"
@@ -135,3 +142,30 @@ def testDeleteTemplates():
     email = "registerTest@gmail.com"
     assert auth.deleteTemplates(email)
     assert not auth.deleteTemplates("oop@gmail.com")
+
+
+def testGetTemplate():
+    email = "anderson.amani13@gmail.com"
+    templateName = "customTemplate1"
+    wrong = "t3rnf2"
+    assert auth.getTemplate(email,templateName)
+    assert not auth.getTemplate(email,wrong)
+
+def checkTemplateInUse():
+    email = "anderson.amani13@gmail.com"
+    templateName = "customTemplate1"
+    wrong = "3r2fjm"
+    email2 = "registerTest@gmail.com"
+    temp2 = "customTemplate2"
+    assert auth.checkTemplateInUse(email,templateName)
+    assert not auth.checkTemplateInUse(email,wrong)
+    assert auth.checkTemplateInUse(email2,temp2)
+
+def testAddFeedback():
+    assert auth.addFeedback(3,"nice!")
+
+def testAddSummarized():
+    email = "registerTest1@gmail.com"
+    notEmail = "wemfi2@n1d"
+    assert auth.addSummarizedHistory("input Test","out test",email)
+    assert auth.addSummarizedHistory("in","out",notEmail) == -1

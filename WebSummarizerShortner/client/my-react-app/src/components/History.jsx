@@ -5,8 +5,15 @@ import { MdCheckBox } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
+import { useTheme } from '../context/ThemeContext.js'
 
+/**
+ *  History defines the history page of the user dashboard where a user can see their summarization and URL shortener history
+ * @returns History page
+ */
 const History = () => {
+
+  const { darkMode } = useTheme();
 
   const [showSumSection, setShowSumSection] = useState(false); // State for Web Summarizer section
   const [showShortSection, setShowShortSection] = useState(false); // State for URL Shortener section
@@ -18,16 +25,15 @@ const History = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [copied, setCopied] = useState(false);
   const email = localStorage.getItem('email');
-  //let user = localStorage.getItem('user_id');
   const [username, setUsername] = useState('');
-  //console.log("username on History.js is: " + username);
+  //If the user clicks Summarizer
   const handleSumButtonClick = () => {
     setShowSumSection(true);
     setShowShortSection(false);
     setActiveButton('sum');
     fetchHistoryData();
   };
-
+  //If the user clicks shortener
   const handleShortButtonClick = () => {
     setShowShortSection(true);
     setShowSumSection(false);
@@ -35,9 +41,11 @@ const History = () => {
     fetchShortenedURLHistory();
   };
 
-   useEffect(() => {
-        console.log(email);
+  //Once the page is loaded, fetch the username
+  useEffect(() => {
+        
         const fetchUsername = async () => {
+          //Flask call to the backend
             try {
               //const response = await fetch('http://4p02shortify.com:5001/getusername', { //Server use only
                 const response = await fetch('http://localhost:5001/getusername', {
@@ -51,7 +59,7 @@ const History = () => {
                 if (response.ok) {
                     const result = await response.json();
                     setUsername(result.message);
-                    console.log(username);
+                    
                 } else {
                     console.error('Failed to fetch username');
                 }
@@ -66,7 +74,7 @@ const History = () => {
     }, [email]);
 
 
-  // Function to fetch history data from the Flask backend
+  // Function to fetch history data from the Flask backend (summarizer history)
   const fetchHistoryData = async () => {
     try {
       //const response = await fetch('http://4p02shortify.com:5005/history', { //Server use only
@@ -80,7 +88,7 @@ const History = () => {
       if (response.ok) {
         const data = await response.json();
         setHistoryData(data.history);
-        //console.log(data.history);
+        
       } else {
         console.error('Failed to fetch history data');
       }
@@ -89,9 +97,10 @@ const History = () => {
     }
   };
 
-
+  // Function to fetch shortener history
   const fetchShortenedURLHistory = async () => {
     try {
+      //Flask fetch call to the backend
       //const response = await fetch('http://4p02shortify.com:5005/shortenedHistory', { //Server use only
         const response = await fetch('http://localhost:5005/shortenedHistory', {
             method: 'POST',
@@ -113,7 +122,7 @@ const History = () => {
 };
 
 
- 
+  //Handling the changing of the checkbox selected
   const handleCheckboxChange = (id) => {
     setSelectedRows(prevSelectedRows => ({
       ...prevSelectedRows,
@@ -121,44 +130,46 @@ const History = () => {
     }));
   };
 
- 
+  //Selecting all of the history rows
   const handleSelectAll = () => {
   if (!selectAll) {
     const allSelected = historyData.reduce((acc, item) => {
       acc[item[0]] = true;
       return acc;
     }, {});
-    console.log("Selecting All:", allSelected);
+    //console.log("Selecting All:", allSelected);
     setSelectedRows(allSelected);
     setSelectAll(true);
   } else {
-    console.log("Clearing Selection");
+    //console.log("Clearing Selection");
     setSelectedRows({});
     setSelectAll(false);
   }
 };
 
-
+//Selecting all of the shortener history rows
 const handleSelectAllShortened = () => {
   if (!selectAll) {
     const allSelected = data.reduce((acc, item) => {
       acc[item[0]] = true;
       return acc;
     }, {});
-    console.log("Selecting All:", allSelected);
+    //console.log("Selecting All:", allSelected);
     setSelectedRows(allSelected);
     setSelectAll(true);
   } else {
-    console.log("Clearing Selection");
+    //console.log("Clearing Selection");
     setSelectedRows({});
     setSelectAll(false);
   }
 };
 
+// handling the deletion of selected history rows for summarizer history
 const handleDelete = async () => {
   const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
   for (const historyID of selectedIds) {
     try {
+      //const response = await fetch('http://4p02shortify.com:5005/deleteHistory', { //Server use only
       const response = await fetch('http://localhost:5005/deleteHistory', {
         method: 'POST',
         headers: {
@@ -181,10 +192,12 @@ const handleDelete = async () => {
   setSelectAll(false); // Reset select all
 };
 
+//Handling the deletion of selected rows for the shortener history
 const handleDeleteShortenedURL = async () => {
   const selectedIds = Object.keys(selectedRows).filter(id => selectedRows[id]);
   for (const urlID of selectedIds) {
     try {
+      //const response = await fetch('http://4p02shortify.com:5005/deleteURL', { //Server use only
       const response = await fetch('http://localhost:5005/deleteURL', {
         method: 'POST',
         headers: {
@@ -206,6 +219,7 @@ const handleDeleteShortenedURL = async () => {
   setCopied(false);
   setSelectAll(false); // Reset select all
 };
+
 
 const handleCopy = () => {
   const activeData = showSumSection ? historyData : data;
@@ -260,7 +274,7 @@ const hasSelectedRows = () => {
     {showSumSection && (
       <div className='sum-section'>
         <div className='btn-section'>
-          <button className='control-btn' onClick={handleSelectAll}>
+          <button className='control-btn' onClick={handleSelectAll} data-testid='select-all-button'>
             {selectAll ? <MdCheckBox className='checkbox-icon' /> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
           </button>
           {hasSelectedRows() && (
@@ -283,13 +297,13 @@ const hasSelectedRows = () => {
           <tr key={item[0]}>
             <td>
               <label className='custom-checkbox'>
-                <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} />
+                <input type="checkbox" checked={!!selectedRows[item[0]]} onChange={() => handleCheckboxChange(item[0])} data-testid='checkbox'/>
                 {selectedRows[item[0]] ? <MdCheckBox className='checkbox-icon'/> : <MdOutlineCheckBoxOutlineBlank className='checkbox-icon' />}
               </label>
             </td>
             <td className='scrollable'>
               {isURL(item[1]) ? (
-                <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+                <a href={item[1]} target="_blank" rel="noopener noreferrer" className={`link-style ${darkMode ? 'link-style-dark' : 'link-style-light'}`}>{item[1]}</a>
               ) : item[1]}
             </td>
             <td className='scrollable'>{item[2]}</td>
@@ -333,10 +347,10 @@ const hasSelectedRows = () => {
                     </label>
                   </td>
                   <td className='scrollable'>
-                    <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+                    <a href={item[1]} target="_blank" rel="noopener noreferrer" className={`link-style ${darkMode ? 'link-style-dark' : 'link-style-light'}`}>{item[1]}</a>
                   </td>
                   <td className='scrollable'>
-                    <a href={item[2]} target="_blank" rel="noopener noreferrer" className="link-style">{item[2]}</a>
+                    <a href={item[2]} target="_blank" rel="noopener noreferrer" className={`link-style ${darkMode ? 'link-style-dark' : 'link-style-light'}`}>{item[2]}</a>
                   </td>
                   <td>{item[3]}</td>
                 </tr>

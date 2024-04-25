@@ -3,7 +3,10 @@ import "./css/APIAccessStyle.css";
 import { useTheme } from '../context/ThemeContext.js'
 import PopUp from './PopUp.js';
 import { FaRegCopy, FaCopy } from 'react-icons/fa';
-
+/**
+ * APIAccess defines the functionality for displaying the user's API access to our platform
+ * @returns APIAccess section of the Dashboard
+ */
 const APIAccess = () => {
 
   const { darkMode } = useTheme();
@@ -12,12 +15,14 @@ const APIAccess = () => {
   const [showShortSection, setShowShortSection] = useState(false); // State for URL Shortener section
   const [activeButton, setActiveButton] = useState('sum'); // State for active button
 
+  //Logic for if the user clicks the summarizer API access 
   const handleSumButtonClick = () => {
     setShowSumSection(true);
     setShowShortSection(false);
     setActiveButton('sum');
   };
 
+  //Logic for if the user clicks the shortener API access
   const handleShortButtonClick = () => {
     setShowShortSection(true);
     setShowSumSection(false);
@@ -26,7 +31,8 @@ const APIAccess = () => {
 
   const[APIKeyPopup, setAPIKeyPopup] = useState(false);
   const [APIKey, setAPIKey] = useState('');
-  const [CopyAPIKey, setCopyAPIKey] = useState(false)
+  const [CopyAPIKey, setCopyAPIKey] = useState(false);
+  //Handling copy of API key
   const handleCopy = () => {
         navigator.clipboard.writeText(APIKey)
         setCopyAPIKey(true)
@@ -34,10 +40,10 @@ const APIAccess = () => {
           setCopyAPIKey(false);
         }, 3000); // Reverts back to 'Submit' after 3 seconds
   }
-
+  //To return fetch the user's API key stored in the database
   const handleFetchAPIKey = async () => {
     const email = localStorage.getItem('email');
-
+    //Make a Flask POST call to backend
     try { 
       //const response = await fetch('http://4p02shortify.com:5001/getapikey', { //Server use only
       const response = await fetch('http://localhost:5001/getapikey', {
@@ -49,14 +55,13 @@ const APIAccess = () => {
         });
         if (response.ok) {
           const result = await response.json();
-          console.log(result.key);
           setAPIKey(result.key);
           setAPIKeyPopup(true);
 
         }
 
     }catch (error) {
-
+      console.log(error);
     }
   
   }
@@ -84,7 +89,7 @@ const APIAccess = () => {
             
             {/* <button className='api-key' onClick={() => setAPIKeyPopup(true)}> */}
             <button className='api-key' onClick={handleFetchAPIKey}>
-              <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+              <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} data-testid='btn-overlap-container'>
                 <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
               </div>
             </button>
@@ -222,7 +227,7 @@ const APIAccess = () => {
             <p> The API key must be provided when making requests to the API.  </p>
 
             <button className='api-key' onClick={handleFetchAPIKey}>
-            <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+            <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} data-testid='btn-overlap-container'>
               <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
             </div>
             </button>

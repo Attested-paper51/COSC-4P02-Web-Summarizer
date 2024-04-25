@@ -11,12 +11,12 @@ import ResetPasswordPage from './pages/ResetPasswordPage.js'
 import FeedbackPage from './pages/FeedbackPage.js';
 import UserDashboardPage from './pages/UserDashboardPage.js';
 import { AuthProvider } from './context/AuthContext.js';
-import { useTheme, ThemeProvider } from './context/ThemeContext.js';
+import { useTheme } from './context/ThemeContext.js';
 
 
 const App = () => {
   const {darkMode} = useTheme();
-  console.log({darkMode});
+  
   return (
         <div className={`App ${darkMode ? 'app-dark' : 'app-light'}`}>
           <AuthProvider>
@@ -40,30 +40,6 @@ const App = () => {
       );
 };
 
-// function App() {
 
-
-//   return (
-//     <div className="App">
-//       <AuthProvider>
-//       <Router>
-//         <div className={`App ${darkMode ? 'app-dark' : 'app-light'}`}>
-//           <Routes>
-//             <Route exact path="/" element={<HomePage />} />
-//             <Route path="/Summarizer" element={<SummarizerPage />} />
-//             <Route path="/Shortener" element={<ShortenerPage />} />
-//             <Route path="/Login" element={<AuthenticationPage />} />
-//             <Route path="/Signup" element={<CreateAccountPage />} />
-//             <Route path="/Verify" element={<VerifyUsernamePage />} />
-//             <Route path="/Reset" element={<ResetPasswordPage />} />
-//             <Route path="/Feedback" element={<FeedbackPage />} />
-//             <Route path="/Dashboard" element={<UserDashboardPage />} />
-//           </Routes>
-//         </div>
-//       </Router>
-//       </AuthProvider>
-//     </div>
-//   );
-// }
 
 export default App;

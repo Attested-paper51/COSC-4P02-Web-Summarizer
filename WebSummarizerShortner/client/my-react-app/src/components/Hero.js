@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import "./css/HeroStyle.css";
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.js';
 
+/**
+ * 
+ * @returns Hero section of the page
+ */
 const Hero = () => {
   
   const { darkMode } = useTheme();

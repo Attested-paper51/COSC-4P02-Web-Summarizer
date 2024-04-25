@@ -1,9 +1,13 @@
-import { FaQuoteRight, FaStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 import "./css/ReviewsStyle.css";
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css';
 import { useTheme } from '../context/ThemeContext.js';
 
+/**
+ * Reviews is a carousel of pre-written reviews of the website.
+ * @returns Reviews carousel
+ */
 const Reviews = () => {
 
     const { darkMode } = useTheme();
@@ -37,11 +41,11 @@ const Reviews = () => {
                 transitionDuration={600}
                 swipeable={true}
                 focusOnSelect={true}>
-                {data.map((d) => (
-                <div className={`review-container ${darkMode ? 'review-cont-dark' : 'review-cont-light'}`}>
+                {data.map((d, idx) => (
+                <div key={idx} className={`review-container ${darkMode ? 'review-cont-dark' : 'review-cont-light'}`}>
                     <div className='review-wrapper'> 
                         <div className='review-div'>
-                            <p className='review-text'>
+                            <p data-testid={`feedback-${idx}`} className='review-text'>
                                 {d.feedback}
                             </p>
                             { /*<FaQuoteRight className='right-quote' /> */}
@@ -50,7 +54,7 @@ const Reviews = () => {
                             {[...Array(5)].map((star,index) => {
                                 const currentRating = index + 1;
                                 return(
-                                    <label className='five-stars'>
+                                    <label key={index} className='five-stars'>
                                         <FaStar 
                                             className='review-star'  
                                             color={currentRating <= d.rating ? "#ffc107" : "#e4e5e9"}
