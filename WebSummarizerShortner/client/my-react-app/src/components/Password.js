@@ -34,7 +34,7 @@ const Password = () => {
       return;
   }
     //Make a Flask call to the backend to reset the password
-    //const response = await fetch('http://4p02shortify.com:5001/reset', { //Server use only
+    //const response = await fetch('https://4p02shortify.com:5001/reset', { //Server use only
     const response = await fetch('http://localhost:5001/reset', {
       method: 'POST',
       headers: {

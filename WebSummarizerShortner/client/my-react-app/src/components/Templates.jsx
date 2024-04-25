@@ -166,14 +166,14 @@ const Templates = () => {
         handleTemplateFetch2();
         handleTemplateFetch3();
 
-    });
+    },[]);
 
     //function to pull the values stored in the database for the template 1
     const handleTemplateFetch = async () => {
         const templatename = "customTemplate1";
         try {
             // Make a POST request to the Flask backend
-            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -255,7 +255,7 @@ const Templates = () => {
         try {
     
             // Make a POST request to the Flask backend
-            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -336,7 +336,7 @@ const Templates = () => {
         try {
     
             // Make a POST request to the Flask backend
-            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/gettemplate', { //Server use only
             const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
@@ -474,7 +474,7 @@ const Templates = () => {
         var templatename = "customTemplate1";
         //Save values in DB by making fetch call
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
             method: 'POST',
             headers: {
@@ -554,7 +554,7 @@ const Templates = () => {
         //Save values to template by making fetch call 
         try {
 
-            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
             method: 'POST',
             headers: {
@@ -640,7 +640,7 @@ const Templates = () => {
 
         //Save variables to template in DB by fetch call
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
             method: 'POST',
             headers: {
@@ -677,7 +677,7 @@ const Templates = () => {
         var templatename = "customTemplate1";
         //Clear the template on the server
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/cleartemplate', { //Server use only
             const response = await fetch('http://localhost:5001/cleartemplate', {
             method: 'POST',
             headers: {
@@ -711,7 +711,7 @@ const Templates = () => {
         var templatename = "customTemplate2";
         //Clear the template on the server
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/cleartemplate', { //Server use only
             const response = await fetch('http://localhost:5001/cleartemplate', {
             method: 'POST',
             headers: {
@@ -745,7 +745,7 @@ const Templates = () => {
             var templatename = "customTemplate3";
             //Clear the template on the server
             try {
-                //const response = await fetch('http://4p02shortify.com:5001/cleartemplate', { //Server use only
+                //const response = await fetch('https://4p02shortify.com:5001/cleartemplate', { //Server use only
                 const response = await fetch('http://localhost:5001/cleartemplate', {
                 method: 'POST',
                 headers: {

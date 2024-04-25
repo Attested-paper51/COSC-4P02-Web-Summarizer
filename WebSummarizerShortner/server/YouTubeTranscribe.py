@@ -67,6 +67,7 @@ def download_audio(video_url):
         }],
         #'ffmpeg_location': 'D:\\Hamza\'s\COSC_4P02\\ffmpeg-2024-04-15-git-5e380bcdb1-full_build\\ffmpeg-2024-04-15-git-5e380bcdb1-full_build\\bin',
        # 'ffmpeg_location': '../../../ffmpeg-2024-04-15-git-5e380bcdb1-full_build/ffmpeg-2024-04-15-git-5e380bcdb1-full_build/bin',  
+        'ffmpeg_location':'C:\\ffmpeg-master-latest-win64-gpl\\ffmpeg-master-latest-win64-gpl\\bin',
         'outtmpl': '%(id)s.%(ext)s',
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:

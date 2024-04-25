@@ -45,7 +45,7 @@ const APIAccess = () => {
     const email = localStorage.getItem('email');
     //Make a Flask POST call to backend
     try { 
-      //const response = await fetch('http://4p02shortify.com:5001/getapikey', { //Server use only
+      //const response = await fetch('https://4p02shortify.com:5001/getapikey', { //Server use only
       const response = await fetch('http://localhost:5001/getapikey', {
             method: 'POST',
             headers: {

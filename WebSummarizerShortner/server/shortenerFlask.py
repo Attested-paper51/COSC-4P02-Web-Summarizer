@@ -209,7 +209,7 @@ def getClicks():
 #Route to redirect to an original link when a short link is inputted into the browser
 @appS.route('/s/<path:short_url>')
 def redirectToOriginal(short_url):
-    #To allow for proper original URL resolution even when a custom word is used
+    #To allow for proper original URL resolution even when a custom word is given
     decodedShort = unquote(short_url)
 
     #fullURL = "http://4p02shortify.com/s/"+decodedShort #For server use only

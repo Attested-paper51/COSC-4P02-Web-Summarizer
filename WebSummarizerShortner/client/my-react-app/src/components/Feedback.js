@@ -22,7 +22,7 @@ const Feedback = () => {
         try {
     
             // Make a POST request to the Flask backend
-            //const response = await fetch('http://4p02shortify.com:5001/addfeedback', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/addfeedback', { //Server use only
             const response = await fetch('http://localhost:5001/addfeedback', {
                 method: 'POST',
                 headers: {

@@ -58,7 +58,7 @@ const defaultConfirm = () => {
 
         // Make a POST request to the Flask backend
         const response = await fetch('http://localhost:5001/login', {
-        //const response = await fetch('http://4p02shortify.com:5001/login', { //For server use only
+        //const response = await fetch('https://4p02shortify.com:5001/login', { //For server use only
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const defaultConfirm = () => {
 
         // Make a POST request to the Flask backend
         const response = await fetch('http://localhost:5001/logingoogle', {
-        //const response = await fetch('http://4p02shortify.com:5001/logingoogle', { //For server use only
+        //const response = await fetch('https://4p02shortify.com:5001/logingoogle', { //For server use only
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ const defaultConfirm = () => {
 
         // Make a POST request to the Flask backend
         const response = await fetch('http://localhost:5001/loginfacebook', {
-        //const response = await fetch('http://4p02shortify.com:5001/loginfacebook', { //For server use only
+        //const response = await fetch('https://4p02shortify.com:5001/loginfacebook', { //For server use only
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

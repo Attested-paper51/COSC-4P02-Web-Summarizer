@@ -215,7 +215,7 @@ const Summarizer = () => {
         // detects the condition of state transfer
         if (parsedState && parsedState.action === 'PUSH') {
             if (String(window.performance.getEntries()[0].type) === "navigate") {
-                toggleClicked(1)
+                toggleClicked(1);
                 setInputContent(parsedState.URL)
                 //console.log(parsedState)
                 //console.log(sessionStorage)
@@ -250,7 +250,7 @@ const Summarizer = () => {
     // thumbsUp makes a fetch to the server to increment the number of thumbs up by 1 when the button is clicked
     const thumbsUp = async () => {
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/thumbsup', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/thumbsup', { //Server use only
             const response = await fetch('http://localhost:5001/thumbsup', {
                 method: 'POST',
                 headers: {
@@ -271,7 +271,7 @@ const Summarizer = () => {
     // thumbsDown makes a fetch to the server to increment the number of thumbs down by 1 when the button is clicked
     const thumbsDown = async () => {
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/thumbsdown', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/thumbsdown', { //Server use only
             const response = await fetch('http://localhost:5001/thumbsdown', {
                 method: 'POST',
                 headers: {
@@ -401,7 +401,7 @@ const Summarizer = () => {
         }
 
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/addsummarized', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/addsummarized', { //Server use only
             const response = await fetch('http://localhost:5001/addsummarized', {
                 method: 'POST',
                 headers: {
@@ -473,7 +473,7 @@ const summarizeText = () => {
 
     
     fetch('http://127.0.0.1:5000/api/summarize', {
-    //fetch('http://4p02shortify.com:5000/api/summarize', { //For server use only
+    //fetch('https://4p02shortify.com:5000/api/summarize', { //For server use only
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -531,7 +531,7 @@ const summarizeText = () => {
 
             // Make a POST request to the Flask backend
             const response = await fetch('http://localhost:5001/gettemplate', {
-            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //For server use only
+            //const response = await fetch('https://4p02shortify.com:5001/gettemplate', { //For server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -673,7 +673,7 @@ const summarizeText = () => {
         
         // Make a POST request to the backend 
         try {
-            //const response = await fetch('http://4p02shortify.com:5001/savetemplate', { //Server use only
+            //const response = await fetch('https://4p02shortify.com:5001/savetemplate', { //Server use only
             const response = await fetch('http://localhost:5001/savetemplate', {
                 method: 'POST',
                 headers: {
@@ -703,8 +703,8 @@ const summarizeText = () => {
         }
         try {
             // Make a POST request to the Flask backend
-            //const response = await fetch('http://4p02shortify.com:5001/gettemplate', { //Server use only
-            const response = await fetch('http://localhost:5001/gettemplate', {
+            const response = await fetch('https://4p02shortify.com:5001/gettemplate', { //Server use only
+            //const response = await fetch('http://localhost:5001/gettemplate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

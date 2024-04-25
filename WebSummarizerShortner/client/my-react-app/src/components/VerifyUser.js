@@ -17,7 +17,7 @@ const VerifyUser = () => {
   //Verify a user's inputted email is in the database
   const handleSubmit = async() => {
     //Fetch call to the flask server
-    //const response = await fetch('http://4p02shortify.com:5001/verify', { //Server use only
+    //const response = await fetch('https://4p02shortify.com:5001/verify', { //Server use only
     const response = await fetch('http://localhost:5001/verify', {
       method: 'POST',
       headers: {

@@ -34,7 +34,7 @@ const Settings = () => {
   // handleDelete includes the logic for if the user decides to delete their account
   const handleDelete = async () => {
     try {
-      //const response = await fetch('http://4p02shortify.com:5001/delete', { //Server use only
+      //const response = await fetch('https://4p02shortify.com:5001/delete', { //Server use only
       const response = await fetch('http://localhost:5001/delete', {
             method: 'POST',
             headers: {
@@ -59,7 +59,7 @@ const Settings = () => {
 
     // Fetch Flask backend functionality
     try {
-      //const response = await fetch('http://4p02shortify.com:5001/changeemail', { //Server use only
+      //const response = await fetch('https://4p02shortify.com:5001/changeemail', { //Server use only
       const response = await fetch('http://localhost:5001/changeemail', {
             method: 'POST',
             headers: {
@@ -90,7 +90,7 @@ const Settings = () => {
   const handleNameChange = async () => {
   // POST fetch to Flask backend
     try {
-      //const response = await fetch('http://4p02shortify.com:5001/changename', { //Server use only
+      //const response = await fetch('https://4p02shortify.com:5001/changename', { //Server use only
       const response = await fetch('http://localhost:5001/changename', {
             method: 'POST',
             headers: {

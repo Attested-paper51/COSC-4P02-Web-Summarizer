@@ -86,7 +86,7 @@ const URLShortener = () => {
         const fetchUsername = async () => {
             try {
                 
-                //const response = await fetch('http://4p02shortify.com:5001/getusername', { //For server use only
+                //const response = await fetch('https://4p02shortify.com:5001/getusername', { //For server use only
                 const response = await fetch('http://localhost:5001/getusername', {
                     method: 'POST',
                     headers: {
@@ -126,7 +126,7 @@ const URLShortener = () => {
         //Shorten the link by making a fetch call to Flask server
         try {
             const response = await fetch('http://127.0.0.1:5002/shorten', {
-            //const response = await fetch('http://4p02shortify.com:5002/shorten', { //for server use only
+            //const response = await fetch('https://4p02shortify.com:5002/shorten', { //for server use only
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
