@@ -84,7 +84,7 @@ const APIAccess = () => {
             
             {/* <button className='api-key' onClick={() => setAPIKeyPopup(true)}> */}
             <button className='api-key' onClick={handleFetchAPIKey}>
-              <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+              <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} data-testid='btn-overlap-container'>
                 <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
               </div>
             </button>
@@ -222,7 +222,7 @@ const APIAccess = () => {
             <p> The API key must be provided when making requests to the API.  </p>
 
             <button className='api-key' onClick={handleFetchAPIKey}>
-            <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+            <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} data-testid='btn-overlap-container'>
               <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>
             </div>
             </button>

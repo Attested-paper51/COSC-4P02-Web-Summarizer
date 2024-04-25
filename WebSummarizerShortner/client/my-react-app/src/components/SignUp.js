@@ -167,7 +167,7 @@ const SignUp = () => {
   });
 
   return (
-    <div className={`box ${darkMode ? 'login-dark' : 'login-light'}`}>
+    <div className={`box ${darkMode ? 'login-dark' : 'login-light'}`} data-testid='box-container'>
       <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
         <div className='form-title'>Create an account</div>
         <div className="form-subtitle">Join us to access to Tailored Summaries, Analytics, API Integration and more!</div>
@@ -179,7 +179,8 @@ const SignUp = () => {
             required
             value={name}
             onChange={handleNameChange}
-            placeholder='Enter name here' 
+            placeholder='Enter name here'
+            data-testid='textfield-container' 
           />
           {nameError && <div className={`email-error ${darkMode ? 'error-dark' : 'error-light'}`}>{nameError}</div>}
         </div>
