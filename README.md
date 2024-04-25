@@ -23,7 +23,7 @@ When looking for quick access to relevant material in the age of technology, peo
 The objective is to create a program where the input would be a YouTube video or a webpage URL and the output would include a shorter URL for simple sharing. Additionally, the tool will make use of Large Language Models (LLMs) or Natural Language Processing (NLP) to provide short and insightful summaries of web content. Both free and premium aspects of the application would be available, such as user dashboard, social media integration, API access, and custom summarization levels.
 
 
-# Getting Started with Create React App
+# Getting Started with the Frontend Setup
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -31,18 +31,48 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+## Step 1: Install node_modules
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Installs the required libraries for the React app.\
+First, navigate to the project's `client/my-react-app` directory. Then use the following command:
+```bash
+npm install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Step 2: Other installations
 
-### `npm test`
+Installs the required libraries for the React app.\
+First, navigate to the project's `client/my-react-app` directory. Then use the following command:
+These are the up to date installations for UI
+install in WebSummarizerShortener/Client/my-react-app:
+<ul>
+<li>react-router </li><br>
+<li>react-icons </li><br>
+<li>mui: npm install @mui/material @emotion/react @emotion/styled </li><br>
+<li>npm install react-multi-carousel —save </li><br> 
+<li>npm install @fortawesome/react-fontawesome </li><br>
+<li>npm install gapi-script </li><br>
+<li>npm install jwt-decode </li><br>
+<li>npm install --save-dev jest </li><br>
+</ul>
+
+## Step 3: Run the App on the Frontend
+
+Runs the app on the development server.\
+First, navigate to the project's `client/my-react-app` directory. Then use the following command:
+```bash
+npm start
+```
+
+## Other Steps: Testing
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+First, navigate to the project's `client/my-react-app` directory. Then use the following command:
+```bash
+npm test
+```
 
 ### `npm run build`
 
@@ -64,35 +94,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+##
 
 
 # Backend Setup Instructions
