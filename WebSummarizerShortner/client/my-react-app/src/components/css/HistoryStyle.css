@@ -286,7 +286,7 @@
 }
 
 .link-style {
-    color: #0645AD;
+    /* color: #0645AD; */
     /* Traditional blue for web links */
     text-decoration: none;
     /* No underline by default */

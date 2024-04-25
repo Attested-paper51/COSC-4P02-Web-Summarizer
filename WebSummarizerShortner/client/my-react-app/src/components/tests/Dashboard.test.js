@@ -35,13 +35,12 @@ describe('Dashboard component', () => {
   });
 
   test('renders History component when History option is clicked', () => {
-    const { getByRole, getByTestId } = render(<Router><Dashboard/></Router>);
-    const historyButton = getByRole('button', { name: /history/i });
+    render(<Router><Dashboard/></Router>);
 
-    fireEvent.click(historyButton);
+    fireEvent.click(screen.getByTestId('history'));
 
-    expect(screen.getByText('Web Summarizer')).toBeInTheDocument();
-    expect(screen.getByText('URL Shortener')).toBeInTheDocument();
+    expect(screen.getByText('Web Summarizer History')).toBeInTheDocument();
+    expect(screen.getByText('URL Shortener History')).toBeInTheDocument();
     
   });
 

@@ -4,17 +4,16 @@ import Reviews from '../Reviews';
 
 
 // Mocking the useTheme hook
-jest.mock('../ThemeContext.js', () => ({
+jest.mock('../../context/ThemeContext.js', () => ({
     useTheme: () => ({
-      darkMode: false, // Set darkMode to false for testing
-      setDarkMode: jest.fn(), // Mock setDarkMode function
+        darkMode: false, // Set darkMode to false for testing
+        setDarkMode: jest.fn(), // Mock setDarkMode function
     }),
-  }));
+}));
 
 describe('<Reviews />', () => {
   test('renders without crashing', () => {
     render(<Reviews />);
-    console.log(Reviews)
   });
 
 //   test('at least one feedback from data is rendered in the document', () => {

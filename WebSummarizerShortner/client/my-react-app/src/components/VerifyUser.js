@@ -56,8 +56,8 @@ const VerifyUser = () => {
   };
 
   return (
-    <div className={`verify-box ${darkMode ? 'login-dark' : 'login-light'}`}>
-      <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`}>
+    <div className={`verify-box ${darkMode ? 'login-dark' : 'login-light'}`} data-testid='verify-box-container'>
+      <div className={`form ${darkMode ? 'form-dark' : 'form-light'}`} >
         <div className='form-title'>Verifying User</div>
         <div className="form-subtitle">Forgot your password? Don't worry, it happens! Enter your email below to reset your password</div>
         

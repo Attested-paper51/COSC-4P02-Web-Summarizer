@@ -209,6 +209,7 @@ const URLShortener = () => {
                                     value={customWord}
                                     onChange={handleCustomWordChange}
                                     placeholder='Enter custom word' 
+                                    data-testid='custom-input'
                                 />
                                 <button 
                                     className={`shorten-custom ${darkMode ? 'btn-dark' : 'btn-light'}`} 
