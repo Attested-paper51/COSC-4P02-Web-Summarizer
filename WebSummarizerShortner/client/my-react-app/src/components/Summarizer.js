@@ -116,7 +116,6 @@ const Summarizer = () => {
             emptyTextContent()
             showShorten(false)
             setTemplate(templates[0])
-
         }
     }
 
@@ -179,7 +178,11 @@ const Summarizer = () => {
         }
 
         // conditions for showing the link to Url Shortener
+        console.log("************************")
+        console.log(isClicked)
+        console.log(outputContent)
         if ((isClicked === 1 || isClicked === 2) && outputContent !== '') {
+            console.log("SHORTEN IS TRUE")
             showShorten(true)
         }   
         else if (isClicked === 0)
@@ -845,6 +848,7 @@ const summarizeText = () => {
                                 className={`customSumBtn clamp-text ${isClicked === 0 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(0)}>Text</button>
                             <button
+                                id = 'website-url'
                                 className={`customSumBtn ${isClicked === 1 ? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`}
                                 onClick={() => toggleClicked(1)}>Website URL</button>
                             <button
@@ -853,7 +857,7 @@ const summarizeText = () => {
                         </div>
 
                         <div className="main-content">
-                            {userEmail &&  
+                            {!userEmail &&  
 
                             <div className={`premium-container ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
@@ -1307,9 +1311,9 @@ const summarizeText = () => {
                                             </Tooltip>
                                         </div>
                                         
-                                        { shorten &&
+                                        {
                                             <a href="/Shortener" onClick={transferLink}>
-                                                <button className="summarize-btn">
+                                                <button className="summarize-btn" id="shorten-button">
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
                                                         <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten your URL</div>
                                                     </div>
