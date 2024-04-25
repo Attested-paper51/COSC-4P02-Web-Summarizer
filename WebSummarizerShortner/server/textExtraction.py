@@ -7,7 +7,7 @@ import time
 def extract_text_from_url(url):
     try:
         options = Options()
-        options.headless = False
+        options.headless = True
         logging.getLogger('urllib3.connectionpool').setLevel(logging.ERROR)
         browser = webdriver.Chrome(options=options)
         browser.get(url)
