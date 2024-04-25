@@ -5,11 +5,15 @@ import { MdCheckBox } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
 import { FaCopy } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
+import { useTheme } from '../context/ThemeContext.js'
+
 /**
  *  History defines the history page of the user dashboard where a user can see their summarization and URL shortener history
  * @returns History page
  */
 const History = () => {
+
+  const { darkMode } = useTheme();
 
   const [showSumSection, setShowSumSection] = useState(false); // State for Web Summarizer section
   const [showShortSection, setShowShortSection] = useState(false); // State for URL Shortener section
@@ -299,7 +303,7 @@ const hasSelectedRows = () => {
             </td>
             <td className='scrollable'>
               {isURL(item[1]) ? (
-                <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+                <a href={item[1]} target="_blank" rel="noopener noreferrer" className={`link-style ${darkMode ? 'link-style-dark' : 'link-style-light'}`}>{item[1]}</a>
               ) : item[1]}
             </td>
             <td className='scrollable'>{item[2]}</td>
@@ -343,10 +347,10 @@ const hasSelectedRows = () => {
                     </label>
                   </td>
                   <td className='scrollable'>
-                    <a href={item[1]} target="_blank" rel="noopener noreferrer" className="link-style">{item[1]}</a>
+                    <a href={item[1]} target="_blank" rel="noopener noreferrer" className={`link-style ${darkMode ? 'link-style-dark' : 'link-style-light'}`}>{item[1]}</a>
                   </td>
                   <td className='scrollable'>
-                    <a href={item[2]} target="_blank" rel="noopener noreferrer" className="link-style">{item[2]}</a>
+                    <a href={item[2]} target="_blank" rel="noopener noreferrer" className={`link-style ${darkMode ? 'link-style-dark' : 'link-style-light'}`}>{item[2]}</a>
                   </td>
                   <td>{item[3]}</td>
                 </tr>
