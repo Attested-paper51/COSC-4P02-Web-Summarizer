@@ -135,6 +135,7 @@ const Password = () => {
                 onClick={(e) => setPass(e.target.value)}
                 onChange={handleInputChange}
                 placeholder='Enter password here' 
+                data-testid='password-input'
               />
               <div className='hide-pass1' onClick = {() => setVisible(!visible)}>
                 {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
@@ -174,6 +175,7 @@ const Password = () => {
                 value={finalPass}
                 onChange={handleConfirmChange} 
                 placeholder='Enter password here' 
+                data-testid='repassword-input'
               />
               <div className='hide-pass2' onClick = {() => setVisible1(!visible1)}>
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}

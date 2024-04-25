@@ -212,6 +212,7 @@ const SignUp = () => {
                   onClick={(e)=> { setPass(e.target.value); }}
                   onChange={handleInputChange}
                   placeholder='Enter password here' 
+                  data-testid='password-input'
                 />
               <div className='hide-pass1' onClick = {() => setVisible(!visible)}>
                 {visible ? <FaRegEye/> : <FaRegEyeSlash/>}
@@ -221,19 +222,19 @@ const SignUp = () => {
             {checklist && 
             <div className='pass-checklist'>
               <div>
-              <p id='length'>
+              <p id='length' data-testid="length">
                 <FontAwesomeIcon className='fa-times icon' icon={faTimes}/>
-                <FontAwesomeIcon className='fa-check icon' icon={faCheck}/>
+                <FontAwesomeIcon data-testid="fa-check-length" className='fa-check icon' icon={faCheck}/>
                 <span>8 to 20 characters long</span>
               </p>
-              <p id='uppercase'>
+              <p id='uppercase' data-testid="uppercase">
                 <FontAwesomeIcon className='fa-times icon' icon={faTimes}/>
-                <FontAwesomeIcon className='fa-check icon' icon={faCheck}/>
+                <FontAwesomeIcon data-testid="fa-check-uppercase" className='fa-check icon' icon={faCheck}/>
                 <span>Atleast 1 uppercase letter</span>
               </p>
-              <p id='number'>
+              <p id='number' data-testid="number">
                 <FontAwesomeIcon className='fa-times icon' icon={faTimes}/>
-                <FontAwesomeIcon className='fa-check icon' icon={faCheck}/>
+                <FontAwesomeIcon data-testid="fa-check-number" className='fa-check icon' icon={faCheck}/>
                 <span>Atleast 1 number</span>
               </p>
               </div>
@@ -266,6 +267,7 @@ const SignUp = () => {
                 //onClick={handleConfirmChange}
                 // onChange={(e) => setPass(e.target.value)}
                 placeholder='Enter password here' 
+                data-testid='repassword-input'
               />
               <div className='hide-pass2' onClick = {() => setVisible1(!visible1)}>
                   {visible1 ? <FaRegEye/> : <FaRegEyeSlash/>}
@@ -276,7 +278,7 @@ const SignUp = () => {
 
         <button className="signup-btn" onClick={handleSubmit}>
           <div className={`signup-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-            <div className={`signup ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
+            <div data-testid='create-account' className={`signup ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Create an account</div>
           </div>
         </button>
         
