@@ -301,7 +301,7 @@ const defaultConfirm = () => {
         </Link>
         
       </div>
-      <div className={`account ${darkMode ? 'account-dark' : 'account-light'}`}>
+      <div className={`account ${darkMode ? 'account-dark' : 'account-light'}`} data-testid='account-container'>
           <div className="join">
             Upgrade to Pro for FREE and unlock Tailored Summaries, Analytics and API Integration!
           </div>
