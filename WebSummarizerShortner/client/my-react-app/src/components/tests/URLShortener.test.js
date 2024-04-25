@@ -39,5 +39,5 @@ describe('URLShortener Component', () => {
 
 
 
-  // You can write similar tests for other functionalities like URL shortening, custom word handling, etc.
+  
 });

@@ -778,7 +778,7 @@ return (
                     <div className="save-custom-info">
                         {/**handle save for template 1 here */}
                         <button className='summarize-btn' onClick={handleClickSave}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} data-testid='summarize-btn-container'>
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save</div>
                             </div>
                         </button>
@@ -792,7 +792,7 @@ return (
                     </div>       
                 </div>     
             </div>
-            <div class="button-container">
+            <div className="button-container">
                 <button 
                     className={`customSumBtn clamp-text ${isClicked === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
                     onClick={() => toggleClicked(0)}>Text</button>
@@ -967,21 +967,21 @@ return (
                 <div className='save-reset-btns'>
                     <div className="save-custom-info">
                         <button className='summarize-btn' onClick={handleClickSave2}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} >
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save</div>
                             </div>
                         </button>
                     </div>
                     <div className="reset-custom-info">
                         <button className='summarize-btn' onClick={handleClickClear2}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} >
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Reset</div>
                             </div>
                         </button>
                     </div>       
                 </div>     
             </div>
-            <div class="button-container">
+            <div className="button-container">
                 <button 
                     className={`customSumBtn clamp-text ${isClicked2 === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
                     onClick={() => toggleClicked2(0)}>Text</button>
@@ -1156,7 +1156,7 @@ return (
                 <div className='save-reset-btns'>
                     <div className="save-custom-info">
                         <button className='summarize-btn' onClick={handleClickSave3}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
+                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} >
                                 <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save</div>
                             </div>
                         </button>
@@ -1170,7 +1170,7 @@ return (
                     </div>       
                 </div>     
             </div>
-            <div class="button-container">
+            <div className="button-container">
                 <button 
                     className={`customSumBtn clamp-text ${isClicked3 === 0? `${darkMode ? 'clicked-dark disabled-hover-dark' : 'clicked-light disabled-hover-light'}` : `${darkMode ? 'not-clicked-dark' : 'not-clicked-light'}`} ${darkMode ? 'btn-text-light' : 'btn-text-dark'}`} 
                     onClick={() => toggleClicked3(0)}>Text</button>

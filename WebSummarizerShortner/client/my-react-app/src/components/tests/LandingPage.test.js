@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import LandingPage from '../LandingPage'; // Adjust the import path as per your file structure
+import LandingPage from '../LandingPage'; 
 
 // Mock the ThemeContext module
 jest.mock('../../context/ThemeContext.js', () => ({
