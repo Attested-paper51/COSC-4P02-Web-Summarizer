@@ -29,42 +29,40 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project's `WebSummarizerShortener/client/my-react-app` directory, you can:
 
 ## Step 1: Install node_modules
 
-Installs the required libraries for the React app.\
-First, navigate to the project's `client/my-react-app` directory. Then use the following command:
+Installs node_modules which contains the required libraries for the shortify application.\
+In the project’s frontend directory stated above, type the following command:
 ```bash
 npm install
 ```
 
 ## Step 2: Other installations
 
-Installs the required libraries for the React app.\
-First, navigate to the project's `client/my-react-app` directory. Then use the following command:
-These are the up to date installations for UI
-install in WebSummarizerShortener/Client/my-react-app:
-<ul>
-<li>react-router </li><br>
-<li>react-icons </li><br>
-<li>mui: npm install @mui/material @emotion/react @emotion/styled </li><br>
-<li>npm install react-multi-carousel —save </li><br> 
-<li>npm install @fortawesome/react-fontawesome </li><br>
-<li>npm install gapi-script </li><br>
-<li>npm install jwt-decode </li><br>
-<li>npm install --save-dev jest </li><br>
-</ul>
+Installs additional required libraries for the shortify application.\
+Stay in the project's `client/my-react-app` directory. Then type the following commands to install the up-to-date UI libraries:
+```bash
+npm install react-router-dom
+npm install react-icons
+npm install @mui/material @emotion/react @emotion/styled
+npm install react-multi-carousel —save
+npm install @fortawesome/react-fontawesome
+npm install gapi-script
+npm install jwt-decode
+npm install --save-dev jest
+```
 
 ## Step 3: Run the App on the Frontend
 
 Runs the app on the development server.\
-First, navigate to the project's `client/my-react-app` directory. Then use the following command:
+Stay in the project's  `client/my-react-app` directory. Then type the following command:
 ```bash
 npm start
 ```
 
-## Other Steps: Testing
+## Additional Steps: Testing
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
@@ -73,26 +71,6 @@ First, navigate to the project's `client/my-react-app` directory. Then use the f
 ```bash
 npm test
 ```
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 ##
 
