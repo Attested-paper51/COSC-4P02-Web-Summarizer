@@ -1267,7 +1267,7 @@ const summarizeText = () => {
                                             </Tooltip>
                                         </div>
                                         
-                                        {
+                                        {shorten &&
                                             <a href="/Shortener" onClick={transferLink}>
                                                 <button className="summarize-btn" id="shorten-button">
                                                     <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
