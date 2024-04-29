@@ -87,7 +87,6 @@ const APIAccess = () => {
             <h3> Authentication </h3>
             <p>The API requires an API key for authentication to ensure secure access to its features.</p>
             
-            {/* <button className='api-key' onClick={() => setAPIKeyPopup(true)}> */}
             <button className='api-key' onClick={handleFetchAPIKey}>
               <div className={`btn-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`} data-testid='btn-overlap-container'>
                 <div className={`get-api ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Get API Key</div>

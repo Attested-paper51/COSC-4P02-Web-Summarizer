@@ -5,22 +5,17 @@
     justify-content: center;
     padding: 15vh;
     column-gap: clamp(3vw, 4vw, 15vw);
-    /* background-color: #B5CCE2; */
 }
 
 .summarizer, .shortener {
     width: clamp(10vw, 30vw, 60vw);
     display: block; /* Ensure the entire block is clickable */
-    /*height: 450px;
-    min-width: 500px;*/
     padding: 0.9vw;
     border: 0.2vw solid;
     border-radius: 1vw;
-    /* background-color: #edf7f9; */
 } 
 
 .summarizer:hover, .shortener:hover{
-    /* background-color: #fcfcfc; */
     scale: 1.05;
 }
 
@@ -72,7 +67,6 @@
       font-size: clamp(1.1rem, 3.5vw, 15rem);
     }
     .para {
-      /* color: #002959; */
       font-size: clamp(0.6rem, 2vw, 10rem);
     }
   }

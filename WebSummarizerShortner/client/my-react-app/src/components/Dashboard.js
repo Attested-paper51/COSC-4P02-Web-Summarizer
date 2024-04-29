@@ -88,8 +88,6 @@ const Dashboard = () => {
             <button className={`dash-option ${activeComponent === 'APIAccess' ? 'active' : ''}`} onClick={() => handleOptionClick('APIAccess')}><TbCloudNetwork className='dash-option-icon' />API Access</button>
             <button className={`dash-option ${activeComponent === 'Settings' ? 'active' : ''}`} onClick={() => handleOptionClick('Settings')}><IoSettingsOutline className='dash-option-icon' />Settings</button>
             <button className='dash-option logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon' />Logout</button>
-            {/* {storedEmail && <div>{storedEmail}</div>}  */}
-            {/* Change this eventually */}
           </div>
         </div>}
 
@@ -118,8 +116,6 @@ const Dashboard = () => {
               <Tooltip title={<span className='tooltip-title'>Logout</span>} arrow>
                 <button className='dash-option small-icon logout-btn' onClick={handleLogout}><TbLogout className='dash-option-icon' /></button>
               </Tooltip>
-              {/* {storedEmail && <div>{storedEmail}</div>}  */}
-              {/* Change this eventually */}
             </div>
           </div>
         </div>}

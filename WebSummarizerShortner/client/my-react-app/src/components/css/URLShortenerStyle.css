@@ -2,11 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* align-content: center; */
-    /* margin: 0 auto; */
-    /* padding: 8vh 4vh 8vh; */
     text-align: center;
-    /* min-height: 90vh; */
 }
 
 .url-wrapper {
@@ -56,19 +52,16 @@
 }
 
 .shorten, .copy-url {
-    /* width: clamp(110px, 10vw, 1000px);  c*/
     width: 22%;
     border-radius: 0 0.5vw 0.5vw 0;
     border: 0;   
     opacity: 0.9;
-    /* background-color: #0d55a7; */
 }
 
 .shorten-custom {
     width: 18%;
     border-radius: 0.3vw;
     border: 0;    
-    /* background-color: #0d55a7; */
     padding: 0.6vw;
     height: clamp(40px, 2.5vw, 100px);
     opacity: 0.9;
@@ -116,17 +109,11 @@
     box-shadow: 0px 4px 15px 0px #00000033;
 }
 
-.shortify-url::-ms-input-placeholder { /* Edge 12 -18 */
-    /* color: black; */
-}
-
 .shortify-url::placeholder {
-    /* color: black; */
-    opacity: 1; /* Firefox */
+    opacity: 1; 
 }
 
 .button-text {
-    /* color: #ffffff; */
     font-size: clamp(0.5rem, 1.0vw, 10rem);
     font-weight: 600;
     text-wrap: nowrap;
@@ -142,7 +129,6 @@
     border-radius: 0;
     border: 0; 
     border-radius: 9px;   
-    /* background-color: #0d55a7; */
     box-shadow: 0px 6px 15px 0px #00000033;
     width: 95%;
 }

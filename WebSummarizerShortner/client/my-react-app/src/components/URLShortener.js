@@ -183,7 +183,6 @@ const URLShortener = () => {
                     { !email && //If the user isn't logged in
                     <button 
                         className={`shorten ${darkMode ? 'btn-dark' : 'btn-light'}`} 
-                        // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
                         onClick={()=> { checkEmptyInput() }} >
                         <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                     </button>
@@ -202,7 +201,6 @@ const URLShortener = () => {
                                 placeholder={`4p02shortify.com/s/${username}/`}
                                 readOnly
                             />
-                            {/* <div className='custom-div1'> */}
                                 <input className={`custom-word ${darkMode ? 'input-url-dark' : 'input-url-light'}`}
                                     type="text" 
                                     required
@@ -213,11 +211,9 @@ const URLShortener = () => {
                                 />
                                 <button 
                                     className={`shorten-custom ${darkMode ? 'btn-dark' : 'btn-light'}`} 
-                                    // onClick={()=> { handleSubmit(); showSummarize(true); checkEmptyInput() }} > 
                                     onClick={()=> { checkEmptyInput() }} >
                                     <div className={`button-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Shorten URL</div>
                                 </button>
-                            {/* </div> */}
                         </div>
                             {customWordError && <div className={`custom-url-error ${darkMode ? 'error-dark' : 'error-light'}`}>{customWordError}</div>}
                     </div>
