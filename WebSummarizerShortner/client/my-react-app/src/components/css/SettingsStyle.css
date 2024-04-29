@@ -19,7 +19,6 @@
 }
 
 .settings-wrapper .label{
-    /* color: black; */
     padding-bottom: 0.5em;
     padding-top: 1.5em;
     font-size: clamp(0.8rem, 1vw, 5rem);
@@ -61,7 +60,6 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
-    /* color: #a06307; */
     font-size: clamp(0.9rem, 1.1vw, 5rem);
 }
 
@@ -90,7 +88,6 @@
 .settings-wrapper .update, .popup-close{
     all: unset;
     font-size: clamp(0.7rem, 0.9vw, 5rem);
-    /* color: #3e4ddd; */
     padding-left: 1em;
     display: inline-block;
 }
@@ -100,18 +97,11 @@
     cursor: pointer;
 }
 
-/* @media (max-width: 680px) {
-    .update-div{
-        padding-left: 7vw;
-    }
-} */
-
 .textfield{
     margin-bottom: 1em;
     margin-top: 0.5em;
     height: clamp(40px, 3.2vh, 500px);
     font-size: clamp(0.8rem, 0.65vw, 10rem);
-    /* border: 1px solid #b7b6b6; */
     border-radius: 0.5vw;
     position: relative;
     width: 120%;
@@ -121,7 +111,6 @@
 .review-btn{
     border: 2px solid #95ace1;
     background-color: #e0e9fe;
-    /* color: #2e4069; */
     font-weight: 550;
 }
 

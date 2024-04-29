@@ -48,7 +48,6 @@ const Reviews = () => {
                             <p data-testid={`feedback-${idx}`} className='review-text'>
                                 {d.feedback}
                             </p>
-                            { /*<FaQuoteRight className='right-quote' /> */}
                         </div>
                         <div className='review-star-section'> 
                             {[...Array(5)].map((star,index) => {

@@ -3,8 +3,6 @@
   display: flex;
   justify-content: center;
   padding: clamp(2rem, 3%, 10rem) clamp(1rem, 6%, 10rem);
-  /* background-color: #edf7f9; */
-  /* padding-bottom: clamp(1rem, 3%, 10rem); */
 }
 
 .logo{
@@ -26,19 +24,16 @@
   justify-content: center;
   gap: 5%;
   width: 100%;
-  /* padding-top: clamp(0rem, 6%, 20rem); */
   padding-right: clamp(0rem, 7%, 20rem);
 }
 
 .hero-heading {
-  /* color: #002959; */
   font-size: clamp(1.1rem, 4vw, 25rem);
   font-weight: 600;
   width: 100%;
 }
   
 .hero-subheading {
-  /* color: #002959; */
   font-size: clamp(0.6rem, 1.4vw, 10rem);
   font-weight: 400;
   width: 100%;
@@ -55,15 +50,12 @@
 }
 
 .try-overlap{
-  /* background-color: #576896;  */
-  /* width: 150px;  */
   width: clamp(3vw, 12vw, 42vw);
   height: clamp(4vw, 4.5vw, 14vw);
   position: relative;
   margin-top: clamp(1.2rem, 1.4vw, 20rem);
   box-shadow: 0px 3px 4px #0000004c;
   border-radius: clamp(1.2rem, 2.3vw, 20rem);
-  /* color: #ffffff; */
 }
 
 .try{

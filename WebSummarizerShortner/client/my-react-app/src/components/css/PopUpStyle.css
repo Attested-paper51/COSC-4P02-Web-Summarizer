@@ -1,7 +1,6 @@
 .popup-close{
     all: unset;
     font-size: 14px;
-    /* color: #3e4ddd; */
     padding-left: 1em;
     display: inline-block;
     line-height: 16px;
@@ -34,8 +33,6 @@
     position: relative;
     padding: 3em;
     min-width: 40vw;
-    /* max-width: 640px; */
-    /* background-color: rgb(255, 255, 255, 1); */
     border-radius: 1.3vw;
 }
 

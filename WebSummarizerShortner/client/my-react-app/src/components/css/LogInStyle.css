@@ -126,19 +126,14 @@
 }
 
 .login-box .forgot{
-    /* color: #585757; */
-    /*font-size: 14px;*/
     font-size: clamp(0.9rem, 0.85vw, 8rem);
     font-weight: 500;
-    /*left: 74px;*/
     text-align: center;
-    /*width: 300px;*/
     padding-top: clamp(3vh, 3vh, 2vh);
 }
 
 .login-box .forgot:hover{
     text-decoration:underline;
-    /*font-size: 14.1px;*/
 }
 
 .login-box .join{
@@ -159,12 +154,10 @@
   
 .login-box .email-error, .login-box .pass-error{
     padding-top: 2px;
-    /* color: red; */
 }
 
 .login-box .hide-pass{
     position: absolute;
-    /* bottom: 8px;*/
     left: 92%; 
 }
 
@@ -192,9 +185,6 @@
 }
 
 .login-box .facebook button{
-    /* border-radius: 90px !important; */
-    /* background-color: white !important; */
-    /* color: #3c4043 !important; */
     width: clamp(230px, 12vw, 1000px) !important; 
     font-size: clamp(0.9rem, 0.8vw, 10rem) !important;
     height: clamp(36px, 3.1vh, 500px) !important;
