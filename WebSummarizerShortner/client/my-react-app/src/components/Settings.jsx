@@ -240,19 +240,6 @@ const Settings = () => {
           </div>
         </div>
 
-        {/* <div className='app'>
-          <div className='label'>Language</div>
-          <div className='label'>Mode</div>
-          <button className='mode-btn'>Change to Dark Mode</button>
-          <div className='label'>Notifications</div>
-          <div style={{paddingTop: '0.5em'}}>Toggle to turn on notifications</div>
-        </div> */}
-        
-        {/* <div className='extra'>
-          <div className='label'>Rate & Review</div>
-          <Link to="/Feedback"><button className='review-btn'>Click here to leave us a review!</button></Link>
-          <div>Help</div>
-        </div> */}
       
         <div className='delete'>
           <button className='acc-delete-btn' onClick={() => setDeletePopup(true)}>

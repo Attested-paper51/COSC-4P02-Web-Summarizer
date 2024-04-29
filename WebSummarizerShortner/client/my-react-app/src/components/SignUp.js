@@ -198,11 +198,6 @@ const SignUp = () => {
             <div>
               <label className='pass-text'>Enter your password</label> 
             </div>
-            {/* <Tooltip className="pass-req-text" title="Password must have 8-20 characters, atleast one uppercase and atleast one number." placement='right' arrow>
-              <div>
-                  <FontAwesomeIcon icon={faQuestionCircle} className='pass-req-icon'/>
-              </div>
-            </Tooltip> */}
           </div>
           <div className='pass-wrapper'>
             <div className='pass-container' onClick={()=> { showChecklist(true); }}>
@@ -241,17 +236,6 @@ const SignUp = () => {
               </div>
             </div>
             } 
-
-            {/* <div className='pass-checklist'>
-              <h3 className='checklist-title'>Password should be</h3>
-              <ul className='checklist'>
-                <li className='list-item'>
-                  8 to 20 characters long
-                </li>
-                <li className='list-item'>At least 1 number</li>
-                <li className='list-item'>At least 1 uppercase letter</li>
-              </ul>
-            </div> */}
 
           </div>
           {passError && <div class={`pass-error ${darkMode ? 'error-dark' : 'error-light'}`}>{passError}</div>}

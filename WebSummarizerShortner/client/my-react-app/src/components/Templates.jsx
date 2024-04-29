@@ -910,12 +910,7 @@ return (
                                 <div className="start">
                                     Start Time:
                                     <div className="start-time">
-                                        {/* <textarea 
-                                            className="timestamp-textarea" 
-                                            id="startM" 
-                                            name="startM" 
-                                            placeholder='Minutes'>
-                                        </textarea> */}
+
                                         <NumberInputBasic 
                                         value={startHour} 
                                         //placeholder = "HH"
@@ -946,9 +941,7 @@ return (
                                         //placeholder = "MM"
                                         onChange={setEndMin}
                                         darkMode={darkMode}/>
-                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                        :
-                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -1099,12 +1092,6 @@ return (
                             <div className="start">
                                 Start Time:
                                 <div className="start-time">
-                                    {/* <textarea 
-                                        className="timestamp-textarea" 
-                                        id="startM" 
-                                        name="startM" 
-                                        placeholder='Minutes'>
-                                    </textarea> */}
                                     <NumberInputBasic 
                                     value={startHour2} 
                                     //placeholder = "HH"
@@ -1134,9 +1121,7 @@ return (
                                     //placeholder = "MM"
                                     onChange={setEndMin2}
                                     darkMode={darkMode}/>
-                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                    :
-                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -1288,12 +1273,6 @@ return (
                             <div className="start">
                                 Start Time:
                                 <div className="start-time">
-                                    {/* <textarea 
-                                        className="timestamp-textarea" 
-                                        id="startM" 
-                                        name="startM" 
-                                        placeholder='Minutes'>
-                                    </textarea> */}
                                     <NumberInputBasic 
                                     value={startHour3} 
                                     //placeholder = "HH"
@@ -1324,9 +1303,7 @@ return (
                                     //placeholder = "MM"
                                     onChange={setEndMin3}
                                     darkMode={darkMode}/>
-                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                    :
-                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
+                                    
                                 </div>
                             </div>
                         </div>

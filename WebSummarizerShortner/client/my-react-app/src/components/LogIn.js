@@ -231,18 +231,6 @@ const defaultConfirm = () => {
         <div id="gmail-login-button">
           <GoogleLoginButton />
         </div>
-        { /*<button className="gmail-btn">
-            <div className="gmail-overlap">
-              <img className="gmail-icon" alt="Log in with Gmail" src="images/gmail.jpg" />
-              <div className="login-social">Continue with Gmail</div>
-            </div>
-          </button> */}
-       {/*  <button className="fb-btn">
-          <div className="fb-overlap">
-            <img className="fb-icon" alt="Log in with Facebook" src="images/fb.png" />
-            <div className="login-social">Continue with Facebook</div>
-          </div>
-        </button> */}
         
         <LoginSocialFacebook
           appId="671298455122068"
