@@ -8,8 +8,8 @@ import "./css/SignUpStyle.css";
 import "./css/Dropdown.css";
 import "./css/DropdownButton.css";
 import '../App.css'
+
 // Icons
-// import { FaTrashCan } from "react-icons/fa6";
 import { GoThumbsdown } from "react-icons/go";
 import { GoThumbsup } from "react-icons/go";
 import { IoClipboardOutline } from "react-icons/io5";
@@ -23,8 +23,6 @@ import Dropdown from "./Dropdown.js";
 import DropdownItem from "./DropdownItem.js";
 import NumberInputBasic, { QuantityInput } from "./NumberInput.js";
 import { useTheme } from '../context/ThemeContext.js'
-//import { parse } from "@fortawesome/fontawesome-svg-core";
-//import { resolveBreakpointValues } from "@mui/system/breakpoints";
 
 /**
  * Summarizer includes all the logic for summarizing a given text, website link or youtube link. 
@@ -926,12 +924,6 @@ const summarizeText = () => {
                                                 <div className="start">
                                                     Start Time:
                                                     <div className="start-time">
-                                                        {/* <textarea 
-                                                            className="timestamp-textarea" 
-                                                            id="startM" 
-                                                            name="startM" 
-                                                            placeholder='Minutes'>
-                                                        </textarea> */}
                                                         <NumberInputBasic
                                                             value={startHour}
                                                             //placeholder = "HH"
@@ -943,7 +935,6 @@ const summarizeText = () => {
                                                             //placeholder = "MM"
                                                             onChange={setStartMin}
                                                             darkMode={darkMode} />
-                                                        {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
 
@@ -962,9 +953,6 @@ const summarizeText = () => {
                                                             //placeholder = "MM"
                                                             onChange={setEndMin}
                                                             darkMode={darkMode} />
-                                                        {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                                        :
-                                                        <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                                     </div>
                                                 </div>
                                             </div>
@@ -989,30 +977,7 @@ const summarizeText = () => {
                                             </>} 
                                         />
                                     </div>
-                                    {/* <div className="save-template">
-                                        <div className="dropdown-menu">
-                                            <div className="dropdown">
-                                                <button className="dropdown-btn ddm-light save-button" onClick={handleOpenTemplates}>
-                                                    Save Settings */}
-                                {/* <span className="toggle-icon"> 
-                                                        <FaChevronUp/>
-                                                    </span> */}
-                                {/* </button>
-                                            </div> */}
-                                {/* <button className='summarize-btn'>
-                                                <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                    <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Save settings</div>
-                                                </div>
-                                            </button> */}
-                                {/* </div>
-                                    </div> */}
-                                {/* <div className="save-custom-info">
-                                        <button className='summarize-btn'>
-                                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                                <div className={`summarize small-text ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Load settings</div>
-                                            </div>
-                                        </button>
-                                    </div> */}
+                                    
                                     <div className="dropdown-menu">
                                         <Dropdown
                                             buttonText={selectedTemplate}
@@ -1031,7 +996,7 @@ const summarizeText = () => {
                                 </div>
                             </div>
                             }
-                            {email &&
+                            {
                             <div className={`premium-container second-row ${darkMode ? 'premium-dark' : 'premium-light'}`}>
                                 <div className="modes">
                                     <div className="mode invisible">
@@ -1108,12 +1073,6 @@ const summarizeText = () => {
                                             <div className="start">
                                                 Start Time:
                                                 <div className="start-time">
-                                                    {/* <textarea 
-                                                        className="timestamp-textarea" 
-                                                        id="startM" 
-                                                        name="startM" 
-                                                        placeholder='Minutes'>
-                                                    </textarea> */}
                                                     <NumberInputBasic
                                                         value={startHour}
                                                         //placeholder = "HH"
@@ -1125,7 +1084,6 @@ const summarizeText = () => {
                                                         //placeholder = "MM"
                                                         onChange={setStartMin}
                                                         darkMode={darkMode} />
-                                                    {/* <textarea className="timestamp-textarea" id="startS" name="startS" placeholder='Seconds'></textarea> */}
                                                 </div>
                                             </div>
 
@@ -1144,9 +1102,6 @@ const summarizeText = () => {
                                                         //placeholder = "MM"
                                                         onChange={setEndMin}
                                                         darkMode={darkMode} />
-                                                    {/* <textarea className="timestamp-textarea" name="endM" placeholder='Minutes'></textarea>
-                                                    :
-                                                    <textarea className="timestamp-textarea" name="endS" placeholder='Seconds'></textarea> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -1239,9 +1194,6 @@ const summarizeText = () => {
                                 </div>
 
                                 <div className={`inputArea ${darkMode ? 'ota-dark' : 'ota-light'}`} id="OutputTextArea">
-                                    {/* <div class="button-container">
-                                        
-                                    </div> */}
                                     <textarea
                                         className={`text-area ${darkMode ? 'ta-dark' : 'ta-light'}`}
                                         id='output'
@@ -1330,35 +1282,6 @@ const summarizeText = () => {
                 confirmText={dialogConfig.confirmText}
                 onConfirm={dialogConfig.onConfirm}
                 />
-
-                {/* <DialogBox 
-                open={openTemplates} 
-                onClose={handleTemplateClose}
-                title={"Templates"}
-                content={
-                    <div className="template-buttons">
-                        <button className='summarize-btn' onClick={() => handleClickSave(1)}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 1</div>
-                            </div>
-                        </button> 
-                        <button className='summarize-btn' onClick={() => handleClickSave(2)}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 2</div>
-                            </div>
-                        </button> 
-                        <button className='summarize-btn' onClick={() => handleClickSave(3)}>
-                            <div className={`summarize-overlap ${darkMode ? 'btn-dark' : 'btn-light'}`}>
-                                <div className={`summarize ${darkMode ? 'btn-text-dark' : 'btn-text-light'}`}>Template 3</div>
-                            </div>
-                        </button> 
-                    </div>
-                }
-                showCancelButton={false}
-                confirmText={"Continue"}
-                onConfirm={handleTemplateConfirm}
-                /> */}
-
             </div>
         </div>
     );
